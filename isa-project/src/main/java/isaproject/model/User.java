@@ -2,35 +2,28 @@ package isaproject.model;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.InheritanceType.JOINED;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import isaproject.model.Address;
-
-import javax.persistence.Inheritance;
-import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
-import static javax.persistence.InheritanceType.JOINED;
-import javax.persistence.DiscriminatorColumn;
-import static javax.persistence.DiscriminatorType.INTEGER;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.PrimaryKeyJoinColumns;
-import static javax.persistence.DiscriminatorType.STRING;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Inheritance(strategy = JOINED)
 @Table(name = "AppUser")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,10 +32,7 @@ public class User implements Serializable {
 
 	@Id
 	private long id;
-	@Basic(optional = false)
-	@Column(name = "username")
 	private String username;
-	@Basic(optional = false)
 	private String password;
 	private String firstName;
 	private String lastName;
@@ -55,8 +45,6 @@ public class User implements Serializable {
 	private String phoneNumber;
 	@OneToOne
 	private Address address;
-	@OneToOne
-
 
 	public long getId() {
 		return id;
@@ -146,6 +134,29 @@ public class User implements Serializable {
 	    this.address = param;
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles;
+	}
 
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
 
 }

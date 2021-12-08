@@ -1,12 +1,16 @@
 package isaproject.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import static javax.persistence.AccessType.FIELD;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "Role")
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +35,11 @@ public class Role implements Serializable {
 
 	public void setName(String param) {
 		this.name = param;
+	}
+
+	@Override
+	public String getAuthority() {
+		return name;
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.FetchType.LAZY;
 

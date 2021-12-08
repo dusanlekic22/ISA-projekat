@@ -1,11 +1,13 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.persistence.Cottage;
+
+import isaproject.model.Cottage;
+
 import javax.persistence.ManyToOne;
 import static javax.persistence.FetchType.LAZY;
 

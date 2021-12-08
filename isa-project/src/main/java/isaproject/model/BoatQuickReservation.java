@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.persistence.AdditionalService;
+
+import isaproject.model.AdditionalService;
+
 import java.util.Collection;
 import javax.persistence.OneToMany;
 

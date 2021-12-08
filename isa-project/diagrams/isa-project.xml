@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><entities>
 	<entity>
-		<entity-name>org.persistence.BoatImage</entity-name>
+		<entity-name>isaproject.model.BoatImage</entity-name>
 		<entity-width>224</entity-width>
 		<entity-height>146</entity-height>
 		<entity-X-Coordinate>136</entity-X-Coordinate>
@@ -11,7 +11,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.Role</entity-name>
+		<entity-name>isaproject.model.Role</entity-name>
 		<entity-width>140</entity-width>
 		<entity-height>108</entity-height>
 		<entity-X-Coordinate>-31</entity-X-Coordinate>
@@ -22,7 +22,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.User</entity-name>
+		<entity-name>isaproject.model.User</entity-name>
 		<entity-width>150</entity-width>
 		<entity-height>301</entity-height>
 		<entity-X-Coordinate>-36</entity-X-Coordinate>
@@ -33,7 +33,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.FishingTrainer</entity-name>
+		<entity-name>isaproject.model.FishingTrainer</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>70</entity-height>
 		<entity-X-Coordinate>-6</entity-X-Coordinate>
@@ -44,7 +44,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.NavigationEquipment</entity-name>
+		<entity-name>isaproject.model.NavigationEquipment</entity-name>
 		<entity-width>161</entity-width>
 		<entity-height>146</entity-height>
 		<entity-X-Coordinate>858</entity-X-Coordinate>
@@ -55,7 +55,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.FishingQuickReservation</entity-name>
+		<entity-name>isaproject.model.FishingQuickReservation</entity-name>
 		<entity-width>171</entity-width>
 		<entity-height>266</entity-height>
 		<entity-X-Coordinate>1790</entity-X-Coordinate>
@@ -66,7 +66,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.CottageOwner</entity-name>
+		<entity-name>isaproject.model.CottageOwner</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>70</entity-height>
 		<entity-X-Coordinate>83</entity-X-Coordinate>
@@ -77,7 +77,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.FishingImage</entity-name>
+		<entity-name>isaproject.model.FishingImage</entity-name>
 		<entity-width>228</entity-width>
 		<entity-height>146</entity-height>
 		<entity-X-Coordinate>83</entity-X-Coordinate>
@@ -88,7 +88,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.BoatQuickReservation</entity-name>
+		<entity-name>isaproject.model.BoatQuickReservation</entity-name>
 		<entity-width>181</entity-width>
 		<entity-height>226</entity-height>
 		<entity-X-Coordinate>1783</entity-X-Coordinate>
@@ -99,7 +99,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.BoatOwner</entity-name>
+		<entity-name>isaproject.model.BoatOwner</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>70</entity-height>
 		<entity-X-Coordinate>170</entity-X-Coordinate>
@@ -110,7 +110,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.Cottage</entity-name>
+		<entity-name>isaproject.model.Cottage</entity-name>
 		<entity-width>145</entity-width>
 		<entity-height>326</entity-height>
 		<entity-X-Coordinate>521</entity-X-Coordinate>
@@ -121,7 +121,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.Address</entity-name>
+		<entity-name>isaproject.model.Address</entity-name>
 		<entity-width>191</entity-width>
 		<entity-height>188</entity-height>
 		<entity-X-Coordinate>294</entity-X-Coordinate>
@@ -132,7 +132,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.Boat</entity-name>
+		<entity-name>isaproject.model.Boat</entity-name>
 		<entity-width>211</entity-width>
 		<entity-height>466</entity-height>
 		<entity-X-Coordinate>410</entity-X-Coordinate>
@@ -143,7 +143,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.BoatReservation</entity-name>
+		<entity-name>isaproject.model.BoatReservation</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>246</entity-height>
 		<entity-X-Coordinate>994</entity-X-Coordinate>
@@ -154,7 +154,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.CottageReservation</entity-name>
+		<entity-name>isaproject.model.CottageReservation</entity-name>
 		<entity-width>144</entity-width>
 		<entity-height>266</entity-height>
 		<entity-X-Coordinate>688</entity-X-Coordinate>
@@ -165,7 +165,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.FishingCourse</entity-name>
+		<entity-name>isaproject.model.FishingCourse</entity-name>
 		<entity-width>190</entity-width>
 		<entity-height>326</entity-height>
 		<entity-X-Coordinate>313</entity-X-Coordinate>
@@ -176,7 +176,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.CottageQuickReservation</entity-name>
+		<entity-name>isaproject.model.CottageQuickReservation</entity-name>
 		<entity-width>217</entity-width>
 		<entity-height>226</entity-height>
 		<entity-X-Coordinate>461</entity-X-Coordinate>
@@ -187,7 +187,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.CottageImage</entity-name>
+		<entity-name>isaproject.model.CottageImage</entity-name>
 		<entity-width>174</entity-width>
 		<entity-height>146</entity-height>
 		<entity-X-Coordinate>480</entity-X-Coordinate>
@@ -198,7 +198,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.FishingReservation</entity-name>
+		<entity-name>isaproject.model.FishingReservation</entity-name>
 		<entity-width>196</entity-width>
 		<entity-height>286</entity-height>
 		<entity-X-Coordinate>765</entity-X-Coordinate>
@@ -209,7 +209,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.AdditionalService</entity-name>
+		<entity-name>isaproject.model.AdditionalService</entity-name>
 		<entity-width>228</entity-width>
 		<entity-height>326</entity-height>
 		<entity-X-Coordinate>1762</entity-X-Coordinate>
@@ -220,7 +220,7 @@
 	</entity>
 
 	<entity>
-		<entity-name>org.persistence.Customer</entity-name>
+		<entity-name>isaproject.model.Customer</entity-name>
 		<entity-width>164</entity-width>
 		<entity-height>168</entity-height>
 		<entity-X-Coordinate>781</entity-X-Coordinate>

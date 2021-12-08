@@ -1,13 +1,15 @@
-package org.persistence;
+package isaproject.model;
 
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.persistence.CottageReservation;
+
+import isaproject.model.CottageReservation;
+import isaproject.model.FishingReservation;
+
 import java.util.Set;
-import org.persistence.FishingReservation;
 import java.util.Collection;
 
 @Entity

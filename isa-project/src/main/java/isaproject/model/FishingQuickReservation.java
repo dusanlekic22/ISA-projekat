@@ -1,16 +1,18 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.persistence.FishingCourse;
 import javax.persistence.ManyToOne;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import org.persistence.AdditionalService;
+
+import isaproject.model.AdditionalService;
+import isaproject.model.FishingCourse;
+
 import java.util.Collection;
 import javax.persistence.OneToMany;
 

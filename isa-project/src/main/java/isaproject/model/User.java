@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -15,6 +15,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import isaproject.model.Address;
+
 import javax.persistence.Inheritance;
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 import static javax.persistence.InheritanceType.JOINED;
@@ -23,7 +26,6 @@ import static javax.persistence.DiscriminatorType.INTEGER;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.PrimaryKeyJoinColumns;
 import static javax.persistence.DiscriminatorType.STRING;
-import org.persistence.Address;
 
 @Entity
 @Inheritance(strategy = JOINED)

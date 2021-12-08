@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

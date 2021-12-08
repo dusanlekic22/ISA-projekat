@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.persistence.BoatImage;
-import org.persistence.BoatOwner;
+
+import isaproject.model.BoatImage;
+import isaproject.model.BoatOwner;
+
 import javax.persistence.ManyToOne;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.JoinColumn;

@@ -1,12 +1,14 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.InheritanceType.JOINED;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
-import org.persistence.Boat;
+
 import java.util.Set;
 import javax.persistence.OneToMany;
+
+import isaproject.model.Boat;
 
 @Entity
 @Inheritance(strategy = JOINED)

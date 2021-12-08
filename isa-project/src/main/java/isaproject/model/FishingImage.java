@@ -1,8 +1,10 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.persistence.FishingCourse;
+
+import isaproject.model.FishingCourse;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity

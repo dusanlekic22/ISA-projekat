@@ -1,8 +1,10 @@
-package org.persistence;
+package isaproject.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import org.persistence.FishingCourse;
+
+import isaproject.model.FishingCourse;
+
 import java.util.Collection;
 import javax.persistence.OneToMany;
 

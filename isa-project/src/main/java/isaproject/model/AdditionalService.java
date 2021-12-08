@@ -1,4 +1,4 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -8,7 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.persistence.BoatReservation;
+
+import isaproject.model.BoatReservation;
 
 @Entity
 @Table(name = "AdditionalService")

@@ -1,8 +1,10 @@
-package org.persistence;
+package isaproject.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.persistence.Boat;
+
+import isaproject.model.Boat;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity

@@ -1,29 +1,24 @@
-package org.persistence;
+package isaproject.model;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.persistence.Cottage;
-import javax.persistence.ManyToOne;
-import org.persistence.Customer;
-import static javax.persistence.FetchType.LAZY;
-import org.persistence.AdditionalService;
-import java.util.Collection;
-import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "CottageReservation")
-public class CottageReservation implements Serializable {
+@Table(name = "CottageQuickReservation")
+public class CottageQuickReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public CottageReservation() {
+	public CottageQuickReservation() {
 	}
 
 	@Id
@@ -35,13 +30,8 @@ public class CottageReservation implements Serializable {
 	private String guestCapacity;
 	private String additionalService;
 	private Integer price;
-	@ManyToOne
-	private Cottage cottage;
-	@ManyToOne(fetch = LAZY)
-	private Customer customer;
-	@OneToMany(mappedBy = "cottageReservation")
+	@OneToMany(mappedBy = "cottageQuickReservation")
 	private Collection<AdditionalService> additionalService_1;
-
 	public long getId() {
 		return id;
 	}
@@ -88,22 +78,6 @@ public class CottageReservation implements Serializable {
 
 	public void setPrice(Integer param) {
 		this.price = param;
-	}
-
-	public Cottage getCottage() {
-	    return cottage;
-	}
-
-	public void setCottage(Cottage param) {
-	    this.cottage = param;
-	}
-
-	public Customer getCustomer() {
-	    return customer;
-	}
-
-	public void setCustomer(Customer param) {
-	    this.customer = param;
 	}
 
 	public Collection<AdditionalService> getAdditionalService_1() {

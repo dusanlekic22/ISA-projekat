@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="isa-project">
+		<class>org.persistence.User</class>
+		<class>org.persistence.Role</class>
+		<class>org.persistence.BoatOwner</class>
+		<class>org.persistence.Address</class>
+		<class>org.persistence.Boat</class>
+		<class>org.persistence.NavigationEquipment</class>
+		<class>org.persistence.BoatQuickReservation</class>
+		<class>org.persistence.AdditionalService</class>
+		<class>org.persistence.CottageOwner</class>
+		<class>org.persistence.Cottage</class>
+		<class>org.persistence.CottageQuickReservation</class>
+		<class>org.persistence.Customer</class>
+		<class>org.persistence.FishingTrainer</class>
+		<class>org.persistence.FishingCourse</class>
+		<class>org.persistence.FishingQuickReservation</class>
+		<class>org.persistence.BoatImage</class>
+		<class>org.persistence.CottageImage</class>
+		<class>org.persistence.FishingImage</class>
+		<class>org.persistence.BoatReservation</class>
+		<class>org.persistence.CottageReservation</class>
+		<class>org.persistence.FishingReservation</class>
+	</persistence-unit>
+</persistence>

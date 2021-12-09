@@ -1,20 +1,18 @@
-<mat-form-field appearance="fill">
-  <mat-label>First name</mat-label>
-  <input matInput [(ngModel)]="firstName" placeholder="First" required />
-</mat-form-field>
 <div class="container-fluid d-flex justify-content-center regist">
-  <div class="row my-2 mx-2 main regist2">
+  <div class="row my-5 mx-2 main regist2">
     <div class="col-md-12 col-12 xcol">
       <h2 class="title pt-3 pb-3">Sign up</h2>
       <form class="myform">
         <div class="row rone">
           <div class="col-md-6 fone py-3">
-            <ng-template>Fill out first name</ng-template>
+            <ng-template> <label class="label">AAAAA</label></ng-template>
+
             <mat-form-field appearance="fill">
               <mat-label>First name</mat-label>
               <input
                 matInput
                 [(ngModel)]="firstName"
+                name="firstName"
                 placeholder="First"
                 required
               />
@@ -27,6 +25,7 @@
               <input
                 matInput
                 [(ngModel)]="lastname"
+                name="lastname"
                 placeholder="Last name"
                 required
               />
@@ -35,14 +34,33 @@
         </div>
         <div class="row rtwo">
           <div class="form-group col-md-6 fthree py-3">
-            <input type="text" class="form-control jk" placeholder="Phone" />
+            <ng-template> <label class="label">AAAAA</label></ng-template>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                [(ngModel)]="email"
+                name="email"
+                placeholder="@gmail.com"
+                required
+              />
+            </mat-form-field>
           </div>
           <div class="form-group col-md-6 ffour py-3">
-            <input
-              type="email"
-              class="form-control lm"
-              placeholder="knwst@gmail.com"
-            />
+            <ng-template> <label class="label">AAAAA</label></ng-template>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                [(ngModel)]="contact"
+                name="contact"
+                placeholder="+381 ..."
+                required
+              />
+            </mat-form-field>
           </div>
         </div>
         <div class="row rthree">

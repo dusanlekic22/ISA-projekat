@@ -5,33 +5,37 @@
 }
 
 .regist2 {
-  background-color: rgba(255, 255, 255, 0.514);
-}
-
-.mat-form-field-infix {
-  background-color: rgba(255, 255, 255, 0.733) !important;
+  background-color: #00000055;
 }
 
 .mat-form-field-ripple {
   color: white;
 }
 
+.mat-form-field-appearance-fill {
+  color: white;
+}
+
 .mat-form-field-underline {
   /*change color of underline*/
-  background-color: green !important;
+  background-color: rgb(1, 174, 204) !important;
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
-  color: green !important;
+  color: rgb(1, 174, 204) !important;
 }
 
 ::ng-deep.mat-form-field-underline {
   /*change color of underline*/
-  background-color: green !important;
+  background-color: rgb(1, 174, 204) !important;
 }
 
 ::ng-deep.mat-form-field-ripple {
   /*change color of underline when focused*/
-  background-color: green !important;
+  background-color: rgb(1, 174, 204) !important;
+}
+
+.label {
+  color: white;
 }

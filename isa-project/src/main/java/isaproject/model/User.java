@@ -5,10 +5,13 @@ import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.InheritanceType.JOINED;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
@@ -31,7 +34,8 @@ public class User implements Serializable, UserDetails {
 	}
 
 	@Id
-	private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String username;
 	private String password;
 	private String firstName;
@@ -41,16 +45,17 @@ public class User implements Serializable, UserDetails {
 	private String verificationCode;
 	@ManyToMany(fetch = EAGER, cascade = ALL)
 	@JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private List<Role> roles;
+	private Set<Role> roles;
 	private String phoneNumber;
 	@OneToOne
 	private Address address;
+	private Timestamp lastPasswordResetDate;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -94,14 +99,6 @@ public class User implements Serializable, UserDetails {
 		this.email = param;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -110,11 +107,11 @@ public class User implements Serializable, UserDetails {
 		this.verificationCode = param;
 	}
 
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> param) {
+	public void setRoles(Set<Role> param) {
 		this.roles = param;
 	}
 
@@ -132,6 +129,14 @@ public class User implements Serializable, UserDetails {
 
 	public void setAddress(Address param) {
 	    this.address = param;
+	}
+	
+	public Timestamp getLastPasswordResetDate() {
+		return lastPasswordResetDate;
+	}
+	
+	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
 	@Override
@@ -157,6 +162,10 @@ public class User implements Serializable, UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return enabled;
+	}
+	
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

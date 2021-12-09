@@ -16,14 +16,14 @@ import isaproject.model.User;
 
 //Utility klasa za rad sa JSON Web Tokenima
 @Component
-public class TokenUtils {
+public class JWToken {
 
 	// Izdavac tokena
 	@Value("spring-security-example")
 	private String APP_NAME;
 
 	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
-	@Value("somesecret")
+	@Value("TT")
 	public String SECRET;
 
 	// Period vazenja tokena - 30 minuta
@@ -240,8 +240,8 @@ public class TokenUtils {
 		
 		// Token je validan kada:
 		return (username != null // korisnicko ime nije null
-			&& username.equals(userDetails.getUsername())); // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
-//			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())); // nakon kreiranja tokena korisnik nije menjao svoju lozinku 
+			&& username.equals(userDetails.getUsername()) // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
+			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())); // nakon kreiranja tokena korisnik nije menjao svoju lozinku 
 	}
 	
 	/**

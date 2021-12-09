@@ -1,7 +1,11 @@
 package isaproject.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Address implements Serializable {
@@ -12,6 +16,7 @@ public class Address implements Serializable {
 	}
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String street;
 	private String city;
@@ -59,11 +64,11 @@ public class Address implements Serializable {
 		this.latitude = param;
 	}
 
-	public String getLongitude() {
+	public String getlongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String param) {
+	public void setlongitude(String param) {
 		this.longitude = param;
 	}
 

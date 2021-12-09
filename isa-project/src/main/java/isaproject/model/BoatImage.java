@@ -16,6 +16,7 @@ public class BoatImage implements Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String image;
 	@ManyToOne(fetch = LAZY)

@@ -18,12 +18,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-	private TokenUtils tokenUtils;
+	private JWToken jWToken;
 	private UserDetailsService userDetailsService;
 	protected final Log LOGGER = LogFactory.getLog(getClass());
 
-	public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {
-		this.tokenUtils = tokenHelper;
+	public TokenAuthenticationFilter(JWToken tokenHelper, UserDetailsService userDetailsService) {
+		this.jWToken = tokenHelper;
 		this.userDetailsService = userDetailsService;
 	}
 
@@ -34,14 +34,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		String username;
 
 		// 1. Preuzimanje JWT tokena iz zahteva
-		String authToken = tokenUtils.getToken(request);
+		String authToken = jWToken.getToken(request);
 
 		try {
 
 			if (authToken != null) {
 
 				// 2. Citanje korisnickog imena iz tokena
-				username = tokenUtils.getUsernameFromToken(authToken);
+				username = jWToken.getUsernameFromToken(authToken);
 
 				if (username != null) {
 
@@ -49,7 +49,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
 					// 4. Provera da li je prosledjeni token validan
-					if (tokenUtils.validateToken(authToken, userDetails)) {
+					if (jWToken.validateToken(authToken, userDetails)) {
 
 						// 5. Kreiraj autentifikaciju
 						TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);

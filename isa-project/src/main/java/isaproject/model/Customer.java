@@ -1,16 +1,11 @@
 package isaproject.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import isaproject.model.CottageReservation;
-import isaproject.model.FishingReservation;
-
-import java.util.Set;
-import java.util.Collection;
 
 @Entity
 @Table(name = "Customer")

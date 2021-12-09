@@ -49,10 +49,10 @@
             </mat-form-field>
           </div>
           <div class="form-group col-md-6 ffour py-3">
-            <ng-template> <label class="label">AAAAA</label></ng-template>
+            <ng-template>Contact</ng-template>
 
             <mat-form-field appearance="fill">
-              <mat-label>Email</mat-label>
+              <mat-label>Contact</mat-label>
               <input
                 matInput
                 [(ngModel)]="contact"
@@ -65,18 +65,32 @@
         </div>
         <div class="row rthree">
           <div class="form-group col-md-6 ffive py-3">
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Password"
-            />
+            <ng-template matStepLabel>Fill out password</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Password</mat-label>
+              <input
+                type="password"
+                matInput
+                [(ngModel)]="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+            </mat-form-field>
           </div>
           <div class="form-group col-md-6 fsix py-3">
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Confirm Password"
-            />
+            <ng-template matStepLabel>Confirm password</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Confirm password</mat-label>
+              <input
+                type="password"
+                matInput
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                required
+              />
+            </mat-form-field>
           </div>
         </div>
         <div class="row rfour">
@@ -84,11 +98,6 @@
             <button type="submit" class="btn btn-primary">
               <span>Create account</span>
             </button>
-          </div>
-          <div class="form-group col-md-6 feight py-3">
-            <p class="text-muted">
-              Already have an account?<br /><a href="#">Sign in</a>
-            </p>
           </div>
         </div>
       </form>

@@ -17,6 +17,8 @@ export class RegistrationComponent implements OnInit {
   username!: string;
   email!: string;
   contact!: string;
+  password!: string;
+  confirmPassword!: string;
 
   constructor(private _formBuilder: FormBuilder) {}
 

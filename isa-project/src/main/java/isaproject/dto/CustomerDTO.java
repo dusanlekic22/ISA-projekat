@@ -12,7 +12,7 @@ public class CustomerDTO{
  
 
     public boolean isEnabled() {
-        return customer.getEnabled();
+        return customer.isEnabled();
     }
      
 

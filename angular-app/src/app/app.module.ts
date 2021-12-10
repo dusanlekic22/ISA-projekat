@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegistrationComponent } from './pages/registration/registration/registration.component';
 import { CottageOwnerProfileComponent } from './pages/cottage-owner-profile/cottage-owner-profile.component';
 import { NgpImagePickerModule } from 'ngp-image-picker';
+import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,11 @@ import { NgpImagePickerModule } from 'ngp-image-picker';
     CottageProfileComponent,
     RegistrationComponent,
     CottageOwnerProfileComponent,
+    CottageOwnerHomeComponent
   ],
   imports: [
+    NgbModule,
+    BrowserAnimationsModule,
     NgImageSliderModule,
     NgpImagePickerModule,
     FormsModule,
@@ -37,8 +41,6 @@ import { NgpImagePickerModule } from 'ngp-image-picker';
     MatFormFieldModule,
     BrowserModule,
     AppRoutingModule,
-    NgbModule,
-    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

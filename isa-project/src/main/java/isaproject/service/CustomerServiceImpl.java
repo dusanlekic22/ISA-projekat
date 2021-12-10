@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean verify(String verificationCode) {
         Customer user = repo.findByVerificationCode(verificationCode);
          
-        if (user == null || user.getEnabled()) {
+        if (user == null || user.isEnabled()) {
             return false;
         } else {
             user.setVerificationCode(null);

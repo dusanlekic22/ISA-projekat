@@ -1,15 +1,17 @@
 package isaproject.model;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,10 +33,11 @@ public class CottageQuickReservation implements Serializable {
 	@Temporal(TIMESTAMP)
 	private Date endDate;
 	private String guestCapacity;
-	private String additionalService;
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation")
-	private Collection<AdditionalService> additionalService_1;
+	private Set<AdditionalService> additionalService;
+	@ManyToOne(fetch = LAZY)
+	private Cottage cottage;
 	public long getId() {
 		return id;
 	}
@@ -67,14 +70,6 @@ public class CottageQuickReservation implements Serializable {
 		this.guestCapacity = param;
 	}
 
-	public String getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(String param) {
-		this.additionalService = param;
-	}
-
 	public Integer getPrice() {
 		return price;
 	}
@@ -83,12 +78,20 @@ public class CottageQuickReservation implements Serializable {
 		this.price = param;
 	}
 
-	public Collection<AdditionalService> getAdditionalService_1() {
-	    return additionalService_1;
+	public Set<AdditionalService> getAdditionalService() {
+	    return additionalService;
 	}
 
-	public void setAdditionalService_1(Collection<AdditionalService> param) {
-	    this.additionalService_1 = param;
+	public void setAdditionalService(Set<AdditionalService> param) {
+	    this.additionalService = param;
+	}
+	
+	public Cottage getCottage() {
+	    return cottage;
+	}
+
+	public void setCottage(Cottage param) {
+	    this.cottage = param;
 	}
 
 }

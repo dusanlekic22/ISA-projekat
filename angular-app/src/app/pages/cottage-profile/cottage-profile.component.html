@@ -15,7 +15,6 @@
       <div class="col-lg-7 col-md-10">
         <h1 class="display-2 text-white">Cottage name</h1>
         <p class="text-white mt-0 mb-5">Promo description</p>
-        <a href="#!" class="btn btn-info">Edit profile</a>
       </div>
     </div>
     <div class="container">
@@ -28,7 +27,7 @@
   </div>
 </div>
 <div class="container mt--7">
-  <div class="row">
+  <div class="row" style="margin-bottom:15px;">
     <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
       <div class="card card-profile shadow">
         <div class="row justify-content-center">
@@ -96,6 +95,7 @@
         </div>
       </div>
     </div>
+    
     <div class="col-xl-8 order-xl-1">
       <div class="card bg-secondary shadow">
         <div class="card-header bg-white border-0">
@@ -138,8 +138,7 @@
                       class="form-control form-control-alternative"
                       id="input-description"
                       name="description"
-                    >
-Enter text here...</textarea
+                    >Enter text here...</textarea
                     >
                   </div>
                 </div>
@@ -174,11 +173,41 @@ Enter text here...</textarea
                     />
                   </div>
                 </div>
+                
+             <div class="col-lg-4">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-price"
+                   >Price per day</label
+                 >
+                 <input
+                   type="number"
+                   id="input-price"
+                   class="form-control form-control-alternative"
+                   value="20"
+                   min="1"
+                 />
+               </div>
+             </div>
               </div>
+              <div class="row">
+               <div class="col-md-12">
+                 <div class="form-group">
+                   <label class="form-control-label" for="input-rules"
+                     >Rules of conduct</label
+                   >
+                   <textarea
+                     class="form-control form-control-alternative"
+                     id="input-rules"
+                     name="rules"
+                   >Enter text here...</textarea
+                   >
+                 </div>
+               </div>
+             </div>
             </div>
             <hr class="my-4" />
             <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Contact information</h6>
+            <h6 class="heading-small text-muted mb-4">Location</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-md-12">
@@ -242,17 +271,407 @@ Enter text here...</textarea
             </div>
             <hr class="my-4" />
             <!-- Description -->
-            <h6 class="heading-small text-muted mb-4">About me</h6>
+            <h6 class="heading-small text-muted mb-4">Upload a picture</h6>
+            <div
+              fxFill
+              fxLayout="column"
+              fxLayoutAlign="center center"
+              fxLayoutGap="gappx"
+            >
+              <ngp-image-picker
+                [_config]="imagePickerConf"
+                ($imageChanged)="onImageChange($event)"
+                [_imageSrc]="initialImage"
+              ></ngp-image-picker>
+            </div>
+            <hr class="my-4" />
+            <div><a href="#!" class="btn btn-info">Edit profile</a></div>
           </form>
         </div>
       </div>
     </div>
+
   </div>
-</div>
-<div fxFill fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx">
-  <ngp-image-picker
-    [_config]="imagePickerConf"
-    ($imageChanged)="onImageChange($event)"
-    [_imageSrc]="initialImage"
-  ></ngp-image-picker>
+  <!-- TABELA -->
+  <div class="row" style="margin-top:20px;">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Available reservations</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Start</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Address</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar rounded-circle mr-3"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/bootstrap.jpg"
+                      />
+                    </a>
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">Argon Design System</span>
+                    </div>
+                  </div>
+                </th>
+                <td>$2,500 USD</td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-warning"></i> pending
+                  </span>
+                </td>
+                <td>
+                  <div class="avatar-group">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Ryan Tompson"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-1-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Romina Hadid"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-2-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Alexander Smith"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-3-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Jessica Doe"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-4-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2">20%</span>
+                    <div>
+                      <div class="progress">
+                        <div
+                          class="progress-bar bg-success"
+                          role="progressbar"
+                          aria-valuenow="20"
+                          aria-valuemin="0"
+                          aria-valuemax="20"
+                          style="width: 20%"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Action</a
+                      >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Another action</a
+                      >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Something else here</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar rounded-circle mr-3"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/angular.jpg"
+                      />
+                    </a>
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">Angular Now UI Kit PRO</span>
+                    </div>
+                  </div>
+                </th>
+                <td>$1,800 USD</td>
+                <td>
+                  <span class="badge badge-dot">
+                    <i class="bg-success"></i> completed
+                  </span>
+                </td>
+                <td>
+                  <div class="avatar-group">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Ryan Tompson"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-1-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Romina Hadid"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-2-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Alexander Smith"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-3-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar avatar-sm"
+                      data-toggle="tooltip"
+                      data-original-title="Jessica Doe"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/team-4-800x800.jpg"
+                        class="rounded-circle"
+                      />
+                    </a>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2">100%</span>
+                    <div>
+                      <div class="progress">
+                        <div
+                          class="progress-bar bg-success"
+                          role="progressbar"
+                          aria-valuenow="100"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                          style="width: 100%"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Action</a
+                      >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Another action</a
+                      >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Something else here</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style= "margin-top:15px;">
+   <div class="card bg-secondary shadow">
+     <div class="card-header bg-white border-0">
+       <div class="row align-items-center">
+         <div class="col-8">
+           <h3 class="mb-0">Quick reservation</h3>
+         </div>
+         <div class="col-4 text-right">
+           <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+         </div>
+       </div>
+     </div>
+     <div class="card-body">
+       <form>
+         <!-- Ovde -->
+         <div class="pl-lg-4">
+           <div class="row">
+             <div class="col-md-12">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-username"
+                   >Name</label
+                 >
+                 <input
+                   type="text"
+                   id="input-username"
+                   class="form-control form-control-alternative"
+                   placeholder="Username"
+                   value="lucky.jesse"
+                 />
+               </div>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-12">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-description"
+                   >Description</label
+                 >
+                 <textarea
+                   class="form-control form-control-alternative"
+                   id="input-description"
+                   name="description"
+                 >Enter text here...</textarea
+                 >
+               </div>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-lg-4">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-rooms"
+                   >Number of rooms</label
+                 >
+                 <input
+                   type="number"
+                   id="input-rooms"
+                   class="form-control form-control-alternative"
+                   placeholder="1"
+                   value="1"
+                   min="1"
+                 />
+               </div>
+             </div>
+             <div class="col-lg-4">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-beds"
+                   >Number of beds</label
+                 >
+                 <input
+                   type="number"
+                   id="input-beds"
+                   class="form-control form-control-alternative"
+                   value="1"
+                   min="1"
+                 />
+               </div>
+             </div>
+           </div>
+           <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-rules"
+                  >Rules of conduct</label
+                >
+                <textarea
+                  class="form-control form-control-alternative"
+                  id="input-rules"
+                  name="rules"
+                >Enter text here...</textarea
+                >
+              </div>
+            </div>
+          </div>
+         </div>
+         <hr class="my-4" />
+         <!-- Address -->
+         <h6 class="heading-small text-muted mb-4">Location</h6>
+         <div class="pl-lg-4">
+           <div class="row">
+             <div class="col-md-12">
+               <div class="form-group">
+                 <label class="form-control-label" for="input-address"
+                   >Address</label
+                 >
+                 <input
+                   id="input-address"
+                   class="form-control form-control-alternative"
+                   placeholder="Home Address"
+                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                   type="text"
+                 />
+               </div>
+             </div>
+           </div>
+         </div>
+         <hr class="my-4" />
+         <div><a href="#!" class="btn btn-info">Edit profile</a></div>
+       </form>
+     </div>
+   </div>
+ </div>
 </div>

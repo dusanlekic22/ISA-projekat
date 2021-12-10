@@ -18,52 +18,44 @@ export class CottageProfileComponent implements OnInit {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
 
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-      title: 'title of image',
     },
-    {
+   /* {
       image: '.../iOe/xHHf4nf8AE75h3j1x64ZmZ//Z==', // Support base64 image
       thumbImage: '.../iOe/xHHf4nf8AE75h3j1x64ZmZ//Z==', // Support base64 image
-      title: 'Image title', //Optional: You can use this key if want to show image with title
       alt: 'Image alt', //Optional: You can use this key if want to show image with alt
       order: 1, //Optional: if you pass this key then slider images will be arrange according @input: slideOrderType
-    },
+    }*/
   ];
 
   constructor() {}

@@ -1,9 +1,9 @@
 package isaproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import isaproject.model.Customer;
+import isaproject.model.User;
 
 
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
@@ -12,5 +12,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	public Customer save(Customer customer);
 	
 
-    public Customer findByVerificationCode(String code);
+    public User findByVerificationCode(String code);
 }

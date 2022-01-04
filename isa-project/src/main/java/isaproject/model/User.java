@@ -30,8 +30,7 @@ public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	public User() {
-	}
+	public User() {}
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

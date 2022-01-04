@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import isaproject.model.BoatReservation;
-
 @Entity
 @Table(name = "AdditionalService")
 public class AdditionalService implements Serializable {

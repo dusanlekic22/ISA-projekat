@@ -12,42 +12,39 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import isaproject.model.Address;
-import isaproject.model.Customer;
 import isaproject.model.Role;
 
-public class CustomerDTO{
- 
+public class UserDTO {
 	private Long id;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Boolean enabled;
 	private String verificationCode;
 	private Set<Role> roles;
 	private String phoneNumber;
 	private Address address;
 	private Timestamp lastPasswordResetDate;
+
+	public UserDTO() {}
 	
-	public CustomerDTO(Long id, String username, String password, String firstName, String lastName, String email,
-			Boolean enabled, String verificationCode, Set<Role> roles, String phoneNumber, Address address,
+	public UserDTO(String username, String password, String firstName, String lastName, String email,
+			String verificationCode, Set<Role> roles, String phoneNumber, Address address,
 			Timestamp lastPasswordResetDate) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.enabled = enabled;
 		this.verificationCode = verificationCode;
 		this.roles = roles;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -55,6 +52,7 @@ public class CustomerDTO{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 
 	public String getUsername() {
 		return username;
@@ -96,14 +94,6 @@ public class CustomerDTO{
 		this.email = email;
 	}
 
-	public Boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -143,10 +133,5 @@ public class CustomerDTO{
 	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
-     
-    
-	
-
-     
 
 }

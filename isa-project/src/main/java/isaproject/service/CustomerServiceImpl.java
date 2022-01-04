@@ -3,35 +3,42 @@ package isaproject.service;
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import isaproject.model.Customer;
-import isaproject.repository.CustomerRepository;
+import isaproject.config.PasswordEncoderService;
+import isaproject.dto.UserDTO;
+import isaproject.mapper.UserMapper;
+import isaproject.model.Mail;
+import isaproject.model.User;
+import isaproject.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
  
     @Autowired
-    private CustomerRepository repo;
+    private UserRepository repo;
      
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//     
+    @Autowired
+    private PasswordEncoderService passwordEncoder;
+     
     @Autowired
     private JavaMailSender mailSender;
+    
+    @Autowired
+    private SendMailService service;
  
+    
      
-    public void register(Customer user, String siteURL) throws UnsupportedEncodingException, MessagingException 
+    public void register(UserDTO userDTO, String siteURL) throws UnsupportedEncodingException, MessagingException 
     	   {
-    		    //String encodedPassword = passwordEncoder.encode(user.getPassword());
-    		    String encodedPassword = user.getPassword();
+    			UserMapper mapper = new UserMapper();
+    			User user = mapper.UsertoUserDTO(userDTO); 
+    		    String encodedPassword = passwordEncoder.passwordEncoder().encode(user.getPassword());
+
     		    user.setPassword(encodedPassword);
     		     
     		    String randomCode = RandomString.make(64);
@@ -39,44 +46,37 @@ public class CustomerServiceImpl implements CustomerService {
     		    user.setEnabled(false);
     		     
     		    repo.save(user);
-    		     
+    		         
     		    sendVerificationEmail(user, siteURL);
     }
      
-    public void sendVerificationEmail(Customer user, String siteURL)
-    	 throws MessagingException, UnsupportedEncodingException {
+    public void sendVerificationEmail(User user, String siteURL) throws MessagingException
+    	 {
     		    String toAddress = user.getEmail();
     		    String fromAddress = "Your email address";
     		    String senderName = "Your company name";
     		    String subject = "Please verify your registration";
-    		    String content = "Dear [[name]],<br>"
+    		    String content = "Dear " + user.getFirstName() +",<br>"
     		            + "Please click the link below to verify your registration:<br>"
     		            + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
     		            + "Thank you,<br>"
     		            + "Your company name.";
+    		    
+    		    String verifyURL = siteURL + "/auth/verify?code=" + user.getVerificationCode();
     		     
-    		    MimeMessage message = mailSender.createMimeMessage();
-    		    MimeMessageHelper helper = new MimeMessageHelper(message);
-    		     
-    		    helper.setFrom(fromAddress, senderName);
-    		    helper.setTo(toAddress);
-    		    helper.setSubject(subject);
-    		     
-    		    content = content.replace("[[name]]", user.getFirstName());
-    		    String verifyURL = siteURL + "/verify?code=" + user.getVerificationCode();
-    		     
-    		    content = content.replace("[[URL]]", verifyURL);
-    		     
-    		    helper.setText(content, true);
-    		     
-    		    mailSender.send(message);
+                content = content.replace("[[URL]]", verifyURL);
+    		   
+    		    Mail mail = new Mail(toAddress,subject,content);
+    		    
+    		    
+    		    service.sendMailHTML(mail);
     }
     
     
     public boolean verify(String verificationCode) {
-        Customer user = repo.findByVerificationCode(verificationCode);
+        User user = repo.findByVerificationCode(verificationCode);
          
-        if (user == null || user.getEnabled()) {
+        if (user == null || user.isEnabled()) {
             return false;
         } else {
             user.setVerificationCode(null);

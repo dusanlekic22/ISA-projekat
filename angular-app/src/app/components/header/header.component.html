@@ -57,33 +57,42 @@
             <div class="dropdown-menu">
               <form class="px-4 py-3">
                 <div class="form-group">
-                  <label for="exampleDropdownFormEmail1">Email address</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleDropdownFormEmail1"
-                    placeholder="email@example.com"
-                  />
+                  <label for="exampleDropdownFormEmail1">Username</label>
+                  <ng-template>Username </ng-template>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Username</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="username"
+                      name="username"
+                      placeholder="Username"
+                      required
+                    />
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
                   <label for="exampleDropdownFormPassword1">Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleDropdownFormPassword1"
-                    placeholder="Password"
-                  />
+                  <ng-template matStepLabel>Fill out password</ng-template>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input
+                      type="password"
+                      matInput
+                      [(ngModel)]="password"
+                      name="password"
+                      placeholder="Password"
+                      required
+                    />
+                  </mat-form-field>
                 </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" />
-                    Remember me
-                  </label>
-                </div>
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button (click)="login()" class="btn btn-primary">
+                  Sign in
+                </button>
               </form>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">New around here? Sign up</a>
+              <a class="dropdown-item" [routerLink]="regLink"
+                >New around here? Sign up</a
+              >
               <a class="dropdown-item" href="#">Forgot password?</a>
             </div>
           </div>

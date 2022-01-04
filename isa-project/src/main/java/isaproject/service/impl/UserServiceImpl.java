@@ -33,4 +33,11 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 	
+	@Override
+	public Boolean loadUserByUsernames(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username);
+		if (user == null) return false;
+		return true;
+	}
+	
 }

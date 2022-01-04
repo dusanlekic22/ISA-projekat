@@ -23,7 +23,7 @@ public class JWToken {
 	private String APP_NAME;
 
 	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
-	@Value("TT")
+	@Value("TTnkjgbhfduigrdhnblfvkghmngkdsknj")
 	public String SECRET;
 
 	// Period vazenja tokena - 30 minuta

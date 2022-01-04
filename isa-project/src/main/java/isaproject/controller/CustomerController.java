@@ -10,10 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import isaproject.model.Customer;
+import isaproject.dto.UserDTO;
 import isaproject.service.CustomerService;
 
 @Controller
@@ -23,7 +21,7 @@ public class CustomerController {
  
      
     @PostMapping("/process_register")
-    public String processRegister(Customer user, HttpServletRequest request)
+    public String processRegister(UserDTO user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         service.register(user, getSiteURL(request));       
         return "register_success";
@@ -36,12 +34,6 @@ public class CustomerController {
         } else {
             return "verify_fail";
         }
-    }
-    
-    @RequestMapping(value="/start", method=RequestMethod.GET)
-    public String verifyUseri() {
-            return "verify_fail";
-   
     }
      
     private String getSiteURL(HttpServletRequest request) {

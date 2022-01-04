@@ -5,7 +5,21 @@
       <form class="myform">
         <div class="row rone">
           <div class="col-md-6 fone py-3">
-            <ng-template> <label class="label">AAAAA</label></ng-template>
+            <ng-template>Username </ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                [(ngModel)]="username"
+                name="username"
+                placeholder="Username"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 fone py-3"></div>
+          <div class="col-md-6 fone py-3">
+            <ng-template> First name</ng-template>
 
             <mat-form-field appearance="fill">
               <mat-label>First name</mat-label>
@@ -34,7 +48,7 @@
         </div>
         <div class="row rtwo">
           <div class="form-group col-md-6 fthree py-3">
-            <ng-template> <label class="label">AAAAA</label></ng-template>
+            <ng-template> Email</ng-template>
 
             <mat-form-field appearance="fill">
               <mat-label>Email</mat-label>
@@ -95,7 +109,7 @@
         </div>
         <div class="row rfour">
           <div class="form-group col-md-6 fseven py-3">
-            <button type="submit" class="btn btn-primary">
+            <button class="btn btn-primary" (click)="register()">
               <span>Create account</span>
             </button>
           </div>

@@ -11,6 +11,6 @@ public class PasswordEncoderServiceImpl implements PasswordEncoderService {
 	// BCrypt po defalt-u radi 10 rundi hesiranja prosledjene vrednosti.
 	@Override
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder(10);
 	}
 }

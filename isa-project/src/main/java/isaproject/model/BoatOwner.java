@@ -1,17 +1,11 @@
 package isaproject.model;
 
-import static javax.persistence.InheritanceType.JOINED;
+import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-
-import java.util.Set;
 import javax.persistence.OneToMany;
 
-import isaproject.model.Boat;
-
 @Entity
-@Inheritance(strategy = JOINED)
 public class BoatOwner extends User {
 
 	private static final long serialVersionUID = 1L;

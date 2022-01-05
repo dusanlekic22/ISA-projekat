@@ -5,7 +5,8 @@ import javax.persistence.Table;
 
 import isaproject.model.FishingCourse;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -14,13 +15,15 @@ public class FishingTrainer extends User {
 
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "fishingTrainer")
-	private Collection<FishingCourse> fishingCourse;
+	private Set<FishingCourse> fishingCourse = new HashSet<FishingCourse>();
+	
 	public FishingTrainer() {
 	}
-	public Collection<FishingCourse> getFishingCourse() {
+	
+	public Set<FishingCourse> getFishingCourse() {
 	    return fishingCourse;
 	}
-	public void setFishingCourse(Collection<FishingCourse> param) {
+	public void setFishingCourse(Set<FishingCourse> param) {
 	    this.fishingCourse = param;
 	}
 }

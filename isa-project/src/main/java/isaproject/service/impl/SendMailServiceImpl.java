@@ -15,16 +15,15 @@ import isaproject.service.SendMailService;
 @Service
 public class SendMailServiceImpl implements SendMailService {
 	
-	@Autowired
     private final JavaMailSender javaMailSender;
 
+    @Autowired
     public SendMailServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
     @Override
     public void sendMail(Mail mail) {
-
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(mail.getRecipient(), mail.getRecipient());
 

@@ -1,18 +1,9 @@
 package isaproject.dto;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
-
 import java.sql.Timestamp;
 import java.util.Set;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-
 import isaproject.model.Address;
-import isaproject.model.Customer;
 import isaproject.model.Role;
 
 public class CustomerDTO{

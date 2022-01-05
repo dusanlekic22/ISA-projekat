@@ -1,8 +1,11 @@
 package isaproject.service.impl;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import isaproject.model.Role;
 import isaproject.repository.RoleRepository;
 import isaproject.service.RoleService;
 
@@ -16,6 +19,10 @@ public class RoleServiceImpl implements RoleService {
 		super();
 		this.roleRepository = roleRepository;
 	}
-	
+
+	@Override
+	public Set<Role> findByName(String name) {
+		return roleRepository.findByName(name);
+	}
 	
 }

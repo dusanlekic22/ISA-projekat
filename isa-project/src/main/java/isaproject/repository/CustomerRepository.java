@@ -8,9 +8,5 @@ import isaproject.model.User;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
-	
-	public Customer save(Customer customer);
-	
-
     public User findByVerificationCode(String code);
 }

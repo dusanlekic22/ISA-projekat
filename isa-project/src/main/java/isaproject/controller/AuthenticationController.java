@@ -49,6 +49,7 @@ public class AuthenticationController {
 		this.userService = userService;
 		this.customerService = customerService;
 	}
+	
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
@@ -66,40 +67,36 @@ public class AuthenticationController {
 
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
-		System.out.println("Praznoo buraz"+user.getUsername());
 		String jwt = jwToken.generateToken(user.getUsername());
-		System.out.println("Praznoo buraz2"+jwt);
 		int expiresIn = jwToken.getExpiredIn();
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
-//	 Endpoint za registraciju novog korisnika
+	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userRequest, HttpServletRequest request)
 			throws UnsupportedEncodingException, MessagingException {
-
-		Boolean existUser = this.userService.loadUserByUsernames(userRequest.getUsername());
-
-		if (existUser) {
-			throw new ResourceConflictException(null,"Username already exists");
+		
+		User existUser = this.userService.findByUsername(userRequest.getUsername());
+		
+		if (existUser != null) {
+			throw new ResourceConflictException(existUser.getId(), "Username already exists");
 		}
-
+		
 		this.customerService.register(userRequest, getSiteURL(request));
 		return new ResponseEntity<>(userRequest, HttpStatus.CREATED);
 	}
-	
-	
-	   @GetMapping("/verify")
-	    public String verifyUser(@Param("code") String code) {
-	        if (this.customerService.verify(code)) {
-	            return "verify_success";
-	        } else {
-	            return "verify_fail";
-	        }
-	    }
-	
+
+	@GetMapping("/verify")
+	public String verifyUser(@Param("code") String code) {
+		if (this.customerService.verify(code)) {
+			return "verify_success";
+		} else {
+			return "verify_fail";
+		}
+	}
 
 	private String getSiteURL(HttpServletRequest request) {
 		String siteURL = request.getRequestURL().toString();

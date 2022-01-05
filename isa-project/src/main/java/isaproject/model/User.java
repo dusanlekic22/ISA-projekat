@@ -1,6 +1,5 @@
 package isaproject.model;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.InheritanceType.JOINED;
 
@@ -42,7 +41,7 @@ public class User implements Serializable, UserDetails {
 	private String email;
 	private Boolean enabled;
 	private String verificationCode;
-	@ManyToMany(fetch = EAGER, cascade = ALL)
+	@ManyToMany(fetch = EAGER)
 	@JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles;
 	private String phoneNumber;

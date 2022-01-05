@@ -3,12 +3,11 @@ package isaproject.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
 import isaproject.mapper.RequestMapper;
@@ -48,8 +47,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public BusinessOwnerRegistrationRequest activateUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO) {
 		BusinessOwnerRegistrationRequest request = requestRepository.getById(registrationRequestDTO.getId());
+		if (request.getAccepted() != null) return request;
 		request.setAccepted(true);
-		System.out.println(request.getAccepted());
 		User user = userRepository.findByEmail(request.getUserEmail());
 		user.setEnabled(true);
 		return request;
@@ -59,6 +58,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public BusinessOwnerRegistrationRequest declineUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO) {
 		BusinessOwnerRegistrationRequest request = requestRepository.getById(registrationRequestDTO.getId());
+		if (request.getAccepted() != null) return request;
 		request.setAccepted(false);
 		request.setDeclineReason(registrationRequestDTO.getDeclineReason());
 		return request;

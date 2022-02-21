@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CottageService } from '../cottage.service';
+import { ICottage } from './cottage';
+
 
 @Component({
   selector: 'app-cottage-profile',
@@ -6,6 +10,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../cotage-style.css'],
 })
 export class CottageProfileComponent implements OnInit {
+  cottage: ICottage = {  id : 0,
+    name : '',
+    address : '',
+    promoDescription : '',
+    bedCount : 0,
+    roomCount : 0,
+    cottageRules : '',
+    cottageImage : '' };
+  cottageId!: number;
   initialImage = 'https://havanatursa.com/assets/images/carousel/Hoteles.webp';
   imagePickerConf: object = {
     borderRadius: '4px',
@@ -58,9 +71,15 @@ export class CottageProfileComponent implements OnInit {
     }*/
   ];
 
-  constructor() {}
+  constructor(private _route: ActivatedRoute,
+    private _cottageService: CottageService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this._cottageService.getCottageById(this.cottageId).subscribe(
+      cottage => this.cottage = cottage
+    );
+  }
 
   onImageChange(event: string): void {}
 }

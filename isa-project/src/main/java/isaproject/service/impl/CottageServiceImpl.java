@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageDTO;
 import isaproject.mapper.CottageMapper;
@@ -17,7 +18,8 @@ public class CottageServiceImpl implements CottageService {
 	
 	@Autowired
 	private CottageRepository cottageRepository;
-
+	
+	@Transactional
 	public CottageDTO findById(Long id) {
 		Cottage cottage = cottageRepository.getById(id);
 		return CottageMapper.CottageToCottageDTO(cottage);

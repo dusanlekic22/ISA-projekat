@@ -35,7 +35,7 @@ public class CottageController {
 	}
 	
 	@GetMapping("/{cottageId}")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	//@PreAuthorize("hasRole('COTTAGE_OWNER')")	
 	public CottageDTO loadById(@PathVariable Long cottageId) {
 		return cottageService.findById(cottageId);
 	}

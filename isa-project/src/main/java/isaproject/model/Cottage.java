@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Entity
 public class Cottage implements Serializable {
 

@@ -41,6 +41,7 @@ import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-ow
     MatFormFieldModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

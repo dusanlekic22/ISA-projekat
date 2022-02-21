@@ -20,7 +20,7 @@ const routes: Routes = [
     component: CottageOwnerHomeComponent,
   },
   {
-    path: 'cottageProfile',
+    path: 'cottageProfile/:cottageId',
     component: CottageProfileComponent,
   },
   {

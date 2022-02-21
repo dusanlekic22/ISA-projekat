@@ -120,10 +120,10 @@
                     >
                     <input
                       type="text"
-                      id="input-username"
+                      id="input-name"
+                      name="name"
                       class="form-control form-control-alternative"
-                      placeholder="Username"
-                      value="lucky.jesse"
+                      [(ngModel)]="cottage.name"
                     />
                   </div>
                 </div>
@@ -138,7 +138,7 @@
                       class="form-control form-control-alternative"
                       id="input-description"
                       name="description"
-                    >Enter text here...</textarea
+                    >{{cottage.promoDescription}}</textarea
                     >
                   </div>
                 </div>
@@ -151,10 +151,10 @@
                     >
                     <input
                       type="number"
+                      name="roomCount"
                       id="input-rooms"
                       class="form-control form-control-alternative"
-                      placeholder="1"
-                      value="1"
+                      [(ngModel)]="cottage.roomCount"
                       min="1"
                     />
                   </div>
@@ -166,9 +166,10 @@
                     >
                     <input
                       type="number"
+                      name="bedCount"
                       id="input-beds"
                       class="form-control form-control-alternative"
-                      value="1"
+                      [(ngModel)]="cottage.bedCount"
                       min="1"
                     />
                   </div>
@@ -199,7 +200,7 @@
                      class="form-control form-control-alternative"
                      id="input-rules"
                      name="rules"
-                   >Enter text here...</textarea
+                   >{{cottage.cottageRules}}</textarea
                    >
                  </div>
                </div>
@@ -572,14 +573,14 @@
            <div class="row">
              <div class="col-md-12">
                <div class="form-group">
-                 <label class="form-control-label" for="input-username"
-                   >Name</label
+                 <label class="form-control-label" for="input-date"
+                   >Start date and time</label
                  >
                  <input
                    type="text"
-                   id="input-username"
+                   id="input-date"
                    class="form-control form-control-alternative"
-                   placeholder="Username"
+                   placeholder="Date"
                    value="lucky.jesse"
                  />
                </div>
@@ -588,13 +589,13 @@
            <div class="row">
              <div class="col-md-12">
                <div class="form-group">
-                 <label class="form-control-label" for="input-description"
-                   >Description</label
+                 <label class="form-control-label" for="input-duration"
+                   >Duration(in days)</label
                  >
                  <textarea
                    class="form-control form-control-alternative"
-                   id="input-description"
-                   name="description"
+                   id="input-duration"
+                   name="duration"
                  >Enter text here...</textarea
                  >
                </div>
@@ -603,12 +604,12 @@
            <div class="row">
              <div class="col-lg-4">
                <div class="form-group">
-                 <label class="form-control-label" for="input-rooms"
-                   >Number of rooms</label
+                 <label class="form-control-label" for="input-people"
+                   >Maximum number of people</label
                  >
                  <input
                    type="number"
-                   id="input-rooms"
+                   id="input-people"
                    class="form-control form-control-alternative"
                    placeholder="1"
                    value="1"
@@ -634,15 +635,16 @@
            <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label class="form-control-label" for="input-rules"
-                  >Rules of conduct</label
+                <label class="form-control-label" for="input-price"
+                  >Price</label
                 >
-                <textarea
-                  class="form-control form-control-alternative"
-                  id="input-rules"
-                  name="rules"
-                >Enter text here...</textarea
-                >
+                <input
+                   type="number"
+                   id="input-price"
+                   class="form-control form-control-alternative"
+                   value="1"
+                   min="1"
+                 />
               </div>
             </div>
           </div>

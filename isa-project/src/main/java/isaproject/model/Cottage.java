@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Cottage implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
@@ -101,6 +102,11 @@ public class Cottage implements Serializable {
 
 	public void setCottageImage(Set<CottageImage> param) {
 	    this.cottageImage = param;
+	}
+	
+	public void addCottageImage(CottageImage param) {
+	    param.setCottage(this);
+	    cottageImage.add(param);
 	}
 
 	public Set<CottageReservation> getCottageReservation() {

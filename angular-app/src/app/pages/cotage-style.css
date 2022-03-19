@@ -20,6 +20,10 @@
 
 */
 
+.tr:hover{
+    background-color: rgb(209, 207, 207);
+}
+
 :root {
     --blue: #5e72e4;
     --indigo: #5603ad;

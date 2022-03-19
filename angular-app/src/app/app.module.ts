@@ -18,6 +18,8 @@ import { RegistrationComponent } from './pages/registration/registration/registr
 import { CottageOwnerProfileComponent } from './pages/cottage-owner-profile/cottage-owner-profile.component';
 import { NgpImagePickerModule } from 'ngp-image-picker';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -33,15 +35,17 @@ import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-ow
     NgbModule,
     BrowserAnimationsModule,
     NgImageSliderModule,
+    BrowserModule,
     NgpImagePickerModule,
     FormsModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   providers: [],
   bootstrap: [AppComponent],

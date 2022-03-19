@@ -217,10 +217,10 @@
                       >Address</label
                     >
                     <input
+                      [(ngModel)]="cottage.address.street"
+                      name = "street"
                       id="input-address"
                       class="form-control form-control-alternative"
-                      placeholder="Home Address"
-                      value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                       type="text"
                     />
                   </div>
@@ -233,11 +233,11 @@
                       >City</label
                     >
                     <input
+                      [(ngModel)]="cottage.address.city"
+                      name = "city"
                       type="text"
                       id="input-city"
                       class="form-control form-control-alternative"
-                      placeholder="City"
-                      value="New York"
                     />
                   </div>
                 </div>
@@ -247,24 +247,11 @@
                       >Country</label
                     >
                     <input
+                    [(ngModel)]="cottage.address.country"
+                    name = "country"
                       type="text"
                       id="input-country"
                       class="form-control form-control-alternative"
-                      placeholder="Country"
-                      value="United States"
-                    />
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country"
-                      >Postal code</label
-                    >
-                    <input
-                      type="number"
-                      id="input-postal-code"
-                      class="form-control form-control-alternative"
-                      placeholder="Postal code"
                     />
                   </div>
                 </div>
@@ -286,12 +273,12 @@
               ></ngp-image-picker>
             </div>
             <hr class="my-4" />
-            <div><a href="#!" class="btn btn-info">Edit profile</a></div>
+            <div><button (click)="edit()" class="btn btn-info">Edit profile</button></div>
           </form>
         </div>
       </div>
     </div>
-
+    
   </div>
   <!-- TABELA -->
   <div class="row" style="margin-top:20px;">
@@ -576,13 +563,86 @@
                  <label class="form-control-label" for="input-date"
                    >Start date and time</label
                  >
-                 <input
-                   type="text"
-                   id="input-date"
-                   class="form-control form-control-alternative"
-                   placeholder="Date"
-                   value="lucky.jesse"
-                 />
+                 <div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="pickerStart"
+                      [min]="minDate"
+                      (dateInput)="addEvent('inputStart', $event)"
+                      (dateChange)="addEvent('changeStart', $event)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="pickerStart"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                  </mat-form-field>
+          
+                  <mat-form-field appearance="fill">
+                    <input
+                      matInput
+                      [(ngModel)]="startHours"
+                      type="number"
+                      min="0"
+                      max="23"
+                    />
+                    <mat-label>hours</mat-label>
+                  </mat-form-field>
+          
+                  <mat-form-field appearance="fill">
+                    <input
+                      matInput
+                      [(ngModel)]="startMinutes"
+                      type="number"
+                      min="0"
+                      max="59"
+                    />
+                    <mat-label>minutes</mat-label>
+                  </mat-form-field>
+                </div>
+          
+                <mat-label>Select ending date</mat-label>
+                <div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="pickerEnd"
+                      [min]="minDate"
+                      (dateInput)="addEvent('inputEnd', $event)"
+                      (dateChange)="addEvent('changeEnd', $event)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="pickerEnd"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                  </mat-form-field>
+          
+                  <mat-form-field appearance="fill">
+                    <input
+                      matInput
+                      [(ngModel)]="endHours"
+                      type="number"
+                      min="0"
+                      max="23"
+                    />
+                    <mat-label>hours</mat-label>
+                  </mat-form-field>
+          
+                  <mat-form-field appearance="fill">
+                    <input
+                      matInput
+                      [(ngModel)]="endMinutes"
+                      type="number"
+                      min="0"
+                      max="59"
+                    />
+                    <mat-label>minutes</mat-label>
+                  </mat-form-field>
+                </div>
                </div>
              </div>
            </div>
@@ -671,7 +731,7 @@
            </div>
          </div>
          <hr class="my-4" />
-         <div><a href="#!" class="btn btn-info">Edit profile</a></div>
+         <div><button class="btn btn-info">Edit profile</button></div>
        </form>
      </div>
    </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ICottage } from '../cottage-profile/cottage';
 import { CottageService } from '../cottage.service';
 
@@ -11,13 +11,18 @@ import { CottageService } from '../cottage.service';
 export class CottageOwnerHomeComponent implements OnInit {
 
   cottages!: ICottage[];
+  cottageId!: number;
 
-  constructor(private _route: ActivatedRoute,
+  constructor( private _router: Router,
     private _cottageService: CottageService) {}
 
   ngOnInit(): void {
     this._cottageService.getCottages().subscribe(
       cottages => this.cottages = cottages
     );
+  }
+
+  cottageProfile(cottageId:number){
+    this._router.navigateByUrl(`cottageProfile/${cottageId}`);
   }
 }

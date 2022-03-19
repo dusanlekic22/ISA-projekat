@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CottageDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.model.Cottage;
+import isaproject.model.CottageImage;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageService;
 
@@ -38,13 +39,13 @@ public class CottageServiceImpl implements CottageService {
 	        return dtos;
 	}
 	
+	public void remove(Long id) {
+		cottageRepository.deleteById(id);
+	}
+	
 	public CottageDTO save(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
-	}
-
-	public void remove(Long id) {
-		cottageRepository.deleteById(id);
 	}
 
 

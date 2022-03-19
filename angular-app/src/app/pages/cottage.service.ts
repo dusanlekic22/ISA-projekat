@@ -25,6 +25,13 @@ export class CottageService {
     );
   }
 
+  editCottage(cottage:ICottage): Observable<ICottage> {
+    return this._http.post<ICottage>(this._cottageUrl,cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(err.message);

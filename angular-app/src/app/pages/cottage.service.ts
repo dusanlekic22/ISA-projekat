@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ICottage } from './cottage-profile/cottage';
+import { ICottageImage } from './cottage-profile/cottageImage';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,13 @@ export class CottageService {
 
   editCottage(cottage:ICottage): Observable<ICottage> {
     return this._http.post<ICottage>(this._cottageUrl,cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  addCottageImage(id:number,image:string,cottage:ICottage): Observable<ICottageImage> {
+    return this._http.post<ICottageImage>(this._cottageUrl+'Image',{id:id,image:image,cottage:cottage}).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

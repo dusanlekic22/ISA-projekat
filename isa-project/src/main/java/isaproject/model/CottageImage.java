@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.ManyToOne;
 import static javax.persistence.FetchType.LAZY;
@@ -29,6 +31,8 @@ public class CottageImage implements Serializable {
 	@Column(columnDefinition="text", length=10485760)
 	private String image;
 	@ManyToOne(fetch = LAZY,targetEntity = Cottage.class)
+	@JoinColumn(name = "cottage_id")
+	@JsonBackReference
 	private Cottage cottage;
 	public long getId() {
 		return id;

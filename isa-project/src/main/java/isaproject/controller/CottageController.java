@@ -45,7 +45,6 @@ public class CottageController {
 	@PostMapping
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> save(@RequestBody CottageDTO cottageDTO) {
-		System.out.println(cottageDTO.getPromoDescription());
 		cottageService.save(cottageDTO);
 		return new ResponseEntity<>(cottageDTO,HttpStatus.CREATED);
 	}

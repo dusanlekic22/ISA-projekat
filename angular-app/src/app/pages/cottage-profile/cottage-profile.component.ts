@@ -29,6 +29,7 @@ export class CottageProfileComponent implements OnInit {
     width: '320px',
     height: '240px'
   };
+  imageString: string ='';
   
   startYear!: number;
   startMonth!: number;
@@ -87,13 +88,14 @@ export class CottageProfileComponent implements OnInit {
   ngOnInit(): void {
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
     this._cottageService.getCottageById(this.cottageId).subscribe(
-      cottage => this.cottage = cottage
+      cottage => {this.cottage = cottage;
+        this.cottage.cottageImage.forEach(element => {
+          console.log("slika");
+          this.imageObject.push({image:element.image,thumbImage:element.image,alt:'alt of image'});
+        });}
     );
     this.minDate = new Date(Date.now());
-    this.cottage.cottageImage.forEach(element => {
-      console.log("slika");
-      this.imageObject.push({image:element.image,thumbImage:element.image,alt:'alt of image'});
-    });
+    
   }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -116,8 +118,14 @@ export class CottageProfileComponent implements OnInit {
     );
   }
 
+  addCottageImage():void{
+    this._cottageService.addCottageImage(0,this.imageString,this.cottage).subscribe(
+      cottageImage => { this.imageObject.push({image:cottageImage.image,thumbImage:cottageImage.image,alt:'alt of image'});}
+    );
+  }
+
   onImageChange(event: string): void {
     console.log(event);
-    this.cottage.cottageImage.push({id:0,image:event});
+    this.imageString = event;
   }
 }

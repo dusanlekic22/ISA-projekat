@@ -19,6 +19,9 @@ import javax.persistence.OneToOne;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Cottage implements Serializable {
 
@@ -39,7 +42,7 @@ public class Cottage implements Serializable {
 	private String cottageRules;
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
 	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<CottageImage> cottageImage = new HashSet<>();
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();

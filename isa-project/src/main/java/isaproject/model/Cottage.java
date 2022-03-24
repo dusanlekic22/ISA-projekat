@@ -40,7 +40,7 @@ public class Cottage implements Serializable {
 	private Integer bedCount;
 	private Integer roomCount;
 	private String cottageRules;
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<CottageImage> cottageImage = new HashSet<>();

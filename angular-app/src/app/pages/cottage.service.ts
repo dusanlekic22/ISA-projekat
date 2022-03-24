@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ICottage } from './cottage-profile/cottage';
 import { ICottageImage } from './cottage-profile/cottageImage';
+import { ICottageQuickReservation } from './cottage-profile/cottageQuickReservation';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,22 @@ export class CottageService {
 
   addCottageImage(id:number,image:string,cottage:ICottage): Observable<ICottageImage> {
     return this._http.post<ICottageImage>(this._cottageUrl+'Image',{id:id,image:image,cottage:cottage}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  addCottageQuickReservation(cottageQuickReservation:ICottageQuickReservation,cottage:ICottage): Observable<ICottageQuickReservation> {
+    return this._http.post<ICottageQuickReservation>(this._cottageUrl+'QuickReservation',
+    {id:cottageQuickReservation.id,startDate:cottageQuickReservation.startDate,endDate:cottageQuickReservation.endDate,
+      guestCapacity:cottageQuickReservation.guestCapacity,price:cottageQuickReservation.price,cottage:cottage}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getCottageQuickReservations(): Observable<ICottageQuickReservation[]> {
+    return this._http.get<ICottageQuickReservation[]>(this._cottageUrl+'QuickReservation',).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

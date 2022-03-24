@@ -4,17 +4,23 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Set;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "CottageQuickReservation")
@@ -24,19 +30,21 @@ public class CottageQuickReservation implements Serializable {
 
 	public CottageQuickReservation() {
 	}
-
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
-	@Temporal(TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 	private String guestCapacity;
 	private Integer price;
-	@OneToMany(mappedBy = "cottageQuickReservation")
+	@OneToMany(mappedBy = "cottageQuickReservation",fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,targetEntity = Cottage.class)
+	@JoinColumn(name = "cottage_id")
+	@JsonBackReference
 	private Cottage cottage;
 	public long getId() {
 		return id;

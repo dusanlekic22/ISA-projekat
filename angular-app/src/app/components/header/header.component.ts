@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   username!: string;
   password!: string;
   errorMessage!: string;
-  regLink: string = '/registration';
+  regLink: string = '/chooseRegistration';
   constructor(private _loginService: LoginService) {}
 
   ngOnInit(): void {}

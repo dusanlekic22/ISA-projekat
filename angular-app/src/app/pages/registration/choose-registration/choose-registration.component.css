@@ -1,0 +1,41 @@
+.selection-container {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.left-side {
+    width: 45%;
+    color: #000;
+    background: #9fff92;
+    border-radius: 20px;
+    padding: 20px 10px;
+    float: left;
+    height: 300px;
+    margin-left: 10px;
+    margin-right: 40px;
+}
+
+.img {
+    height: 70px;
+    margin-bottom: 20px;
+}
+
+.right-side {
+    width: 45%;
+    color: #000;
+    background: #ffcc71;
+    border-radius: 20px;
+    padding: 20px 10px;
+    float: left;
+    height: 300px;
+}
+
+.selection-p {
+    margin-bottom: 2rem;
+    font-size: 18px;
+}
+
+.page-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}

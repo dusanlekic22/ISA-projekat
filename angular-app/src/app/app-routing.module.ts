@@ -4,6 +4,8 @@ import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-ow
 import { CottageOwnerProfileComponent } from './pages/cottage-owner-profile/cottage-owner-profile.component';
 import { CottageProfileComponent } from './pages/cottage-profile/cottage-profile.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
+import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-regitration/business-owner-regitration.component';
+import { ChooseRegistrationComponent } from './pages/registration/choose-registration/choose-registration.component';
 import { RegistrationComponent } from './pages/registration/registration/registration.component';
 
 const routes: Routes = [
@@ -27,10 +29,18 @@ const routes: Routes = [
     path: 'registration',
     component: RegistrationComponent,
   },
+  {
+    path: 'businessOwnerRegistration',
+    component: BusinessOwnerRegitrationComponent,
+  },
+  {
+    path: 'chooseRegistration',
+    component: ChooseRegistrationComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

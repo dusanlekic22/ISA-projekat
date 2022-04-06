@@ -1,9 +1,6 @@
 package isaproject.dto;
 
-import java.util.Set;
-
 import isaproject.model.Address;
-import isaproject.model.Role;
 
 public class BusinessOwnerDTO {
 	
@@ -12,7 +9,6 @@ public class BusinessOwnerDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private Set<Role> roles;
     private String phoneNumber;
     private Address address;
 	private String registrationExplanation;
@@ -55,14 +51,6 @@ public class BusinessOwnerDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public String getPhoneNumber() {

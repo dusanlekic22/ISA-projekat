@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BusinessType } from '../business-type';
 import { RegistrationService } from '../registration.service';
-import { IUser } from '../registration/user';
+import { IBusinessOwner } from './business-owner';
 
 @Component({
-  selector: 'app-business-owner-regitration',
-  templateUrl: './business-owner-regitration.component.html',
-  styleUrls: ['./business-owner-regitration.component.css']
+  selector: 'app-business-owner-registration',
+  templateUrl: './business-owner-registration.component.html',
+  styleUrls: ['./business-owner-regitsration.component.css']
 })
 export class BusinessOwnerRegitrationComponent implements OnInit {
   firstFormGroup!: FormGroup;
@@ -17,16 +18,24 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
   contact!: string;
   password!: string;
   confirmPassword!: string;
+  registrationExplanation!: string;
 
-  user!: IUser;
+  selectedBusiness!: BusinessType;
+  businessTypeKeys!: number[];
+  businessTypes = BusinessType;
+
+  user!: IBusinessOwner;
   errorMessage!: string;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _registrationService: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.businessTypeKeys = Object.keys(this.businessTypes)
+      .filter((f) => !isNaN(Number(f)))
+      .map(Number);
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],
     });
@@ -44,9 +53,15 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
       //   street: 'dr Ivana Ribara',
       //   city: 'Novi Sad',
       // },
+      registrationExplanation: this.registrationExplanation
     };
+    if (this.selectedBusiness == BusinessType.FishingTrainer) {
+      this.registerFishingTrainer();
+    }
+  }
 
-    this._registrationService.submitForm(this.user).subscribe({
+  registerFishingTrainer() {
+    this._registrationService.registerFishingTrainer(this.user).subscribe({
       next: (data) => {
         this.user = data;
         console.log('pozvan' + data);

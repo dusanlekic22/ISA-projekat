@@ -37,10 +37,10 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 
 	@Override
 	public FishingTrainer registerFishingTrainer(BusinessOwnerDTO businessOwnerDTO) {
-		businessOwnerDTO.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
-		businessOwnerDTO.setPassword(passwordEncoderService.passwordEncoder().encode(businessOwnerDTO.getPassword()));
-		addressRepository.save(businessOwnerDTO.getAddress());
+//		addressRepository.save(businessOwnerDTO.getAddress());
 		FishingTrainer fishingTrainer = UserMapper.DTOToFishingTrainer(businessOwnerDTO);
+		fishingTrainer.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
+		fishingTrainer.setPassword(passwordEncoderService.passwordEncoder().encode(businessOwnerDTO.getPassword()));
 		
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);

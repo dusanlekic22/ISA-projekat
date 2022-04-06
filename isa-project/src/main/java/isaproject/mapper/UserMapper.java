@@ -19,7 +19,6 @@ public class UserMapper {
 		user.setEmail(businessOwnerDTO.getEmail());
 		user.setEnabled(false);
 		user.setVerificationCode(RandomString.make(64));
-		user.setRoles(businessOwnerDTO.getRoles());
 		user.setPhoneNumber(businessOwnerDTO.getPhoneNumber());
 		user.setAddress(businessOwnerDTO.getAddress());
 		user.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));

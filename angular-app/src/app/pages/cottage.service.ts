@@ -27,8 +27,22 @@ export class CottageService {
     );
   }
 
+  saveCottage(cottage:ICottage): Observable<ICottage> {
+    return this._http.post<ICottage>(this._cottageUrl+'/save',cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   editCottage(cottage:ICottage): Observable<ICottage> {
-    return this._http.post<ICottage>(this._cottageUrl,cottage).pipe(
+    return this._http.post<ICottage>(this._cottageUrl+'/update',cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  deleteCottage(cottageId:number): Observable<ArrayBuffer> {
+    return this._http.delete<ArrayBuffer>(this._cottageUrl+ `/${cottageId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

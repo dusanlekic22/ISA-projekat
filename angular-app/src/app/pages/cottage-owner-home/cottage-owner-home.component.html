@@ -20,7 +20,7 @@
                 ><i class="fas fa-search"></i
               ></span>
             </div>
-            <input class="form-control" placeholder="Search" type="text" />
+            <input class="form-control" placeholder="Cottage name" name="search" type="text" [ngModel]="filter" (ngModelChange)="searchCottages($event)"/>
           </div>
         </div>
       </form>
@@ -50,7 +50,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="tr" *ngFor="let cottage of cottages" (click)="cottageProfile(cottage.id)" >
+              <tr class="tr" *ngFor="let cottage of filteredCottages" >
                 <th scope="row">
                   <div class="media align-items-center">
                     <a
@@ -105,11 +105,11 @@
                       ngbDropdownMenu
                       class="dropdown-menu-right dropdown-menu-arrow"
                     >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Action</a
+                      <a class="dropdown-item" (click)="cottageProfile(cottage.id)"
+                        >Edit</a
                       >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Another action</a
+                      <a class="dropdown-item" (click)="deleteCottage(cottage.id)"
+                        >Delete</a
                       >
                       <a class="dropdown-item" href="javascript:void(0)"
                         >Something else here</a

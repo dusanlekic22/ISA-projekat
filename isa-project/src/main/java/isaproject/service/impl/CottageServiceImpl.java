@@ -27,7 +27,7 @@ public class CottageServiceImpl implements CottageService {
 	}
 
 	public Set<CottageDTO> findAll(){
-		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll()) ;
+		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
 	        Set<CottageDTO> dtos = new HashSet<>();
 	        if(cottages.size()!=0){
 	            CottageDTO dto;
@@ -38,14 +38,30 @@ public class CottageServiceImpl implements CottageService {
 	        }
 	        return dtos;
 	}
-	
-	public void remove(Long id) {
-		cottageRepository.deleteById(id);
+	@Transactional
+	@Override
+	public CottageDTO deleteById(Long id) {
+		CottageDTO cottageDTO = findById(id);
+		if (cottageDTO.getCottageReservation().isEmpty()) {
+			cottageRepository.deleteById(id);
+			return cottageDTO;
+		}
+		return null;
 	}
 	
+	@Override
 	public CottageDTO save(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
+	}
+	
+	@Override
+	public CottageDTO update(CottageDTO cottageDTO) {
+		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
+		if (cottageDTO.getCottageReservation().isEmpty()) {
+			return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
+		}
+		return null;
 	}
 
 
@@ -65,5 +81,6 @@ public class CottageServiceImpl implements CottageService {
 
         return dtos;
 	}
+
 	
 }

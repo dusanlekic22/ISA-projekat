@@ -10,4 +10,6 @@ public interface CottageService {
 	Set<CottageDTO> findByCottageName(String name);
     Set<CottageDTO> findAll ();
 	CottageDTO save(CottageDTO cottage);
+	CottageDTO update(CottageDTO cottage);
+	CottageDTO deleteById(Long id);
 }

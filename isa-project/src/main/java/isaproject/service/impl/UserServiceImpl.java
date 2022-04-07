@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
 import isaproject.mapper.RequestMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
+import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.UserRepository;
+import isaproject.service.SendMailService;
 import isaproject.service.UserService;
 
 @Service
@@ -22,13 +24,16 @@ public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
 	private BusinessOwnerRegistrationRequestRepository requestRepository;
-
+	private SendMailService mailService;
+	
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository,
-			BusinessOwnerRegistrationRequestRepository requestRepository) {
+			BusinessOwnerRegistrationRequestRepository requestRepository,
+			SendMailService mailService) {
 		super();
 		this.userRepository = userRepository;
 		this.requestRepository = requestRepository;
+		this.mailService = mailService;
 	}
 
 	@Override
@@ -51,7 +56,20 @@ public class UserServiceImpl implements UserService {
 		request.setAccepted(true);
 		User user = userRepository.findByEmail(request.getUserEmail());
 		user.setEnabled(true);
+		sendAcceptEmail(request.getUserEmail());
 		return request;
+	}
+	
+	private void sendAcceptEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		String subject = "Your registration for the business owner";
+		StringBuilder content = new StringBuilder("");
+		content.append("Hi ").append(user.getFirstName()).append(",<br><br>")
+			.append("You have been sent this mail because you are registred as a business owner position at our site.<br><br>")
+			.append("<br><br>Thank you!<br>Your company name.");
+
+		Mail mail = new Mail(email, subject, content.toString());
+		mailService.sendMailHTML(mail);
 	}
 	
 	@Transactional
@@ -61,7 +79,21 @@ public class UserServiceImpl implements UserService {
 		if (request.getAccepted() != null) return request;
 		request.setAccepted(false);
 		request.setDeclineReason(registrationRequestDTO.getDeclineReason());
+		sendDeclineEmail(request.getUserEmail(), request.getDeclineReason());
 		return request;
+	}
+	
+	private void sendDeclineEmail(String email, String declineReason) {
+		User user = userRepository.findByEmail(email);
+		String subject = "Your registration for the business owner";
+		StringBuilder content = new StringBuilder("");
+		content.append("Hi ").append(user.getFirstName()).append(",<br><br>")
+			.append("Thank you so much for your applying a registration a business owner position. We appreciate you taking the time to visit our web site.<br><br>")
+			.append(declineReason)
+			.append("<br><br>Thank you!<br>Your company name.");
+
+		Mail mail = new Mail(email, subject, content.toString());
+		mailService.sendMailHTML(mail);
 	}
 
 	@Override

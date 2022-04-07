@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IBusinessOwner } from './business-owner-regitration/business-owner';
+import { IBusinessOwner } from './business-owner-registration/business-owner';
 import { IUser } from './registration/user';
 
 @Injectable({

@@ -21,7 +21,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BaseCottageComponent } from './components/baseCottage/base-cottage.component';
 import { ChooseRegistrationComponent } from './pages/registration/choose-registration/choose-registration.component';
 import { MatSelectModule } from '@angular/material/select';
-import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-regitration/business-owner-registration.component';
+import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
 
 @NgModule({
   declarations: [

@@ -7,7 +7,7 @@ import { IBusinessOwner } from './business-owner';
 @Component({
   selector: 'app-business-owner-registration',
   templateUrl: './business-owner-registration.component.html',
-  styleUrls: ['./business-owner-regitsration.component.css']
+  styleUrls: ['./business-owner-registration.component.css']
 })
 export class BusinessOwnerRegitrationComponent implements OnInit {
   firstFormGroup!: FormGroup;

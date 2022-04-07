@@ -34,19 +34,19 @@ public class SendMailServiceImpl implements SendMailService {
     }
 
     @Override
-    public void sendMailHTML(Mail mail) throws MessagingException {
+    public void sendMailHTML(Mail mail) {
         MimeMessage msg = javaMailSender.createMimeMessage();
-
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-
-        helper.setTo(mail.getRecipient());
-
-        helper.setSubject(mail.getSubject());
-        
-        msg.setContent(mail.getMessage(),"text/html");
+        try {
+        	MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+        	helper.setTo(mail.getRecipient());
+			helper.setSubject(mail.getSubject());
+			msg.setContent(mail.getMessage(),"text/html");
+			javaMailSender.send(msg);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 
 //        helper.addAttachment("hero.jpg", new ClassPathResource("hero.jpg"));
 
-        javaMailSender.send(msg);
     }
 }

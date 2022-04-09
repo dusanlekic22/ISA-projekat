@@ -1,9 +1,9 @@
 package isaproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import isaproject.config.PasswordEncoderService;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
@@ -19,18 +19,18 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 
 	private FishingTrainerRepository fishingTrainerRepository;
 	private RoleService roleService;
-	private PasswordEncoderService passwordEncoderService;
+	private PasswordEncoder passwordEncoder;
 	private AddressRepository addressRepository;
 	private BusinessOwnerRegistrationRequestRepository registrationRequestRepository;
-	
+
 	@Autowired
 	public FishingTrainerServiceImpl(FishingTrainerRepository fishingTrainerRepository, RoleService roleService,
-			PasswordEncoderService passwordEncoderService, AddressRepository addressRepository,
+			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
 			BusinessOwnerRegistrationRequestRepository registrationRequestRepository) {
 		super();
 		this.fishingTrainerRepository = fishingTrainerRepository;
 		this.roleService = roleService;
-		this.passwordEncoderService = passwordEncoderService;
+		this.passwordEncoder = passwordEncoder;
 		this.addressRepository = addressRepository;
 		this.registrationRequestRepository = registrationRequestRepository;
 	}
@@ -40,16 +40,15 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 //		addressRepository.save(businessOwnerDTO.getAddress());
 		FishingTrainer fishingTrainer = UserMapper.DTOToFishingTrainer(businessOwnerDTO);
 		fishingTrainer.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
-		fishingTrainer.setPassword(passwordEncoderService.passwordEncoder().encode(businessOwnerDTO.getPassword()));
-		
+		fishingTrainer.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
+
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);
 		request.setRegistrationExplanation(businessOwnerDTO.getRegistrationExplanation());
 		request.setUserEmail(fishingTrainer.getEmail());
 		registrationRequestRepository.save(request);
-		
+
 		return this.fishingTrainerRepository.save(fishingTrainer);
 	}
-
 
 }

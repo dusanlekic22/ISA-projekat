@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import isaproject.security.authority.JWToken;
@@ -24,8 +25,8 @@ import isaproject.service.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private PasswordEncoderService passwordEncoderService; 
-
+	private PasswordEncoder passwordEncoder;
+	
 	// Servis koji se koristi za citanje podataka o korisnicima aplikacije
 	@Autowired
 	private UserService userService;
@@ -53,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			
 			// 2. kroz koji enkoder da provuce lozinku koju je dobio od klijenta u zahtevu 
 			// da bi adekvatan hash koji dobije kao rezultat hash algoritma uporedio sa onim koji se nalazi u bazi (posto se u bazi ne cuva plain lozinka)
-			.passwordEncoder(passwordEncoderService.passwordEncoder());
+			.passwordEncoder(passwordEncoder);
 	}
 
 	// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru

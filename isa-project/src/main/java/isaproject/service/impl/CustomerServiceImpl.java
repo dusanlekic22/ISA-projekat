@@ -5,9 +5,9 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import isaproject.config.PasswordEncoderService;
 import isaproject.dto.UserDTO;
 import isaproject.mapper.UserMapper;
 import isaproject.model.Mail;
@@ -21,11 +21,11 @@ import net.bytebuddy.utility.RandomString;
 public class CustomerServiceImpl implements CustomerService {
 
 	private UserRepository repo;
-	private PasswordEncoderService passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	private SendMailService service;
 
 	@Autowired
-	public CustomerServiceImpl(UserRepository repo, PasswordEncoderService passwordEncoder, SendMailService service) {
+	public CustomerServiceImpl(UserRepository repo, PasswordEncoder passwordEncoder, SendMailService service) {
 		super();
 		this.repo = repo;
 		this.passwordEncoder = passwordEncoder;
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	public void register(UserDTO userDTO, String siteURL) throws UnsupportedEncodingException, MessagingException {
 		User user = UserMapper.UsertoUserDTO(userDTO);
-		String encodedPassword = passwordEncoder.passwordEncoder().encode(user.getPassword());
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
 
 		user.setPassword(encodedPassword);
 

@@ -5,12 +5,12 @@ import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Cottage;
+import isaproject.model.DateSpan;
 
 public class CottageQuickReservationDTO {
 
 	private long id;
-	private Date startDate;
-	private Date endDate;
+	private DateSpan dateSpan;
 	private String guestCapacity;
 	private Integer price;
 	private Set<AdditionalService> additionalService;
@@ -21,17 +21,12 @@ public class CottageQuickReservationDTO {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public Date getStartDate() {
-		return startDate;
+	
+	public DateSpan getDateSpan() {
+		return dateSpan;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setDateSpan(DateSpan dateSpan) {
+		this.dateSpan = dateSpan;
 	}
 	public String getGuestCapacity() {
 		return guestCapacity;

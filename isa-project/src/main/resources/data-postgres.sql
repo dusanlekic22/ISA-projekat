@@ -11,5 +11,5 @@
 
 --insert into role (name) values ('ROLE_COTTAGE_OWNER');
 --insert into app_user_roles (user_id, role_id) values (2, 2);
---insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
---insert into cottage (name, promo_description, bed_count, room_count, cottage_rules,address_id) values ('Vila Jezero', 'Najjaca', 3, 15,'Nema',1);
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into cottage (name, promo_description, bed_count, room_count, cottage_rules,address_id) values ('Vila Jezero', 'Najjaca', 3, 15,'Nema',1);

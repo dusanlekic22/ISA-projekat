@@ -42,8 +42,9 @@ export class CottageProfileComponent implements OnInit {
   imageString: string = '';
   cottageQuickReservation: ICottageQuickReservation = {
     id: 0,
-    startDate: new Date(),
-    endDate: new Date(),
+    dateSpan:{
+      startDate: new Date(),
+      endDate: new Date(),},
     guestCapacity: '',
     price: 0,
   };
@@ -127,17 +128,17 @@ export class CottageProfileComponent implements OnInit {
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     if (event.value != null) {
       if (type === 'inputStart' || type === 'changeStart') {
-        this.cottageQuickReservation.startDate.setFullYear(
+        this.cottageQuickReservation.dateSpan.startDate.setFullYear(
           event.value.getFullYear()
         );
-        this.cottageQuickReservation.startDate.setMonth(event.value.getMonth());
-        this.cottageQuickReservation.startDate.setDate(event.value.getDate());
+        this.cottageQuickReservation.dateSpan.startDate.setMonth(event.value.getMonth());
+        this.cottageQuickReservation.dateSpan.startDate.setDate(event.value.getDate());
       } else if (type === 'inputEnd' || type === 'changeEnd') {
-        this.cottageQuickReservation.endDate.setFullYear(
+        this.cottageQuickReservation.dateSpan.endDate.setFullYear(
           event.value.getFullYear()
         );
-        this.cottageQuickReservation.endDate.setMonth(event.value.getMonth());
-        this.cottageQuickReservation.endDate.setDate(event.value.getDate());
+        this.cottageQuickReservation.dateSpan.endDate.setMonth(event.value.getMonth());
+        this.cottageQuickReservation.dateSpan.endDate.setDate(event.value.getDate());
       }
     }
   }

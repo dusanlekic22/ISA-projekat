@@ -10,6 +10,8 @@ import { CottageService } from '../cottage.service';
   styleUrls: ['../cotage-style.css'],
 })
 export class CottageOwnerHomeComponent implements OnInit {
+  addFormVisible: boolean = false;
+  cottage!: ICottage[];
   filteredCottages!: ICottage[];
   cottages!: ICottage[];
   cottageId!: number;
@@ -33,6 +35,14 @@ export class CottageOwnerHomeComponent implements OnInit {
 
   cottageProfile(cottageId: number) {
     this._router.navigateByUrl(`cottageProfile/${cottageId}`);
+  }
+
+  addCottageClick(){
+    this.addFormVisible=true;
+  }
+
+  addCottage(){
+
   }
 
   deleteCottage(cottageId: number) {

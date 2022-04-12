@@ -1,10 +1,9 @@
 package isaproject.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -30,21 +27,19 @@ public class CottageQuickReservation implements Serializable {
 
 	public CottageQuickReservation() {
 	}
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TemporalType.DATE)
-	private Date startDate;
-	@Temporal(TemporalType.DATE)
-	private Date endDate;
+	@Embedded
+	private DateSpan dateSpan;
 	private String guestCapacity;
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation",fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
 	@ManyToOne(fetch = FetchType.EAGER,targetEntity = Cottage.class)
-	@JoinColumn(name = "cottage_id")
 	@JsonBackReference
+	@JoinColumn(name = "cottage_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Cottage cottage;
 	public long getId() {
@@ -54,23 +49,7 @@ public class CottageQuickReservation implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date param) {
-		this.startDate = param;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
+	
 	public String getGuestCapacity() {
 		return guestCapacity;
 	}
@@ -93,6 +72,14 @@ public class CottageQuickReservation implements Serializable {
 
 	public void setAdditionalService(Set<AdditionalService> param) {
 	    this.additionalService = param;
+	}
+	
+	public DateSpan getDateSpan() {
+		return dateSpan;
+	}
+
+	public void setDateSpan(DateSpan dateSpan) {
+		this.dateSpan = dateSpan;
 	}
 	
 	public Cottage getCottage() {

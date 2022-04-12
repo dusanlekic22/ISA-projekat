@@ -18,8 +18,11 @@ import { RegistrationComponent } from './pages/registration/registration/registr
 import { CottageOwnerProfileComponent } from './pages/cottage-owner-profile/cottage-owner-profile.component';
 import { NgpImagePickerModule } from 'ngp-image-picker';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModule} from 'angular-bootstrap-md';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     CottageProfileComponent,
     RegistrationComponent,
     CottageOwnerProfileComponent,
-    CottageOwnerHomeComponent
+    CottageOwnerHomeComponent,
+    AddCottageComponent,
   ],
   imports: [
     NgbModule,
@@ -45,9 +49,15 @@ import { MatNativeDateModule } from '@angular/material/core';
     AppRoutingModule,
     HttpClientModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    ModalModule,
+    TooltipModule,
+    PopoverModule,
+    ButtonsModule,
+    ReactiveFormsModule,
+    MDBBootstrapModule.forRoot()
   ],
-  providers: [],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

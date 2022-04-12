@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Cottage implements Serializable {
@@ -36,6 +39,7 @@ public class Cottage implements Serializable {
 	private Integer roomCount;
 	private String cottageRules;
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<CottageImage> cottageImage = new HashSet<>();
@@ -46,6 +50,8 @@ public class Cottage implements Serializable {
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
 	private CottageOwner cottageOwner;
+	@Embedded
+	private DateSpan availableReservationDateSpan;
 	public long getId() {
 		return id;
 	}

@@ -48,7 +48,7 @@ public class CottageServiceImpl implements CottageService {
 		}
 		return null;
 	}
-	
+	@Transactional
 	@Override
 	public CottageDTO save(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);

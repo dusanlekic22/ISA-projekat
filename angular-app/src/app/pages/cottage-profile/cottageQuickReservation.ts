@@ -1,7 +1,8 @@
+import { IDateSpan } from "./dateSpan";
+
 export interface ICottageQuickReservation{
     id:number;
-    startDate: Date;
-    endDate: Date;
+    dateSpan : IDateSpan;
     guestCapacity: string;
     price: number;
 }

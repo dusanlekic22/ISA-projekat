@@ -1,5 +1,6 @@
 package isaproject.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
 import isaproject.mapper.RequestMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
+import isaproject.model.User;
 import isaproject.service.UserService;
 
 @RestController
@@ -28,6 +30,12 @@ public class UserController {
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
+	}
+	
+	@GetMapping("/lol")
+	@PreAuthorize("hasRole('USER')")
+	public User user(Principal user) {
+		return this.userService.findByUsername(user.getName());
 	}
 	
 	@PostMapping("/acceptUser")

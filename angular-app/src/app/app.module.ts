@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,8 @@ import { BaseCottageComponent } from './components/baseCottage/base-cottage.comp
 import { ChooseRegistrationComponent } from './pages/registration/choose-registration/choose-registration.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,10 @@ import { BusinessOwnerRegitrationComponent } from './pages/registration/business
     MatTabsModule,
     MatSelectModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

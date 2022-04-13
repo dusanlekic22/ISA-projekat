@@ -50,6 +50,7 @@ export class RegistrationComponent implements OnInit {
       //   street: 'dr Ivana Ribara',
       //   city: 'Novi Sad',
       // },
+      roles: []
     };
 
     this._registrationService.submitForm(this.user).subscribe({

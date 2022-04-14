@@ -32,9 +32,7 @@ public class CottageImageServiceImpl implements CottageImageService {
 	@Override
 	public CottageImageDTO deleteById(Long id) {
 		CottageImageDTO cottageImageDTO = findById(id);
-
 		cottageImageRepository.deleteById(id);
 		return cottageImageDTO;
-
 	}
 }

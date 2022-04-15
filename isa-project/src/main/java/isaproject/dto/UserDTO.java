@@ -32,8 +32,7 @@ public class UserDTO {
 	}
 
 	public UserDTO(Long id, String username, String password, String firstName, String lastName, String email,
-			Boolean enabled, String verificationCode, Set<Role> roles, String phoneNumber, Address address,
-			Timestamp lastPasswordResetDate) {
+			Set<RoleDTO> roles, String phoneNumber, Address address) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -41,20 +40,9 @@ public class UserDTO {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.enabled = enabled;
-		this.verificationCode = verificationCode;
 		this.roles = roles;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.lastPasswordResetDate = lastPasswordResetDate;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public Long getId() {

@@ -1,10 +1,8 @@
 package isaproject.dto;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 import isaproject.model.Address;
-import isaproject.model.Role;
 
 public class CustomerDTO extends UserDTO {
 
@@ -15,10 +13,9 @@ public class CustomerDTO extends UserDTO {
 	}
 
 	public CustomerDTO(Long id, String username, String password, String firstName, String lastName, String email,
-			Boolean enabled, String verificationCode, Set<Role> roles, String phoneNumber, Address address,
-			Timestamp lastPasswordResetDate, String points, String loyalityProgram) {
-		super(id, username, password, firstName, lastName, email, enabled, verificationCode, roles, phoneNumber,
-				address, lastPasswordResetDate);
+			Set<RoleDTO> roles, String phoneNumber, Address address,String points, String loyalityProgram) {
+		super(id, username, password, firstName, lastName, email, roles, phoneNumber,
+				address);
 		this.points = points;
 		this.loyalityProgram = loyalityProgram;
 	}

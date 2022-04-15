@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.exception.MethodPathParamterNotValidException;
-import isaproject.exception.ResourceConflictException;
+import isaproject.exception.UserAlreadyExistAuthenticationException;
 import isaproject.model.User;
 import isaproject.service.CustomerService;
 import isaproject.service.UserService;

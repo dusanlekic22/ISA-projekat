@@ -1,13 +1,11 @@
 package isaproject.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import isaproject.model.FishingCourse;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "FishingTrainer")

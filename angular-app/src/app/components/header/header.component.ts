@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  IToken,
   IUser,
   IUserLogin,
 } from 'src/app/pages/registration/registration/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
-import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-header',
@@ -14,64 +12,57 @@ import { LoginService } from './login.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  user!: IUserLogin;
-  userToken!: IToken;
+  userLogin!: IUserLogin;
   username!: string;
   password!: string;
   errorMessage!: string;
   regLink: string = '/chooseRegistration';
   loggedInUser!: IUser;
 
-  constructor(private _loginService: LoginService,
+  constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService) { }
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getUser();
   }
 
   login() {
-    this.user = {
+    this.userLogin = {
       username: this.username,
       password: this.password,
     };
-    let enteredUsername = this.username;
-    this.authenticationService.login(this.user).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.getUser()
+    this.authenticationService.login(this.userLogin).subscribe({
+      next: (res) => {
+        this.getUser();
       },
       error: (error) => {
         this.errorMessage = error.message;
         console.error('There was an error!', error);
       },
     });
-    // this._loginService.submitForm(this.user).subscribe({
-    //   next: (data) => {
-    //     this.userToken = data;
-    //     console.log('x' + this.userToken.accessToken);
-    //     console.log('username' + enteredUsername);
-    //     localStorage.setItem('username', enteredUsername);
-    //     localStorage.setItem('accessToken', this.userToken.accessToken);
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error.message;
-    //     console.error('There was an error!', error);
-    //   },
-    // });
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 
   getUser() {
-    this.userService.getCurrentUser().subscribe({
-      next: (data) => {
-        console.log(data);
-        this.loggedInUser = data;
-      },
-      error: (error) => {
-        this.errorMessage = error.message;
-        console.error('There was an error!', error);
-      },
-    });
+    if (this.isLoggedIn()) {
+      this.userService.getCurrentUser().subscribe({
+        next: (user) => {
+          this.loggedInUser = user;
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        },
+      });
+    }
   }
-  
+
+  isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
+  }
 }

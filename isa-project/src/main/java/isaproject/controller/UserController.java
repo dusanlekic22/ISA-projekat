@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
+import isaproject.dto.UserDTO;
 import isaproject.mapper.RequestMapper;
+import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
-import isaproject.model.User;
 import isaproject.service.UserService;
 
 @RestController
@@ -32,10 +33,10 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@GetMapping("/lol")
-	@PreAuthorize("hasRole('USER')")
-	public User user(Principal user) {
-		return this.userService.findByUsername(user.getName());
+	@GetMapping()
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	public UserDTO user(Principal user) {
+		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
 	}
 	
 	@PostMapping("/acceptUser")

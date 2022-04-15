@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { IToken, IUser, IUserLogin } from '../pages/registration/registration/user';
+import { IToken, IUserLogin } from '../pages/registration/registration/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class AuthenticationService {
   private accessToken = localStorage.getItem('jwt');
 
   constructor(
+    private router: Router,
     private http: HttpClient,
   ) {
   }
@@ -26,8 +28,9 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('currentUser');
     this.accessToken = null;
-    // this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   getToken() {

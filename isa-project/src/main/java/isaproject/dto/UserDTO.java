@@ -1,10 +1,8 @@
 package isaproject.dto;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 import isaproject.model.Address;
-import isaproject.model.Role;
 
 public class UserDTO {
 	private Long id;
@@ -13,30 +11,26 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String verificationCode;
-	private Set<Role> roles;
+	private Set<RoleDTO> roles;
 	private String phoneNumber;
 	private Address address;
-	private Timestamp lastPasswordResetDate;
 
-	public UserDTO() {}
-	
+	public UserDTO() {
+	}
+
 	public UserDTO(String username, String password, String firstName, String lastName, String email,
-			String verificationCode, Set<Role> roles, String phoneNumber, Address address,
-			Timestamp lastPasswordResetDate) {
+			Set<RoleDTO> roles, String phoneNumber, Address address) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.verificationCode = verificationCode;
 		this.roles = roles;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -44,7 +38,6 @@ public class UserDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 
 	public String getUsername() {
 		return username;
@@ -86,19 +79,11 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
-	}
-
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
-
-	public Set<Role> getRoles() {
+	public Set<RoleDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<RoleDTO> roles) {
 		this.roles = roles;
 	}
 
@@ -116,14 +101,6 @@ public class UserDTO {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public Timestamp getLastPasswordResetDate() {
-		return lastPasswordResetDate;
-	}
-
-	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
-		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
 }

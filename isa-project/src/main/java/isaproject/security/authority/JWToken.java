@@ -19,7 +19,7 @@ import isaproject.model.User;
 public class JWToken {
 
 	// Izdavac tokena
-	@Value("spring-security-example")
+	@Value("isa-project")
 	private String APP_NAME;
 
 	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/

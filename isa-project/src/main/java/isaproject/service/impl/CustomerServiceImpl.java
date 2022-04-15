@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	public void register(UserDTO userDTO, String siteURL) throws UnsupportedEncodingException, MessagingException {
-		User user = UserMapper.UsertoUserDTO(userDTO);
+		User user = UserMapper.DTOToUser(userDTO);
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 
 		user.setPassword(encodedPassword);

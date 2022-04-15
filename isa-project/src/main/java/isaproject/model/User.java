@@ -6,6 +6,7 @@ import static javax.persistence.InheritanceType.JOINED;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -42,7 +43,9 @@ public class User implements Serializable, UserDetails {
 	private Boolean enabled;
 	private String verificationCode;
 	@ManyToMany(fetch = EAGER)
-	@JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles;
 	private String phoneNumber;
 	@OneToOne
@@ -70,7 +73,9 @@ public class User implements Serializable, UserDetails {
 	}
 
 	public void setPassword(String param) {
-		this.password = param;
+        Timestamp now = new Timestamp(new Date().getTime());
+        this.setLastPasswordResetDate(now);
+        this.password = param;
 	}
 
 	public String getFirstName() {

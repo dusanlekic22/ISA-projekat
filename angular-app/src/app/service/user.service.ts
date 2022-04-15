@@ -15,15 +15,22 @@ export class UserService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    var currentUser = localStorage.getItem('currentUser')
+    if (currentUser) {
+      this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(currentUser));
+      this.currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+    }
+  }
 
   public get userValue(): IUser {
     return this.currentUserSubject.value;
   }
 
   getCurrentUser(): Observable<IUser> {
-    return this.http.get<any>(`${environment.apiUrl}/user/lol`)
+    return this.http.get<any>(`${environment.apiUrl}/user`)
       .pipe(map((user: IUser) => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
       }));

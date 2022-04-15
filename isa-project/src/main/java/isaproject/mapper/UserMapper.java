@@ -1,10 +1,14 @@
 package isaproject.mapper;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.model.FishingTrainer;
+import isaproject.model.Role;
 import isaproject.model.User;
 import net.bytebuddy.utility.RandomString;
 
@@ -25,19 +29,42 @@ public class UserMapper {
 		return user;
 	}
 	
-	public static User UsertoUserDTO(UserDTO userDTO) {
+	public static User DTOToUser(UserDTO userDTO) {
 		User user = new User();
 		user.setUsername(userDTO.getUsername());
 		user.setPassword(userDTO.getPassword());
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmail(userDTO.getEmail());
-		user.setVerificationCode(userDTO.getVerificationCode());
-		user.setRoles(userDTO.getRoles());
 		user.setPhoneNumber(userDTO.getPhoneNumber());
 		user.setAddress(userDTO.getAddress());
-		user.setLastPasswordResetDate(userDTO.getLastPasswordResetDate());
 		return user;
+	}
+	
+	public static Set<RoleDTO> SetRoleToDTO(Set<Role> roles) {
+		Set<RoleDTO> rolesDTO = new HashSet<RoleDTO>();
+		roles.forEach(role -> rolesDTO.add(RoleToDTO(role)));
+		return rolesDTO;
+	}
+	
+	public static RoleDTO RoleToDTO(Role role) {
+		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setId(role.getId());
+		roleDTO.setName(role.getName());
+		return roleDTO;
+	}
+	
+	public static UserDTO UserToDTO(User user) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUsername(user.getUsername());
+		userDTO.setPassword(user.getPassword());
+		userDTO.setFirstName(user.getFirstName());
+		userDTO.setLastName(user.getLastName());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setRoles(SetRoleToDTO(user.getRoles()));
+		userDTO.setPhoneNumber(user.getPhoneNumber());
+		userDTO.setAddress(user.getAddress());
+		return userDTO;
 	}
 	
 }

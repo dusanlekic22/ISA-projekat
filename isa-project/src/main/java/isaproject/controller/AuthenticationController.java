@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import isaproject.dto.CustomerDTO;
 import isaproject.dto.JwtAuthenticationRequest;
 import isaproject.dto.UserDTO;
 import isaproject.dto.UserTokenState;
@@ -76,7 +77,7 @@ public class AuthenticationController {
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
-	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userRequest, HttpServletRequest request)
+	public ResponseEntity<UserDTO> addUser(@RequestBody CustomerDTO userRequest, HttpServletRequest request)
 			throws UnsupportedEncodingException, MessagingException {
 		
 		User existUser = this.userService.findByUsername(userRequest.getUsername());

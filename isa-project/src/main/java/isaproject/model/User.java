@@ -29,10 +29,11 @@ public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	public User() {}
+	public User() {
+	}
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String username;
 	private String password;
@@ -97,6 +98,14 @@ public class User implements Serializable, UserDetails {
 		this.email = param;
 	}
 
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -122,17 +131,17 @@ public class User implements Serializable, UserDetails {
 	}
 
 	public Address getAddress() {
-	    return address;
+		return address;
 	}
 
 	public void setAddress(Address param) {
-	    this.address = param;
+		this.address = param;
 	}
-	
+
 	public Timestamp getLastPasswordResetDate() {
 		return lastPasswordResetDate;
 	}
-	
+
 	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
@@ -160,10 +169,6 @@ public class User implements Serializable, UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return enabled;
-	}
-	
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
 	}
 
 }

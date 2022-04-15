@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guard/auth.guard';
+import { Role } from './model/role.enum';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
 import { CottageOwnerProfileComponent } from './pages/cottage-owner-profile/cottage-owner-profile.component';
 import { CottageProfileComponent } from './pages/cottage-profile/cottage-profile.component';
@@ -20,6 +22,8 @@ const routes: Routes = [
   {
     path: 'cottageOwnerHome',
     component: CottageOwnerHomeComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.CottageOwner] }
   },
   {
     path: 'cottageProfile',
@@ -37,6 +41,7 @@ const routes: Routes = [
     path: 'chooseRegistration',
     component: ChooseRegistrationComponent,
   },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

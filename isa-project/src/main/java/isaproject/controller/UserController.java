@@ -1,6 +1,8 @@
 package isaproject.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
+import isaproject.dto.RoleDTO;
+import isaproject.dto.UserDTO;
 import isaproject.mapper.RequestMapper;
+import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.service.UserService;
 
@@ -28,6 +33,18 @@ public class UserController {
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
+	}
+	
+	@GetMapping()
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	public UserDTO user(Principal user) {
+		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
+	}
+	
+	@PostMapping("/authorize")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	public boolean authorize(@RequestBody Set<RoleDTO> roles, Principal user) {
+		return this.userService.isUserAuthorized(roles, user.getName());
 	}
 	
 	@PostMapping("/acceptUser")

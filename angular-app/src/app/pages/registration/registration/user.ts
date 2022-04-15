@@ -7,6 +7,7 @@ export interface IUser {
   lastName: string;
   email: string;
   phoneNumber: string;
+  roles: IRole[]
 }
 
 export interface IUserLogin {
@@ -22,4 +23,9 @@ export interface IToken {
 export interface IAddress {
   street: string;
   city: string;
+}
+
+export interface IRole {
+  id: number;
+  name: string;
 }

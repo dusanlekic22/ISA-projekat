@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.CustomerDTO;
-import isaproject.dto.UserDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
@@ -41,13 +40,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public void register(CustomerDTO customerDTO, String siteURL)
 			throws UnsupportedEncodingException, MessagingException {
 		Customer customer = CustomerMapper.customerDTOtoCustomer(customerDTO);
-		String encodedPassword = passwordEncoder.encode(customer.getPassword());
 		customer.setRoles(roleService.findByName("ROLE_CUSTOMER"));
 		customer.setLoyalityProgram("Basic");
-		customer.setPassword(encodedPassword);
-
-		String randomCode = RandomString.make(64);
-		customer.setVerificationCode(randomCode);
+		customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+		customer.setVerificationCode(RandomString.make(64));
 		customer.setEnabled(false);
 		customer.setPoints("0");
 
@@ -58,8 +54,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	public void sendVerificationEmail(Customer user, String siteURL) throws MessagingException {
 		String toAddress = user.getEmail();
-		String fromAddress = "Your email address";
-		String senderName = "Your company name";
 		String subject = "Please verify your registration";
 		String content = "Dear " + user.getFirstName() + ",<br>"
 				+ "Please click the link below to verify your registration:<br>"

@@ -7,32 +7,52 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import isaproject.dto.UserDTO;
+import isaproject.dto.CustomerDTO;
+import isaproject.exception.MethodPathParamterNotValidException;
+import isaproject.exception.ResourceConflictException;
+import isaproject.model.User;
 import isaproject.service.CustomerService;
+import isaproject.service.UserService;
 
-@Controller
+@RestController
+@RequestMapping(value = "/customer", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CustomerController {
+	
 	@Autowired
-    private CustomerService service;
- 
+    private CustomerService customerService;
+	@Autowired
+	private UserService userService;
      
-    @PostMapping("/process_register")
-    public String processRegister(UserDTO user, HttpServletRequest request)
-            throws UnsupportedEncodingException, MessagingException {
-        service.register(user, getSiteURL(request));       
-        return "register_success";
-    }
+	// Endpoint za registraciju novog korisnika
+		@PostMapping("/signup")
+		public ResponseEntity<CustomerDTO> addUser(@RequestBody CustomerDTO userRequest, HttpServletRequest request)
+				throws UnsupportedEncodingException, MessagingException {
+			
+			User existUser = this.userService.findByUsername(userRequest.getUsername());
+			
+			if (existUser != null) {
+				throw new UserAlreadyExistAuthenticationException("Username already exists");
+			}
+			
+			this.customerService.register(userRequest, getSiteURL(request));
+			return new ResponseEntity<>(userRequest, HttpStatus.CREATED);
+		}
     
     @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
-        if (service.verify(code)) {
-            return "verify_success";
+    public ResponseEntity<String> verifyUser(@Param("code") String code) {
+        if (customerService.verify(code)) {
+            return new ResponseEntity<>("verify_success",HttpStatus.OK);
         } else {
-            return "verify_fail";
+            throw new MethodPathParamterNotValidException("Verification code not valid");
         }
     }
      

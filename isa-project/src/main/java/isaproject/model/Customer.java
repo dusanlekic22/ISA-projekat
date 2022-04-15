@@ -20,6 +20,7 @@ public class Customer extends User {
 	private Set<CottageReservation> cottageReservation;
 	@OneToMany(mappedBy = "customer")
 	private Collection<FishingReservation> fishingReservation;
+
 	public Customer() {
 	}
 
@@ -40,26 +41,26 @@ public class Customer extends User {
 	}
 
 	public Set<BoatReservation> getBoatReservation() {
-	    return boatReservation;
+		return boatReservation;
 	}
 
 	public void setBoatReservation(Set<BoatReservation> param) {
-	    this.boatReservation = param;
+		this.boatReservation = param;
 	}
 
 	public Set<CottageReservation> getCottageReservation() {
-	    return cottageReservation;
+		return cottageReservation;
 	}
 
 	public void setCottageReservation(Set<CottageReservation> param) {
-	    this.cottageReservation = param;
+		this.cottageReservation = param;
 	}
 
 	public Collection<FishingReservation> getFishingReservation() {
-	    return fishingReservation;
+		return fishingReservation;
 	}
 
 	public void setFishingReservation(Collection<FishingReservation> param) {
-	    this.fishingReservation = param;
+		this.fishingReservation = param;
 	}
 }

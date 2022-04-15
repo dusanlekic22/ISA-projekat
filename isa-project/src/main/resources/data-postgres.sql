@@ -5,5 +5,6 @@ insert into app_user (username, password, first_name, last_name, email, enabled,
 
 insert into role (name) values ('ROLE_ADMIN');
 insert into role (name) values ('ROLE_FISHING_TRAINER');
+insert into role (name) values ('ROLE_CUSTOMER');
 
 insert into app_user_roles (user_id, role_id) values (1, 1);

@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import isaproject.dto.CustomerDTO;
 import isaproject.dto.UserDTO;
-import isaproject.mapper.UserMapper;
+import isaproject.mapper.CustomerMapper;
+import isaproject.model.Customer;
 import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.repository.UserRepository;
 import isaproject.service.CustomerService;
+import isaproject.service.RoleService;
 import isaproject.service.SendMailService;
 import net.bytebuddy.utility.RandomString;
 
@@ -23,31 +26,37 @@ public class CustomerServiceImpl implements CustomerService {
 	private UserRepository repo;
 	private PasswordEncoder passwordEncoder;
 	private SendMailService service;
+	private RoleService roleService;
 
 	@Autowired
-	public CustomerServiceImpl(UserRepository repo, PasswordEncoder passwordEncoder, SendMailService service) {
+	public CustomerServiceImpl(UserRepository repo, PasswordEncoder passwordEncoder, SendMailService service,
+			RoleService roleService) {
 		super();
 		this.repo = repo;
 		this.passwordEncoder = passwordEncoder;
 		this.service = service;
+		this.roleService = roleService;
 	}
 
-	public void register(UserDTO userDTO, String siteURL) throws UnsupportedEncodingException, MessagingException {
-		User user = UserMapper.UsertoUserDTO(userDTO);
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-
-		user.setPassword(encodedPassword);
+	public void register(CustomerDTO customerDTO, String siteURL)
+			throws UnsupportedEncodingException, MessagingException {
+		Customer customer = CustomerMapper.customerDTOtoCustomer(customerDTO);
+		String encodedPassword = passwordEncoder.encode(customer.getPassword());
+		customer.setRoles(roleService.findByName("ROLE_CUSTOMER"));
+		customer.setLoyalityProgram("Basic");
+		customer.setPassword(encodedPassword);
 
 		String randomCode = RandomString.make(64);
-		user.setVerificationCode(randomCode);
-		user.setEnabled(false);
+		customer.setVerificationCode(randomCode);
+		customer.setEnabled(false);
+		customer.setPoints("0");
 
-		repo.save(user);
+		repo.save(customer);
 
-		sendVerificationEmail(user, siteURL);
+		sendVerificationEmail(customer, siteURL);
 	}
 
-	public void sendVerificationEmail(User user, String siteURL) throws MessagingException {
+	public void sendVerificationEmail(Customer user, String siteURL) throws MessagingException {
 		String toAddress = user.getEmail();
 		String fromAddress = "Your email address";
 		String senderName = "Your company name";

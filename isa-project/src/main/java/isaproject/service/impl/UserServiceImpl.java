@@ -2,6 +2,7 @@ package isaproject.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
+import isaproject.dto.RoleDTO;
 import isaproject.mapper.RequestMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.Mail;
+import isaproject.model.Role;
 import isaproject.model.User;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.UserRepository;
@@ -103,6 +106,17 @@ public class UserServiceImpl implements UserService {
 			requestDTOs.add(RequestMapper.BusinessOwnerRegistrationRequesToDTO(businessOwnerRegistrationRequest));
 		}
 		return requestDTOs;
+	}
+
+	@Override
+	public boolean isUserAuthorized(Set<RoleDTO> roles, String username) {
+		User user = userRepository.findByUsername(username);
+		for (Role userRole : user.getRoles()) {			
+			for (RoleDTO requiredRole : roles) {
+				if (userRole.getName().equals(requiredRole.getName())) return true;
+			}
+		}
+		return false;
 	}
 	
 }

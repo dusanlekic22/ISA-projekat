@@ -6,34 +6,16 @@ import { environment } from 'src/environments/environment';
 import { IUser } from '../pages/registration/registration/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  private currentUserSubject = new BehaviorSubject<IUser>({} as IUser);
-  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
-
-  constructor(
-    private http: HttpClient
-  ) {
-    var currentUser = localStorage.getItem('currentUser')
-    if (currentUser) {
-      this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(currentUser));
-      this.currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
-    }
-  }
-
-  public get userValue(): IUser {
-    return this.currentUserSubject.value;
-  }
+  constructor(private http: HttpClient) {}
 
   getCurrentUser(): Observable<IUser> {
-    return this.http.get<any>(`${environment.apiUrl}/user`)
-      .pipe(map((user: IUser) => {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
+    return this.http.get<any>(`${environment.apiUrl}/user`).pipe(
+      map((user: IUser) => {
         return user;
-      }));
+      })
+    );
   }
-
 }

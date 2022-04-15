@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.UserDTO;
 import isaproject.exception.ResourceConflictException;
+import isaproject.mapper.UserMapper;
 import isaproject.model.FishingTrainer;
 import isaproject.model.User;
 import isaproject.service.FishingTrainerService;
@@ -29,7 +31,7 @@ public class FishingTrainerController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> addUser(@RequestBody BusinessOwnerDTO businessOwnerDTO) {
+	public ResponseEntity<UserDTO> addUser(@RequestBody BusinessOwnerDTO businessOwnerDTO) {
 		User existUser = this.userService.findByUsername(businessOwnerDTO.getUsername());
 		
 		if (existUser != null) {
@@ -38,7 +40,7 @@ public class FishingTrainerController {
 		
 		FishingTrainer user = this.fishingTrainerService.registerFishingTrainer(businessOwnerDTO);
 		
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		return new ResponseEntity<>(UserMapper.UserToDTO(user), HttpStatus.CREATED);
 	}
 	
 }

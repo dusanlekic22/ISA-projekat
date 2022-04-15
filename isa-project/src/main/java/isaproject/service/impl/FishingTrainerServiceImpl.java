@@ -41,6 +41,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		FishingTrainer fishingTrainer = UserMapper.DTOToFishingTrainer(businessOwnerDTO);
 		fishingTrainer.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
 		fishingTrainer.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
+		fishingTrainer.setEnabled(false);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);

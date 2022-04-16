@@ -13,5 +13,5 @@ export interface ICottage{
     cottageRules : string;
     cottageImage : ICottageImage[];
     cottageReservation : ICottageReservation[];
-    cottageQuickReservation :  ICottageQuickReservation[];   
+    cottageQuickReservation :  ICottageQuickReservation[];
 }

@@ -8,6 +8,11 @@ public class AdditionalServiceDTO {
 	private String name;
 	private String price;
 	private Cottage cottage;
+	
+	public AdditionalServiceDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public long getId() {
 		return id;
 	}

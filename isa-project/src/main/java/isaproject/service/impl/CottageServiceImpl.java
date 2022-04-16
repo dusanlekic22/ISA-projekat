@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CottageDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.model.Cottage;
-import isaproject.model.CottageImage;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageService;
 
@@ -69,7 +68,6 @@ public class CottageServiceImpl implements CottageService {
 	public Set<CottageDTO> findByCottageName(String name) {
 		Set<Cottage> cottages = cottageRepository.findByName(name);
         Set<CottageDTO> dtos = new HashSet<>();
-        System.out.println(name);
         if(cottages.size()!=0){
         	
             CottageDTO dto;

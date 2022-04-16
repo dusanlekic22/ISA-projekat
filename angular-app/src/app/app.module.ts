@@ -23,6 +23,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModule} from 'angular-bootstrap-md';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
     PopoverModule,
     ButtonsModule,
     ReactiveFormsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    TagInputModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],

@@ -5,12 +5,14 @@ import { catchError, tap } from 'rxjs/operators';
 import { ICottage } from './cottage-profile/cottage';
 import { ICottageImage } from './cottage-profile/cottageImage';
 import { ICottageQuickReservation } from './cottage-profile/cottageQuickReservation';
+import { IAdditionalService } from './cottage-profile/additionalService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CottageService {
   private _cottageUrl = 'http://localhost:8080/cottage';
+  private _additionalServiceUrl = 'http://localhost:8080/additionalService';
   constructor(private _http: HttpClient) { }
 
   getCottageById(cottageId: number): Observable<ICottage> {
@@ -66,6 +68,20 @@ export class CottageService {
 
   getCottageQuickReservations(): Observable<ICottageQuickReservation[]> {
     return this._http.get<ICottageQuickReservation[]>(this._cottageUrl+'QuickReservation',).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getFreeAdditionalServices(): Observable<IAdditionalService[]> {
+    return this._http.get<IAdditionalService[]>(this._additionalServiceUrl+'/free',).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  addAdditionalService(additionalService:IAdditionalService,cottage:ICottage): Observable<IAdditionalService> {
+    return this._http.post<IAdditionalService>(this._additionalServiceUrl,{id:additionalService.id,name:additionalService.name,price:additionalService.price,cottage:cottage}).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

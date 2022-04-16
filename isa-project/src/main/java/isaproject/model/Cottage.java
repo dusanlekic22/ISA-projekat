@@ -7,9 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,12 +48,14 @@ public class Cottage implements Serializable {
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
 	private CottageOwner cottageOwner;
-	@Embedded
-	private DateSpan availableReservationDateSpan;
+	@ElementCollection
+	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
+	private Set<DateSpan> availableReservationDateSpan;
 	public long getId() {
 		return id;
 	}

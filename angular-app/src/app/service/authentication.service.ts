@@ -1,12 +1,13 @@
-import { IRole } from './../pages/registration/registration/user';
+import { UserService } from './user.service';
+import { IRole, IUser } from './../pages/registration/registration/user';
 import { Role } from './../model/role.enum';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IToken, IUserLogin } from '../pages/registration/registration/user';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

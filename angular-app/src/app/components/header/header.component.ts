@@ -1,3 +1,4 @@
+import { Role } from './../../model/role.enum';
 import { Component, OnInit } from '@angular/core';
 import {
   IDirective,
@@ -26,7 +27,9 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getUser();
+    if (this.isLoggedIn()) {
+      this.getUser();
+    }
   }
 
   login() {
@@ -46,30 +49,24 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout();
+    this.userService.purgeUser();
     this.authenticationService.logout();
   }
 
   getUser() {
-    if (this.isLoggedIn()) {
-      this.userService.getCurrentUser().subscribe({
-        next: (user) => {
-          this.loggedInUser = user;
-        },
-        error: (error) => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        },
-      });
-    }
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.loggedInUser = user;
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+        console.error('There was an error!', error);
+      },
+    });
   }
 
   isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn();
     
-  }
-
-  whoIsActive(roles: Array<string>) {
-    return this.userService.checkRole(roles); 
   }
 }

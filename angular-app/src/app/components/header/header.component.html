@@ -14,7 +14,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="#"  *ngIf="this.whoIsActive(['ROLE_ADMIN','ROLE_CUSTOMER'])"
+        <a class="navbar-brand" href="#"  *appHasRole="['ROLE_ADMIN','ROLE_CUSTOMER']"
           >KVZR</a
         >
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

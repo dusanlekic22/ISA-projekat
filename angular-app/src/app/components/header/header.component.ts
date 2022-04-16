@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  IDirective,
   IUser,
   IUserLogin,
 } from 'src/app/pages/registration/registration/user';
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    this.userService.logout();
     this.authenticationService.logout();
   }
 
@@ -64,5 +66,10 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn();
+    
+  }
+
+  getActive(roles: Array<string>):IDirective {
+    return { ...this.userService.loggedUser, activeRoles: roles };
   }
 }

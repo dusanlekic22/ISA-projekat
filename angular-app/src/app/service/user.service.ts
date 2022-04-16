@@ -9,13 +9,22 @@ import { IUser } from '../pages/registration/registration/user';
   providedIn: 'root',
 })
 export class UserService {
+
+  loggedUser!: IUser;
+
   constructor(private http: HttpClient) {}
 
   getCurrentUser(): Observable<IUser> {
     return this.http.get<any>(`${environment.apiUrl}/user`).pipe(
       map((user: IUser) => {
+        this.loggedUser = user;
         return user;
       })
     );
   }
+
+  logout() {
+    this.loggedUser = {} as IUser;
+  }
+
 }

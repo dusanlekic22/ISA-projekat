@@ -1,3 +1,4 @@
+import { HasRoleDirective } from './directive/hasRole.directive';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +37,7 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     BaseCottageComponent,
     BusinessOwnerRegitrationComponent,
     ChooseRegistrationComponent,
+    HasRoleDirective,
   ],
   imports: [
     NgImageSliderModule,

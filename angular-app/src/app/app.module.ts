@@ -24,8 +24,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
-import { HasRoleDirective } from './directives/has-role.directive';
-import { HasRolesDirective } from './directives/has-roles.directive';
 
 @NgModule({
   declarations: [
@@ -38,8 +36,6 @@ import { HasRolesDirective } from './directives/has-roles.directive';
     BaseCottageComponent,
     BusinessOwnerRegitrationComponent,
     ChooseRegistrationComponent,
-    HasRoleDirective,
-    HasRolesDirective
   ],
   imports: [
     NgImageSliderModule,
@@ -57,7 +53,6 @@ import { HasRolesDirective } from './directives/has-roles.directive';
     MatTabsModule,
     MatSelectModule,
   ],
-  exports: [HasRoleDirective,HasRolesDirective],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

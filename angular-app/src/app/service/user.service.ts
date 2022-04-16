@@ -27,4 +27,18 @@ export class UserService {
     this.loggedUser = {} as IUser;
   }
 
+  checkRole(roles: Array<string>) {
+    if (this.loggedUser !== undefined) {
+      if (this.loggedUser.roles !== undefined) {
+        if (this.loggedUser.roles.
+          some((r) => roles.includes(r.name))) {
+          return true;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
 }

@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
     
   }
 
-  getActive(roles: Array<string>):IDirective {
-    return { ...this.userService.loggedUser, activeRoles: roles };
+  whoIsActive(roles: Array<string>) {
+    return this.userService.checkRole(roles); 
   }
 }

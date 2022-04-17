@@ -8,6 +8,7 @@ import isaproject.model.CottageImage;
 import isaproject.model.CottageOwner;
 import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
+import isaproject.model.DateSpan;
 
 public class CottageDTO {
 	
@@ -24,6 +25,8 @@ public class CottageDTO {
 	private Set<CottageImage> cottageImage;
 	private Set<CottageReservation> cottageReservation;
 	private Set<AdditionalService> additionalService;
+	private Set<DateSpan> availableReservationDateSpan;
+	
 	private CottageOwner cottageOwner;
 	
 	public CottageDTO() {
@@ -83,6 +86,12 @@ public class CottageDTO {
 	}
 	public void setCottageImage(Set<CottageImage> cottageImage) {
 		this.cottageImage = cottageImage;
+	}
+	public Set<DateSpan> getAvailableReservationDateSpan() {
+		return availableReservationDateSpan;
+	}
+	public void setAvailableReservationDateSpan(Set<DateSpan> availableReservationDateSpan) {
+		this.availableReservationDateSpan = availableReservationDateSpan;
 	}
 	public Set<CottageReservation> getCottageReservation() {
 		return cottageReservation;

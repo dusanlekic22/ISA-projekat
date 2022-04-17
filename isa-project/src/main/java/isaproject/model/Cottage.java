@@ -47,15 +47,15 @@ public class Cottage implements Serializable {
 	private Set<CottageImage> cottageImage = new HashSet<>();
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
 	private CottageOwner cottageOwner;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
-	private Set<DateSpan> availableReservationDateSpan;
+	private Set<DateSpan> availableReservationDateSpan = new HashSet<DateSpan>();
 	public long getId() {
 		return id;
 	}
@@ -94,6 +94,14 @@ public class Cottage implements Serializable {
 
 	public void setCottageRules(String param) {
 		this.cottageRules = param;
+	}
+
+	public Set<DateSpan> getAvailableReservationDateSpan() {
+		return availableReservationDateSpan;
+	}
+
+	public void setAvailableReservationDateSpan(Set<DateSpan> availableReservationDateSpan) {
+		this.availableReservationDateSpan = availableReservationDateSpan;
 	}
 
 	public Set<CottageQuickReservation> getCottageQuickReservation() {

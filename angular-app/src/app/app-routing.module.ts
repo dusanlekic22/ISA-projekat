@@ -26,7 +26,7 @@ const routes: Routes = [
     data: { roles: [Role.CottageOwner] }
   },
   {
-    path: 'cottageProfile',
+    path: 'cottageProfile/:cottageId',
     component: CottageProfileComponent,
   },
   {

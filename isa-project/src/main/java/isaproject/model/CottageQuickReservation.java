@@ -1,18 +1,23 @@
 package isaproject.model;
 
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "CottageQuickReservation")
@@ -22,19 +27,21 @@ public class CottageQuickReservation implements Serializable {
 
 	public CottageQuickReservation() {
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TIMESTAMP)
-	private Date startDate;
-	@Temporal(TIMESTAMP)
-	private Date endDate;
+	@Embedded
+	private DateSpan dateSpan;
 	private String guestCapacity;
-	private String additionalService;
 	private Integer price;
-	@OneToMany(mappedBy = "cottageQuickReservation")
-	private Collection<AdditionalService> additionalService_1;
+	@OneToMany(mappedBy = "cottageQuickReservation",fetch = FetchType.EAGER)
+	private Set<AdditionalService> additionalService;
+	@ManyToOne(fetch = FetchType.EAGER,targetEntity = Cottage.class)
+	@JsonBackReference
+	@JoinColumn(name = "cottage_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Cottage cottage;
 	public long getId() {
 		return id;
 	}
@@ -42,37 +49,13 @@ public class CottageQuickReservation implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date param) {
-		this.startDate = param;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
+	
 	public String getGuestCapacity() {
 		return guestCapacity;
 	}
 
 	public void setGuestCapacity(String param) {
 		this.guestCapacity = param;
-	}
-
-	public String getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(String param) {
-		this.additionalService = param;
 	}
 
 	public Integer getPrice() {
@@ -83,12 +66,28 @@ public class CottageQuickReservation implements Serializable {
 		this.price = param;
 	}
 
-	public Collection<AdditionalService> getAdditionalService_1() {
-	    return additionalService_1;
+	public Set<AdditionalService> getAdditionalService() {
+	    return additionalService;
 	}
 
-	public void setAdditionalService_1(Collection<AdditionalService> param) {
-	    this.additionalService_1 = param;
+	public void setAdditionalService(Set<AdditionalService> param) {
+	    this.additionalService = param;
+	}
+	
+	public DateSpan getDateSpan() {
+		return dateSpan;
+	}
+
+	public void setDateSpan(DateSpan dateSpan) {
+		this.dateSpan = dateSpan;
+	}
+	
+	public Cottage getCottage() {
+	    return cottage;
+	}
+
+	public void setCottage(Cottage param) {
+	    this.cottage = param;
 	}
 
 }

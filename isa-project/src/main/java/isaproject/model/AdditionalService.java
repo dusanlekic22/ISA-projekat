@@ -4,12 +4,17 @@ import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import isaproject.model.BoatReservation;
 
 @Entity
 @Table(name = "AdditionalService")
@@ -29,7 +34,8 @@ public class AdditionalService implements Serializable {
 	private Boat boat;
 	@ManyToOne(fetch = LAZY)
 	private CottageQuickReservation cottageQuickReservation;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Cottage cottage;
 	@ManyToOne(fetch = LAZY)
 	private FishingCourse fishingCourse;

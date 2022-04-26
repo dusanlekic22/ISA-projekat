@@ -1,21 +1,26 @@
 package isaproject.model;
 
+import static javax.persistence.FetchType.LAZY;
+
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import isaproject.model.CottageOwner;
-
-import javax.persistence.ManyToOne;
-import static javax.persistence.FetchType.LAZY;
-import javax.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Cottage implements Serializable {
@@ -29,23 +34,28 @@ public class Cottage implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
 	private Integer roomCount;
 	private String cottageRules;
-	@OneToMany
-	private Set<CottageQuickReservation> cottageQuickReservation;
-	@OneToMany(mappedBy = "cottage")
-	private Set<CottageImage> cottageImage;
-	@OneToMany(mappedBy = "cottage")
-	private Set<CottageReservation> cottageReservation;
-	@OneToMany(mappedBy = "cottage")
-	private Collection<AdditionalService> additionalService;
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<CottageImage> cottageImage = new HashSet<>();
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	private Set<CottageReservation> cottageReservation = new HashSet<>();
+	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<AdditionalService> additionalService = new HashSet<>();
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
 	private CottageOwner cottageOwner;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
+	private Set<DateSpan> availableReservationDateSpan = new HashSet<DateSpan>();
 	public long getId() {
 		return id;
 	}
@@ -86,6 +96,14 @@ public class Cottage implements Serializable {
 		this.cottageRules = param;
 	}
 
+	public Set<DateSpan> getAvailableReservationDateSpan() {
+		return availableReservationDateSpan;
+	}
+
+	public void setAvailableReservationDateSpan(Set<DateSpan> availableReservationDateSpan) {
+		this.availableReservationDateSpan = availableReservationDateSpan;
+	}
+
 	public Set<CottageQuickReservation> getCottageQuickReservation() {
 	    return cottageQuickReservation;
 	}
@@ -101,6 +119,11 @@ public class Cottage implements Serializable {
 	public void setCottageImage(Set<CottageImage> param) {
 	    this.cottageImage = param;
 	}
+	
+	public void addCottageImage(CottageImage param) {
+	    param.setCottage(this);
+	    cottageImage.add(param);
+	}
 
 	public Set<CottageReservation> getCottageReservation() {
 	    return cottageReservation;
@@ -110,11 +133,11 @@ public class Cottage implements Serializable {
 	    this.cottageReservation = param;
 	}
 
-	public Collection<AdditionalService> getAdditionalService() {
+	public Set<AdditionalService> getAdditionalService() {
 	    return additionalService;
 	}
 
-	public void setAdditionalService(Collection<AdditionalService> param) {
+	public void setAdditionalService(Set<AdditionalService> param) {
 	    this.additionalService = param;
 	}
 
@@ -124,6 +147,22 @@ public class Cottage implements Serializable {
 
 	public void setCottageOwner(CottageOwner param) {
 	    this.cottageOwner = param;
+	}
+
+	public Integer getBedCount() {
+		return bedCount;
+	}
+
+	public void setBedCount(Integer bedCount) {
+		this.bedCount = bedCount;
+	}
+
+	public Integer getRoomCount() {
+		return roomCount;
+	}
+
+	public void setRoomCount(Integer roomCount) {
+		this.roomCount = roomCount;
 	}
 
 }

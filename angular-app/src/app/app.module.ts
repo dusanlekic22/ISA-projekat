@@ -25,6 +25,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModule} from 'angular-bootstrap-md';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
   declarations: [
@@ -38,27 +45,37 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     BusinessOwnerRegitrationComponent,
     ChooseRegistrationComponent,
     HasRoleDirective,
+    CottageOwnerHomeComponent,
+    AddCottageComponent,
   ],
   imports: [
+    NgbModule,
     NgImageSliderModule,
+    BrowserModule,
     NgpImagePickerModule,
     FormsModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    BrowserModule,
     AppRoutingModule,
-    NgbModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ModalModule,
+    TooltipModule,
+    PopoverModule,
+    ButtonsModule,
+    ReactiveFormsModule,
+    MDBBootstrapModule.forRoot(),
+    TagInputModule
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-  ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageDTO;
 import isaproject.mapper.CottageMapper;
+import isaproject.model.Address;
 import isaproject.model.Cottage;
+import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageService;
 
@@ -18,6 +20,8 @@ public class CottageServiceImpl implements CottageService {
 	
 	@Autowired
 	private CottageRepository cottageRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	@Transactional
 	public CottageDTO findById(Long id) {
@@ -51,9 +55,11 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public CottageDTO save(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
+		addressRepository.save(cottageDTO.getAddress());
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
-	
+
+	@Transactional
 	@Override
 	public CottageDTO update(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);

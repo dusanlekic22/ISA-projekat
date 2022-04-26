@@ -16,7 +16,6 @@ export class CottageProfileComponent implements OnInit {
     id: 0,
     name: '',
     address: {
-      id: 0,
       city: 'Kraljevo',
       country: 'Srbija',
       latitude: '73',
@@ -78,32 +77,7 @@ export class CottageProfileComponent implements OnInit {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-    },
-    {
-      image: '../assets/img/theme/team-3-800x800.jpg',
-      thumbImage: 'assets/img/theme/profile-cover.jpg',
-      alt: 'alt of image',
-    },
-    {
-      image: '../assets/img/theme/team-3-800x800.jpg',
-      thumbImage: 'assets/img/theme/profile-cover.jpg',
-      alt: 'alt of image',
-    },
-    {
-      image: '../assets/img/theme/team-3-800x800.jpg',
-      thumbImage: 'assets/img/theme/profile-cover.jpg',
-      alt: 'alt of image',
-    },
-    {
-      image: '../assets/img/theme/team-3-800x800.jpg',
-      thumbImage: 'assets/img/theme/profile-cover.jpg',
-      alt: 'alt of image',
-    },
-    {
-      image: '../assets/img/theme/team-3-800x800.jpg',
-      thumbImage: 'assets/img/theme/profile-cover.jpg',
-      alt: 'alt of image',
-    },
+    }
   ];
 
   constructor(

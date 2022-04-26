@@ -17,7 +17,6 @@ export class AddCottageComponent implements OnInit {
     id: 0,
     name: '',
     address: {
-      id: 0,
       city: 'Kraljevo',
       country: 'Srbija',
       latitude: '73',

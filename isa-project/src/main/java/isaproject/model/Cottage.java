@@ -34,7 +34,7 @@ public class Cottage implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;

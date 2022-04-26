@@ -22,6 +22,7 @@ public class CottageImageServiceImpl implements CottageImageService {
 		return CottageImageMapper.CottageImageToCottageImageDTO(cottageImage);
 	}
 
+	@Transactional
 	@Override
 	public CottageImageDTO save(CottageImageDTO cottageImageDTO) {
 		CottageImage cottageImage = CottageImageMapper.CottageImageDTOToCottageImage(cottageImageDTO);

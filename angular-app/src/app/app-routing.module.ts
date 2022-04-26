@@ -21,9 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'cottageOwnerHome',
-    component: CottageOwnerHomeComponent,
-    canActivate: [AuthGuard],
-    data: { roles: [Role.CottageOwner] }
+    component: CottageOwnerHomeComponent
   },
   {
     path: 'cottageProfile/:cottageId',

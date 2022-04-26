@@ -1,6 +1,7 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
 import { CottageService } from '../cottage.service';
 
@@ -41,8 +42,11 @@ export class CottageOwnerHomeComponent implements OnInit {
     this.addFormVisible=true;
   }
 
-  addCottage(){
-
+  added(submitted:boolean){
+    if(submitted)
+    {
+      this.getCottages();
+    }
   }
 
   deleteCottage(cottageId: number) {

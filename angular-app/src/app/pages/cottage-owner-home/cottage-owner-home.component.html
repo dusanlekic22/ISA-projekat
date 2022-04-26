@@ -35,7 +35,7 @@
       <div class="card shadow">
         <div class="card-header border-0">
           <h3 class="mb-0">Cottages</h3>
-          <app-add-cottage></app-add-cottage>
+          <app-add-cottage (submitted)="added($event)"></app-add-cottage>
         </div>
         <div class="table-responsive"  style="overflow: visible;">
           <table class="table align-items-center table-flush">

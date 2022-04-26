@@ -235,7 +235,7 @@
             </mdb-success>
           </div>
           <div class="md-form mb-4">
-            <label>Additional services</label>
+            <label>Additional services(Format:Name Price)</label>
             <tag-input
               (onAdd)="onItemAdded($event)"
               [(ngModel)]="additionalServiceTags"
@@ -271,7 +271,7 @@
                 <input
                   matEndDate
                   placeholder="End date"
-                  [min]="minDate" 
+                  [min]="minDate"
                   [(ngModel)]="endDate"
                 />
               </mat-date-range-input>
@@ -295,18 +295,21 @@
             </span>
             <div class="md-form mt-5">
               <label for="">Appointed terms : </label>
-              <span *ngFor="let term of avaliableDateSpans"
-                >{{ term.dateSpan.startDate }}-{{
-                  term.dateSpan.endDate
-                }},</span
-              >
+              <div *ngFor="let term of cottage.availableReservationDateSpan">
+                {{ term.startDate | date: "dd/MM/yyyy" }}-{{
+                  term.endDate | date: "dd/MM/yyyy"
+                }}
+                <button (click)="removeTerm(term)" mat-icon-button color="primary">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
           <button
-            (click)="addCottage()"
+            (click)="addCottage(true)"
             mdbBtn
             color="default"
             class="waves-light"

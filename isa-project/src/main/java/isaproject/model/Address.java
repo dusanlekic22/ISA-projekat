@@ -14,16 +14,6 @@ public class Address implements Serializable {
 
 	public Address() {
 	}
-	
-
-	public Address(Address address) {
-		this.street = address.street;
-		this.city = address.city;
-		this.country = address.country;
-		this.latitude = address.latitude;
-		this.longitude = address.longitude;
-	}
-
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

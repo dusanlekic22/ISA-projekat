@@ -6,11 +6,23 @@ import java.util.Set;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
+import isaproject.model.CottageOwner;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Role;
 import isaproject.model.User;
 
 public class UserMapper {
+	
+	public static CottageOwner DTOToCottageOwner(BusinessOwnerDTO businessOwnerDTO) {
+		CottageOwner user = new CottageOwner();
+		user.setUsername(businessOwnerDTO.getUsername());
+		user.setFirstName(businessOwnerDTO.getFirstName());
+		user.setLastName(businessOwnerDTO.getLastName());
+		user.setEmail(businessOwnerDTO.getEmail());
+		user.setPhoneNumber(businessOwnerDTO.getPhoneNumber());
+		user.setAddress(businessOwnerDTO.getAddress());
+		return user;
+	}
 
 	public static FishingTrainer DTOToFishingTrainer(BusinessOwnerDTO businessOwnerDTO) {
 		FishingTrainer user = new FishingTrainer();

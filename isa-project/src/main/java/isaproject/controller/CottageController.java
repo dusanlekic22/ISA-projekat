@@ -34,10 +34,10 @@ public class CottageController {
 		return cottageService.findAll();
 	}
 	
-	@GetMapping("/{cottageId}")
+	@GetMapping("/{id}")
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")	
-	public CottageDTO loadById(@PathVariable Long cottageId) {
-		return cottageService.findById(cottageId);
+	public CottageDTO loadById(@PathVariable("id") Long id) {
+		return cottageService.findById(id);
 	}
 	
 	@PostMapping("/update")
@@ -60,9 +60,9 @@ public class CottageController {
 		return cottageService.findByCottageName(cottageName);
 	}
 	
-	@DeleteMapping("/{cottageId}")
+	@DeleteMapping("/{id}")
 	@ResponseBody
-	public CottageDTO deleteById(@PathVariable("cottageId") Long id) {
+	public CottageDTO deleteById(@PathVariable("id") Long id) {
 		return cottageService.deleteById(id);
 	}
 }

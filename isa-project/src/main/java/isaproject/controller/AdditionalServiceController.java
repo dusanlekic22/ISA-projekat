@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.AdditionalServiceDTO;
-import isaproject.dto.CottageDTO;
 import isaproject.service.AdditionalServiceService;
 
 @RestController
@@ -34,8 +34,14 @@ public class AdditionalServiceController {
 	
 	@GetMapping("/free")
 	@ResponseBody
-	public Set<AdditionalServiceDTO> getAll(){
+	public Set<AdditionalServiceDTO> getFree(){
 		return additionalServiceService.findFree();
+	}
+	
+	@GetMapping("/cottage/{id}")
+	@ResponseBody
+	public Set<AdditionalServiceDTO> getByCottageId(@PathVariable("id") Long id){
+		return additionalServiceService.findByCottageId(id);
 	}
 
 }

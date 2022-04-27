@@ -1,11 +1,9 @@
 package isaproject.model;
 
-import javax.persistence.Entity;
-
 import java.util.Collection;
-import javax.persistence.OneToMany;
 
-import isaproject.model.Cottage;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class CottageOwner extends User {

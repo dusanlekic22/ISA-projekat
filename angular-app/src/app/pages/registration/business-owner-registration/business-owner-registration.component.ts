@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BusinessType } from '../business-type';
 import { RegistrationService } from '../registration.service';
 import { IBusinessOwner } from './business-owner';
@@ -57,11 +58,26 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
     };
     if (this.selectedBusiness == BusinessType.FishingTrainer) {
       this.registerFishingTrainer();
+    }else if (this.selectedBusiness == BusinessType.CottageOwner){
+      this.registerCottageOwner();
     }
   }
 
   registerFishingTrainer() {
     this._registrationService.registerFishingTrainer(this.user).subscribe({
+      next: (data) => {
+        this.user = data;
+        console.log('pozvan' + data);
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  registerCottageOwner() {
+    this._registrationService.registerCottageOwner(this.user).subscribe({
       next: (data) => {
         this.user = data;
         console.log('pozvan' + data);

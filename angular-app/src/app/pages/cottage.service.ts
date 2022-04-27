@@ -22,6 +22,14 @@ export class CottageService {
     );
   }
 
+  getCottagesByCottageOwnerId(cottageOwnerId: number): Observable<ICottage[]> {
+    return this._http.get<ICottage[]>(this._cottageUrl + `/owner/${cottageOwnerId}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+
   getCottages(): Observable<ICottage[]> {
     return this._http.get<ICottage[]>(this._cottageUrl).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),

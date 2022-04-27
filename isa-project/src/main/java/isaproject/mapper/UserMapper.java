@@ -15,6 +15,7 @@ public class UserMapper {
 	
 	public static CottageOwner DTOToCottageOwner(BusinessOwnerDTO businessOwnerDTO) {
 		CottageOwner user = new CottageOwner();
+		user.setId(businessOwnerDTO.getId());
 		user.setUsername(businessOwnerDTO.getUsername());
 		user.setFirstName(businessOwnerDTO.getFirstName());
 		user.setLastName(businessOwnerDTO.getLastName());
@@ -37,6 +38,7 @@ public class UserMapper {
 	
 	public static User DTOToUser(UserDTO userDTO) {
 		User user = new User();
+		user.setId(userDTO.getId());
 		user.setUsername(userDTO.getUsername());
 		user.setPassword(userDTO.getPassword());
 		user.setFirstName(userDTO.getFirstName());
@@ -62,6 +64,7 @@ public class UserMapper {
 	
 	public static UserDTO UserToDTO(User user) {
 		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
 		userDTO.setUsername(user.getUsername());
 		userDTO.setPassword(user.getPassword());
 		userDTO.setFirstName(user.getFirstName());

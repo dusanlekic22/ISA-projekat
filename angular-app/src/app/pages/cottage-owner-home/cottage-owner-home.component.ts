@@ -1,9 +1,11 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
 import { CottageService } from '../cottage.service';
+import { IUser } from '../registration/registration/user';
 
 @Component({
   selector: 'app-cottage-owner-home',
@@ -17,21 +19,26 @@ export class CottageOwnerHomeComponent implements OnInit {
   cottages!: ICottage[];
   cottageId!: number;
   filter:string = '';
+  cottageOwner!:IUser;
 
   constructor(
     private _router: Router,
-    private _cottageService: CottageService
+    private _cottageService: CottageService,
+    private _userService: UserService
   ) {}
 
-  getCottages(): void{
-    this._cottageService.getCottages().subscribe((cottages) => {
+  getCottages(ownerId : number): void{
+    this._cottageService.getCottagesByCottageOwnerId(ownerId).subscribe((cottages) => {
       this.cottages = cottages;
       this.filteredCottages = this.cottages;
     });
   }
 
   ngOnInit(): void {
-   this.getCottages();
+    this._userService.currentUser.subscribe((user) => {
+      this.cottageOwner = user;
+      this.getCottages(user.id);
+    });
   }
 
   cottageProfile(cottageId: number) {
@@ -45,13 +52,13 @@ export class CottageOwnerHomeComponent implements OnInit {
   added(submitted:boolean){
     if(submitted)
     {
-      this.getCottages();
+      this.getCottages(this.cottageOwner.id);
     }
   }
 
   deleteCottage(cottageId: number) {
     this._cottageService.deleteCottage(cottageId).subscribe((cottages) => {
-      this.getCottages();
+      this.getCottages(this.cottageOwner.id);
     });
   }
 

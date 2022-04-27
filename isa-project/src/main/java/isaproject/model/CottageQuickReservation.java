@@ -14,9 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -40,7 +37,6 @@ public class CottageQuickReservation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER,targetEntity = Cottage.class)
 	@JsonBackReference
 	@JoinColumn(name = "cottage_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Cottage cottage;
 	public long getId() {
 		return id;

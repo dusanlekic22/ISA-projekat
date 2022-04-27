@@ -17,4 +17,8 @@ export class RegistrationService {
   registerFishingTrainer(user: IBusinessOwner): Observable<IBusinessOwner> {
     return this.http.post<any>('http://localhost:8080/fishingTrainer/signup', user);
   }
+
+  registerCottageOwner(user: IBusinessOwner): Observable<IBusinessOwner> {
+    return this.http.post<any>('http://localhost:8080/cottageOwner/signup', user);
+  }
 }

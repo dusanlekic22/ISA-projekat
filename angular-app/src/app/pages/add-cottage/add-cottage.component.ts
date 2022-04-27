@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { tap } from 'rxjs';
+import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
 import { IDateSpan } from '../cottage-profile/dateSpan';
@@ -31,6 +32,15 @@ export class AddCottageComponent implements OnInit {
     cottageReservation: [],
     cottageQuickReservation: [],
     availableReservationDateSpan: [],
+    cottageOwner : { 
+      id: 0,
+      username: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      roles: []},
   };
 
   @Output() submitted = new EventEmitter<boolean>();
@@ -41,6 +51,9 @@ export class AddCottageComponent implements OnInit {
   minDate!: Date;
 
   ngOnInit(): void {
+    this._userService.currentUser.subscribe((user) => {
+      this.cottage.cottageOwner = user;
+    });
     this._cottageService
       .getFreeAdditionalServices()
       .subscribe((additionalService) => {
@@ -51,7 +64,8 @@ export class AddCottageComponent implements OnInit {
 
   validatingForm: FormGroup;
 
-  constructor(private _cottageService: CottageService) {
+  constructor(private _cottageService: CottageService,
+    private _userService: UserService) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
       loginFormModalPassword: new FormControl('', Validators.required),

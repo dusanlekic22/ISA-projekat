@@ -60,6 +60,12 @@ public class CottageController {
 		return cottageService.findByCottageName(cottageName);
 	}
 	
+	@GetMapping("/owner/{id}")
+	@ResponseBody
+	public Set<CottageDTO> getByCottageOwnerId(@PathVariable("id") Long id) {
+		return cottageService.findByCottageOwnerId(id);
+	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseBody
 	public CottageDTO deleteById(@PathVariable("id") Long id) {

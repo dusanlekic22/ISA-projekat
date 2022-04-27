@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 @Entity
 @Inheritance(strategy = JOINED)
 @Table(name = "AppUser")
@@ -151,7 +153,8 @@ public class User implements Serializable, UserDetails {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
-	@Override
+	@JsonDeserialize(using = CustomAuthorityDeserializer.class)
+    @Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles;
 	}

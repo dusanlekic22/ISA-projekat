@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.CottageQuickReservationDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.mapper.CottageQuickReservationMapper;
-import isaproject.model.Cottage;
 import isaproject.model.CottageQuickReservation;
 import isaproject.repository.CottageQuickReservationRepository;
 import isaproject.service.CottageQuickReservationService;
@@ -49,7 +47,28 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	@Override
 	public CottageQuickReservationDTO save(CottageQuickReservationDTO cottageQuickReservationDTO) {
 		CottageQuickReservation cottageQuickReservation = CottageQuickReservationMapper.CottageQuickReservationDTOToCottageQuickReservation(cottageQuickReservationDTO);
+		for (CottageQuickReservation q : cottageQuickReservationRepository.findByCottageId(cottageQuickReservation.getCottage().getId())) {
+			if(q.getDateSpan().overlapsWith(cottageQuickReservation.getDateSpan())) {
+				return null;
+			}
+		}
 		return CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(cottageQuickReservationRepository.save(cottageQuickReservation));
+	}
+
+	@Override
+	public Set<CottageQuickReservationDTO> findByCottageId(Long id) {
+		Set<CottageQuickReservation> cottageQuickReservations = new HashSet<>(cottageQuickReservationRepository.findByCottageId(id));
+        Set<CottageQuickReservationDTO> dtos = new HashSet<>();
+        if(cottageQuickReservations.size()!=0){
+        	
+            CottageQuickReservationDTO dto;
+            for(CottageQuickReservation p : cottageQuickReservations){
+                dto = CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
 	}
 
 }

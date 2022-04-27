@@ -1,27 +1,20 @@
 package isaproject.model;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-
-import isaproject.model.AdditionalService;
-import isaproject.model.Cottage;
-import isaproject.model.Customer;
-
-import javax.persistence.ManyToOne;
-
-import static javax.persistence.FetchType.LAZY;
-
-import java.util.Collection;
-import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "CottageReservation")

@@ -1,7 +1,5 @@
 package isaproject.model;
 
-import static javax.persistence.FetchType.LAZY;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -50,8 +49,9 @@ public class Cottage implements Serializable {
 	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<AdditionalService> additionalService = new HashSet<>();
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
+	@JsonBackReference
 	private CottageOwner cottageOwner;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))

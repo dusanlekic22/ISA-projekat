@@ -2,6 +2,7 @@ package isaproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.mapper.UserMapper;
@@ -13,6 +14,7 @@ import isaproject.repository.CottageOwnerRepository;
 import isaproject.service.CottageOwnerService;
 import isaproject.service.RoleService;
 
+@Service
 public class CottageOwnerServiceImpl implements CottageOwnerService{
 
 	private CottageOwnerRepository cottageOwnerRepository;
@@ -37,7 +39,7 @@ public class CottageOwnerServiceImpl implements CottageOwnerService{
 	public CottageOwner registerCottageOwner(BusinessOwnerDTO businessOwnerDTO) {
 //		addressRepository.save(businessOwnerDTO.getAddress());
 		CottageOwner cottageOwner = UserMapper.DTOToCottageOwner(businessOwnerDTO);
-		cottageOwner.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
+		cottageOwner.setRoles(roleService.findByName("ROLE_COTTAGE_OWNER"));
 		cottageOwner.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
 		cottageOwner.setEnabled(false);
 

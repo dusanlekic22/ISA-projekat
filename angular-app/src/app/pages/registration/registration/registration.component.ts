@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 })
 export class RegistrationComponent implements OnInit {
   firstFormGroup!: FormGroup;
+  id!: number;
   firstName!: string;
   lastname!: string;
   username!: string;
@@ -40,6 +41,7 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     this.user = {
+      id: this.id,
       username: this.username,
       password: this.password,
       firstName: this.firstName,

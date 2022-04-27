@@ -29,7 +29,15 @@ export class CottageProfileComponent implements OnInit {
     cottageImage: [],
     cottageReservation: [],
     cottageQuickReservation: [],
-    availableReservationDateSpan: [],
+    availableReservationDateSpan: [],cottageOwner : { 
+      id: 0,
+      username: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      roles: []},
   };
 
   @ViewChild('quickReservationInput') reservationFormElement!: ElementRef<HTMLInputElement>;

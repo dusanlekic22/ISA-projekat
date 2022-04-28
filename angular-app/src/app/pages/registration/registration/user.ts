@@ -10,6 +10,18 @@ export interface IUser {
   roles: IRole[]
 }
 
+export interface IDirective { 
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  roles: IRole[],
+  activeRoles: Array<string>
+}
+
+
 export interface IUserLogin {
   username: string;
   password: string;

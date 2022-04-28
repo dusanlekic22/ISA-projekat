@@ -1,0 +1,15 @@
+.owl-nav {
+    z-index: 3;
+    position: absolute;
+    top: 5%;
+    right: 0;
+    padding-right: 40px;
+}
+
+.owl-prev{
+    color: white!important;
+}
+
+.owl-next{
+    color: white!important;
+}

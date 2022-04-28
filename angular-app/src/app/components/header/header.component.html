@@ -14,7 +14,9 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="#">KVZR</a>
+        <a class="navbar-brand" href="#"
+          >KVZR</a
+        >
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -98,12 +100,12 @@
           </div>
           <ul class="navbar-nav" *ngIf="isLoggedIn()">
             <li class="nav-item" *ngIf="loggedInUser">
-              <a href="" class="nav-link">{{loggedInUser.firstName + " " + loggedInUser.lastName}}</a>
+              <a href="" class="nav-link">{{
+                loggedInUser.firstName + " " + loggedInUser.lastName
+              }}</a>
             </li>
             <li class="nav-item" *ngIf="isLoggedIn()">
-              <button (click)="logout()" class="btn btn-primary">
-                Logout
-              </button>
+              <button (click)="logout()" class="btn btn-primary">Logout</button>
             </li>
           </ul>
         </div>

@@ -11,6 +11,7 @@ insert into role (name) values ('ROLE_COTTAGE_OWNER');
 --insert into role (name) values ('ROLE_ADMIN');
 
 -- insert into app_user_roles (user_id, role_id) values (1, 1);
+ insert into app_user_roles (user_id, role_id) values (1, 1);
 
 --insert into role (name) values ('ROLE_COTTAGE_OWNER');
 --insert into app_user_roles (user_id, role_id) values (2, 2);

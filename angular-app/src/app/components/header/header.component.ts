@@ -1,6 +1,7 @@
 import { Role } from './../../model/role.enum';
 import { Component, OnInit } from '@angular/core';
 import {
+  IDirective,
   IUser,
   IUserLogin,
 } from 'src/app/pages/registration/registration/user';
@@ -66,5 +67,6 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn();
+    
   }
 }

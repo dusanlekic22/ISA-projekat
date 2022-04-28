@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CottageProfileComponent } from './pages/cottage-profile/cottage-profile.component';
+import { CottageProfileComponent } from './pages/cottage-profile/edit/cottage-profile.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +32,9 @@ import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModu
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carousel-base.component';
+import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,8 @@ import { TagInputModule } from 'ngx-chips';
     HasRoleDirective,
     CottageOwnerHomeComponent,
     AddCottageComponent,
+    OwlCarouselBaseComponent,
+    CustomerCottageProfileComponent
   ],
   imports: [
     NgbModule,
@@ -71,11 +76,13 @@ import { TagInputModule } from 'ngx-chips';
     ButtonsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    TagInputModule
+    TagInputModule,
+    CarouselModule 
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

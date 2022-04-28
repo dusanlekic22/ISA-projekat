@@ -9,7 +9,7 @@ import { ICottageQuickReservation } from './cottageQuickReservation';
 @Component({
   selector: 'app-cottage-profile',
   templateUrl: './cottage-profile.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['../../cotage-style.css'],
 })
 export class CottageProfileComponent implements OnInit {
   cottage: ICottage = {

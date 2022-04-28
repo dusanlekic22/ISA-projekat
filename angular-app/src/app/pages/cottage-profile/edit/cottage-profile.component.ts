@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
-import { CottageService } from '../cottage.service';
-import { IAdditionalService } from './additionalService';
-import { ICottage } from './cottage';
-import { ICottageQuickReservation } from './cottageQuickReservation';
+import { CottageService } from '../../cottage.service';
+import { IAdditionalService } from '../additionalService';
+import { ICottage } from '../cottage';
+import { ICottageQuickReservation } from '../cottageQuickReservation';
 
 @Component({
   selector: 'app-cottage-profile',

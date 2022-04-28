@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-cottage-profile',
   templateUrl: './cottage-profile.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['../../cotage-style.css'],
 })
 export class CottageProfileComponent implements OnInit {
   initialImage = 'https://havanatursa.com/assets/images/carousel/Hoteles.webp';

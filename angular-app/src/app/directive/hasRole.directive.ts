@@ -1,6 +1,4 @@
 import { UserService } from 'src/app/service/user.service';
-import { Role } from './../model/role.enum';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { IUser } from './../pages/registration/registration/user';
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 

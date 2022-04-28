@@ -1,0 +1,31 @@
+<div>
+
+    <owl-carousel-o [options]="customOptions" #owlCar>
+        <ng-template carouselSlide>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1000x500?sig=1">
+            </div>
+        </ng-template>
+        <ng-template carouselSlide>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1000x500?sig=1">
+            </div>
+        </ng-template>
+        <ng-template carouselSlide>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1000x500?sig=1">
+            </div>
+        </ng-template>
+        <ng-template carouselSlide>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1000x500?sig=1">
+            </div>
+        </ng-template>
+    </owl-carousel-o>
+
+     <p class="owl-nav">
+        <a class="btn btn-success owl-prev" (click)="owlCar.prev()"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+        <a class="btn btn-success owl-next" (click)="owlCar.next()"><i class="fas fa-angle-right" aria-hidden="true"></i></a>
+     </p>
+
+</div>

@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CottageProfileComponent } from './pages/cottage-profile/cottage-profile.component';
+import { CottageProfileComponent } from './pages/cottage-profile/edit/cottage-profile.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carousel-base.component';
+import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     BusinessOwnerRegitrationComponent,
     ChooseRegistrationComponent,
     HasRoleDirective,
+    OwlCarouselBaseComponent,
+    CustomerCottageProfileComponent
   ],
   imports: [
     NgImageSliderModule,
@@ -54,6 +59,7 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     HttpClientModule,
     MatTabsModule,
     MatSelectModule,
+    CarouselModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

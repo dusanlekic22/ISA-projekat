@@ -5,6 +5,7 @@ import { CottageService } from '../cottage.service';
 import { IAdditionalService } from './additionalService';
 import { ICottage } from './cottage';
 import { ICottageQuickReservation } from './cottageQuickReservation';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cottage-profile',
@@ -45,7 +46,7 @@ export class CottageProfileComponent implements OnInit {
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
   minDate!: Date;
-  initialImage = 'https://havanatursa.com/assets/images/carousel/Hoteles.webp';
+  initialImage = '';
   imagePickerConf: object = {
     borderRadius: '4px',
     language: 'en',
@@ -90,7 +91,8 @@ export class CottageProfileComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
-    private _cottageService: CottageService
+    private _cottageService: CottageService,
+    private toastr: ToastrService
   ) {}
 
   openQuickReservationForm(){
@@ -116,7 +118,7 @@ export class CottageProfileComponent implements OnInit {
         this.cottage.cottageQuickReservation = cottageQuickReservation;
       });
     this._cottageService
-      .getFreeAdditionalServices()
+      .getAdditionalServicesByCottageId(this.cottageId)
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService.filter(additionalService=>additionalService.name!=null);
         console.log(this.additionalServiceTags);
@@ -188,11 +190,12 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe((quickReservation) => {
+        this.toastr.error('Reservation term overlaps with another.', 'Try a different date!');
         this._cottageService
           .getCottageQuickReservations()
           .subscribe((cottageQuickReservation) => {
-            this.cottage.cottageQuickReservation = cottageQuickReservation;
+              this.cottage.cottageQuickReservation = cottageQuickReservation;
           });
-      });
+      },(err)=>{this.toastr.error('Reservation term overlaps with another.', 'Try a different date!');});
   }
 }

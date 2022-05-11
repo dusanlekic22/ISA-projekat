@@ -88,6 +88,13 @@ export class CottageService {
     );
   }
 
+  getAdditionalServicesByCottageId(cottageId:number): Observable<IAdditionalService[]> {
+    return this._http.get<IAdditionalService[]>(this._additionalServiceUrl+`/cottage/${cottageId}`,).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   addAdditionalService(additionalService:IAdditionalService,cottage:ICottage): Observable<IAdditionalService> {
     return this._http.post<IAdditionalService>(this._additionalServiceUrl,{id:additionalService.id,name:additionalService.name,price:additionalService.price,cottage:cottage}).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -97,6 +104,6 @@ export class CottageService {
 
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
-    return throwError(err.message);
+    return throwError(() => new Error('Error'));
   }
 }

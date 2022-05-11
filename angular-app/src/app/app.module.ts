@@ -32,6 +32,7 @@ import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModu
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
+import { ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { TagInputModule } from 'ngx-chips';
     ButtonsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    TagInputModule
+    TagInputModule,
+    ToastrModule.forRoot()
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

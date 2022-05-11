@@ -7,7 +7,10 @@
         class="card-img-top"
         alt="Product"
       />
-      <div class="cardOverlay" (click)="open()">
+      <div
+        class="cardOverlay"
+        (click)="this.router.navigate(['/cottage/', this.id])"
+      >
         Pogledaj <br />
         {{ name }} <br />
         ponudu
@@ -46,7 +49,7 @@
       </p>
       <p class="mb-1">
         <small>
-          <a href="#" class="text-secondary">{{ type }}</a>
+          <a href="#" class="text-secondary">Tekst</a>
         </small>
       </p>
     </div>

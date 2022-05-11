@@ -22,14 +22,14 @@ const routes: Routes = [
   },
   {
     path: 'cottageOwnerHome',
-    component: CottageOwnerHomeComponent
+    component: CottageOwnerHomeComponent,
   },
   {
     path: 'cottageProfile/:cottageId',
     component: CottageProfileComponent,
   },
   {
-    path: 'cottageProfile',
+    path: 'cottage/:cottageId',
     component: CustomerCottageProfileComponent,
   },
   {
@@ -44,11 +44,11 @@ const routes: Routes = [
     path: 'chooseRegistration',
     component: ChooseRegistrationComponent,
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

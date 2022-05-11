@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-base-cottage',
   templateUrl: './base-cottage.component.html',
   styleUrls: ['./base-cottage.component.css'],
 })
 export class BaseCottageComponent implements OnInit {
-  name: string = 'Old Cottage';
-  type: string = 'Otvoren';
-  constructor() {}
+  @Input() id!: string;
+  @Input() name!: string;
+  constructor(public router: Router) {}
 
   ngOnInit(): void {}
-
-  open() {}
 }

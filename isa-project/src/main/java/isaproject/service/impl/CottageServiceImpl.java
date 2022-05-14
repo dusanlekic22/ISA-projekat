@@ -40,6 +40,7 @@ public class CottageServiceImpl implements CottageService {
 	        }
 	        return dtos;
 	}
+	
 	@Transactional
 	@Override
 	public CottageDTO deleteById(Long id) {
@@ -50,6 +51,7 @@ public class CottageServiceImpl implements CottageService {
 		}
 		return null;
 	}
+	
 	@Transactional
 	@Override
 	public CottageDTO save(CottageDTO cottageDTO) {

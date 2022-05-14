@@ -81,6 +81,13 @@ export class CottageService {
     );
   }
 
+  deleteCottageQuickReservations(cottageId:number): Observable<ArrayBuffer> {
+    return this._http.delete<ArrayBuffer>(this._cottageUrl+ `QuickReservation/${cottageId}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   getFreeAdditionalServices(): Observable<IAdditionalService[]> {
     return this._http.get<IAdditionalService[]>(this._additionalServiceUrl+'/free',).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),

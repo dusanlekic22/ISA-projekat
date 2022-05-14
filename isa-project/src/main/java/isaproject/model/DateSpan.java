@@ -1,35 +1,32 @@
 package isaproject.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Embeddable
 public class DateSpan {
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date startDate;
+	private LocalDate startDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date endDate;
+	private LocalDate endDate;
 
 	public DateSpan() {
-
+		
 	}
 
-	public DateSpan(Date startDate, Date endDate) {
+	public DateSpan(LocalDate startDate, LocalDate endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		validate();
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
@@ -42,9 +39,8 @@ public class DateSpan {
 		return startDate.compareTo(dateSpan.startDate) <= 0 && endDate.compareTo(dateSpan.startDate) >= 0;
 	}
 
-	public DateSpan extend(long millis) {
-		Date extendedTo = new Date(endDate.getTime() + millis);
-		return new DateSpan(startDate, extendedTo);
+	public DateSpan extend(LocalDate extend) {
+		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
 	}
 
 }

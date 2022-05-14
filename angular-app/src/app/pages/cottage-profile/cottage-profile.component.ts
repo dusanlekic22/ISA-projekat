@@ -30,7 +30,8 @@ export class CottageProfileComponent implements OnInit {
     cottageImage: [],
     cottageReservation: [],
     cottageQuickReservation: [],
-    availableReservationDateSpan: [],cottageOwner : { 
+    availableReservationDateSpan: [],
+    cottageOwner : { 
       id: 0,
       username: '',
       password: '',
@@ -190,12 +191,25 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe((quickReservation) => {
-        this.toastr.error('Reservation term overlaps with another.', 'Try a different date!');
+        this.addReservationFormOpened = false;
+        this.toastr.success('Reservation was successfully added.');
         this._cottageService
           .getCottageQuickReservations()
           .subscribe((cottageQuickReservation) => {
               this.cottage.cottageQuickReservation = cottageQuickReservation;
           });
       },(err)=>{this.toastr.error('Reservation term overlaps with another.', 'Try a different date!');});
+  }
+
+  deleteQuickReservation(id:number): void{
+    this._cottageService.deleteCottageQuickReservations(id).subscribe(
+      (quickReservation)=>{this.toastr.success('Reservation was successfully removed.');
+      this._cottageService
+      .getCottageQuickReservations()
+      .subscribe((cottageQuickReservation) => {
+          this.cottage.cottageQuickReservation = cottageQuickReservation;
+      });}
+      ,(err)=>{this.toastr.error('Reservation removal failed');}
+    )
   }
 }

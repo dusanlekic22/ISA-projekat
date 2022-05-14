@@ -1,12 +1,11 @@
 package isaproject.model;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "CottageReservation")
@@ -28,19 +26,16 @@ public class CottageReservation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TIMESTAMP)
-	private Date startDate;
-	@Temporal(TIMESTAMP)
-	private Date endDate;
+	@Embedded
+	private DateSpan dateSpan;
 	private String guestCapacity;
-	private String additionalService;
 	private Integer price;
 	@ManyToOne
 	private Cottage cottage;
 	@ManyToOne(fetch = LAZY)
 	private Customer customer;
 	@OneToMany(mappedBy = "cottageReservation")
-	private Collection<AdditionalService> additionalService_1;
+	private Set<AdditionalService> additionalService;
 
 	public long getId() {
 		return id;
@@ -50,36 +45,20 @@ public class CottageReservation implements Serializable {
 		this.id = id;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date param) {
-		this.startDate = param;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	public String getGuestCapacity() {
 		return guestCapacity;
 	}
 
+	public DateSpan getDateSpan() {
+		return dateSpan;
+	}
+
+	public void setDateSpan(DateSpan dateSpan) {
+		this.dateSpan = dateSpan;
+	}
+
 	public void setGuestCapacity(String param) {
 		this.guestCapacity = param;
-	}
-
-	public String getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(String param) {
-		this.additionalService = param;
 	}
 
 	public Integer getPrice() {
@@ -106,12 +85,12 @@ public class CottageReservation implements Serializable {
 	    this.customer = param;
 	}
 
-	public Collection<AdditionalService> getAdditionalService_1() {
-	    return additionalService_1;
+	public Set<AdditionalService> getAdditionalService() {
+	    return additionalService;
 	}
 
-	public void setAdditionalService_1(Collection<AdditionalService> param) {
-	    this.additionalService_1 = param;
+	public void setAdditionalService(Set<AdditionalService> param) {
+	    this.additionalService = param;
 	}
 
 }

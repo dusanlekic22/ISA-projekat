@@ -1,3 +1,4 @@
+import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
@@ -91,6 +92,8 @@ export class CottageProfileComponent implements OnInit {
       alt: 'alt of image',
     },
   ];
+  activeReservations!: ICottageReservation[];
+  passedReservations!: ICottageReservation[];
 
   constructor(
     private _route: ActivatedRoute,
@@ -128,6 +131,16 @@ export class CottageProfileComponent implements OnInit {
         );
         console.log(this.additionalServiceTags);
       });
+    this._cottageService
+      .getActiveCottageReservationByCottageId(this.cottageId)
+      .subscribe((activeReservations) => {
+        this.activeReservations = activeReservations;
+      });
+      this._cottageService
+        .getPassedCottageReservationByCottageId(this.cottageId)
+        .subscribe((passedReservations) => {
+          this.passedReservations = passedReservations;
+        });
     this.minDate = new Date(Date.now());
   }
 

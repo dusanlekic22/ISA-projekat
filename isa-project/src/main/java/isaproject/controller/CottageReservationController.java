@@ -45,6 +45,18 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAllActive(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/active/{cottageId}")
+	@ResponseBody
+	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageId(@PathVariable("cottageId") Long id){
+		return new ResponseEntity<>(cottageReservationService.findAllActiveByCottageId(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/passed/{cottageId}")
+	@ResponseBody
+	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageId(@PathVariable("cottageId") Long id){
+		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageId(id),HttpStatus.OK);
+	}
+	
 	@PostMapping
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> save(@RequestBody CottageReservationDTO cottageReservationDTO) {

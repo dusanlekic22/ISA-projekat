@@ -26,7 +26,7 @@
     </div>
   </div>
 </div>
-<div class="container mt--7 pb-4" >
+<div class="container mt--7 pb-4">
   <div class="row">
     <div class="col-xl-8 order-xl-1 mb-4">
       <div class="card bg-secondary shadow">
@@ -229,9 +229,7 @@
                 <h3 class="mb-0">Available terms for reservations</h3>
               </div>
               <div class="col-2 text-right">
-                <button class="btn btn-info">
-                  Add available term
-                </button>
+                <button class="btn btn-info">Add available term</button>
               </div>
             </div>
           </div>
@@ -289,81 +287,252 @@
       </div>
     </div>
   </div>
-  <!-- TABELA -->
-  <div class="row" style="margin-top: 20px; overflow: visible">
-    <div class="col">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Available reservations</h3>
+  <mat-tab-group>
+    <mat-tab label="Quick Reservations">
+      <!-- TABELA -->
+      <div class="row" style="margin-top: 20px; overflow: visible">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Available reservations</h3>
+                </div>
+                <div class="col-4 text-right">
+                  <button
+                    class="btn btn-info"
+                    (click)="openQuickReservationForm()"
+                  >
+                    Add quick reservation
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="col-4 text-right">
-              <button class="btn btn-info" (click)="openQuickReservationForm()">
-                Add quick reservation
-              </button>
+            <div class="table-responsive" style="overflow: visible">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Guest Capacity</th>
+                    <th scope="col">Price(in €)</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let quickReservation of cottage.cottageQuickReservation
+                    "
+                  >
+                    <td>
+                      {{
+                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{ quickReservation.guestCapacity }}
+                    </td>
+                    <td>
+                      {{ quickReservation.price }}
+                    </td>
+                    <td class="text-right">
+                      <div ngbDropdown placement="bottom-right">
+                        <a
+                          class="btn btn-sm btn-icon-only text-light"
+                          ngbDropdownToggle
+                        >
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div
+                          ngbDropdownMenu
+                          class="dropdown-menu-right dropdown-menu-arrow"
+                        >
+                          <a
+                            class="dropdown-item"
+                            (click)="
+                              deleteQuickReservation(quickReservation.id)
+                            "
+                            >Delete</a
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        <div class="table-responsive" style="overflow: visible">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Guest Capacity</th>
-                <th scope="col">Price(in €)</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let quickReservation of cottage.cottageQuickReservation"
-              >
-                <td>
-                  {{ quickReservation.dateSpan.startDate | date: "dd/MM/yyyy" }}
-                </td>
-                <td>
-                  {{ quickReservation.dateSpan.endDate | date: "dd/MM/yyyy" }}
-                </td>
-                <td>
-                  {{ quickReservation.guestCapacity }}
-                </td>
-                <td>
-                  {{ quickReservation.price }}
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" (click)="deleteQuickReservation(quickReservation.id)"
-                        >Delete</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Reservations">
+      <!-- TABELA -->
+      <div class="row" style="margin-top: 20px; overflow: visible">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Available reservations</h3>
+                </div>
+                <div class="col-4 text-right">
+                  <button
+                    class="btn btn-info"
+                    (click)="openQuickReservationForm()"
+                  >
+                    Add reservation
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive" style="overflow: visible">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Guest Capacity</th>
+                    <th scope="col">Price(in €)</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let quickReservation of activeReservations
+                    "
+                  >
+                    <td>
+                      {{
+                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{ quickReservation.guestCapacity }}
+                    </td>
+                    <td>
+                      {{ quickReservation.price }}
+                    </td>
+                    <td class="text-right">
+                      <div ngbDropdown placement="bottom-right">
+                        <a
+                          class="btn btn-sm btn-icon-only text-light"
+                          ngbDropdownToggle
+                        >
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div
+                          ngbDropdownMenu
+                          class="dropdown-menu-right dropdown-menu-arrow"
+                        >
+                          <a
+                            class="dropdown-item"
+                            (click)="
+                              deleteQuickReservation(quickReservation.id)
+                            "
+                            >Delete</a
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col">
-
-    </div>
-  </div>
+    </mat-tab>
+    <mat-tab label="Reservations history">
+      <div class="row" style="margin-top: 20px; overflow: visible">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Available reservations</h3>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive" style="overflow: visible">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Guest Capacity</th>
+                    <th scope="col">Price(in €)</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let quickReservation of passedReservations
+                    "
+                  >
+                    <td>
+                      {{
+                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>
+                      {{ quickReservation.guestCapacity }}
+                    </td>
+                    <td>
+                      {{ quickReservation.price }}
+                    </td>
+                    <td class="text-right">
+                      <div ngbDropdown placement="bottom-right">
+                        <a
+                          class="btn btn-sm btn-icon-only text-light"
+                          ngbDropdownToggle
+                        >
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div
+                          ngbDropdownMenu
+                          class="dropdown-menu-right dropdown-menu-arrow"
+                        >
+                          <a
+                            class="dropdown-item"
+                            (click)="
+                              deleteQuickReservation(quickReservation.id)
+                            "
+                            >Delete</a
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div></mat-tab
+    >
+  </mat-tab-group>
 </div>
 <div
-#quickReservationInput
- *ngIf="addReservationFormOpened"
+  #quickReservationInput
+  *ngIf="addReservationFormOpened"
   class="container mt-5 pb-4"
 >
   <div class="card bg-secondary shadow">
@@ -374,8 +543,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body" 
-    >
+    <div class="card-body">
       <form>
         <!-- Ovde -->
         <div class="pl-lg-4">

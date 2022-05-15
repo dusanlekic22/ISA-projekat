@@ -109,5 +109,25 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		return dtos;
 	}
 
+	@Override
+	public Set<CottageReservationDTO> findAllPastByCottageId(Long id) {
+		Set<CottageReservationDTO> dtos = new HashSet<>();
+		for (CottageReservationDTO cottageReservationDTO : findByCottageId(id)) {
+			if(cottageReservationDTO.getDateSpan().passed())
+				dtos.add(cottageReservationDTO);
+		}
+		return dtos;
+	}
+
+	@Override
+	public Set<CottageReservationDTO> findAllActiveByCottageId(Long id) {
+		Set<CottageReservationDTO> dtos = new HashSet<>();
+		for (CottageReservationDTO cottageReservationDTO : findByCottageId(id)) {
+			if(!cottageReservationDTO.getDateSpan().passed())
+				dtos.add(cottageReservationDTO);
+		}
+		return dtos;
+	}
+
 
 }

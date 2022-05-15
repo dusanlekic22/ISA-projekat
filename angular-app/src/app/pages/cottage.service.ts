@@ -109,6 +109,20 @@ export class CottageService {
     );
   }
 
+  getPassedCottageReservationByCottageId(id : number): Observable<ICottageQuickReservation[]> {
+    return this._http.get<ICottageQuickReservation[]>(this._cottageUrl+`Reservation/passed/${id}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getActiveCottageReservationByCottageId(id : number): Observable<ICottageQuickReservation[]> {
+    return this._http.get<ICottageQuickReservation[]>(this._cottageUrl+`Reservation/active/${id}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

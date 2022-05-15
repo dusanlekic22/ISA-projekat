@@ -1,18 +1,20 @@
 package isaproject.model;
 
-import static javax.persistence.FetchType.LAZY;
-
 import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CottageReservation")
@@ -31,10 +33,12 @@ public class CottageReservation implements Serializable {
 	private String guestCapacity;
 	private Integer price;
 	@ManyToOne
+	@JsonBackReference
 	private Cottage cottage;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference
 	private Customer customer;
-	@OneToMany(mappedBy = "cottageReservation")
+	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
 
 	public long getId() {

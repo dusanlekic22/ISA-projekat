@@ -1,15 +1,16 @@
 package isaproject.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class DateSpan {
-
+	
+	@Column(columnDefinition = "DATE")
 	private LocalDate startDate;
-
+	@Column(columnDefinition = "DATE")
 	private LocalDate endDate;
 
 	public DateSpan() {
@@ -41,6 +42,10 @@ public class DateSpan {
 
 	public DateSpan extend(LocalDate extend) {
 		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
+	}
+	
+	public boolean passed() {
+		return endDate.compareTo(LocalDate.now()) <= 0 ;
 	}
 
 }

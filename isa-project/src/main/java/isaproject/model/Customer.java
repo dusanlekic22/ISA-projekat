@@ -4,8 +4,11 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "Customer")
@@ -14,11 +17,14 @@ public class Customer extends User {
 	private static final long serialVersionUID = 1L;
 	private String points;
 	private String loyalityProgram;
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<BoatReservation> boatReservation;
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<CottageReservation> cottageReservation;
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Collection<FishingReservation> fishingReservation;
 
 	public Customer() {

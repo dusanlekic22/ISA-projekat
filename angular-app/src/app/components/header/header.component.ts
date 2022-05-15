@@ -1,3 +1,4 @@
+import { IRole } from './../../pages/registration/registration/user';
 import { Role } from './../../model/role.enum';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

@@ -1,6 +1,7 @@
 package isaproject.mapper;
 
 import isaproject.dto.CottageQuickReservationDTO;
+import isaproject.dto.CottageReservationDTO;
 import isaproject.model.CottageQuickReservation;
 
 public class CottageQuickReservationMapper {
@@ -25,6 +26,17 @@ public class CottageQuickReservationMapper {
 		cottageQuickReservationDTO.setAdditionalService(cottageQuickReservation.getAdditionalService());
 		cottageQuickReservationDTO.setCottage(cottageQuickReservation.getCottage());
 		return cottageQuickReservationDTO;
+	}
+	
+	public static CottageQuickReservation CottageReservationDTOToCottageQuickReservation(CottageReservationDTO cottageReservationDTO) {
+		CottageQuickReservation cottageQuickReservation = new CottageQuickReservation();
+		cottageQuickReservation.setId(cottageReservationDTO.getId());
+		cottageQuickReservation.setDateSpan(cottageReservationDTO.getDateSpan());
+		cottageQuickReservation.setGuestCapacity(cottageReservationDTO.getGuestCapacity());
+		cottageQuickReservation.setPrice(cottageReservationDTO.getPrice());
+		cottageQuickReservation.setAdditionalService(cottageReservationDTO.getAdditionalService());
+		cottageQuickReservation.setCottage(cottageReservationDTO.getCottage());
+		return cottageQuickReservation;
 	}
 
 }

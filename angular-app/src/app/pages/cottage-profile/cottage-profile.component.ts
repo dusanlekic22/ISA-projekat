@@ -31,7 +31,7 @@ export class CottageProfileComponent implements OnInit {
     cottageReservation: [],
     cottageQuickReservation: [],
     availableReservationDateSpan: [],
-    cottageOwner : { 
+    cottageOwner: {
       id: 0,
       username: '',
       password: '',
@@ -39,10 +39,12 @@ export class CottageProfileComponent implements OnInit {
       lastName: '',
       email: '',
       phoneNumber: '',
-      roles: []},
+      roles: [],
+    },
   };
 
-  @ViewChild('quickReservationInput') reservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('quickReservationInput')
+  reservationFormElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
@@ -87,7 +89,7 @@ export class CottageProfileComponent implements OnInit {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-    }
+    },
   ];
 
   constructor(
@@ -96,7 +98,7 @@ export class CottageProfileComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  openQuickReservationForm(){
+  openQuickReservationForm() {
     this.addReservationFormOpened = true;
     this.reservationFormElement.nativeElement.scrollIntoView();
   }
@@ -121,7 +123,9 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService
       .getAdditionalServicesByCottageId(this.cottageId)
       .subscribe((additionalService) => {
-        this.additionalServiceTags = additionalService.filter(additionalService=>additionalService.name!=null);
+        this.additionalServiceTags = additionalService.filter(
+          (additionalService) => additionalService.name != null
+        );
         console.log(this.additionalServiceTags);
       });
     this.minDate = new Date(Date.now());
@@ -172,15 +176,16 @@ export class CottageProfileComponent implements OnInit {
   }
 
   addCottageImage(): void {
-    this._cottageService
-      .addCottageImage(0, this.imageString, this.cottage)
-      .subscribe((cottageImage) => {
-        this.imageObject.push({
-          image: cottageImage.image,
-          thumbImage: cottageImage.image,
-          alt: 'alt of image',
+    if (this.imageString != '')
+      this._cottageService
+        .addCottageImage(0, this.imageString, this.cottage)
+        .subscribe((cottageImage) => {
+          this.imageObject.push({
+            image: cottageImage.image,
+            thumbImage: cottageImage.image,
+            alt: 'alt of image',
+          });
         });
-      });
   }
 
   onImageChange(event: string): void {
@@ -190,26 +195,38 @@ export class CottageProfileComponent implements OnInit {
   addQuickReservation(): void {
     this._cottageService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
-      .subscribe((quickReservation) => {
-        this.addReservationFormOpened = false;
-        this.toastr.success('Reservation was successfully added.');
+      .subscribe(
+        (quickReservation) => {
+          this.addReservationFormOpened = false;
+          this.toastr.success('Reservation was successfully added.');
+          this._cottageService
+            .getCottageQuickReservations()
+            .subscribe((cottageQuickReservation) => {
+              this.cottage.cottageQuickReservation = cottageQuickReservation;
+            });
+        },
+        (err) => {
+          this.toastr.error(
+            'Reservation term overlaps with another.',
+            'Try a different date!'
+          );
+        }
+      );
+  }
+
+  deleteQuickReservation(id: number): void {
+    this._cottageService.deleteCottageQuickReservations(id).subscribe(
+      (quickReservation) => {
+        this.toastr.success('Reservation was successfully removed.');
         this._cottageService
           .getCottageQuickReservations()
           .subscribe((cottageQuickReservation) => {
-              this.cottage.cottageQuickReservation = cottageQuickReservation;
+            this.cottage.cottageQuickReservation = cottageQuickReservation;
           });
-      },(err)=>{this.toastr.error('Reservation term overlaps with another.', 'Try a different date!');});
-  }
-
-  deleteQuickReservation(id:number): void{
-    this._cottageService.deleteCottageQuickReservations(id).subscribe(
-      (quickReservation)=>{this.toastr.success('Reservation was successfully removed.');
-      this._cottageService
-      .getCottageQuickReservations()
-      .subscribe((cottageQuickReservation) => {
-          this.cottage.cottageQuickReservation = cottageQuickReservation;
-      });}
-      ,(err)=>{this.toastr.error('Reservation removal failed');}
-    )
+      },
+      (err) => {
+        this.toastr.error('Reservation removal failed');
+      }
+    );
   }
 }

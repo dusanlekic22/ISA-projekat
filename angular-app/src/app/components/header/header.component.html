@@ -17,7 +17,7 @@
         <a class="navbar-brand" href="#">KVZR</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
               <a
                 class="nav-link"
                 [routerLink]="['/cottageOwnerHome/${loggedInUser.id}']" routerLinkActive="router-link-active" 

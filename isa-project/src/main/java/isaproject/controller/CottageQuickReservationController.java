@@ -43,7 +43,7 @@ public class CottageQuickReservationController {
 		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.CREATED);
 	}
 	
-	@PostMapping
+	@PostMapping("/appoint")
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@RequestBody CottageReservationDTO cottageReservationDTO) {
 		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(cottageReservationDTO);

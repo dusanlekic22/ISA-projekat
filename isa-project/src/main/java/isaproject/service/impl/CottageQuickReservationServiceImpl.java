@@ -96,6 +96,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	@Transactional
 	@Override
 	public CottageReservationDTO appointQuickReservation(CottageReservationDTO cottageReservationDTO) {		
+		System.out.println(cottageReservationDTO.getId());
 		deleteById(cottageReservationDTO.getId());
 		CottageReservation cottageReservation = CottageReservationMapper.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		CottageReservation cottageReservationReturn = cottageReservationRepository.save(cottageReservation);

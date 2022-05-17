@@ -54,7 +54,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageReservation.getCottage().getId())) {
-			if (q.getDateSpan().overlapsWith(cottageReservation.getDateSpan())) {
+			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
 				return null;
 			}
 		}
@@ -91,7 +91,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public Set<CottageReservationDTO> findAllPast() {
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		for (CottageReservationDTO cottageReservationDTO : findAll()) {
-			if(cottageReservationDTO.getDateSpan().passed())
+			if(cottageReservationDTO.getDuration().passed())
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;
@@ -103,7 +103,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public Set<CottageReservationDTO> findAllActive() {
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		for (CottageReservationDTO cottageReservationDTO : findAll()) {
-			if(!cottageReservationDTO.getDateSpan().passed())
+			if(!cottageReservationDTO.getDuration().passed())
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;
@@ -113,7 +113,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public Set<CottageReservationDTO> findAllPastByCottageId(Long id) {
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		for (CottageReservationDTO cottageReservationDTO : findByCottageId(id)) {
-			if(cottageReservationDTO.getDateSpan().passed())
+			if(cottageReservationDTO.getDuration().passed())
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;
@@ -123,7 +123,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public Set<CottageReservationDTO> findAllActiveByCottageId(Long id) {
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		for (CottageReservationDTO cottageReservationDTO : findByCottageId(id)) {
-			if(!cottageReservationDTO.getDateSpan().passed())
+			if(!cottageReservationDTO.getDuration().passed())
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;

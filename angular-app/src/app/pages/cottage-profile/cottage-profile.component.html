@@ -228,9 +228,6 @@
               <div class="col-8">
                 <h3 class="mb-0">Available terms for reservations</h3>
               </div>
-              <div class="col-2 text-right">
-                <button class="btn btn-info">Add available term</button>
-              </div>
             </div>
           </div>
           <div class="table-responsive" style="overflow: visible">
@@ -244,20 +241,53 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let dataSpan of cottage.availableReservationDateSpan"
+                  *ngFor="let dateSpan of cottage.availableReservationDateSpan"
                 >
                   <td>
-                    {{ dataSpan.startDate | date: "dd/MM/yyyy" }}
+                    {{ dateSpan.startDate | date: "dd/MM/yyyy" }}
                   </td>
                   <td>
-                    {{ dataSpan.endDate | date: "dd/MM/yyyy" }}
+                    {{ dateSpan.endDate | date: "dd/MM/yyyy" }}
                   </td>
                   <td class="text-right">
-                    <delete-icon></delete-icon>
+                    <delete-icon  (click)="removeTerm(dateSpan)"></delete-icon>
                   </td>
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="md-form mb-5">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  placeholder="Start date"
+                  [min]="minDate"
+                  [(ngModel)]="availableStartDate"
+                />
+                <input
+                  matEndDate
+                  placeholder="End date"
+                  [min]="minDate"
+                  [(ngModel)]="availableEndDate"
+                />
+              </mat-date-range-input>
+              <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <span class="ml-5">
+              <button
+              class="btn btn-info"
+                (click)="addDateSpan()"
+              >
+                Add available term
+              </button>
+            </span>
           </div>
         </div>
       </div>
@@ -327,12 +357,12 @@
                   >
                     <td>
                       {{
-                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.startDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
                       {{
-                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.endDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
@@ -410,12 +440,12 @@
                   >
                     <td>
                       {{
-                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.startDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
                       {{
-                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.endDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
@@ -484,12 +514,12 @@
                   >
                     <td>
                       {{
-                        quickReservation.dateSpan.startDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.startDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
                       {{
-                        quickReservation.dateSpan.endDate | date: "dd/MM/yyyy"
+                        quickReservation.duration.endDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>

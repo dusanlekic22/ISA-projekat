@@ -6,6 +6,7 @@ public class CottageImageDTO {
 	private long id;
 	private String image;
 	private Cottage cottage;
+	
 	public long getId() {
 		return id;
 	}

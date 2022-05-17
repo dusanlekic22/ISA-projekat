@@ -18,13 +18,11 @@ public class Customer extends User {
 	private String points;
 	private String loyalityProgram;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-	@JsonManagedReference
 	private Set<BoatReservation> boatReservation;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private Set<CottageReservation> cottageReservation;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-	@JsonManagedReference
 	private Collection<FishingReservation> fishingReservation;
 
 	public Customer() {

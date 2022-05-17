@@ -60,7 +60,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				.CottageQuickReservationDTOToCottageQuickReservation(cottageQuickReservationDTO);
 		for (CottageQuickReservation q : cottageQuickReservationRepository
 				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
-			if (q.getDateSpan().overlapsWith(cottageQuickReservation.getDateSpan())) {
+			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
 		}

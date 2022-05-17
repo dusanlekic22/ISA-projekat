@@ -1,3 +1,4 @@
+import { IDateSpan } from './dateSpan';
 import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -60,13 +61,20 @@ export class CottageProfileComponent implements OnInit {
   imageString: string = '';
   cottageQuickReservation: ICottageQuickReservation = {
     id: 0,
-    dateSpan: {
+    duration: {
+      startDate: new Date(),
+      endDate: new Date(),
+    },
+    validSpan: {
       startDate: new Date(),
       endDate: new Date(),
     },
     guestCapacity: '',
     price: 0,
   };
+  availableStartDates!: IDateSpan[];
+  availableStartDate!: Date;
+  availableEndDate!: Date;
   startYear!: number;
   startMonth!: number;
   startDay!: number;
@@ -136,11 +144,11 @@ export class CottageProfileComponent implements OnInit {
       .subscribe((activeReservations) => {
         this.activeReservations = activeReservations;
       });
-      this._cottageService
-        .getPassedCottageReservationByCottageId(this.cottageId)
-        .subscribe((passedReservations) => {
-          this.passedReservations = passedReservations;
-        });
+    this._cottageService
+      .getPassedCottageReservationByCottageId(this.cottageId)
+      .subscribe((passedReservations) => {
+        this.passedReservations = passedReservations;
+      });
     this.minDate = new Date(Date.now());
   }
 
@@ -154,23 +162,23 @@ export class CottageProfileComponent implements OnInit {
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     if (event.value != null) {
       if (type === 'inputStart' || type === 'changeStart') {
-        this.cottageQuickReservation.dateSpan.startDate.setFullYear(
+        this.cottageQuickReservation.duration.startDate.setFullYear(
           event.value.getFullYear()
         );
-        this.cottageQuickReservation.dateSpan.startDate.setMonth(
+        this.cottageQuickReservation.duration.startDate.setMonth(
           event.value.getMonth()
         );
-        this.cottageQuickReservation.dateSpan.startDate.setDate(
+        this.cottageQuickReservation.duration.startDate.setDate(
           event.value.getDate()
         );
       } else if (type === 'inputEnd' || type === 'changeEnd') {
-        this.cottageQuickReservation.dateSpan.endDate.setFullYear(
+        this.cottageQuickReservation.duration.endDate.setFullYear(
           event.value.getFullYear()
         );
-        this.cottageQuickReservation.dateSpan.endDate.setMonth(
+        this.cottageQuickReservation.duration.endDate.setMonth(
           event.value.getMonth()
         );
-        this.cottageQuickReservation.dateSpan.endDate.setDate(
+        this.cottageQuickReservation.duration.endDate.setDate(
           event.value.getDate()
         );
       }
@@ -241,5 +249,19 @@ export class CottageProfileComponent implements OnInit {
         this.toastr.error('Reservation removal failed');
       }
     );
+  }
+
+  addDateSpan() {
+    this.cottage.availableReservationDateSpan.push({
+      startDate: this.availableStartDate,
+      endDate: this.availableEndDate,
+    });
+    this.edit();
+  }
+
+  removeTerm(term: IDateSpan) {
+    this.cottage.availableReservationDateSpan =
+      this.cottage.availableReservationDateSpan.filter((term) => term != term);
+    this.edit();
   }
 }

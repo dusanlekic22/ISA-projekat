@@ -39,16 +39,16 @@ public class Cottage implements Serializable {
 	private Integer bedCount;
 	private Integer roomCount;
 	private String cottageRules;
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<CottageImage> cottageImage = new HashSet<>();
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER)
 	@JsonManagedReference
+	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();
-	@OneToMany(mappedBy = "cottage",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
+	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageOwner_id", referencedColumnName = "id")
@@ -57,6 +57,7 @@ public class Cottage implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
 	private Set<DateSpan> availableReservationDateSpan = new HashSet<DateSpan>();
+
 	public long getId() {
 		return id;
 	}
@@ -106,48 +107,48 @@ public class Cottage implements Serializable {
 	}
 
 	public Set<CottageQuickReservation> getCottageQuickReservation() {
-	    return cottageQuickReservation;
+		return cottageQuickReservation;
 	}
 
 	public void setCottageQuickReservation(Set<CottageQuickReservation> param) {
-	    this.cottageQuickReservation = param;
+		this.cottageQuickReservation = param;
 	}
 
 	public Set<CottageImage> getCottageImage() {
-	    return cottageImage;
+		return cottageImage;
 	}
 
 	public void setCottageImage(Set<CottageImage> param) {
-	    this.cottageImage = param;
+		this.cottageImage = param;
 	}
-	
+
 	public void addCottageImage(CottageImage param) {
-	    param.setCottage(this);
-	    cottageImage.add(param);
+		param.setCottage(this);
+		cottageImage.add(param);
 	}
 
 	public Set<CottageReservation> getCottageReservation() {
-	    return cottageReservation;
+		return cottageReservation;
 	}
 
 	public void setCottageReservation(Set<CottageReservation> param) {
-	    this.cottageReservation = param;
+		this.cottageReservation = param;
 	}
 
 	public Set<AdditionalService> getAdditionalService() {
-	    return additionalService;
+		return additionalService;
 	}
 
 	public void setAdditionalService(Set<AdditionalService> param) {
-	    this.additionalService = param;
+		this.additionalService = param;
 	}
 
 	public CottageOwner getCottageOwner() {
-	    return cottageOwner;
+		return cottageOwner;
 	}
 
 	public void setCottageOwner(CottageOwner param) {
-	    this.cottageOwner = param;
+		this.cottageOwner = param;
 	}
 
 	public Integer getBedCount() {

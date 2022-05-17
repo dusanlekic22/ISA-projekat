@@ -48,4 +48,8 @@ export class AuthenticationService {
       requiredRoles
     );
   }
+
+  isAdminFirstTimeLoggedIn(): Observable<boolean> {
+    return this.http.get<any>(`${environment.apiUrl}/admin/firstTimeLoggedIn`);
+  }
 }

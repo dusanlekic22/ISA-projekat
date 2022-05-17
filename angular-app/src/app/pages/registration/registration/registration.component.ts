@@ -40,6 +40,7 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     this.user = {
+      id: -1,
       username: this.username,
       password: this.password,
       firstName: this.firstName,

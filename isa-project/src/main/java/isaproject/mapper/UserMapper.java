@@ -6,6 +6,7 @@ import java.util.Set;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
+import isaproject.model.Admin;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Role;
 import isaproject.model.User;
@@ -50,6 +51,7 @@ public class UserMapper {
 	
 	public static UserDTO UserToDTO(User user) {
 		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
 		userDTO.setUsername(user.getUsername());
 		userDTO.setPassword(user.getPassword());
 		userDTO.setFirstName(user.getFirstName());
@@ -59,6 +61,17 @@ public class UserMapper {
 		userDTO.setPhoneNumber(user.getPhoneNumber());
 		userDTO.setAddress(user.getAddress());
 		return userDTO;
+	}
+
+	public static Admin DTOToAdmin(UserDTO userDTO) {
+		Admin user = new Admin();
+		user.setUsername(userDTO.getUsername());
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
+		user.setEmail(userDTO.getEmail());
+		user.setPhoneNumber(userDTO.getPhoneNumber());
+		user.setAddress(userDTO.getAddress());
+		return user;
 	}
 	
 }

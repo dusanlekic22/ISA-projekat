@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "Customer")
@@ -19,8 +19,8 @@ public class Customer extends User {
 	private String loyalityProgram;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	private Set<BoatReservation> boatReservation;
+	@JsonBackReference
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-	@JsonManagedReference
 	private Set<CottageReservation> cottageReservation;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	private Collection<FishingReservation> fishingReservation;

@@ -6,14 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class CottageOwner extends User {
 
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "cottageOwner",fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<Cottage> cottage;
 	public CottageOwner() {
 	}

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,10 +32,10 @@ public class CottageReservation implements Serializable {
 	private DateSpan duration;
 	private String guestCapacity;
 	private Integer price;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
+	@JoinColumn(name = "cottage_id")
 	@JsonBackReference
 	private Cottage cottage;
-	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Customer customer;
 	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER)

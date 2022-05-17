@@ -1,7 +1,9 @@
 package isaproject.mapper;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
+import isaproject.dto.UserDeletionRequestDTO;
 import isaproject.model.BusinessOwnerRegistrationRequest;
+import isaproject.model.UserDeletionRequest;
 
 public class RequestMapper {
 
@@ -23,6 +25,24 @@ public class RequestMapper {
 		registrationRequestDTO.setRegistrationExplanation(registrationRequest.getRegistrationExplanation());
 		registrationRequestDTO.setUserEmail(registrationRequest.getUserEmail());
 		return registrationRequestDTO;
+	}
+
+	public static UserDeletionRequestDTO UserDeletionRequestToDTO(UserDeletionRequest userDeletionRequest) {
+		UserDeletionRequestDTO deletionRequestDTO = new UserDeletionRequestDTO();
+		deletionRequestDTO.setId(userDeletionRequest.getId());
+		deletionRequestDTO.setAccepted(userDeletionRequest.getAccepted());
+		deletionRequestDTO.setDeletionExplanation(userDeletionRequest.getDeletionExplanation());
+		deletionRequestDTO.setUserEmail(userDeletionRequest.getUserEmail());
+		return deletionRequestDTO;
+	}
+
+	public static UserDeletionRequest DTOtoUserDeletionRequest(UserDeletionRequestDTO deletionRequestDTO) {
+		UserDeletionRequest deletionRequest = new UserDeletionRequest();
+		deletionRequest.setAccepted(deletionRequestDTO.getAccepted());
+		deletionRequest.setDeletionExplanation(deletionRequestDTO.getDeletionExplanation());
+		deletionRequest.setId(deletionRequestDTO.getId());
+		deletionRequest.setUserEmail(deletionRequestDTO.getUserEmail());
+		return deletionRequest;
 	}
 
 }

@@ -1,10 +1,14 @@
 package isaproject.dto;
 
 public class UserChangePasswordDTO {
-    private Long id;
+    
+	private Long id;
     private String password;
-	
-    public Long getId() {
+    
+    public UserChangePasswordDTO() {
+	}
+
+	public Long getId() {
 		return id;
 	}
 	

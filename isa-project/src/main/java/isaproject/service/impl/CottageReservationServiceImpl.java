@@ -86,7 +86,8 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 	private boolean isCustomersReservationInAction(CottageReservation newReservation,
 			CottageReservation existingReservation) {
-		return existingReservation.getCustomer().getId() == newReservation.getCustomer().getId()
+		System.out.println("AAAAAAAAAAAAAAAAA" + existingReservation.getDuration().isBetween(LocalDate.now()) + " " + LocalDate.now()+" " +existingReservation.getDuration().getStartDate()+" " +existingReservation.getDuration().getEndDate());
+		return (existingReservation.getCustomer().getId() == newReservation.getCustomer().getId())
 				&& existingReservation.getDuration().isBetween(LocalDate.now());
 	}
 
@@ -99,15 +100,15 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			DateSpan newDateSpan = new DateSpan(duration.getEndDate(), availableDateSpan.getEndDate());
 			cottage.getAvailableReservationDateSpan().add(newDateSpan);
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) == 0) {
+			DateSpan newDateSpan = new DateSpan(availableDateSpan.getStartDate(), duration.getStartDate());
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateSpan newDateSpan1 = new DateSpan(availableDateSpan.getStartDate(), duration.getStartDate());
 			DateSpan newDateSpan2 = new DateSpan(duration.getEndDate(), availableDateSpan.getEndDate());
 			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
 			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
-		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
-				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) == 0) {
-			DateSpan newDateSpan = new DateSpan(availableDateSpan.getStartDate(), duration.getStartDate());
-			cottage.getAvailableReservationDateSpan().add(newDateSpan);
 		}
 		cottageRepository.save(cottage);
 	}
@@ -117,16 +118,27 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservationDTO) {
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
+		boolean inAction = false;
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageReservation.getCottage().getId())) {
-			if (q.getDuration().overlapsWith(cottageReservation.getDuration())
-					|| !isCustomersReservationInAction(q, cottageReservation)) {
+			
+			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+				System.out.println("overlapped");
 				return null;
 			}
+			
+			if(isCustomersReservationInAction(cottageReservation, q)) {
+				System.out.println("inaction");
+				inAction = true;
+			}
 		}
+		
+		if(!inAction)
+			return null;
 
 		for (DateSpan dateSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
 			if (cottageReservation.getDuration().overlapsWith(dateSpan)) {
+				System.out.println("reserved");
 				reserveAvailableDateSpan(cottageReservation, dateSpan);
 				break;
 			}

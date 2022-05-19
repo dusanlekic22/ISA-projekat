@@ -57,10 +57,19 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageId(id),HttpStatus.OK);
 	}
 	
-	@PostMapping
+	@PostMapping("/owner")
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<CottageReservationDTO> save(@RequestBody CottageReservationDTO cottageReservationDTO) {
-		CottageReservationDTO cottageReservationReturnDTO = cottageReservationService.save(cottageReservationDTO);
+	public ResponseEntity<CottageReservationDTO> reserveOwner(@RequestBody CottageReservationDTO cottageReservationDTO) {
+		CottageReservationDTO cottageReservationReturnDTO = cottageReservationService.reserveCottageOwner(cottageReservationDTO);
+		if(cottageReservationReturnDTO == null)
+			return new ResponseEntity<>(cottageReservationDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReservationDTO,HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/customer")
+	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<CottageReservationDTO> reserveCustomer(@RequestBody CottageReservationDTO cottageReservationDTO) {
+		CottageReservationDTO cottageReservationReturnDTO = cottageReservationService.reserveCustomer(cottageReservationDTO);
 		if(cottageReservationReturnDTO == null)
 			return new ResponseEntity<>(cottageReservationDTO,HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageReservationDTO,HttpStatus.CREATED);

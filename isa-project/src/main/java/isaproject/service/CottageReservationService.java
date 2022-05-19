@@ -15,6 +15,6 @@ public interface CottageReservationService {
     Set<CottageReservationDTO> findAllActive();
     Set<CottageReservationDTO> findAllPastByCottageId(Long id);
     Set<CottageReservationDTO> findAllActiveByCottageId(Long id);
-    CottageReservationDTO save(CottageReservationDTO cottageReservation);
-
+    CottageReservationDTO reserveCustomer(CottageReservationDTO cottageReservation);
+    CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservation);
 }

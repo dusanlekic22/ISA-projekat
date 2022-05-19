@@ -48,6 +48,15 @@ public class CottageController {
 		return new ResponseEntity<>(cottageDTO,HttpStatus.CREATED);
 	}
 	
+	@PutMapping("/info")
+	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<CottageDTO> updateInfo(@RequestBody CottageDTO cottageDTO) {
+		CottageDTO cottageReturnDTO =  cottageService.updateInfo(cottageDTO);
+		if(cottageReturnDTO==null)
+			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
+	}
+	
 	@PostMapping
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> save(@RequestBody CottageDTO cottageDTO) {

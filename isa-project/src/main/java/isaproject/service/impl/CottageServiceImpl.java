@@ -12,6 +12,7 @@ import isaproject.mapper.CottageMapper;
 import isaproject.model.Cottage;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
+import isaproject.service.CottageReservationService;
 import isaproject.service.CottageService;
 
 @Service
@@ -21,8 +22,9 @@ public class CottageServiceImpl implements CottageService {
 	private CottageRepository cottageRepository;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private CottageReservationService cottageReservationService;
 	
-	@Transactional
 	public CottageDTO findById(Long id) {
 		Cottage cottage = cottageRepository.findById(id).orElse(null);
 		return CottageMapper.CottageToCottageDTO(cottage);
@@ -45,7 +47,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public CottageDTO deleteById(Long id) {
 		CottageDTO cottageDTO = findById(id);
-		if (cottageDTO.getCottageReservation().isEmpty()) {
+		if (cottageReservationService.findAllActiveByCottageId(id).isEmpty()) {
 			cottageRepository.deleteById(id);
 			return cottageDTO;
 		}
@@ -64,7 +66,17 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public CottageDTO update(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
-		if (cottageDTO.getCottageReservation().isEmpty()) {
+		//if (cottageDTO.getCottageReservation().isEmpty()) {
+			return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
+		//}
+		//return null;
+	}
+	
+	@Transactional
+	@Override
+	public CottageDTO updateInfo(CottageDTO cottageDTO) {
+		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
+		if (cottageReservationService.findAllActiveByCottageId(cottage.getId()).isEmpty()) {
 			return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 		}
 		return null;

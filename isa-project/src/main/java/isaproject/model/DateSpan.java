@@ -39,6 +39,11 @@ public class DateSpan {
 		// (StartA <= EndB) and (EndA >= StartB)
 		return startDate.compareTo(dateSpan.startDate) <= 0 && endDate.compareTo(dateSpan.startDate) >= 0;
 	}
+	
+	public boolean isBetween(LocalDate date) {
+		// (StartA <= Date) and (Date >= EndA)
+		return startDate.compareTo(date) <= 0 && date.compareTo(endDate) >= 0;
+	}
 
 	public DateSpan extend(LocalDate extend) {
 		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));

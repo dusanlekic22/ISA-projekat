@@ -22,3 +22,4 @@ insert into cottage_owner (id) values (2);
 insert into cottage (name, promo_description, bed_count, room_count, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 3, 15,'Nema',1,2);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, cottage_id,customer_id) values ('2022-05-21', '2022-05-21', 5, 70, 1,1);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, 1,1);
+insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-01', '2022-05-31',1);

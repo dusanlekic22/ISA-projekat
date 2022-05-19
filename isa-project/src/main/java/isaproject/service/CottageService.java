@@ -13,5 +13,6 @@ public interface CottageService {
 	CottageDTO save(CottageDTO cottage);
 	CottageDTO update(CottageDTO cottage);
 	CottageDTO deleteById(Long id);
+	CottageDTO updateInfo(CottageDTO cottageDTO);
 	
 }

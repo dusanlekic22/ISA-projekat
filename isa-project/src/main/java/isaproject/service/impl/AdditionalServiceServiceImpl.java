@@ -19,7 +19,7 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService{
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
 	
-	@Transactional
+
 	public AdditionalServiceDTO findById(Long id) {
 		AdditionalService additionalService = additionalServiceRepository.getById(id);
 		return AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(additionalService);

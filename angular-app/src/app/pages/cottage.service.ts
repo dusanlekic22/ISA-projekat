@@ -13,8 +13,6 @@ import { ICottageReservation } from './cottage-profile/cottageReservation';
   providedIn: 'root'
 })
 export class CottageService {
-  private _cottageUrl = 'http://localhost:8080/cottage';
-  private _additionalServiceUrl = 'http://localhost:8080/additionalService';
   constructor(private _http: HttpClient) { }
 
   getCottageById(cottageId: number): Observable<ICottage> {
@@ -53,6 +51,13 @@ export class CottageService {
     );
   }
 
+  editCottageInfo(cottage:ICottage): Observable<ICottage> {
+    return this._http.put<ICottage>(environment.apiUrl + '/cottage/info',cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   deleteCottage(cottageId:number): Observable<ArrayBuffer> {
     return this._http.delete<ArrayBuffer>(environment.apiUrl + `/cottage/${cottageId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -69,7 +74,7 @@ export class CottageService {
 
   addCottageQuickReservation(cottageQuickReservation:ICottageQuickReservation,cottage:ICottage): Observable<ICottageQuickReservation> {
     return this._http.post<ICottageQuickReservation>(environment.apiUrl + '/cottageQuickReservation',
-    {id:cottageQuickReservation.id,dateSpan:cottageQuickReservation.duration,
+    {id:cottageQuickReservation.id,duration:cottageQuickReservation.duration,validSpan:cottageQuickReservation.validSpan,
       guestCapacity:cottageQuickReservation.guestCapacity,price:cottageQuickReservation.price,cottage:cottage}).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)

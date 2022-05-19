@@ -1,6 +1,9 @@
 package isaproject.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +39,9 @@ public class CottageQuickReservationController {
 	
 	@PostMapping
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<CottageQuickReservationDTO> save(@RequestBody CottageQuickReservationDTO cottageQuickReservationDTO) {
+	public ResponseEntity<CottageQuickReservationDTO> save(
+			@RequestBody CottageQuickReservationDTO cottageQuickReservationDTO)
+			throws UnsupportedEncodingException, MessagingException {
 		CottageQuickReservationDTO cottageQuickReservationReturnDTO = cottageQuickReservationService.save(cottageQuickReservationDTO);
 		if(cottageQuickReservationReturnDTO == null)
 			return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.BAD_REQUEST);

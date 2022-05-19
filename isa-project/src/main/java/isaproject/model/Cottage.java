@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -55,7 +57,13 @@ public class Cottage implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
 	private Set<DateSpan> availableReservationDateSpan = new HashSet<DateSpan>();
-
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			  name = "cottage_subscribers", 
+			  joinColumns = @JoinColumn(name = "cottage_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	private Set<Customer> subscribers = new HashSet<>();
+	
 	public long getId() {
 		return id;
 	}
@@ -163,6 +171,14 @@ public class Cottage implements Serializable {
 
 	public void setRoomCount(Integer roomCount) {
 		this.roomCount = roomCount;
+	}
+
+	public Set<Customer> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(Set<Customer> subscribers) {
+		this.subscribers = subscribers;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CustomerMapper;
+import isaproject.model.CottageQuickReservation;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
 import isaproject.model.User;
@@ -62,6 +63,27 @@ public class CustomerServiceImpl implements CustomerService {
 		String verifyURL = siteURL + "/auth/verify?code=" + user.getVerificationCode();
 
 		content = content.replace("[[URL]]", verifyURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);
+	}
+
+	public void sendNewQuickReservationEmail(Customer user, String siteURL, CottageQuickReservation cottageQuickReservation)
+			throws MessagingException {
+		String toAddress = user.getEmail();
+		String subject = "New " + cottageQuickReservation.getCottage().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "New reservation is available in " + cottageQuickReservation.getCottage().getName() + "<br>"
+				+ "from: " + cottageQuickReservation.getDuration().getStartDate() 
+				+ " to: " + cottageQuickReservation.getDuration().getEndDate() + "<br>"
+				+ " with a discount price of: " + cottageQuickReservation.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">Reserve</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteURL + "/cottageQuickReservation/appoint";
+
+		content = content.replace("[[URL]]", reserveURL);
 
 		Mail mail = new Mail(toAddress, subject, content);
 

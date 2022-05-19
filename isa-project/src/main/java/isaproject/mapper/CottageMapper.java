@@ -21,6 +21,7 @@ public class CottageMapper {
 		cottage.setCottageRules(cottageDTO.getCottageRules());
 		cottage.setAvailableReservationDateSpan(cottageDTO.getAvailableReservationDateSpan());
 		cottage.setCottageOwner(cottageDTO.getCottageOwner());
+		cottage.setSubscribers(cottageDTO.getSubscribers());
 		return cottage;
 	}
 	
@@ -40,6 +41,7 @@ public class CottageMapper {
 		cottageDTO.setCottageRules(cottage.getCottageRules());
 		cottageDTO.setAvailableReservationDateSpan(cottage.getAvailableReservationDateSpan());
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());
+		cottageDTO.setSubscribers(cottage.getSubscribers());
 		return cottageDTO;
 	}
 }

@@ -1,7 +1,10 @@
 package isaproject.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +16,11 @@ import isaproject.mapper.CottageQuickReservationMapper;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
+import isaproject.model.Customer;
 import isaproject.repository.CottageQuickReservationRepository;
 import isaproject.repository.CottageReservationRepository;
 import isaproject.service.CottageQuickReservationService;
+import isaproject.service.CustomerService;
 
 @Service
 public class CottageQuickReservationServiceImpl implements CottageQuickReservationService {
@@ -25,8 +30,11 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 
 	@Autowired
 	CottageReservationRepository cottageReservationRepository;
+	
+	@Autowired
+	CustomerService customerService;
 
-	@Transactional
+	
 	@Override
 	public CottageQuickReservationDTO findById(Long id) {
 		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository.findById(id).orElse(null);
@@ -53,9 +61,11 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		}
 		return dtos;
 	}
-
+	
+	@Transactional
 	@Override
-	public CottageQuickReservationDTO save(CottageQuickReservationDTO cottageQuickReservationDTO) {
+	public CottageQuickReservationDTO save(CottageQuickReservationDTO cottageQuickReservationDTO)
+			throws UnsupportedEncodingException, MessagingException {
 		CottageQuickReservation cottageQuickReservation = CottageQuickReservationMapper
 				.CottageQuickReservationDTOToCottageQuickReservation(cottageQuickReservationDTO);
 		for (CottageQuickReservation q : cottageQuickReservationRepository
@@ -64,6 +74,11 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				return null;
 			}
 		}
+
+		for(Customer customer:cottageQuickReservation.getCottage().getSubscribers()) {
+			customerService.sendNewQuickReservationEmail(customer, null, cottageQuickReservation);
+		}
+		
 		return CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(
 				cottageQuickReservationRepository.save(cottageQuickReservation));
 	}

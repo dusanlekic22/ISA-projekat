@@ -1,72 +1,33 @@
-package isaproject.model;
+package isaproject.dto;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-
-import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import isaproject.model.AdditionalService;
+import isaproject.model.Address;
+import isaproject.model.FishingImage;
+import isaproject.model.FishingQuickReservation;
+import isaproject.model.FishingReservation;
+import isaproject.model.FishingTrainer;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+public class FishingCourseDTO {
 
-@Entity
-public class FishingCourse implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String name;
-
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
-
 	private String promoDescription;
-
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = { PERSIST, MERGE })
-	private Set<FishingImage> fishingImage = new HashSet<FishingImage>();
-
+	private Set<FishingImage> fishingImage;
 	private Integer capacity;
-
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private Set<FishingQuickReservation> fishingQuickReservation = new HashSet<FishingQuickReservation>();
-
+	private Set<FishingQuickReservation> fishingQuickReservation;
 	private String fishingRules;
-
 	private String fishingEquipment;
-
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
-
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private Set<FishingReservation> fishingReservation = new HashSet<FishingReservation>();
-
-	private Double price = 0.0;
-
-	private Double cancellationPercentageKeep = 0.0;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fishingTrainer_id", referencedColumnName = "id")
+	private Set<AdditionalService> additionalService;
+	private Set<FishingReservation> fishingReservation;
+	private Double price;
+	private Double cancellationPercentageKeep;
 	private FishingTrainer fishingTrainer;
-
-	public FishingCourse() {
+	
+	public FishingCourseDTO() {
+		super();
 	}
 
 	public Long getId() {
@@ -180,5 +141,5 @@ public class FishingCourse implements Serializable {
 	public void setFishingTrainer(FishingTrainer fishingTrainer) {
 		this.fishingTrainer = fishingTrainer;
 	}
-
+	
 }

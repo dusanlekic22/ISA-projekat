@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CreateUserDeletionRequestDTO;
@@ -17,6 +18,7 @@ import isaproject.repository.UserRepository;
 import isaproject.service.SendMailService;
 import isaproject.service.UserDeletionService;
 
+@Service
 public class UserDeletionServiceImpl implements UserDeletionService {
 
 	private UserDeletionRequestRepository requestRepository;

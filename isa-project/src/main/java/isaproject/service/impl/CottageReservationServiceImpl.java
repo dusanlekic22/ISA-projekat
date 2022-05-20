@@ -1,8 +1,11 @@
 package isaproject.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CottageReservationDTO;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.model.Cottage;
+import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
 import isaproject.model.DateSpan;
+import isaproject.repository.CottageQuickReservationRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.repository.CottageReservationRepository;
 import isaproject.service.CottageReservationService;
+import isaproject.service.CustomerService;
 
 @Service
 public class CottageReservationServiceImpl implements CottageReservationService {
@@ -23,7 +29,11 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Autowired
 	CottageReservationRepository cottageReservationRepository;
 	@Autowired
+	CottageQuickReservationRepository cottageQuickReservationRepository;
+	@Autowired
 	CottageRepository cottageRepository;
+	@Autowired
+	CustomerService customerService;
 
 	@Override
 	public CottageReservationDTO findById(Long id) {
@@ -56,6 +66,11 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public CottageReservationDTO reserveCustomer(CottageReservationDTO cottageReservationDTO) {
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
+		cottageReservation.setConfirmed(true);
+		
+		if(!cottageReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+			return null;
+		}
 
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageReservation.getCottage().getId())) {
@@ -86,7 +101,6 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 	private boolean isCustomersReservationInAction(CottageReservation newReservation,
 			CottageReservation existingReservation) {
-		System.out.println("AAAAAAAAAAAAAAAAA" + existingReservation.getDuration().isBetween(LocalDate.now()) + " " + LocalDate.now()+" " +existingReservation.getDuration().getStartDate()+" " +existingReservation.getDuration().getEndDate());
 		return (existingReservation.getCustomer().getId() == newReservation.getCustomer().getId())
 				&& existingReservation.getDuration().isBetween(LocalDate.now());
 	}
@@ -115,37 +129,56 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 	@Transactional
 	@Override
-	public CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservationDTO) {
+	public CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservationDTO, String siteUrl)
+			throws UnsupportedEncodingException, MessagingException {
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
+		cottageReservation.setConfirmed(false);
+		
+		if(!cottageReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+			return null;
+		}
+		
 		boolean inAction = false;
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageReservation.getCottage().getId())) {
-			
+
 			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
-				System.out.println("overlapped");
+				System.out.println("izaso1");
 				return null;
 			}
-			
-			if(isCustomersReservationInAction(cottageReservation, q)) {
-				System.out.println("inaction");
+
+			if (isCustomersReservationInAction(cottageReservation, q)) {
 				inAction = true;
 			}
 		}
-		
-		if(!inAction)
-			return null;
 
+		for (CottageQuickReservation q : cottageQuickReservationRepository
+				.findByCottageId(cottageReservation.getCottage().getId())) {
+
+			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+				System.out.println("izaso12");
+				return null;
+			}
+		}
+
+		if (!inAction) {
+			System.out.println("izaso3");
+			return null;
+		}
+		
 		for (DateSpan dateSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
 			if (cottageReservation.getDuration().overlapsWith(dateSpan)) {
-				System.out.println("reserved");
 				reserveAvailableDateSpan(cottageReservation, dateSpan);
 				break;
 			}
 		}
+		CottageReservation cottageQuickReservationReturn = cottageReservationRepository.save(cottageReservation);
+		
+		customerService.sendReservationConfirmationEmail(siteUrl, cottageQuickReservationReturn);
 
 		return CottageReservationMapper
-				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
+				.CottageReservationToCottageReservationDTO(cottageQuickReservationReturn);
 	}
 
 	@Transactional
@@ -210,6 +243,13 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;
+	}
+
+	@Override
+	public CottageReservationDTO confirmReservation(Long id) {
+		CottageReservation cottageReservation = cottageReservationRepository.findById(id).get();
+		cottageReservation.setConfirmed(true);
+		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
 	}
 
 }

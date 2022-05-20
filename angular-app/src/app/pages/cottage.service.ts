@@ -74,7 +74,7 @@ export class CottageService {
 
   addCottageQuickReservation(cottageQuickReservation:ICottageQuickReservation,cottage:ICottage): Observable<ICottageQuickReservation> {
     return this._http.post<ICottageQuickReservation>(environment.apiUrl + '/cottageQuickReservation',
-    {id:cottageQuickReservation.id,duration:cottageQuickReservation.duration,validSpan:cottageQuickReservation.validSpan,
+    {id:cottageQuickReservation.id,duration:cottageQuickReservation.duration,
       guestCapacity:cottageQuickReservation.guestCapacity,price:cottageQuickReservation.price,cottage:cottage}).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)

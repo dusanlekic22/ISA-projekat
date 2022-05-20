@@ -341,8 +341,6 @@
                   <tr>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
-                    <th scope="col">Valid from</th>
-                    <th scope="col">Valid to</th>
                     <th scope="col">Guest Capacity</th>
                     <th scope="col">Price(in €)</th>
                     <th scope="col"></th>
@@ -362,16 +360,6 @@
                     <td>
                       {{
                         quickReservation.duration.endDate | date: "dd/MM/yyyy"
-                      }}
-                    </td>
-                    <td>
-                      {{
-                        quickReservation.validSpan.startDate | date: "dd/MM/yyyy"
-                      }}
-                    </td>
-                    <td>
-                      {{
-                        quickReservation.validSpan.endDate | date: "dd/MM/yyyy"
                       }}
                     </td>
                     <td>
@@ -598,41 +586,6 @@
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="form-control-label" for="input-date"
-                  >Valid date span</label
-                >
-                <div class="md-form mb-5">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Enter a date range</mat-label>
-                    <mat-date-range-input
-                      [rangePicker]="picker3"
-                      [min]="minDate"
-                    >
-                      <input
-                        matStartDate
-                        placeholder="Start date"
-                        name="quickReservationSpanStart"
-                        [(ngModel)]="cottageQuickReservation.validSpan.startDate"
-                      />
-                      <input
-                        matEndDate
-                        placeholder="End date"
-                        name="quickReservationSpanEnd"
-                        [(ngModel)]="cottageQuickReservation.validSpan.endDate"
-                      />
-                    </mat-date-range-input>
-                    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker3"
-                    ></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker3></mat-date-range-picker>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="row">
             <div class="col-lg-4">
@@ -643,7 +596,7 @@
                 <input
                   [(ngModel)]="cottageQuickReservation.guestCapacity"
                   name="capacity"
-                  type="text"
+                  type="number"
                   id="input-people"
                   class="form-control form-control-alternative"
                   min="1"

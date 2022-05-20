@@ -14,6 +14,7 @@ public class CottageReservationMapper {
 		cottageReservation.setAdditionalService(cottageReservationDTO.getAdditionalService());
 		cottageReservation.setCottage(cottageReservationDTO.getCottage());
 		cottageReservation.setCustomer(cottageReservationDTO.getCustomer());
+		cottageReservation.setConfirmed(cottageReservationDTO.isConfirmed());
 		return cottageReservation;
 	}
 	
@@ -26,6 +27,7 @@ public class CottageReservationMapper {
 		cottageReservationDTO.setAdditionalService(cottageReservation.getAdditionalService());
 		cottageReservationDTO.setCottage(cottageReservation.getCottage());
 		cottageReservationDTO.setCustomer(cottageReservation.getCustomer());
+		cottageReservationDTO.setConfirmed(cottageReservation.isConfirmed());
 		return cottageReservationDTO;
 	}
 

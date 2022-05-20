@@ -66,10 +66,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public CottageDTO update(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
-		//if (cottageDTO.getCottageReservation().isEmpty()) {
-			return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
-		//}
-		//return null;
+		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
 	
 	@Transactional

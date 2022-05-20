@@ -3,6 +3,7 @@ package isaproject.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class CottageReservation implements Serializable {
 	private long id;
 	@Embedded
 	private DateSpan duration;
-	private String guestCapacity;
+	private Integer guestCapacity;
 	private Integer price;
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
 	@JoinColumn(name = "cottage_id")
@@ -38,8 +39,17 @@ public class CottageReservation implements Serializable {
 	private Cottage cottage;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Customer customer;
-	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
 
 	public long getId() {
 		return id;
@@ -57,11 +67,11 @@ public class CottageReservation implements Serializable {
 		this.duration = duration;
 	}
 
-	public String getGuestCapacity() {
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String guestCapacity) {
+	public void setGuestCapacity(Integer guestCapacity) {
 		this.guestCapacity = guestCapacity;
 	}
 

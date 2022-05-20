@@ -1,6 +1,9 @@
 package isaproject.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 import isaproject.dto.CottageReservationDTO;
 
@@ -16,5 +19,8 @@ public interface CottageReservationService {
     Set<CottageReservationDTO> findAllPastByCottageId(Long id);
     Set<CottageReservationDTO> findAllActiveByCottageId(Long id);
     CottageReservationDTO reserveCustomer(CottageReservationDTO cottageReservation);
-    CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservation);
+
+	CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservation, String siteUrl)
+			throws UnsupportedEncodingException, MessagingException;
+    CottageReservationDTO confirmReservation(Long id);
 }

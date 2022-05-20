@@ -65,11 +65,7 @@ export class CottageProfileComponent implements OnInit {
       startDate: new Date(),
       endDate: new Date(),
     },
-    validSpan: {
-      startDate: new Date(),
-      endDate: new Date(),
-    },
-    guestCapacity: '',
+    guestCapacity: 0,
     price: 0,
   };
   
@@ -202,8 +198,6 @@ export class CottageProfileComponent implements OnInit {
   addQuickReservation(): void {
     this.cottageQuickReservation.duration.startDate = this.format(this.cottageQuickReservation.duration.startDate);
     this.cottageQuickReservation.duration.endDate = this.format(this.cottageQuickReservation.duration.endDate);
-    this.cottageQuickReservation.validSpan.startDate = this.format(this.cottageQuickReservation.validSpan.startDate);
-    this.cottageQuickReservation.validSpan.endDate = this.format(this.cottageQuickReservation.validSpan.endDate);
     this._cottageService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe(

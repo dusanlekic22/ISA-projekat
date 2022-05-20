@@ -3,8 +3,6 @@ package isaproject.model;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,11 +30,7 @@ public class CottageQuickReservation implements Serializable {
 	private long id;
 	@Embedded
 	private DateSpan duration;
-	@Embedded
-	@AttributeOverride(name="startDate", column=@Column(name="valid_start_date"))
-	@AttributeOverride(name="endDate", column=@Column(name="valid_end_date"))
-	private DateSpan validSpan;
-	private String guestCapacity;
+	private Integer guestCapacity;
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
@@ -44,6 +38,15 @@ public class CottageQuickReservation implements Serializable {
 	@JoinColumn(name = "cottage_id")
 	@JsonBackReference
 	private Cottage cottage;
+	private boolean isReserved;
+	
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
+	}
 
 	public long getId() {
 		return id;
@@ -60,20 +63,12 @@ public class CottageQuickReservation implements Serializable {
 	public void setDuration(DateSpan duration) {
 		this.duration = duration;
 	}
-	
-	public DateSpan getValidSpan() {
-		return validSpan;
-	}
 
-	public void setValidSpan(DateSpan validSpan) {
-		this.validSpan = validSpan;
-	}
-
-	public String getGuestCapacity() {
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String guestCapacity) {
+	public void setGuestCapacity(Integer guestCapacity) {
 		this.guestCapacity = guestCapacity;
 	}
 

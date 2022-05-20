@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isaproject.dto.CottageQuickReservationDTO;
 import isaproject.dto.CottageReservationDTO;
 import isaproject.service.CottageQuickReservationService;
+import isaproject.util.ProjectUtil;
 
 @RestController
 @RequestMapping(value = "/cottageQuickReservation", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,25 +35,38 @@ public class CottageQuickReservationController {
 	
 	@GetMapping
 	@ResponseBody
-	public Set<CottageQuickReservationDTO> getAll(){
-		return cottageQuickReservationService.findAll();
+	public ResponseEntity<Set<CottageQuickReservationDTO>> getAll(){
+		return new ResponseEntity<>(cottageQuickReservationService.findAll(),HttpStatus.OK);
 	}
+	
+	@GetMapping("/notReserved")
+	@ResponseBody
+	public ResponseEntity<Set<CottageQuickReservationDTO>> getIsReservedFalse(){
+		return new ResponseEntity<>(cottageQuickReservationService.findByIsReservedFalse(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/cottage/{id}/notReserved")
+	@ResponseBody
+	public ResponseEntity<Set<CottageQuickReservationDTO>> getNotReservedAndByCottageId(@PathVariable("id")Long id){
+		return new ResponseEntity<>(cottageQuickReservationService.findByIsReservedFalseAndCottageId(id),HttpStatus.OK);
+	}
+	
 	
 	@PostMapping
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageQuickReservationDTO> save(
-			@RequestBody CottageQuickReservationDTO cottageQuickReservationDTO)
+			@RequestBody CottageQuickReservationDTO cottageQuickReservationDTO,HttpServletRequest request)
 			throws UnsupportedEncodingException, MessagingException {
-		CottageQuickReservationDTO cottageQuickReservationReturnDTO = cottageQuickReservationService.save(cottageQuickReservationDTO);
+		CottageQuickReservationDTO cottageQuickReservationReturnDTO = cottageQuickReservationService.save(cottageQuickReservationDTO,ProjectUtil.getSiteURL(request));
 		if(cottageQuickReservationReturnDTO == null)
 			return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/appoint")
+	@GetMapping("/appoint/{reservationId}/user/{id}")
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@RequestBody CottageReservationDTO cottageReservationDTO) {
-		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(cottageReservationDTO);
+	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
+		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(cottageReservationReturnDTO == null)
 			return new ResponseEntity<>(cottageReservationReturnDTO,HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageReservationReturnDTO,HttpStatus.CREATED);
@@ -63,7 +78,6 @@ public class CottageQuickReservationController {
 		CottageQuickReservationDTO cottageQuickReservationDTO = cottageQuickReservationService.deleteById(id);
 		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.OK);
 	}
-
-
+	
 
 }

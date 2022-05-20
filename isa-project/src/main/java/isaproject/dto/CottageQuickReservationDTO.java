@@ -10,11 +10,11 @@ public class CottageQuickReservationDTO {
 
 	private long id;
 	private DateSpan duration;
-	private DateSpan validSpan;
-	private String guestCapacity;
+	private Integer guestCapacity;
 	private Integer price;
 	private Set<AdditionalService> additionalService;
 	private Cottage cottage;
+	private boolean isReserved;
 
 	public CottageQuickReservationDTO() {
 		super();
@@ -37,19 +37,11 @@ public class CottageQuickReservationDTO {
 		this.duration = duration;
 	}
 
-	public DateSpan getValidSpan() {
-		return validSpan;
-	}
-
-	public void setValidSpan(DateSpan validSpan) {
-		this.validSpan = validSpan;
-	}
-
-	public String getGuestCapacity() {
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String guestCapacity) {
+	public void setGuestCapacity(Integer guestCapacity) {
 		this.guestCapacity = guestCapacity;
 	}
 
@@ -75,6 +67,14 @@ public class CottageQuickReservationDTO {
 
 	public void setCottage(Cottage cottage) {
 		this.cottage = cottage;
+	}
+
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
 	}
 
 }

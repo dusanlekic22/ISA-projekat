@@ -9,4 +9,8 @@ import isaproject.model.CottageQuickReservation;
 public interface CottageQuickReservationRepository extends JpaRepository<CottageQuickReservation, Long>{
 
 	List<CottageQuickReservation> findByCottageId(Long id);
+	
+	List<CottageQuickReservation> findByIsReservedFalseAndCottageId(Long id);
+	
+	List<CottageQuickReservation> findByIsReservedFalse();
 }

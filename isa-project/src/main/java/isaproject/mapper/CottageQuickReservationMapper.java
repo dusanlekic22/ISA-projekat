@@ -1,8 +1,11 @@
 package isaproject.mapper;
 
+import java.util.HashSet;
+
 import isaproject.dto.CottageQuickReservationDTO;
 import isaproject.dto.CottageReservationDTO;
 import isaproject.model.CottageQuickReservation;
+import isaproject.model.CottageReservation;
 
 public class CottageQuickReservationMapper {
 	
@@ -10,11 +13,11 @@ public class CottageQuickReservationMapper {
 		CottageQuickReservation cottageQuickReservation = new CottageQuickReservation();
 		cottageQuickReservation.setId(cottageQuickReservationDTO.getId());
 		cottageQuickReservation.setDuration(cottageQuickReservationDTO.getDuration());
-		cottageQuickReservation.setValidSpan(cottageQuickReservationDTO.getValidSpan());
 		cottageQuickReservation.setGuestCapacity(cottageQuickReservationDTO.getGuestCapacity());
 		cottageQuickReservation.setPrice(cottageQuickReservationDTO.getPrice());
 		cottageQuickReservation.setAdditionalService(cottageQuickReservationDTO.getAdditionalService());
 		cottageQuickReservation.setCottage(cottageQuickReservationDTO.getCottage());
+		cottageQuickReservation.setReserved(cottageQuickReservationDTO.isReserved());
 		return cottageQuickReservation;
 	}
 	
@@ -22,11 +25,11 @@ public class CottageQuickReservationMapper {
 		CottageQuickReservationDTO cottageQuickReservationDTO = new CottageQuickReservationDTO();
 		cottageQuickReservationDTO.setId(cottageQuickReservation.getId());
 		cottageQuickReservationDTO.setDuration(cottageQuickReservation.getDuration());
-		cottageQuickReservationDTO.setValidSpan(cottageQuickReservation.getValidSpan());
 		cottageQuickReservationDTO.setGuestCapacity(cottageQuickReservation.getGuestCapacity());
 		cottageQuickReservationDTO.setPrice(cottageQuickReservation.getPrice());
 		cottageQuickReservationDTO.setAdditionalService(cottageQuickReservation.getAdditionalService());
 		cottageQuickReservationDTO.setCottage(cottageQuickReservation.getCottage());
+		cottageQuickReservationDTO.setReserved(cottageQuickReservation.isReserved());
 		return cottageQuickReservationDTO;
 	}
 	
@@ -39,6 +42,16 @@ public class CottageQuickReservationMapper {
 		cottageQuickReservation.setAdditionalService(cottageReservationDTO.getAdditionalService());
 		cottageQuickReservation.setCottage(cottageReservationDTO.getCottage());
 		return cottageQuickReservation;
+	}
+	
+	public static CottageReservation CottageQuickReservationToCottageReservation(CottageQuickReservation cottageQuickReservation) {
+		CottageReservation cottageReservation = new CottageReservation();
+		cottageReservation.setDuration(cottageQuickReservation.getDuration());
+		cottageReservation.setGuestCapacity(cottageQuickReservation.getGuestCapacity());
+		cottageReservation.setPrice(cottageQuickReservation.getPrice());
+		cottageReservation.setAdditionalService(new HashSet<>(cottageQuickReservation.getAdditionalService()));
+		cottageReservation.setCottage(cottageQuickReservation.getCottage());
+		return cottageReservation;
 	}
 
 }

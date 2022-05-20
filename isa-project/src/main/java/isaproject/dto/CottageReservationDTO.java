@@ -11,11 +11,12 @@ public class CottageReservationDTO {
 
 	private long id;
 	private DateSpan duration;
-	private String guestCapacity;
+	private Integer guestCapacity;
 	private Integer price;
 	private Cottage cottage;
 	private Customer customer;
 	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
 
 	public CottageReservationDTO() {
 		super();
@@ -38,11 +39,11 @@ public class CottageReservationDTO {
 		this.duration = duration;
 	}
 
-	public String getGuestCapacity() {
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String guestCapacity) {
+	public void setGuestCapacity(Integer guestCapacity) {
 		this.guestCapacity = guestCapacity;
 	}
 
@@ -76,6 +77,14 @@ public class CottageReservationDTO {
 
 	public void setAdditionalService(Set<AdditionalService> additionalService) {
 		this.additionalService = additionalService;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 
 }

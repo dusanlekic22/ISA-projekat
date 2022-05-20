@@ -3,6 +3,6 @@ import { IDateSpan } from "./dateSpan";
 export interface ICottageReservation{
     id:number;
     duration: IDateSpan;
-    guestCapacity: string;
+    guestCapacity: number;
     price: number;
 }

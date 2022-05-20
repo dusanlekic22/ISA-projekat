@@ -44,6 +44,11 @@ public class DateSpan {
 		// (StartA <= Date) and (Date >= EndA)
 		return startDate.compareTo(date) <= 0 && endDate.compareTo(date) >= 0;
 	}
+	
+	public boolean isDaysAfter(LocalDate date,int days) {
+		// (StartA >= Date + 1day) 
+		return startDate.compareTo(date.plusDays(days)) >= 0;
+	}
 
 	public DateSpan extend(LocalDate extend) {
 		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageImageDTO;
-import isaproject.mapper.CottageImageMapper;
+import isaproject.mapper.ImageMapper;
 import isaproject.model.CottageImage;
 import isaproject.repository.CottageImageRepository;
 import isaproject.service.CottageImageService;
@@ -19,14 +19,14 @@ public class CottageImageServiceImpl implements CottageImageService {
 
 	public CottageImageDTO findById(Long id) {
 		CottageImage cottageImage = cottageImageRepository.getById(id);
-		return CottageImageMapper.CottageImageToCottageImageDTO(cottageImage);
+		return ImageMapper.CottageImageToCottageImageDTO(cottageImage);
 	}
 
 	@Transactional
 	@Override
 	public CottageImageDTO save(CottageImageDTO cottageImageDTO) {
-		CottageImage cottageImage = CottageImageMapper.CottageImageDTOToCottageImage(cottageImageDTO);
-		return CottageImageMapper.CottageImageToCottageImageDTO(cottageImageRepository.save(cottageImage));
+		CottageImage cottageImage = ImageMapper.CottageImageDTOToCottageImage(cottageImageDTO);
+		return ImageMapper.CottageImageToCottageImageDTO(cottageImageRepository.save(cottageImage));
 	}
 
 	@Transactional

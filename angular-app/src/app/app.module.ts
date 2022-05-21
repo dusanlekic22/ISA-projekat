@@ -28,13 +28,21 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner-home/cottage-owner-home.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MDBBootstrapModule, ModalModule,TooltipModule,PopoverModule,ButtonsModule} from 'angular-bootstrap-md';
+import {
+  MDBBootstrapModule,
+  ModalModule,
+  TooltipModule,
+  PopoverModule,
+  ButtonsModule,
+} from 'angular-bootstrap-md';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carousel-base.component';
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
+import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
+import { ChangeCustomerInfoComponent } from './pages/customer-profile/edit/change-customer-info.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +59,9 @@ import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/cu
     CottageOwnerHomeComponent,
     AddCottageComponent,
     OwlCarouselBaseComponent,
-    CustomerCottageProfileComponent
+    CustomerCottageProfileComponent,
+    CustomerProfileComponent,
+    ChangeCustomerInfoComponent,
   ],
   imports: [
     NgbModule,
@@ -77,7 +87,7 @@ import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/cu
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     TagInputModule,
-    CarouselModule 
+    CarouselModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

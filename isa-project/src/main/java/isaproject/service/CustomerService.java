@@ -8,11 +8,14 @@ import isaproject.dto.CustomerDTO;
 import isaproject.model.Customer;
 
 public interface CustomerService {
-	
-	public void register(CustomerDTO customerDTO, String siteURL) throws UnsupportedEncodingException, MessagingException;
-	     
+
+	public CustomerDTO getCustomer(long customerId);
+
+	public void register(CustomerDTO customerDTO, String siteURL)
+			throws UnsupportedEncodingException, MessagingException;
+
 	public void sendVerificationEmail(Customer user, String siteURL)
 			throws UnsupportedEncodingException, MessagingException;
-	    
-	 public boolean verify(String verificationCode);
+
+	public boolean verify(String verificationCode);
 }

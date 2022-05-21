@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,7 +50,7 @@ public class User implements Serializable, UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles;
 	private String phoneNumber;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	private Timestamp lastPasswordResetDate;
 

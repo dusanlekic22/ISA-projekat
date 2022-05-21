@@ -1,16 +1,22 @@
 package isaproject.controller;
 
+import java.security.InvalidParameterException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +31,7 @@ import isaproject.service.UserService;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class UserController {
 
 	private UserService userService;
@@ -39,6 +46,13 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
 	public UserDTO user(Principal user) {
 		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
+	}
+	
+	@PutMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	public ResponseEntity<UserDTO> updateUser(@PathVariable(value = "id") Long userId, @RequestBody UserDTO newUserInfo,Principal user,HttpServletRequest request){
+		UserDTO updatedUser = this.userService.updateUser(userId,newUserInfo,user);
+		return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/authorize")

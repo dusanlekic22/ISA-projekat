@@ -1,26 +1,27 @@
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 
 export interface IUser {
+  id: number;
   username: string;
   password: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
-  roles: IRole[]
+  roles: IRole[];
+  address: IAddress;
 }
 
-export interface IDirective { 
+export interface IDirective {
   username: string;
   password: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
-  roles: IRole[],
-  activeRoles: Array<string>
+  roles: IRole[];
+  activeRoles: Array<string>;
 }
-
 
 export interface IUserLogin {
   username: string;
@@ -35,6 +36,9 @@ export interface IToken {
 export interface IAddress {
   street: string;
   city: string;
+  country: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface IRole {

@@ -14,15 +14,14 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="#"
-          >KVZR</a
-        >
+        <a class="navbar-brand" href="#">KVZR</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a
                 class="nav-link"
-                [routerLink]="['/cottageOwnerHome']" routerLinkActive="router-link-active" 
+                [routerLink]="['/cottageOwnerHome']"
+                routerLinkActive="router-link-active"
                 target="_blank"
                 >Cottages</a
               >
@@ -42,6 +41,14 @@
                 target="_blank"
                 >Fishing Trainers</a
               >
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn()">
+              <a
+                class="nav-link"
+                [routerLink]="['/customer/' + loggedInUser.id]"
+              >
+                Profile
+              </a>
             </li>
           </ul>
 

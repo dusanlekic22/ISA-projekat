@@ -32,7 +32,8 @@ export class CottageProfileComponent implements OnInit {
     availableReservationDateSpan: [],
   };
 
-  @ViewChild('quickReservationInput') reservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('quickReservationInput')
+  reservationFormElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
@@ -77,7 +78,7 @@ export class CottageProfileComponent implements OnInit {
       image: '../assets/img/theme/team-3-800x800.jpg',
       thumbImage: 'assets/img/theme/profile-cover.jpg',
       alt: 'alt of image',
-    }
+    },
   ];
 
   constructor(
@@ -85,7 +86,7 @@ export class CottageProfileComponent implements OnInit {
     private _cottageService: CottageService
   ) {}
 
-  openQuickReservationForm(){
+  openQuickReservationForm() {
     this.addReservationFormOpened = true;
     this.reservationFormElement.nativeElement.scrollIntoView();
   }
@@ -110,7 +111,9 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService
       .getFreeAdditionalServices()
       .subscribe((additionalService) => {
-        this.additionalServiceTags = additionalService.filter(additionalService=>additionalService.name!=null);
+        this.additionalServiceTags = additionalService.filter(
+          (additionalService) => additionalService.name != null
+        );
         console.log(this.additionalServiceTags);
       });
     this.minDate = new Date(Date.now());

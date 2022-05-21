@@ -8,7 +8,8 @@ export interface IUser {
   lastName: string;
   email: string;
   phoneNumber: string;
-  roles: IRole[]
+  roles: IRole[];
+  address: IAddress;
 }
 
 export interface IDirective {
@@ -18,10 +19,9 @@ export interface IDirective {
   lastName: string;
   email: string;
   phoneNumber: string;
-  roles: IRole[],
-  activeRoles: Array<string>
+  roles: IRole[];
+  activeRoles: Array<string>;
 }
-
 
 export interface IUserLogin {
   username: string;
@@ -36,6 +36,9 @@ export interface IToken {
 export interface IAddress {
   street: string;
   city: string;
+  country: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface IRole {

@@ -40,6 +40,10 @@ export class UserService {
     );
   }
 
+  updateUser(user: IUser): Observable<IUser> {
+    return this.http.put<any>(`${environment.apiUrl}/user/${user.id}`, user);
+  }
+
   purgeUser() {
     this.currentUserSubject.next({} as IUser);
   }

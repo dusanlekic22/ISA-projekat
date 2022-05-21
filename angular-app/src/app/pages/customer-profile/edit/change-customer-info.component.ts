@@ -1,22 +1,23 @@
-import { IAddress } from './../../../model/address';
+import { RegistrationService } from './../../registration/registration.service';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/service/user.service';
 import {
   FormGroup,
   FormControl,
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { RegistrationService } from '../registration.service';
-import { IUser } from './user';
+import { IUser } from '../../registration/registration/user';
 import { Observable } from 'rxjs';
-import {} from 'googlemaps';
+import { ActivatedRoute } from '@angular/router';
+import { NumberLiteralType } from 'typescript';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
+  selector: 'app-change-customer-info',
+  templateUrl: './change-customer-info.component.html',
+  styleUrls: ['./change-customer-info.component.css'],
 })
-export class RegistrationComponent implements OnInit {
+export class ChangeCustomerInfoComponent implements OnInit {
   firstFormGroup!: FormGroup;
   firstName!: string;
   lastname!: string;
@@ -26,24 +27,27 @@ export class RegistrationComponent implements OnInit {
   password!: string;
   confirmPassword!: string;
   location!: string;
+  longitude!: number;
+  latitude!: number;
   user!: IUser;
   errorMessage!: string;
   city!: string;
   country!: string;
   street!: string;
-  longitude!: number;
-  latitude!: number;
+  customerId!: number;
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _registrationService: RegistrationService
+    private _userService: UserService,
+    private _registrationService: RegistrationService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
-    });
     this.mapInit();
+    this._route.params.subscribe((data) => {
+      this.customerId = data.id;
+    });
   }
 
   mapInit() {
@@ -105,22 +109,18 @@ export class RegistrationComponent implements OnInit {
           )
           .subscribe((data) => {
             if (data.city === '') {
-              console.log('ccc' + data.locality);
               this.city = data.locality;
             } else {
               this.city = data.city;
             }
-
             this.country = data.countryName;
-            console.log(data);
           });
       });
     }
   }
-
-  register() {
+  update() {
     this.user = {
-      id: 0,
+      id: this.customerId,
       username: this.username,
       password: this.password,
       firstName: this.firstName,
@@ -131,13 +131,13 @@ export class RegistrationComponent implements OnInit {
         street: this.street,
         city: this.city,
         country: this.country,
-        latitude: this.latitude.toString(),
         longitude: this.longitude.toString(),
+        latitude: this.latitude.toString(),
       },
       roles: [],
     };
 
-    this._registrationService.submitForm(this.user).subscribe({
+    this._userService.updateUser(this.user).subscribe({
       next: (data) => {
         this.user = data;
         console.log('pozvan' + data);

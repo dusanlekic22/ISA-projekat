@@ -15,6 +15,16 @@ export class RegistrationService {
   }
 
   registerFishingTrainer(user: IBusinessOwner): Observable<IBusinessOwner> {
-    return this.http.post<any>('http://localhost:8080/fishingTrainer/signup', user);
+    return this.http.post<any>(
+      'http://localhost:8080/fishingTrainer/signup',
+      user
+    );
+  }
+
+  getCityandCountry(lat: string, long: string): Observable<any> {
+    console.log('lat' + lat, 'long' + long);
+    return this.http.get<any>(
+      ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=sr`
+    );
   }
 }

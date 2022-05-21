@@ -1,23 +1,9 @@
 <div class="container-fluid d-flex justify-content-center regist">
   <div class="row my-5 mx-2 main regist2">
     <div class="col-md-12 col-12 xcol">
-      <h2 class="title pt-3 pb-3 text-light">Sign up</h2>
+      <h2 class="title pt-3 pb-3">Sign up</h2>
       <form class="myform">
         <div class="row rone">
-          <div class="col-md-6 fone py-3">
-            <ng-template>Username </ng-template>
-            <mat-form-field appearance="fill">
-              <mat-label>Username</mat-label>
-              <input
-                matInput
-                [(ngModel)]="username"
-                name="username"
-                placeholder="Username"
-                required
-              />
-            </mat-form-field>
-          </div>
-          <div class="col-md-6 fone py-3"></div>
           <div class="col-md-6 fone py-3">
             <ng-template> First name</ng-template>
 
@@ -47,21 +33,6 @@
           </div>
         </div>
         <div class="row rtwo">
-          <div class="form-group col-md-6 fthree py-3">
-            <ng-template> Email</ng-template>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Email</mat-label>
-              <input
-                matInput
-                type="email"
-                [(ngModel)]="email"
-                name="email"
-                placeholder="@gmail.com"
-                required
-              />
-            </mat-form-field>
-          </div>
           <div class="form-group col-md-6 ffour py-3">
             <ng-template>Contact</ng-template>
 
@@ -72,6 +43,50 @@
                 [(ngModel)]="contact"
                 name="contact"
                 placeholder="+381 ..."
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6 fsix py-3">
+            <ng-template matStepLabel>Street</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Street</mat-label>
+              <input
+                type="text"
+                matInput
+                [(ngModel)]="street"
+                name="street"
+                placeholder="Enter your street"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row rthree">
+          <div class="form-group col-md-6 ffive py-3">
+            <ng-template matStepLabel>Country</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Country</mat-label>
+              <input
+                type="text"
+                matInput
+                [(ngModel)]="country"
+                name="country"
+                placeholder="Enter your country"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6 fsix py-3">
+            <ng-template matStepLabel>City</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>City</mat-label>
+              <input
+                type="text"
+                matInput
+                [(ngModel)]="city"
+                name="city"
+                placeholder="Enter your city"
                 required
               />
             </mat-form-field>
@@ -107,60 +122,11 @@
             </mat-form-field>
           </div>
         </div>
-
-        <div class="row rthree">
-          <div class="form-group col-md-6 ffive py-3">
-            <ng-template matStepLabel>Country</ng-template>
-            <mat-form-field appearance="fill">
-              <mat-label>Country</mat-label>
-              <input
-                type="text"
-                matInput
-                [(ngModel)]="country"
-                name="country"
-                placeholder="Enter your country"
-                required
-              />
-            </mat-form-field>
-          </div>
-          <div class="form-group col-md-6 fsix py-3">
-            <ng-template matStepLabel>City</ng-template>
-            <mat-form-field appearance="fill">
-              <mat-label>City</mat-label>
-              <input
-                type="text"
-                matInput
-                [(ngModel)]="city"
-                name="city"
-                placeholder="Enter your city"
-                required
-              />
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row rthree">
-          <div class="form-group col-md-6 ffive py-3"></div>
-          <div class="form-group col-md-6 fsix py-3">
-            <ng-template matStepLabel>Street</ng-template>
-            <mat-form-field appearance="fill">
-              <mat-label>Street</mat-label>
-              <input
-                type="text"
-                matInput
-                [(ngModel)]="street"
-                name="street"
-                placeholder="Enter your street"
-                required
-              />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div id="map" style="height: 500px; width: 100%"></div>
+        <div id="map" style="background: red; height: 500px; width: 100%"></div>
         <div class="row rfour">
           <div class="form-group col-md-6 fseven py-3">
-            <button class="btn btn-success" (click)="register()">
-              <span>Create account</span>
+            <button class="btn btn-success" (click)="update()">
+              <span>Save</span>
             </button>
           </div>
         </div>

@@ -26,6 +26,7 @@ public class UserMapper {
 	
 	public static User DTOToUser(UserDTO userDTO) {
 		User user = new User();
+		user.setId(userDTO.getId());
 		user.setUsername(userDTO.getUsername());
 		user.setPassword(userDTO.getPassword());
 		user.setFirstName(userDTO.getFirstName());

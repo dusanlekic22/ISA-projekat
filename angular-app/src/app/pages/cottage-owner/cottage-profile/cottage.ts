@@ -1,4 +1,4 @@
-import { IUser } from "../registration/registration/user";
+import { IUser } from "../../registration/registration/user";
 import { IAddress } from "./address";
 import { ICottageImage } from "./cottageImage";
 import { ICottageQuickReservation } from "./cottageQuickReservation";

@@ -1,7 +1,7 @@
 package isaproject.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,10 +35,10 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 
 	@Autowired
 	CottageReservationRepository cottageReservationRepository;
-	
+
 	@Autowired
 	CottageRepository cottageRepository;
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
 
@@ -71,7 +71,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		}
 		return dtos;
 	}
-	
+
 	private void reserveAvailableDateSpan(CottageQuickReservation cottageQuickReservation, DateSpan availableDateSpan) {
 		Cottage cottage = cottageQuickReservation.getCottage();
 		DateSpan duration = cottageQuickReservation.getDuration();
@@ -101,40 +101,39 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		CottageQuickReservation cottageQuickReservation = CottageQuickReservationMapper
 				.CottageQuickReservationDTOToCottageQuickReservation(cottageQuickReservationDTO);
 		cottageQuickReservation.setReserved(false);
-		
-		System.out.println(cottageQuickReservation.getDuration().getStartDate() + " krindz " + LocalDate.now() + "  " +cottageQuickReservation.getDuration().isDaysAfter(LocalDate.now(), 1));
-		
-		if(!cottageQuickReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+
+		if (!cottageQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
-		
+
 		for (CottageQuickReservation q : cottageQuickReservationRepository
 				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
 		}
-		
+
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
 		}
-		
+
 		for (DateSpan dateSpan : cottageQuickReservation.getCottage().getAvailableReservationDateSpan()) {
 			if (cottageQuickReservation.getDuration().overlapsWith(dateSpan)) {
 				reserveAvailableDateSpan(cottageQuickReservation, dateSpan);
 				break;
 			}
 		}
-		CottageQuickReservation cottageQuickReservationReturn = cottageQuickReservationRepository.save(cottageQuickReservation);
+		CottageQuickReservation cottageQuickReservationReturn = cottageQuickReservationRepository
+				.save(cottageQuickReservation);
 		for (Customer customer : cottageQuickReservation.getCottage().getSubscribers()) {
 			customerService.sendNewQuickReservationEmail(customer, siteUrl, cottageQuickReservationReturn);
 		}
 
-		return CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(
-				cottageQuickReservationReturn);
+		return CottageQuickReservationMapper
+				.CottageQuickReservationToCottageQuickReservationDTO(cottageQuickReservationReturn);
 	}
 
 	@Override
@@ -157,17 +156,54 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	@Transactional
 	@Override
 	public CottageQuickReservationDTO deleteById(Long id) {
-		CottageQuickReservationDTO cottageQuickReservationDTO = findById(id);
+		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository.findById(id).get();
+		freeReservedSpan(cottageQuickReservation);
 		cottageQuickReservationRepository.deleteById(id);
-		return cottageQuickReservationDTO;
+		return CottageQuickReservationMapper
+				.CottageQuickReservationToCottageQuickReservationDTO(cottageQuickReservation);
+	}
+
+	private void freeReservedSpan(CottageQuickReservation cottageQuickReservation) {
+		Cottage cottage = cottageQuickReservation.getCottage();
+		DateSpan duration = cottageQuickReservation.getDuration();
+		DateSpan newAvailableDateSpan = new DateSpan(duration);
+		Set<DateSpan> availableDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		boolean startChanged = false;
+		boolean endChanged = false;
+		for (DateSpan dateSpan : availableDateSpans) {
+			if (newAvailableDateSpan.getStartDate().compareTo(dateSpan.getEndDate()) == 0) {
+				cottage.getAvailableReservationDateSpan().remove(dateSpan);
+				if (endChanged) {
+					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateSpan(dateSpan.getStartDate(), newAvailableDateSpan.getEndDate());
+				} else {
+					newAvailableDateSpan = new DateSpan(dateSpan.getStartDate(), duration.getEndDate());
+					startChanged = true;
+				}
+				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+			}
+			if (newAvailableDateSpan.getEndDate().compareTo(dateSpan.getStartDate()) == 0) {
+				cottage.getAvailableReservationDateSpan().remove(dateSpan);
+				if (startChanged) {
+					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateSpan(newAvailableDateSpan.getStartDate(), dateSpan.getEndDate());
+				} else {
+					newAvailableDateSpan = new DateSpan(duration.getStartDate(), dateSpan.getEndDate());
+					endChanged = true;
+				}
+				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+			}
+		}
+
+		cottageRepository.save(cottage);
 	}
 
 	@Transactional
 	@Override
-	public CottageReservationDTO appointQuickReservation(Long reservationId,Long userId) {
-		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository
-				.findById(reservationId).get();
-		if(!cottageQuickReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+	public CottageReservationDTO appointQuickReservation(Long reservationId, Long userId) {
+		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository.findById(reservationId)
+				.get();
+		if (!cottageQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
 		cottageQuickReservation.setReserved(true);

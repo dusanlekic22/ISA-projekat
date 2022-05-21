@@ -6,7 +6,8 @@ import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
 import { IDateSpan } from '../cottage-profile/dateSpan';
-import { CottageService } from '../cottage.service';
+import { AdditionalServiceService } from '../services/additional-service.service';
+import { CottageService } from '../services/cottage.service';
 
 @Component({
   selector: 'app-add-cottage',
@@ -54,7 +55,7 @@ export class AddCottageComponent implements OnInit {
     this._userService.currentUser.subscribe((user) => {
       this.cottage.cottageOwner = user;
     });
-    this._cottageService
+    this._additionalServiceService
       .getFreeAdditionalServices()
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService;
@@ -65,6 +66,7 @@ export class AddCottageComponent implements OnInit {
   validatingForm: FormGroup;
 
   constructor(private _cottageService: CottageService,
+    private _additionalServiceService: AdditionalServiceService,
     private _userService: UserService) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
@@ -82,7 +84,7 @@ export class AddCottageComponent implements OnInit {
   addCottage(submit: boolean) {
     this._cottageService.saveCottage(this.cottage).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
-        this._cottageService
+        this._additionalServiceService
           .addAdditionalService(element, this.cottage)
           .subscribe((additionalService) => {});
       });

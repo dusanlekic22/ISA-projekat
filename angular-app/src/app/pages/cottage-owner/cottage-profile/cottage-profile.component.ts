@@ -3,11 +3,14 @@ import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
-import { CottageService } from '../cottage.service';
 import { IAdditionalService } from './additionalService';
 import { ICottage } from './cottage';
 import { ICottageQuickReservation } from './cottageQuickReservation';
 import { ToastrService } from 'ngx-toastr';
+import { CottageService } from '../services/cottage.service';
+import { CottageQuickReservationService } from '../services/cottage-quick-reservation.service';
+import { AdditionalServiceService } from '../services/additional-service.service';
+import { CottageReservationService } from '../services/cottage-reservation.service';
 
 @Component({
   selector: 'app-cottage-profile',
@@ -68,6 +71,16 @@ export class CottageProfileComponent implements OnInit {
     guestCapacity: 0,
     price: 0,
   };
+
+  cottageReservation: ICottageReservation = {
+    id: 0,
+    duration: {
+      startDate: new Date(),
+      endDate: new Date(),
+    },
+    guestCapacity: 0,
+    price: 0,
+  };
   
   availableStartDate!: Date;
   availableEndDate!: Date;
@@ -90,6 +103,9 @@ export class CottageProfileComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _cottageService: CottageService,
+    private _cottageQuickReservationService: CottageQuickReservationService,
+    private _cottageReservationService: CottageReservationService,
+    private _additionalServiceService: AdditionalServiceService,
     private toastr: ToastrService
   ) {}
 
@@ -100,6 +116,33 @@ export class CottageProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this.getCottage();
+    this._cottageQuickReservationService
+      .getCottageQuickReservations()
+      .subscribe((cottageQuickReservation) => {
+        this.cottage.cottageQuickReservation = cottageQuickReservation;
+      });
+    this._additionalServiceService
+      .getAdditionalServicesByCottageId(this.cottageId)
+      .subscribe((additionalService) => {
+        this.additionalServiceTags = additionalService.filter(
+          (additionalService) => additionalService.name != null
+        );
+      });
+    this._cottageReservationService
+      .getActiveCottageReservationByCottageId(this.cottageId)
+      .subscribe((activeReservations) => {
+        this.activeReservations = activeReservations;
+      });
+    this._cottageReservationService
+      .getPassedCottageReservationByCottageId(this.cottageId)
+      .subscribe((passedReservations) => {
+        this.passedReservations = passedReservations;
+      });
+    this.minDate = new Date(Date.now());
+  }
+
+  private getCottage() {
     this._cottageService.getCottageById(this.cottageId).subscribe((cottage) => {
       this.cottage = cottage;
       this.cottage.cottageImage.forEach((element) => {
@@ -110,29 +153,6 @@ export class CottageProfileComponent implements OnInit {
         });
       });
     });
-    this._cottageService
-      .getCottageQuickReservations()
-      .subscribe((cottageQuickReservation) => {
-        this.cottage.cottageQuickReservation = cottageQuickReservation;
-      });
-    this._cottageService
-      .getAdditionalServicesByCottageId(this.cottageId)
-      .subscribe((additionalService) => {
-        this.additionalServiceTags = additionalService.filter(
-          (additionalService) => additionalService.name != null
-        );
-      });
-    this._cottageService
-      .getActiveCottageReservationByCottageId(this.cottageId)
-      .subscribe((activeReservations) => {
-        this.activeReservations = activeReservations;
-      });
-    this._cottageService
-      .getPassedCottageReservationByCottageId(this.cottageId)
-      .subscribe((passedReservations) => {
-        this.passedReservations = passedReservations;
-      });
-    this.minDate = new Date(Date.now());
   }
 
   onItemAdded(input: any): void {
@@ -171,7 +191,7 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService.editCottageInfo(this.cottage).subscribe((cottage) => {
       this.cottage = cottage;
       this.additionalServiceTags.forEach((element) => {
-        this._cottageService
+        this._additionalServiceService
           .addAdditionalService(element, this.cottage)
           .subscribe((additionalService) => {});
       });
@@ -198,13 +218,14 @@ export class CottageProfileComponent implements OnInit {
   addQuickReservation(): void {
     this.cottageQuickReservation.duration.startDate = this.format(this.cottageQuickReservation.duration.startDate);
     this.cottageQuickReservation.duration.endDate = this.format(this.cottageQuickReservation.duration.endDate);
-    this._cottageService
+    this._cottageQuickReservationService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe(
         (quickReservation) => {
           this.addReservationFormOpened = false;
           this.toastr.success('Reservation was successfully added.');
-          this._cottageService
+          this.getCottage();
+          this._cottageQuickReservationService
             .getCottageQuickReservations()
             .subscribe((cottageQuickReservation) => {
               this.cottage.cottageQuickReservation = cottageQuickReservation;
@@ -220,10 +241,11 @@ export class CottageProfileComponent implements OnInit {
   }
 
   deleteQuickReservation(id: number): void {
-    this._cottageService.deleteCottageQuickReservations(id).subscribe(
+    this._cottageQuickReservationService.deleteCottageQuickReservations(id).subscribe(
       (quickReservation) => {
         this.toastr.success('Reservation was successfully removed.');
-        this._cottageService
+        this.getCottage();
+        this._cottageQuickReservationService
           .getCottageQuickReservations()
           .subscribe((cottageQuickReservation) => {
             this.cottage.cottageQuickReservation = cottageQuickReservation;
@@ -233,6 +255,9 @@ export class CottageProfileComponent implements OnInit {
         this.toastr.error('Reservation removal failed');
       }
     );
+  }
+
+  addReservation(): void {
   }
 
   format(d : Date): Date{

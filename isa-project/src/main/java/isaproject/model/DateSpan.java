@@ -1,33 +1,36 @@
 package isaproject.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class DateSpan {
 	
-	@Column(columnDefinition = "DATE")
-	private LocalDate startDate;
-	@Column(columnDefinition = "DATE")
-	private LocalDate endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 
 	public DateSpan() {
 		
 	}
 
-	public DateSpan(LocalDate startDate, LocalDate endDate) {
+	public DateSpan(LocalDateTime startDate, LocalDateTime endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		validate();
 	}
+	
+	public DateSpan(DateSpan dateSpan) {
+		this.startDate = dateSpan.startDate;
+		this.endDate = dateSpan.endDate;
+		validate();
+	}
 
-	public LocalDate getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
@@ -40,22 +43,22 @@ public class DateSpan {
 		return startDate.compareTo(dateSpan.endDate) <= 0 && endDate.compareTo(dateSpan.startDate) >= 0;
 	}
 	
-	public boolean isBetween(LocalDate date) {
+	public boolean isBetween(LocalDateTime date) {
 		// (StartA <= Date) and (Date >= EndA)
 		return startDate.compareTo(date) <= 0 && endDate.compareTo(date) >= 0;
 	}
 	
-	public boolean isDaysAfter(LocalDate date,int days) {
+	public boolean isDaysAfter(LocalDateTime date,int days) {
 		// (StartA >= Date + 1day) 
 		return startDate.compareTo(date.plusDays(days)) >= 0;
 	}
 
-	public DateSpan extend(LocalDate extend) {
+	public DateSpan extend(LocalDateTime extend) {
 		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
 	}
 	
 	public boolean passed() {
-		return endDate.compareTo(LocalDate.now()) <= 0 ;
+		return endDate.compareTo(LocalDateTime.now()) <= 0 ;
 	}
 
 	@Override

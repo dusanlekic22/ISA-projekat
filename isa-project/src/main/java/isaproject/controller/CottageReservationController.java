@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.qos.logback.classic.pattern.Util;
 import isaproject.dto.CottageReservationDTO;
 import isaproject.service.CottageReservationService;
 import isaproject.util.ProjectUtil;

@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
-import { CottageService } from '../cottage.service';
-import { IUser } from '../registration/registration/user';
+import { IUser } from '../../registration/registration/user';
+import { CottageService } from '../services/cottage.service';
 
 @Component({
   selector: 'app-cottage-owner-home',

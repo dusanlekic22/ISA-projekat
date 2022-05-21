@@ -536,98 +536,196 @@
       </div></mat-tab
     >
   </mat-tab-group>
-</div>
-<div #quickReservationInput class="container mt-5 pb-4">
-  <div class="card bg-secondary shadow">
-    <div class="card-header bg-white border-0">
-      <div class="row align-items-center">
-        <div class="col-8">
-          <h3 class="mb-0">Quick reservation</h3>
+  <div #quickReservationInput class="container mt-5 pb-4">
+    <div class="card bg-secondary shadow">
+      <div class="card-header bg-white border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">Quick reservation</h3>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card-body">
-      <form>
-        <!-- Ovde -->
-        <div class="pl-lg-4">
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
-                <label class="form-control-label" for="input-date"
-                  >Duration span date</label
-                >
-                <div class="md-form mb-5">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Enter a date range</mat-label>
-                    <mat-date-range-input
-                      [rangePicker]="picker2"
-                      [min]="minDate"
-                    >
-                      <input
-                        matStartDate
-                        placeholder="Start date"
-                        name="quickReservationStart"
-                        [(ngModel)]="cottageQuickReservation.duration.startDate"
-                      />
-                      <input
-                        matEndDate
-                        placeholder="End date"
-                        name="quickReservationEnd"
-                        [(ngModel)]="cottageQuickReservation.duration.endDate"
-                      />
-                    </mat-date-range-input>
-                    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker2"
-                    ></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker2></mat-date-range-picker>
-                  </mat-form-field>
+      <div class="card-body">
+        <form>
+          <!-- Ovde -->
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-date"
+                    >Duration span date</label
+                  >
+                  <div class="md-form mb-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Enter a date range</mat-label>
+                      <mat-date-range-input
+                        [rangePicker]="picker2"
+                        [min]="minDate"
+                      >
+                        <input
+                          matStartDate
+                          placeholder="Start date"
+                          name="quickReservationStart"
+                          [(ngModel)]="
+                            cottageQuickReservation.duration.startDate
+                          "
+                        />
+                        <input
+                          matEndDate
+                          placeholder="End date"
+                          name="quickReservationEnd"
+                          [(ngModel)]="cottageQuickReservation.duration.endDate"
+                        />
+                      </mat-date-range-input>
+                      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker2"
+                      ></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker2></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-people"
+                    >Maximum number of people</label
+                  >
+                  <input
+                    [(ngModel)]="cottageQuickReservation.guestCapacity"
+                    name="capacity"
+                    type="number"
+                    id="input-people"
+                    class="form-control form-control-alternative"
+                    min="1"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-price"
+                    >Price(in €)</label
+                  >
+                  <input
+                    [(ngModel)]="cottageQuickReservation.price"
+                    name="price"
+                    type="number"
+                    id="input-price"
+                    class="form-control form-control-alternative"
+                    min="1"
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-people"
-                  >Maximum number of people</label
-                >
-                <input
-                  [(ngModel)]="cottageQuickReservation.guestCapacity"
-                  name="capacity"
-                  type="number"
-                  id="input-people"
-                  class="form-control form-control-alternative"
-                  min="1"
-                />
+          <div>
+            <button (click)="addQuickReservation()" class="btn btn-info">
+              Add a reservation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div #reservationInput class="container mt-5 pb-4">
+    <div class="card bg-secondary shadow">
+      <div class="card-header bg-white border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">Quick reservation</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form>
+          <!-- Ovde -->
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-date"
+                    >Duration span date</label
+                  >
+                  <div class="md-form mb-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Enter a date range</mat-label>
+                      <mat-date-range-input
+                        [rangePicker]="picker3"
+                        [min]="minDate"
+                      >
+                        <input
+                          matStartDate
+                          placeholder="Start date"
+                          name="reservationStart"
+                          [(ngModel)]="
+                            cottageReservation.duration.startDate
+                          "
+                        />
+                        <input
+                          matEndDate
+                          placeholder="End date"
+                          name="reservationEnd"
+                          [(ngModel)]="cottageReservation.duration.endDate"
+                        />
+                      </mat-date-range-input>
+                      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker3"
+                      ></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker3></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-people"
+                    >Maximum number of people</label
+                  >
+                  <input
+                    [(ngModel)]="cottageReservation.guestCapacity"
+                    name="capacity"
+                    type="number"
+                    id="input-people"
+                    class="form-control form-control-alternative"
+                    min="1"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-price"
+                    >Price(in €)</label
+                  >
+                  <input
+                    [(ngModel)]="cottageQuickReservation.price"
+                    name="price"
+                    type="number"
+                    id="input-price"
+                    class="form-control form-control-alternative"
+                    min="1"
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-price"
-                  >Price(in €)</label
-                >
-                <input
-                  [(ngModel)]="cottageQuickReservation.price"
-                  name="price"
-                  type="number"
-                  id="input-price"
-                  class="form-control form-control-alternative"
-                  min="1"
-                />
-              </div>
-            </div>
+          <div>
+            <button (click)="addReservation()" class="btn btn-info">
+              Add a reservation
+            </button>
           </div>
-        </div>
-        <div>
-          <button (click)="addQuickReservation()" class="btn btn-info">
-            Add a reservation
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>

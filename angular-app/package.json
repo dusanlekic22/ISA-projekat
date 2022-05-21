@@ -28,6 +28,7 @@
     "ng-image-slider": "^2.8.0",
     "ngp-image-picker": "^1.4.0",
     "ngx-chips": "^3.0.0",
+    "ngx-datetime-range-picker": "^3.0.1",
     "ngx-toastr": "^14.3.0",
     "resize-observer": "^1.0.4",
     "rxjs": "^7.5.5",

@@ -1,7 +1,7 @@
 package isaproject.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,7 +68,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		cottageReservation.setConfirmed(true);
 		
-		if(!cottageReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+		if(!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -102,7 +102,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	private boolean isCustomersReservationInAction(CottageReservation newReservation,
 			CottageReservation existingReservation) {
 		return (existingReservation.getCustomer().getId() == newReservation.getCustomer().getId())
-				&& existingReservation.getDuration().isBetween(LocalDate.now());
+				&& existingReservation.getDuration().isBetween(LocalDateTime.now());
 	}
 
 	private void reserveAvailableDateSpan(CottageReservation cottageReservation, DateSpan availableDateSpan) {
@@ -135,7 +135,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		cottageReservation.setConfirmed(false);
 		
-		if(!cottageReservation.getDuration().isDaysAfter(LocalDate.now(), 1)) {
+		if(!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
 		
@@ -200,9 +200,46 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Transactional
 	@Override
 	public CottageReservationDTO deleteById(Long id) {
-		CottageReservationDTO cottageReservationDTO = findById(id);
-		cottageReservationRepository.deleteById(id);
-		return cottageReservationDTO;
+		CottageReservation cottageReservation = cottageReservationRepository.findById(id).get();
+		freeReservedSpan(cottageReservation);
+		cottageQuickReservationRepository.deleteById(id);
+		return CottageReservationMapper
+				.CottageReservationToCottageReservationDTO(cottageReservation);
+	}
+	
+	private void freeReservedSpan(CottageReservation cottageReservation) {
+		Cottage cottage = cottageReservation.getCottage();
+		DateSpan duration = cottageReservation.getDuration();
+		DateSpan newAvailableDateSpan = new DateSpan(duration);
+		Set<DateSpan> availableDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		boolean startChanged = false;
+		boolean endChanged = false;
+		for (DateSpan dateSpan : availableDateSpans) {
+			if (newAvailableDateSpan.getStartDate().compareTo(dateSpan.getEndDate()) == 0) {
+				cottage.getAvailableReservationDateSpan().remove(dateSpan);
+				if (endChanged) {
+					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateSpan(dateSpan.getStartDate(), newAvailableDateSpan.getEndDate());
+				} else {
+					newAvailableDateSpan = new DateSpan(dateSpan.getStartDate(), duration.getEndDate());
+					startChanged = true;
+				}
+				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+			}
+			if (newAvailableDateSpan.getEndDate().compareTo(dateSpan.getStartDate()) == 0) {
+				cottage.getAvailableReservationDateSpan().remove(dateSpan);
+				if (startChanged) {
+					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateSpan(newAvailableDateSpan.getStartDate(), dateSpan.getEndDate());
+				} else {
+					newAvailableDateSpan = new DateSpan(duration.getStartDate(), dateSpan.getEndDate());
+					endChanged = true;
+				}
+				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+			}
+		}
+
+		cottageRepository.save(cottage);
 	}
 
 	@Override

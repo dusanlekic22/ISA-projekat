@@ -9,5 +9,6 @@ import isaproject.model.FishingCourse;
 public interface FishingCourseRepository extends JpaRepository<FishingCourse, Long> {
 	 
 	Set<FishingCourse> findByName(String name);
+	Set<FishingCourse> findByFishingTrainerId(Long id);
 
 }

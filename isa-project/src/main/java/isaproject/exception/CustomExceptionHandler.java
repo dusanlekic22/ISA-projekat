@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 class CustomExceptionHandler extends BaseExceptionHandler {
 
 	public CustomExceptionHandler() {
-		registerMapping(UsernameNotFoundException.class, HttpStatus.NOT_FOUND);
-		registerMapping(DisabledException.class, HttpStatus.UNAUTHORIZED);
-		registerMapping(InvalidParameterException.class, HttpStatus.BAD_REQUEST);
-		registerMapping(AccessDeniedException.class, HttpStatus.UNAUTHORIZED);
+        registerMapping(UsernameNotFoundException.class, HttpStatus.NOT_FOUND);
+        registerMapping(DisabledException.class, HttpStatus.UNAUTHORIZED);
+        registerMapping(InvalidParameterException.class,HttpStatus.BAD_REQUEST);
+        registerMapping(AccessDeniedException.class, HttpStatus.UNAUTHORIZED);
 		registerMapping(EntityNotFoundException.class, HttpStatus.NOT_FOUND);
+        registerMapping(ReservedServiceException.class, HttpStatus.BAD_REQUEST);
 	}
 }

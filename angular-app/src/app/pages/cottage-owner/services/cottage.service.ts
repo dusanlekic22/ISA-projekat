@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
@@ -7,6 +8,7 @@ import { ICottageImage } from '../cottage-profile/cottageImage';
 import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottageReservation } from '../cottage-profile/cottageReservation';
 import { environment } from 'src/environments/environment';
+import { IDateSpan } from '../cottage-profile/dateSpan';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +54,13 @@ export class CottageService {
 
   editCottageInfo(cottage:ICottage): Observable<ICottage> {
     return this._http.put<ICottage>(environment.apiUrl + '/cottage/info',cottage).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  editAvailableTerms(cottageId:number,dateSpan:IDateSpan): Observable<ICottage> {
+    return this._http.put<ICottage>(environment.apiUrl + `/cottage/availableTerms/${cottageId}`,dateSpan).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

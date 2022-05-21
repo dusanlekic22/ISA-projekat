@@ -228,6 +228,14 @@
               <div class="col-8">
                 <h3 class="mb-0">Available terms for reservations</h3>
               </div>
+              <div class="col-4 text-right">
+                <button
+                  class="btn btn-icon-only"
+                  (click)="openAvailableSpanForm()"
+                >
+                <i class="bi bi-plus"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div class="table-responsive" style="overflow: visible">
@@ -244,10 +252,10 @@
                   *ngFor="let dateSpan of cottage.availableReservationDateSpan"
                 >
                   <td>
-                    {{ dateSpan.startDate | date: "dd/MM/yyyy" }}
+                    {{ dateSpan.startDate | dateCustom }}
                   </td>
                   <td>
-                    {{ dateSpan.endDate | date: "dd/MM/yyyy" }}
+                    {{ dateSpan.endDate | dateCustom }}
                   </td>
                   <td class="text-right">
                     <delete-icon (click)="removeTerm(dateSpan)"></delete-icon>
@@ -256,30 +264,41 @@
               </tbody>
             </table>
           </div>
-          <div class="md-form mb-5">
+          <div *ngIf="availableSpanFormOpened" class="md-form mb-5">
             <mat-form-field appearance="fill">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-                <input
-                  matStartDate
-                  placeholder="Start date"
-                  [min]="minDate"
-                  [(ngModel)]="availableStartDate"
-                />
-                <input
-                  matEndDate
-                  placeholder="End date"
-                  [min]="minDate"
-                  [(ngModel)]="availableEndDate"
-                />
-              </mat-date-range-input>
-              <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+              <mat-label>Choose a starting date and time</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Start date"
+                [min]="minDate"
+                [(ngModel)]="availableStartDate"
+              />
+              <mat-hint>DD/MM/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matSuffix
                 [for]="picker"
               ></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
+              <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+            <ngb-timepicker [(ngModel)]="availableStartTime"></ngb-timepicker>
+            <mat-form-field appearance="fill">
+              <mat-label>Choose an ending date and time</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker1"
+                placeholder="End date"
+                [min]="minDate"
+                [(ngModel)]="availableEndDate"
+              />
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <ngb-timepicker [(ngModel)]="availableEndTime"></ngb-timepicker>
             <span class="ml-5">
               <button class="btn btn-info" (click)="addDateSpan()">
                 Add available term
@@ -353,14 +372,10 @@
                     "
                   >
                     <td>
-                      {{
-                        quickReservation.duration.startDate | date: "dd/MM/yyyy"
-                      }}
+                      {{ quickReservation.duration.startDate | dateCustom }}
                     </td>
                     <td>
-                      {{
-                        quickReservation.duration.endDate | date: "dd/MM/yyyy"
-                      }}
+                      {{ quickReservation.duration.endDate | dateCustom }}
                     </td>
                     <td>
                       {{ quickReservation.guestCapacity }}
@@ -432,10 +447,10 @@
                 <tbody>
                   <tr *ngFor="let reservation of activeReservations">
                     <td>
-                      {{ reservation.duration.startDate | date: "dd/MM/yyyy" }}
+                      {{ reservation.duration.startDate | dateCustom }}
                     </td>
                     <td>
-                      {{ reservation.duration.endDate | date: "dd/MM/yyyy" }}
+                      {{ reservation.duration.endDate | dateCustom }}
                     </td>
                     <td>
                       {{ reservation.guestCapacity }}
@@ -496,10 +511,10 @@
                 <tbody>
                   <tr *ngFor="let reservation of passedReservations">
                     <td>
-                      {{ reservation.duration.startDate | date: "dd/MM/yyyy" }}
+                      {{ reservation.duration.startDate | dateCustom }}
                     </td>
                     <td>
-                      {{ reservation.duration.endDate | date: "dd/MM/yyyy" }}
+                      {{ reservation.duration.endDate | dateCustom }}
                     </td>
                     <td>
                       {{ reservation.guestCapacity }}
@@ -662,9 +677,7 @@
                           matStartDate
                           placeholder="Start date"
                           name="reservationStart"
-                          [(ngModel)]="
-                            cottageReservation.duration.startDate
-                          "
+                          [(ngModel)]="cottageReservation.duration.startDate"
                         />
                         <input
                           matEndDate

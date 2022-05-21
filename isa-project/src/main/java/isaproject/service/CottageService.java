@@ -3,6 +3,7 @@ package isaproject.service;
 import java.util.Set;
 
 import isaproject.dto.CottageDTO;
+import isaproject.model.DateSpan;
 
 public interface CottageService {
 	
@@ -14,5 +15,6 @@ public interface CottageService {
 	CottageDTO update(CottageDTO cottage);
 	CottageDTO deleteById(Long id);
 	CottageDTO updateInfo(CottageDTO cottageDTO);
+	CottageDTO updateAvailableTerms(Long id, DateSpan newDateSpan);
 	
 }

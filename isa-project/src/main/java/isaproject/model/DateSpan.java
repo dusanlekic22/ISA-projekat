@@ -2,12 +2,15 @@ package isaproject.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class DateSpan {
 	
+	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime startDate;
+	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime endDate;
 
 	public DateSpan() {

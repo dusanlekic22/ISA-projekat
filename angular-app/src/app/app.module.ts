@@ -33,7 +33,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/cottage-owner/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
 import { ToastrModule} from 'ngx-toastr';
-import { NgxDatetimeRangePickerModule } from 'ngx-datetime-range-picker';
+import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NgxDatetimeRangePickerModule } from 'ngx-datetime-range-picker';
     HasRoleDirective,
     CottageOwnerHomeComponent,
     AddCottageComponent,
+    DatePipe,
   ],
   imports: [
     NgbModule,
@@ -75,7 +77,6 @@ import { NgxDatetimeRangePickerModule } from 'ngx-datetime-range-picker';
     MDBBootstrapModule.forRoot(),
     TagInputModule,
     ToastrModule.forRoot(),
-    NgxDatetimeRangePickerModule.forRoot()
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

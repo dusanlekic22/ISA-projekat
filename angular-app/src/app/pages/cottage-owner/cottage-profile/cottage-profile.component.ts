@@ -11,6 +11,7 @@ import { CottageService } from '../services/cottage.service';
 import { CottageQuickReservationService } from '../services/cottage-quick-reservation.service';
 import { AdditionalServiceService } from '../services/additional-service.service';
 import { CottageReservationService } from '../services/cottage-reservation.service';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-cottage-profile',
@@ -81,10 +82,13 @@ export class CottageProfileComponent implements OnInit {
     guestCapacity: 0,
     price: 0,
   };
-  
+
+  availableDateSpan!: IDateSpan;
   availableStartDate!: Date;
   availableEndDate!: Date;
-  
+  availableStartTime!: { hour: 0; minute: 0 };
+  availableEndTime!: { hour: 0; minute: 0 };
+
   imageObject: Array<object> = [
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
@@ -100,6 +104,8 @@ export class CottageProfileComponent implements OnInit {
   activeReservations!: ICottageReservation[];
   passedReservations!: ICottageReservation[];
 
+  availableSpanFormOpened: boolean = false;
+
   constructor(
     private _route: ActivatedRoute,
     private _cottageService: CottageService,
@@ -114,7 +120,13 @@ export class CottageProfileComponent implements OnInit {
     this.reservationFormElement.nativeElement.scrollIntoView();
   }
 
+  openAvailableSpanForm() {
+    this.availableSpanFormOpened = true;
+  }
+
   ngOnInit(): void {
+    this.availableStartDate = new Date();
+    this.availableEndDate = new Date();
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
     this.getCottage();
     this._cottageQuickReservationService
@@ -133,6 +145,7 @@ export class CottageProfileComponent implements OnInit {
       .getActiveCottageReservationByCottageId(this.cottageId)
       .subscribe((activeReservations) => {
         this.activeReservations = activeReservations;
+        console.log(activeReservations[0].duration.startDate);
       });
     this._cottageReservationService
       .getPassedCottageReservationByCottageId(this.cottageId)
@@ -161,29 +174,20 @@ export class CottageProfileComponent implements OnInit {
     this.additionalServiceTags.push({ id: 0, name: text[0], price: text[1] });
   }
 
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  addStartEvent(startDate: Date, event: MatDatepickerInputEvent<Date>) {
     if (event.value != null) {
-      if (type === 'inputStart' || type === 'changeStart') {
-        this.cottageQuickReservation.duration.startDate.setFullYear(
-          event.value.getFullYear()
-        );
-        this.cottageQuickReservation.duration.startDate.setMonth(
-          event.value.getMonth()
-        );
-        this.cottageQuickReservation.duration.startDate.setDate(
-          event.value.getDate()
-        );
-      } else if (type === 'inputEnd' || type === 'changeEnd') {
-        this.cottageQuickReservation.duration.endDate.setFullYear(
-          event.value.getFullYear()
-        );
-        this.cottageQuickReservation.duration.endDate.setMonth(
-          event.value.getMonth()
-        );
-        this.cottageQuickReservation.duration.endDate.setDate(
-          event.value.getDate()
-        );
-      }
+      startDate.setFullYear(event.value.getFullYear());
+      startDate.setMonth(event.value.getMonth());
+      startDate.setDate(event.value.getDate());
+    }
+  }
+
+  addEndEvent(endDate: Date, event: MatDatepickerInputEvent<Date>) {
+    if (event.value != null) {
+      endDate.setFullYear(event.value.getFullYear());
+      endDate.setMonth(event.value.getMonth());
+      endDate.setDate(event.value.getDate());
+      console.log('grrr' + this.availableEndDate);
     }
   }
 
@@ -216,8 +220,12 @@ export class CottageProfileComponent implements OnInit {
   }
 
   addQuickReservation(): void {
-    this.cottageQuickReservation.duration.startDate = this.format(this.cottageQuickReservation.duration.startDate);
-    this.cottageQuickReservation.duration.endDate = this.format(this.cottageQuickReservation.duration.endDate);
+    this.cottageQuickReservation.duration.startDate = this.format(
+      this.cottageQuickReservation.duration.startDate
+    );
+    this.cottageQuickReservation.duration.endDate = this.format(
+      this.cottageQuickReservation.duration.endDate
+    );
     this._cottageQuickReservationService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe(
@@ -241,44 +249,61 @@ export class CottageProfileComponent implements OnInit {
   }
 
   deleteQuickReservation(id: number): void {
-    this._cottageQuickReservationService.deleteCottageQuickReservations(id).subscribe(
-      (quickReservation) => {
-        this.toastr.success('Reservation was successfully removed.');
-        this.getCottage();
-        this._cottageQuickReservationService
-          .getCottageQuickReservations()
-          .subscribe((cottageQuickReservation) => {
-            this.cottage.cottageQuickReservation = cottageQuickReservation;
-          });
-      },
-      (err) => {
-        this.toastr.error('Reservation removal failed');
-      }
+    this._cottageQuickReservationService
+      .deleteCottageQuickReservations(id)
+      .subscribe(
+        (quickReservation) => {
+          this.toastr.success('Reservation was successfully removed.');
+          this.getCottage();
+          this._cottageQuickReservationService
+            .getCottageQuickReservations()
+            .subscribe((cottageQuickReservation) => {
+              this.cottage.cottageQuickReservation = cottageQuickReservation;
+            });
+        },
+        (err) => {
+          this.toastr.error('Reservation removal failed');
+        }
+      );
+  }
+
+  addReservation(): void {}
+
+  format(d: Date): Date {
+    return new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes() - d.getTimezoneOffset()
     );
   }
 
-  addReservation(): void {
-  }
-
-  format(d : Date): Date{
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes() - d.getTimezoneOffset());
-  }
-
   addDateSpan() {
-    this.cottage.availableReservationDateSpan.push({
-      startDate: this.format(this.availableStartDate),
-      endDate: this.format(this.availableEndDate),
-    });
-    this._cottageService.editCottage(this.cottage).subscribe((cottage) => {
-      this.cottage = cottage;
-    });
+    this.availableStartDate.setHours(this.availableStartTime.hour);
+    this.availableStartDate.setMinutes(this.availableStartTime.minute);
+    this.availableEndDate.setHours(this.availableEndTime.hour);
+    this.availableEndDate.setMinutes(this.availableEndTime.minute);
+    this._cottageService
+      .editAvailableTerms(this.cottage.id, {
+        startDate: this.availableStartDate,
+        endDate: this.availableEndDate,
+      })
+      .subscribe((cottage) => {
+        this.cottage = cottage;
+      },
+      (err)=>{this.toastr.error(
+        'Theres already an active reservation in this date span.',
+        'Try a different date!'
+      );});
+    this.availableSpanFormOpened = false;
   }
 
   removeTerm(span: IDateSpan) {
     this.cottage.availableReservationDateSpan =
       this.cottage.availableReservationDateSpan.filter((term) => term != span);
-      this._cottageService.editCottage(this.cottage).subscribe((cottage) => {
-        this.cottage = cottage;
-      });
+    this._cottageService.editCottage(this.cottage).subscribe((cottage) => {
+      this.cottage = cottage;
+    });
   }
 }

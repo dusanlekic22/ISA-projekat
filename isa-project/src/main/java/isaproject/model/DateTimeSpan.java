@@ -6,26 +6,26 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class DateSpan {
+public class DateTimeSpan {
 	
 	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime startDate;
 	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime endDate;
 
-	public DateSpan() {
+	public DateTimeSpan() {
 		
 	}
 
-	public DateSpan(LocalDateTime startDate, LocalDateTime endDate) {
+	public DateTimeSpan(LocalDateTime startDate, LocalDateTime endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		validate();
 	}
 	
-	public DateSpan(DateSpan dateSpan) {
-		this.startDate = dateSpan.startDate;
-		this.endDate = dateSpan.endDate;
+	public DateTimeSpan(DateTimeSpan dateTimeSpan) {
+		this.startDate = dateTimeSpan.startDate;
+		this.endDate = dateTimeSpan.endDate;
 		validate();
 	}
 
@@ -41,9 +41,9 @@ public class DateSpan {
 		return startDate.compareTo(endDate) < 0;
 	}
 
-	public boolean overlapsWith(DateSpan dateSpan) {
+	public boolean overlapsWith(DateTimeSpan dateTimeSpan) {
 		// (StartA <= EndB) and (EndA >= StartB)
-		return startDate.compareTo(dateSpan.endDate) <= 0 && endDate.compareTo(dateSpan.startDate) >= 0;
+		return startDate.compareTo(dateTimeSpan.endDate) <= 0 && endDate.compareTo(dateTimeSpan.startDate) >= 0;
 	}
 	
 	public boolean isBetween(LocalDateTime date) {
@@ -56,8 +56,8 @@ public class DateSpan {
 		return startDate.compareTo(date.plusDays(days)) >= 0;
 	}
 
-	public DateSpan extend(LocalDateTime extend) {
-		return new DateSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
+	public DateTimeSpan extend(LocalDateTime extend) {
+		return new DateTimeSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
 	}
 	
 	public boolean passed() {
@@ -75,7 +75,7 @@ public class DateSpan {
 
 	@Override
 	public boolean equals(Object obj) {
-		DateSpan other = (DateSpan) obj;
+		DateTimeSpan other = (DateTimeSpan) obj;
 //		if(this.startDate == other.startDate && this.endDate == other.endDate)
 //			return true;
 		if (this == obj)

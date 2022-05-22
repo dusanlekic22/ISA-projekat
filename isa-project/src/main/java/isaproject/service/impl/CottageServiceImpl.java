@@ -12,7 +12,7 @@ import isaproject.dto.CottageQuickReservationDTO;
 import isaproject.dto.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.model.Cottage;
-import isaproject.model.DateSpan;
+import isaproject.model.DateTimeSpan;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageQuickReservationService;
@@ -77,7 +77,7 @@ public class CottageServiceImpl implements CottageService {
 
 	@Transactional
 	@Override
-	public CottageDTO updateAvailableTerms(Long id, DateSpan newDateSpan) {
+	public CottageDTO updateAvailableTerms(Long id, DateTimeSpan newDateSpan) {
 		Cottage cottage = cottageRepository.findById(id).get();
 		for (CottageReservationDTO cottageReservation : cottageReservationService.findByCottageId(id)) {
 			if (newDateSpan.overlapsWith(cottageReservation.getDuration()))
@@ -89,18 +89,18 @@ public class CottageServiceImpl implements CottageService {
 				return null;
 		}
 		boolean overlapped = false;
-		Set<DateSpan> availaDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
-		for (DateSpan dateSpan : availaDateSpans) {
-			if (dateSpan.overlapsWith(newDateSpan)) {
-				cottage.getAvailableReservationDateSpan().remove(dateSpan);
-				if (newDateSpan.getStartDate().compareTo(dateSpan.getStartDate()) <= 0) {
-					dateSpan = new DateSpan(newDateSpan.getStartDate(), dateSpan.getEndDate());
+		Set<DateTimeSpan> availaDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		for (DateTimeSpan dateTimeSpan : availaDateSpans) {
+			if (dateTimeSpan.overlapsWith(newDateSpan)) {
+				cottage.getAvailableReservationDateSpan().remove(dateTimeSpan);
+				if (newDateSpan.getStartDate().compareTo(dateTimeSpan.getStartDate()) <= 0) {
+					dateTimeSpan = new DateTimeSpan(newDateSpan.getStartDate(), dateTimeSpan.getEndDate());
 				}
-				if (newDateSpan.getEndDate().compareTo(dateSpan.getEndDate()) >= 0) {
-					dateSpan = new DateSpan(dateSpan.getStartDate(), newDateSpan.getEndDate());
+				if (newDateSpan.getEndDate().compareTo(dateTimeSpan.getEndDate()) >= 0) {
+					dateTimeSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), newDateSpan.getEndDate());
 				}
 				overlapped = true;
-				cottage.getAvailableReservationDateSpan().add(dateSpan);
+				cottage.getAvailableReservationDateSpan().add(dateTimeSpan);
 			}
 		}
 		if (!overlapped)

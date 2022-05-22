@@ -29,7 +29,7 @@ public class CottageQuickReservation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Embedded
-	private DateSpan duration;
+	private DateTimeSpan duration;
 	private Integer guestCapacity;
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
@@ -56,11 +56,11 @@ public class CottageQuickReservation implements Serializable {
 		this.id = id;
 	}
 
-	public DateSpan getDuration() {
+	public DateTimeSpan getDuration() {
 		return duration;
 	}
 
-	public void setDuration(DateSpan duration) {
+	public void setDuration(DateTimeSpan duration) {
 		this.duration = duration;
 	}
 

@@ -51,6 +51,11 @@ public class DateTimeSpan {
 		return startDate.compareTo(date) <= 0 && endDate.compareTo(date) >= 0;
 	}
 	
+	public boolean isTimeSpanBetween(DateTimeSpan reservationDate) {
+		// (StartA <= Date) and (Date >= EndA)
+		return startDate.compareTo(reservationDate.getStartDate()) <= 0 && endDate.compareTo(reservationDate.getEndDate()) >= 0;
+	}
+	
 	public boolean isDaysAfter(LocalDateTime date,int days) {
 		// (StartA >= Date + 1day) 
 		return startDate.compareTo(date.plusDays(days)) >= 0;

@@ -2,7 +2,6 @@ package isaproject.service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CottageDTO;
 import isaproject.dto.CottageQuickReservationDTO;
 import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.DateSpanDTO;
 import isaproject.mapper.CottageMapper;
+import isaproject.mapper.DateSpanMapper;
 import isaproject.model.Cottage;
 import isaproject.model.DateTimeSpan;
-import isaproject.dto.DateSpanDTO;
-import isaproject.model.DateSpan;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageQuickReservationService;
@@ -156,15 +155,15 @@ public class CottageServiceImpl implements CottageService {
 
 	@Override
 	public Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDateDTO) {
-		DateSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
+		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
 		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
 		Set<CottageDTO> availableCottages = new HashSet<>();
 		  if(cottages.size()!=0){
 	        	
 	            CottageDTO dto;
 	            for(Cottage p : cottages){
-	            	for(DateSpan d : p.getAvailableReservationDateSpan()) {
-	            	if(d.isBetween(reservationDate)) {	
+	            	for(DateTimeSpan d : p.getAvailableReservationDateSpan()) {
+	            	if(d.isTimeSpanBetween(reservationDate)) {	
 	                dto = CottageMapper.CottageToCottageDTO(p);
 	                availableCottages.add(dto);
 	                }

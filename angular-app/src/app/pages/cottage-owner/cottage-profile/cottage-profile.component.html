@@ -233,7 +233,7 @@
                   class="btn btn-icon-only"
                   (click)="openAvailableSpanForm()"
                 >
-                <i class="bi bi-plus"></i>
+                  <i class="bi bi-plus"></i>
                 </button>
               </div>
             </div>
@@ -728,6 +728,29 @@
                     class="form-control form-control-alternative"
                     min="1"
                   />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-customer"
+                    >Customer</label
+                  >
+                  <div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Choose customer</mat-label>
+                      <mat-select>
+                        <mat-option
+                          *ngFor="let user of eligibleCustomers"
+                          [value]="user.firstName"
+                          id="input-customer"
+                        >
+                          {{ user.firstName }} {{ user.lastName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.CustomerDTO;
 import isaproject.service.CottageReservationService;
 import isaproject.util.ProjectUtil;
 
@@ -38,11 +39,18 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAll(), HttpStatus.OK);
 	}
 
+	@GetMapping("/customerHasReservationNow")
+	@ResponseBody
+	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
+		return new ResponseEntity<>(cottageReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
+	}
+
 	@GetMapping("/passed")
 	@ResponseBody
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassed() {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
+
 
 	@GetMapping("/active")
 	@ResponseBody

@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.mail.MessagingException;
 
 import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.CustomerDTO;
 
 public interface CottageReservationService {
 	
@@ -23,4 +24,5 @@ public interface CottageReservationService {
 	CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservation, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException;
     CottageReservationDTO confirmReservation(Long id);
+	Set<CustomerDTO> findCustomersHasCurrentReservation();
 }

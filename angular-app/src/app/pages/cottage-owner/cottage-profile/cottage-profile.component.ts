@@ -1,3 +1,4 @@
+import { IUser } from './../../registration/registration/user';
 import { IDateSpan } from './dateSpan';
 import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -88,6 +89,7 @@ export class CottageProfileComponent implements OnInit {
   availableEndDate!: Date;
   availableStartTime!: { hour: 0; minute: 0 };
   availableEndTime!: { hour: 0; minute: 0 };
+  eligibleCustomers!: IUser[];
 
   imageObject: Array<object> = [
     {
@@ -151,6 +153,11 @@ export class CottageProfileComponent implements OnInit {
       .getPassedCottageReservationByCottageId(this.cottageId)
       .subscribe((passedReservations) => {
         this.passedReservations = passedReservations;
+      });
+    this._cottageReservationService
+      .getCustomerHasReservationNow()
+      .subscribe((customers) => {
+        this.eligibleCustomers = customers;
       });
     this.minDate = new Date(Date.now());
   }
@@ -289,13 +296,17 @@ export class CottageProfileComponent implements OnInit {
         startDate: this.availableStartDate,
         endDate: this.availableEndDate,
       })
-      .subscribe((cottage) => {
-        this.cottage = cottage;
-      },
-      (err)=>{this.toastr.error(
-        'Theres already an active reservation in this date span.',
-        'Try a different date!'
-      );});
+      .subscribe(
+        (cottage) => {
+          this.cottage = cottage;
+        },
+        (err) => {
+          this.toastr.error(
+            'Theres already an active reservation in this date span.',
+            'Try a different date!'
+          );
+        }
+      );
     this.availableSpanFormOpened = false;
   }
 

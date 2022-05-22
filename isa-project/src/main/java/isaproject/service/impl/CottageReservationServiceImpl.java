@@ -12,28 +12,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CottageReservationMapper;
+import isaproject.mapper.CustomerMapper;
 import isaproject.model.Cottage;
 import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
+import isaproject.model.Customer;
 import isaproject.model.DateSpan;
 import isaproject.repository.CottageQuickReservationRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.repository.CottageReservationRepository;
+import isaproject.repository.CustomerRepository;
 import isaproject.service.CottageReservationService;
 import isaproject.service.CustomerService;
 
 @Service
 public class CottageReservationServiceImpl implements CottageReservationService {
 
-	@Autowired
 	CottageReservationRepository cottageReservationRepository;
-	@Autowired
 	CottageQuickReservationRepository cottageQuickReservationRepository;
-	@Autowired
 	CottageRepository cottageRepository;
-	@Autowired
 	CustomerService customerService;
+	CustomerRepository customerRepository;
+	
+	@Autowired
+	public CottageReservationServiceImpl(CottageReservationRepository cottageReservationRepository,
+			CottageQuickReservationRepository cottageQuickReservationRepository, CottageRepository cottageRepository,
+			CustomerService customerService, CustomerRepository customerRepository) {
+		super();
+		this.cottageReservationRepository = cottageReservationRepository;
+		this.cottageQuickReservationRepository = cottageQuickReservationRepository;
+		this.cottageRepository = cottageRepository;
+		this.customerService = customerService;
+		this.customerRepository = customerRepository;
+	}
 
 	@Override
 	public CottageReservationDTO findById(Long id) {
@@ -56,6 +69,25 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			for (CottageReservation p : cottages) {
 				dto = CottageReservationMapper.CottageReservationToCottageReservationDTO(p);
 				dtos.add(dto);
+			}
+		}
+		return dtos;
+	}
+	
+	@Override
+	public Set<CustomerDTO> findCustomersHasCurrentReservation() {
+		Set<Customer> customers = new HashSet<>(customerRepository.findAll());
+		Set<CustomerDTO> dtos = new HashSet<>();
+		if (customers.size() != 0) {
+			CustomerDTO dto;
+			for (Customer p : customers) {
+				for(CottageReservation cottageReservation : p.getCottageReservation()) {
+					if(cottageReservation.getDuration().isBetween(LocalDateTime.now())) {
+						dto = CustomerMapper.customertoCustomerDTO(p);
+						dtos.add(dto);
+						break;
+					}
+				}
 			}
 		}
 		return dtos;

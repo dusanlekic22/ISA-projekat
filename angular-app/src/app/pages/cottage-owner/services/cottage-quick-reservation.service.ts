@@ -34,6 +34,7 @@ export class CottageQuickReservationService {
       catchError(this.handleError)
     );
   }
+  
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

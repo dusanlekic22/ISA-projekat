@@ -140,19 +140,23 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	private void reserveAvailableDateSpan(CottageReservation cottageReservation, DateSpan availableDateSpan) {
 		Cottage cottage = cottageReservation.getCottage();
 		DateSpan duration = cottageReservation.getDuration();
+		System.out.println(duration.getStartDate() +" " + duration.getEndDate() +" looool " );
 		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
 		if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) == 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateSpan newDateSpan = new DateSpan(duration.getEndDate(), availableDateSpan.getEndDate());
 			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+			System.out.println(newDateSpan.getStartDate() +" " + newDateSpan.getEndDate() +" looool " );
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) == 0) {
 			DateSpan newDateSpan = new DateSpan(availableDateSpan.getStartDate(), duration.getStartDate());
+			System.out.println(newDateSpan.getStartDate() +" " + newDateSpan.getEndDate() +" looool " );
 			cottage.getAvailableReservationDateSpan().add(newDateSpan);
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateSpan newDateSpan1 = new DateSpan(availableDateSpan.getStartDate(), duration.getStartDate());
 			DateSpan newDateSpan2 = new DateSpan(duration.getEndDate(), availableDateSpan.getEndDate());
+			System.out.println(newDateSpan1.getStartDate() +" " + newDateSpan1.getEndDate() +" looool " + " " + newDateSpan2.getStartDate() +" " + newDateSpan2.getEndDate());
 			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
 			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
 		}

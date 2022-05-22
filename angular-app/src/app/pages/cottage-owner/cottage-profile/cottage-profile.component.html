@@ -762,19 +762,17 @@
                     >Customer</label
                   >
                   <div>
-                    <mat-form-field appearance="fill">
                       <mat-label>Choose customer</mat-label>
-                      <mat-select [(ngModel)]="customer">
-                        <mat-option
+                      <select (ngModelChange)="selectChange($event)">
+                        <option
                           #customerSelect
                           *ngFor="let user of eligibleCustomers"
-                          [value]="user"
+                          [value]="user.id"
                           id="input-customer"
                         >
                           {{ user.firstName }} {{ user.lastName }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                        </option>
+                      </select>
                   </div>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
 import { HasRoleDirective } from './directive/hasRole.directive';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,14 +10,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CottageProfileComponent } from './pages/cottage-owner/cottage-profile/cottage-profile.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegistrationComponent } from './pages/registration/registration/registration.component';
-import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
 import { NgpImagePickerModule } from 'ngp-image-picker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BaseCottageComponent } from './components/baseCottage/base-cottage.component';
@@ -33,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddCottageComponent } from './pages/cottage-owner/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
 import { ToastrModule} from 'ngx-toastr';
-import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
+import { CottageProfileComponent } from './pages/cottage-owner/cottage-profile/cottage-profile.component';
+import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
 
 
 @NgModule({
@@ -50,7 +50,7 @@ import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
     HasRoleDirective,
     CottageOwnerHomeComponent,
     AddCottageComponent,
-    DatePipe,
+    DatePipe
   ],
   imports: [
     NgbModule,

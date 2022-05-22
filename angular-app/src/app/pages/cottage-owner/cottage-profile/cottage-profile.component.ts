@@ -101,7 +101,7 @@ export class CottageProfileComponent implements OnInit {
   availableStartDate!: Date;
   availableEndDate!: Date;
   eligibleCustomers!: IUser[];
-  customer! : IUser;
+  customer!: IUser;
 
   imageObject: Array<object> = [
     {
@@ -287,7 +287,27 @@ export class CottageProfileComponent implements OnInit {
       );
   }
 
-  addReservation(): void {}
+  addReservation(): void {
+    console.log(this.cottageReservation.customer);
+    this._cottageReservationService
+      .addCottageReservation(this.cottageReservation)
+      .subscribe(
+        (reservation) => {
+          this._toastr.success('Reservation was successfully added.');
+          this._cottageReservationService
+            .getActiveCottageReservationByCottageId(this.cottageId)
+            .subscribe((reservations) => {
+              this.activeReservations = reservations;
+            });
+        },
+        (err) => {
+          this._toastr.error(
+            'Reservation term overlaps with another.',
+            'Try a different date!'
+          );
+        }
+      );
+  }
 
   format(d: Date): Date {
     return new Date(
@@ -333,11 +353,16 @@ export class CottageProfileComponent implements OnInit {
     this.customerSelectElement.nativeElement.value = customer.firstName;
   }
 
-  customerInfo(customer: IUser){
+  customerInfo(customer: IUser) {
     this._router.navigate([`customer/${customer.id}`]);
   }
 
-  isCustomerEligible(customer:IUser){
+  isCustomerEligible(customer: IUser) {
     return this.eligibleCustomers.includes(customer);
+  }
+
+  selectChange(event:any) {
+    //In my case $event come with a id value
+    this.cottageReservation.customer = this.eligibleCustomers[event];
   }
 }

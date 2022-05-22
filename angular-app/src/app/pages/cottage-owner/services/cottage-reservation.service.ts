@@ -11,6 +11,20 @@ import { ICottageReservation } from '../cottage-profile/cottageReservation';
 export class CottageReservationService {
 
   constructor(private _http: HttpClient) { }
+  
+  addCottageReservation(
+    cottageReservation: ICottageReservation
+  ): Observable<ICottageReservation> {
+    return this._http
+      .post<ICottageReservation>(
+        environment.apiUrl + '/cottageReservation/owner',
+        cottageReservation
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
 
   getPassedCottageReservationByCottageId(id : number): Observable<ICottageReservation[]> {
     return this._http.get<ICottageReservation[]>(environment.apiUrl + `/cottageReservation/passed/${id}`).pipe(

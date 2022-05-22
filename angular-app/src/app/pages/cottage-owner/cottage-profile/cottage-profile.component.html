@@ -265,24 +265,27 @@
             </table>
           </div>
           <div *ngIf="availableSpanFormOpened" class="md-form mb-5">
-            <mat-form-field appearance="fill">
+            <div class="mt-2 ml-2">
               <mat-label>Choose a starting date and time</mat-label>
               <input
-                matInput
-                [matDatepicker]="picker"
+                type="datetime-local"
                 placeholder="Start date"
                 [min]="minDate"
                 [(ngModel)]="availableStartDate"
               />
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-            <ngb-timepicker [(ngModel)]="availableStartTime"></ngb-timepicker>
-            <mat-form-field appearance="fill">
+            </div>
+
+            <div class="mt-2 ml-2">
+              <mat-label>Choose an ending date and time</mat-label>
+              <input
+                type="datetime-local"
+                placeholder="End date"
+                [min]="minDate"
+                [(ngModel)]="availableEndDate"
+              />
+            </div>
+
+            <!-- <mat-form-field appearance="fill">
               <mat-label>Choose an ending date and time</mat-label>
               <input
                 matInput
@@ -298,12 +301,12 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
-            <ngb-timepicker [(ngModel)]="availableEndTime"></ngb-timepicker>
-            <span class="ml-5">
+            <ngb-timepicker [(ngModel)]="availableEndTime"></ngb-timepicker> -->
+            <div class="ml-5 mt-3">
               <button class="btn btn-info" (click)="addDateSpan()">
                 Add available term
               </button>
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -336,7 +339,7 @@
   <mat-tab-group>
     <mat-tab label="Quick Reservations">
       <!-- TABELA -->
-      <div class="row" style="margin-top: 20px; overflow: visible">
+      <div class="row" style="margin-top: 20px">
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
@@ -415,7 +418,7 @@
     </mat-tab>
     <mat-tab label="Reservations">
       <!-- TABELA -->
-      <div class="row" style="margin-top: 20px; overflow: visible">
+      <div class="row" style="margin-top: 20px">
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
@@ -475,6 +478,17 @@
                             (click)="deleteQuickReservation(reservation.id)"
                             >Delete</a
                           >
+                          <a
+                            class="dropdown-item"
+                            (click)="customerInfo(reservation.customer)"
+                            >See customer info</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            *ngIf="isCustomerEligible(reservation.customer)"
+                            (click)="newReservation(reservation.customer)"
+                            >New reservation</a
+                          >
                         </div>
                       </div>
                     </td>
@@ -487,7 +501,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Reservations history">
-      <div class="row" style="margin-top: 20px; overflow: visible">
+      <div class="row" style="margin-top: 20px">
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
@@ -505,6 +519,7 @@
                     <th scope="col">End Date</th>
                     <th scope="col">Guest Capacity</th>
                     <th scope="col">Price(in €)</th>
+                    <th scope="col">Customer</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -522,6 +537,10 @@
                     <td>
                       {{ reservation.price }}
                     </td>
+                    <td>
+                      {{ reservation.customer.firstName }}
+                      {{ reservation.customer.lastName }}
+                    </td>
                     <td class="text-right">
                       <div ngbDropdown placement="bottom-right">
                         <a
@@ -538,6 +557,11 @@
                             class="dropdown-item"
                             (click)="deleteQuickReservation(reservation.id)"
                             >Delete</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            (click)="customerInfo(reservation.customer)"
+                            >See customer info</a
                           >
                         </div>
                       </div>
@@ -652,7 +676,7 @@
       <div class="card-header bg-white border-0">
         <div class="row align-items-center">
           <div class="col-8">
-            <h3 class="mb-0">Quick reservation</h3>
+            <h3 class="mb-0">Reservation</h3>
           </div>
         </div>
       </div>
@@ -740,10 +764,11 @@
                   <div>
                     <mat-form-field appearance="fill">
                       <mat-label>Choose customer</mat-label>
-                      <mat-select>
+                      <mat-select [(ngModel)]="customer">
                         <mat-option
+                          #customerSelect
                           *ngFor="let user of eligibleCustomers"
-                          [value]="user.firstName"
+                          [value]="user"
                           id="input-customer"
                         >
                           {{ user.firstName }} {{ user.lastName }}

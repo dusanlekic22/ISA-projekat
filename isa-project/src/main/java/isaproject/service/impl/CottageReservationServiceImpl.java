@@ -176,7 +176,6 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.findByCottageId(cottageReservation.getCottage().getId())) {
 
 			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
-				System.out.println("izaso1");
 				return null;
 			}
 
@@ -189,13 +188,11 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.findByCottageId(cottageReservation.getCottage().getId())) {
 
 			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
-				System.out.println("izaso12");
 				return null;
 			}
 		}
 
 		if (!inAction) {
-			System.out.println("izaso3");
 			return null;
 		}
 		

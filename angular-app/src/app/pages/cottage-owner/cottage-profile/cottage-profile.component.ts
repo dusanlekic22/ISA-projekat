@@ -1,9 +1,9 @@
-import { IUser } from './../../registration/registration/user';
+import { IUser, IRole } from './../../registration/registration/user';
 import { IDateSpan } from './dateSpan';
 import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IAdditionalService } from './additionalService';
 import { ICottage } from './cottage';
 import { ICottageQuickReservation } from './cottageQuickReservation';
@@ -12,7 +12,6 @@ import { CottageService } from '../services/cottage.service';
 import { CottageQuickReservationService } from '../services/cottage-quick-reservation.service';
 import { AdditionalServiceService } from '../services/additional-service.service';
 import { CottageReservationService } from '../services/cottage-reservation.service';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-cottage-profile',
@@ -51,7 +50,11 @@ export class CottageProfileComponent implements OnInit {
   };
 
   @ViewChild('quickReservationInput')
+  quickReservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('reservationInput')
   reservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('customerSelect')
+  customerSelectElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
@@ -82,14 +85,23 @@ export class CottageProfileComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
+    customer: {
+      id: 0,
+      firstName: '',
+      lastName: '',
+      username: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      roles: [],
+    },
   };
 
   availableDateSpan!: IDateSpan;
   availableStartDate!: Date;
   availableEndDate!: Date;
-  availableStartTime!: { hour: 0; minute: 0 };
-  availableEndTime!: { hour: 0; minute: 0 };
   eligibleCustomers!: IUser[];
+  customer! : IUser;
 
   imageObject: Array<object> = [
     {
@@ -114,12 +126,13 @@ export class CottageProfileComponent implements OnInit {
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _cottageReservationService: CottageReservationService,
     private _additionalServiceService: AdditionalServiceService,
-    private toastr: ToastrService
+    private _toastr: ToastrService,
+    private _router: Router
   ) {}
 
   openQuickReservationForm() {
     this.addReservationFormOpened = true;
-    this.reservationFormElement.nativeElement.scrollIntoView();
+    this.quickReservationFormElement.nativeElement.scrollIntoView();
   }
 
   openAvailableSpanForm() {
@@ -238,7 +251,7 @@ export class CottageProfileComponent implements OnInit {
       .subscribe(
         (quickReservation) => {
           this.addReservationFormOpened = false;
-          this.toastr.success('Reservation was successfully added.');
+          this._toastr.success('Reservation was successfully added.');
           this.getCottage();
           this._cottageQuickReservationService
             .getCottageQuickReservations()
@@ -247,7 +260,7 @@ export class CottageProfileComponent implements OnInit {
             });
         },
         (err) => {
-          this.toastr.error(
+          this._toastr.error(
             'Reservation term overlaps with another.',
             'Try a different date!'
           );
@@ -260,7 +273,7 @@ export class CottageProfileComponent implements OnInit {
       .deleteCottageQuickReservations(id)
       .subscribe(
         (quickReservation) => {
-          this.toastr.success('Reservation was successfully removed.');
+          this._toastr.success('Reservation was successfully removed.');
           this.getCottage();
           this._cottageQuickReservationService
             .getCottageQuickReservations()
@@ -269,7 +282,7 @@ export class CottageProfileComponent implements OnInit {
             });
         },
         (err) => {
-          this.toastr.error('Reservation removal failed');
+          this._toastr.error('Reservation removal failed');
         }
       );
   }
@@ -287,10 +300,6 @@ export class CottageProfileComponent implements OnInit {
   }
 
   addDateSpan() {
-    this.availableStartDate.setHours(this.availableStartTime.hour);
-    this.availableStartDate.setMinutes(this.availableStartTime.minute);
-    this.availableEndDate.setHours(this.availableEndTime.hour);
-    this.availableEndDate.setMinutes(this.availableEndTime.minute);
     this._cottageService
       .editAvailableTerms(this.cottage.id, {
         startDate: this.availableStartDate,
@@ -301,7 +310,7 @@ export class CottageProfileComponent implements OnInit {
           this.cottage = cottage;
         },
         (err) => {
-          this.toastr.error(
+          this._toastr.error(
             'Theres already an active reservation in this date span.',
             'Try a different date!'
           );
@@ -316,5 +325,19 @@ export class CottageProfileComponent implements OnInit {
     this._cottageService.editCottage(this.cottage).subscribe((cottage) => {
       this.cottage = cottage;
     });
+  }
+
+  newReservation(customer: IUser) {
+    this.reservationFormElement.nativeElement.scrollIntoView(true);
+    this.customer = customer;
+    this.customerSelectElement.nativeElement.value = customer.firstName;
+  }
+
+  customerInfo(customer: IUser){
+    this._router.navigate([`customer/${customer.id}`]);
+  }
+
+  isCustomerEligible(customer:IUser){
+    return this.eligibleCustomers.includes(customer);
   }
 }

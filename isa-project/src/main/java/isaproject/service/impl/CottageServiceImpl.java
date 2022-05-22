@@ -89,7 +89,8 @@ public class CottageServiceImpl implements CottageService {
 				return null;
 		}
 		boolean overlapped = false;
-		for (DateSpan dateSpan : cottage.getAvailableReservationDateSpan()) {
+		Set<DateSpan> availaDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		for (DateSpan dateSpan : availaDateSpans) {
 			if (dateSpan.overlapsWith(newDateSpan)) {
 				cottage.getAvailableReservationDateSpan().remove(dateSpan);
 				if (newDateSpan.getStartDate().compareTo(dateSpan.getStartDate()) <= 0) {

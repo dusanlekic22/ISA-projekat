@@ -1,3 +1,4 @@
+import { IUser } from './../../registration/registration/user';
 import { IDateSpan } from "./dateSpan";
 
 export interface ICottageReservation{
@@ -5,4 +6,5 @@ export interface ICottageReservation{
     duration: IDateSpan;
     guestCapacity: number;
     price: number;
+    customer: IUser;
 }

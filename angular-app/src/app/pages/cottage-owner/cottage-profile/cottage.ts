@@ -1,3 +1,4 @@
+import { IUser } from "../../registration/registration/user";
 import { IAddress } from "./address";
 import { ICottageImage } from "./cottageImage";
 import { ICottageQuickReservation } from "./cottageQuickReservation";
@@ -16,4 +17,5 @@ export interface ICottage{
     cottageReservation : ICottageReservation[];
     cottageQuickReservation :  ICottageQuickReservation[];
     availableReservationDateSpan : IDateSpan[];
+    cottageOwner: IUser;
 }

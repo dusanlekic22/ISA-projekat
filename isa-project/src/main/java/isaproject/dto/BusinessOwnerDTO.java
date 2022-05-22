@@ -4,6 +4,7 @@ import isaproject.model.Address;
 
 public class BusinessOwnerDTO {
 	
+	private long id;
 	private String username;
     private String password;
     private String firstName;
@@ -75,6 +76,14 @@ public class BusinessOwnerDTO {
 
 	public void setRegistrationExplanation(String registrationExplanation) {
 		this.registrationExplanation = registrationExplanation;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
     
 }

@@ -261,17 +261,16 @@
           <div class="md-form mb-5">
             <mat-form-field appearance="fill">
               <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
+              <mat-date-range-input [rangePicker]="picker" 
+              [min]="minDate">
                 <input
                   matStartDate
                   placeholder="Start date"
-                  [min]="minDate"
                   [(ngModel)]="startDate"
                 />
                 <input
                   matEndDate
                   placeholder="End date"
-                  [min]="minDate"
                   [(ngModel)]="endDate"
                 />
               </mat-date-range-input>

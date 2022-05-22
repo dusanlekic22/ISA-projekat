@@ -18,6 +18,7 @@ import {} from 'googlemaps';
 })
 export class RegistrationComponent implements OnInit {
   firstFormGroup!: FormGroup;
+  id!: number;
   firstName!: string;
   lastname!: string;
   username!: string;

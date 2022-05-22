@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CustomerMapper;
+import isaproject.model.CottageQuickReservation;
+import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
 import isaproject.model.User;
@@ -72,6 +74,49 @@ public class CustomerServiceImpl implements CustomerService {
 		String verifyURL = siteURL + "/auth/verify?code=" + user.getVerificationCode();
 
 		content = content.replace("[[URL]]", verifyURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);
+	}
+
+	public void sendNewQuickReservationEmail(Customer user, String siteURL, CottageQuickReservation cottageQuickReservation)
+			throws MessagingException {
+		String toAddress = user.getEmail();
+		String subject = "New " + cottageQuickReservation.getCottage().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "New reservation is available in " + cottageQuickReservation.getCottage().getName() + "<br>"
+				+ "from: " + cottageQuickReservation.getDuration().getStartDate() 
+				+ " to: " + cottageQuickReservation.getDuration().getEndDate() + "<br>"
+				+ " with a discount price of: " + cottageQuickReservation.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteURL + "/cottageQuickReservation/appoint/"+cottageQuickReservation.getId()+"/user/"+user.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);
+	}
+	
+	public void sendReservationConfirmationEmail(String siteURL, CottageReservation cottageReservation)
+			throws MessagingException {
+		Customer user = cottageReservation.getCustomer();
+		String toAddress = user.getEmail();
+		String subject = "New " + cottageReservation.getCottage().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "Your reservation in " + cottageReservation.getCottage().getName() + "<br>"
+				+ "from: " + cottageReservation.getDuration().getStartDate() 
+				+ " to: " + cottageReservation.getDuration().getEndDate() + "<br>"
+				+ " with a price of: " + cottageReservation.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteURL + "/cottageReservation/confirm/" + cottageReservation.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
 
 		Mail mail = new Mail(toAddress, subject, content);
 

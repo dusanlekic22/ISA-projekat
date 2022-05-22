@@ -1,24 +1,26 @@
 package isaproject.model;
 
-import javax.persistence.Entity;
+import java.util.Set;
 
-import java.util.Collection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
-import isaproject.model.Cottage;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class CottageOwner extends User {
 
 	private static final long serialVersionUID = 1L;
-	@OneToMany(mappedBy = "cottageOwner")
-	private Collection<Cottage> cottage;
+	@OneToMany(mappedBy = "cottageOwner",fetch = FetchType.EAGER)
+	@JsonBackReference
+	private Set<Cottage> cottage;
 	public CottageOwner() {
 	}
-	public Collection<Cottage> getCottage() {
+	public Set<Cottage> getCottage() {
 	    return cottage;
 	}
-	public void setCottage(Collection<Cottage> param) {
+	public void setCottage(Set<Cottage> param) {
 	    this.cottage = param;
 	}
 }

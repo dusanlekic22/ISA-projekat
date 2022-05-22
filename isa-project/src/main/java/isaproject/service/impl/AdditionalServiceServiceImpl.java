@@ -19,7 +19,7 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService{
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
 	
-	@Transactional
+
 	public AdditionalServiceDTO findById(Long id) {
 		AdditionalService additionalService = additionalServiceRepository.getById(id);
 		return AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(additionalService);
@@ -39,22 +39,36 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService{
 		return additionalServiceDTO;
 	}
 	
-	@Transactional
 	@Override
 	public Set<AdditionalServiceDTO> findFree() {
-		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findAll());
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageIsNull());
 		Set<AdditionalServiceDTO> dtos = new HashSet<>();
 	        if(allAdditionalServices.size()!=0){
 	        	
 	        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
 	            for(AdditionalService p : allAdditionalServices){
-	            	if(p.getCottage()==null)
 	                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
 	                dtos.add(dto);
 	            }
 	        }
 
 	     return dtos;
+	}
+	
+	@Override
+	public Set<AdditionalServiceDTO> findByCottageId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageIdIs(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
 	}
 
 }

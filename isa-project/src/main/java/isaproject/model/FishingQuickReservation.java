@@ -1,22 +1,19 @@
 package isaproject.model;
 
+import static javax.persistence.FetchType.LAZY;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import static javax.persistence.FetchType.LAZY;
 import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-
-import isaproject.model.AdditionalService;
-import isaproject.model.FishingCourse;
-
-import java.util.Collection;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "FishingQuickReservation")

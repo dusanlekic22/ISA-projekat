@@ -27,4 +27,8 @@ export class RegistrationService {
       ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=sr`
     );
   }
+
+  registerCottageOwner(user: IBusinessOwner): Observable<IBusinessOwner> {
+    return this.http.post<any>('http://localhost:8080/cottageOwner/signup', user);
+  }
 }

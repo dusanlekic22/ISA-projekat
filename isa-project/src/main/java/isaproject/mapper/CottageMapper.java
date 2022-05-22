@@ -20,6 +20,8 @@ public class CottageMapper {
 		cottage.setCottageReservation(cottageDTO.getCottageReservation());
 		cottage.setCottageRules(cottageDTO.getCottageRules());
 		cottage.setAvailableReservationDateSpan(cottageDTO.getAvailableReservationDateSpan());
+		cottage.setCottageOwner(cottageDTO.getCottageOwner());
+		cottage.setSubscribers(cottageDTO.getSubscribers());
 		return cottage;
 	}
 	
@@ -38,6 +40,8 @@ public class CottageMapper {
 		cottageDTO.setCottageReservation(cottage.getCottageReservation());
 		cottageDTO.setCottageRules(cottage.getCottageRules());
 		cottageDTO.setAvailableReservationDateSpan(cottage.getAvailableReservationDateSpan());
+		cottageDTO.setCottageOwner(cottage.getCottageOwner());
+		cottageDTO.setSubscribers(cottage.getSubscribers());
 		return cottageDTO;
 	}
 }

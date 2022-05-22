@@ -9,4 +9,5 @@ public interface AdditionalServiceService {
 	AdditionalServiceDTO save(AdditionalServiceDTO additionalService);
 	AdditionalServiceDTO deleteById(Long id);
 	Set<AdditionalServiceDTO> findFree();
+	Set<AdditionalServiceDTO> findByCottageId(Long id);
 }

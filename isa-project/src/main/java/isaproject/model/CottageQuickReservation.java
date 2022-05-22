@@ -14,9 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -27,21 +24,30 @@ public class CottageQuickReservation implements Serializable {
 
 	public CottageQuickReservation() {
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Embedded
-	private DateSpan dateSpan;
-	private String guestCapacity;
+	private DateSpan duration;
+	private Integer guestCapacity;
 	private Integer price;
-	@OneToMany(mappedBy = "cottageQuickReservation",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
-	@ManyToOne(fetch = FetchType.EAGER,targetEntity = Cottage.class)
-	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
 	@JoinColumn(name = "cottage_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Cottage cottage;
+	private boolean isReserved;
+	
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -49,45 +55,45 @@ public class CottageQuickReservation implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	public String getGuestCapacity() {
+
+	public DateSpan getDuration() {
+		return duration;
+	}
+
+	public void setDuration(DateSpan duration) {
+		this.duration = duration;
+	}
+
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String param) {
-		this.guestCapacity = param;
+	public void setGuestCapacity(Integer guestCapacity) {
+		this.guestCapacity = guestCapacity;
 	}
 
 	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer param) {
-		this.price = param;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
 	public Set<AdditionalService> getAdditionalService() {
-	    return additionalService;
+		return additionalService;
 	}
 
-	public void setAdditionalService(Set<AdditionalService> param) {
-	    this.additionalService = param;
-	}
-	
-	public DateSpan getDateSpan() {
-		return dateSpan;
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
 	}
 
-	public void setDateSpan(DateSpan dateSpan) {
-		this.dateSpan = dateSpan;
-	}
-	
 	public Cottage getCottage() {
-	    return cottage;
+		return cottage;
 	}
 
-	public void setCottage(Cottage param) {
-	    this.cottage = param;
+	public void setCottage(Cottage cottage) {
+		this.cottage = cottage;
 	}
 
 }

@@ -1,27 +1,21 @@
 package isaproject.model;
 
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-
-import isaproject.model.AdditionalService;
-import isaproject.model.Cottage;
-import isaproject.model.Customer;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import static javax.persistence.FetchType.LAZY;
-
-import java.util.Collection;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "CottageReservation")
@@ -35,19 +29,27 @@ public class CottageReservation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TIMESTAMP)
-	private Date startDate;
-	@Temporal(TIMESTAMP)
-	private Date endDate;
-	private String guestCapacity;
-	private String additionalService;
+	@Embedded
+	private DateSpan duration;
+	private Integer guestCapacity;
 	private Integer price;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
+	@JoinColumn(name = "cottage_id")
+	@JsonBackReference
 	private Cottage cottage;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Customer customer;
-	@OneToMany(mappedBy = "cottageReservation")
-	private Collection<AdditionalService> additionalService_1;
+	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
 
 	public long getId() {
 		return id;
@@ -57,68 +59,52 @@ public class CottageReservation implements Serializable {
 		this.id = id;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public DateSpan getDuration() {
+		return duration;
 	}
 
-	public void setStartDate(Date param) {
-		this.startDate = param;
+	public void setDuration(DateSpan duration) {
+		this.duration = duration;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getGuestCapacity() {
+	public Integer getGuestCapacity() {
 		return guestCapacity;
 	}
 
-	public void setGuestCapacity(String param) {
-		this.guestCapacity = param;
-	}
-
-	public String getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(String param) {
-		this.additionalService = param;
+	public void setGuestCapacity(Integer guestCapacity) {
+		this.guestCapacity = guestCapacity;
 	}
 
 	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer param) {
-		this.price = param;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
 	public Cottage getCottage() {
-	    return cottage;
+		return cottage;
 	}
 
-	public void setCottage(Cottage param) {
-	    this.cottage = param;
+	public void setCottage(Cottage cottage) {
+		this.cottage = cottage;
 	}
 
 	public Customer getCustomer() {
-	    return customer;
+		return customer;
 	}
 
-	public void setCustomer(Customer param) {
-	    this.customer = param;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public Collection<AdditionalService> getAdditionalService_1() {
-	    return additionalService_1;
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
 	}
 
-	public void setAdditionalService_1(Collection<AdditionalService> param) {
-	    this.additionalService_1 = param;
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
 	}
 
 }

@@ -16,7 +16,7 @@ public class CottageImageServiceImpl implements CottageImageService {
 	@Autowired
 	private CottageImageRepository cottageImageRepository;
 
-	@Transactional
+
 	public CottageImageDTO findById(Long id) {
 		CottageImage cottageImage = cottageImageRepository.getById(id);
 		return CottageImageMapper.CottageImageToCottageImageDTO(cottageImage);

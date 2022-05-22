@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@Entity
+@Entity(name ="cottage")
 public class Cottage implements Serializable {
 
 	private static final long serialVersionUID = 1L;

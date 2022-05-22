@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageDTO;
+import isaproject.dto.DateSpanDTO;
 import isaproject.service.CottageService;
 
 @RestController
@@ -65,4 +66,11 @@ public class CottageController {
 	public CottageDTO deleteById(@PathVariable("cottageId") Long id) {
 		return cottageService.deleteById(id);
 	}
+	
+	@PostMapping("/availability")
+	@ResponseBody
+	public Set<CottageDTO> search(@RequestBody DateSpanDTO reservationDate) {
+		return cottageService.findByReservationDate(reservationDate);
+	}
+	
 }

@@ -43,6 +43,8 @@ import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carou
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { ChangeCustomerInfoComponent } from './pages/customer-profile/edit/change-customer-info.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import { ChangeCustomerInfoComponent } from './pages/customer-profile/edit/chang
     MDBBootstrapModule.forRoot(),
     TagInputModule,
     CarouselModule,
+    MatCheckboxModule,
+    MatChipsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

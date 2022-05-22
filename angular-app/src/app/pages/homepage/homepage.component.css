@@ -16,3 +16,14 @@
   border: 0px;
   border-radius: 20px;
 }
+
+mat-label {
+  color: #24a46d;
+}
+
+mat-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
+  margin-right: 5px;
+}

@@ -2,15 +2,18 @@ package isaproject.service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageDTO;
+import isaproject.dto.DateSpanDTO;
 import isaproject.mapper.CottageMapper;
-import isaproject.model.Address;
+import isaproject.mapper.DateSpanMapper;
 import isaproject.model.Cottage;
+import isaproject.model.DateSpan;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageService;
@@ -85,6 +88,29 @@ public class CottageServiceImpl implements CottageService {
 
         return dtos;
 	}
+
+	@Override
+	public Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDateDTO) {
+		DateSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
+		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
+		Set<CottageDTO> availableCottages = new HashSet<>();
+		  if(cottages.size()!=0){
+	        	
+	            CottageDTO dto;
+	            for(Cottage p : cottages){
+	            	for(DateSpan d : p.getAvailableReservationDateSpan()) {
+	            	if(d.isBetween(reservationDate)) {	
+	                dto = CottageMapper.CottageToCottageDTO(p);
+	                availableCottages.add(dto);
+	                }
+	                }
+	            }
+	        }
+		
+		  return availableCottages;
+	}	
+	
+	
 
 	
 }

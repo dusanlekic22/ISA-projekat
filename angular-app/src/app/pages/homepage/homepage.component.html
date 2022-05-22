@@ -5,7 +5,33 @@
       <mat-tab label="Cottages">
         <div class="container">
           <form class="example-form">
-            <div class="row">
+            <div class="row pt-4 ml-5">
+              <div class="mb-3">
+                <div class="col-4">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Start of reservation</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="startCottageDate"
+                      type="datetime-local"
+                      placeholder="start date"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="col-4">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>End of reservation</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="endCottageDate"
+                      type="datetime-local"
+                      placeholder="start date"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
               <div class="mb-3">
                 <div class="col-4">
                   <mat-form-field class="example-full-width" appearance="fill">
@@ -19,15 +45,24 @@
                   </mat-form-field>
                 </div>
               </div>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Search cottage by number of beds</mat-label>
-                <textarea
-                  matInput
-                  [(ngModel)]="searchCottageBeds"
-                  name="searchCottageBeds"
-                  placeholder="Ex. It makes me feel..."
-                ></textarea>
-              </mat-form-field>
+              <div class="mb-3">
+                <div class="col-4">
+                  <button class="btn btn-success">Apply</button>
+                </div>
+              </div>
+            </div>
+            <div class="row p-4 ml-5">
+              <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                <mat-chip
+                  #c="matChip"
+                  *ngFor="let option of optionsCottages"
+                  [value]="option"
+                  (click)="toggleSelectionCottage(c, option)"
+                >
+                  <mat-icon *ngIf="c.selected">check</mat-icon>
+                  {{ option }}
+                </mat-chip>
+              </mat-chip-list>
             </div>
           </form>
 

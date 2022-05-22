@@ -42,10 +42,12 @@ import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carou
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { ChangeCustomerInfoComponent } from './pages/customer-profile/edit/change-customer-info.component';
-import { ToastrModule} from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { CottageProfileComponent } from './pages/cottage-owner/cottage-profile/cottage-profile.component';
 import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
 
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,7 @@ import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owne
     CustomerCottageProfileComponent,
     CustomerProfileComponent,
     ChangeCustomerInfoComponent,
-    DatePipe
+    DatePipe,
   ],
   imports: [
     NgbModule,
@@ -93,6 +95,8 @@ import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owne
     TagInputModule,
     CarouselModule,
     ToastrModule.forRoot(),
+    MatCheckboxModule,
+    MatChipsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

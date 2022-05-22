@@ -4,6 +4,7 @@ import java.util.Set;
 
 import isaproject.dto.CottageDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.dto.DateSpanDTO;
 
 public interface CottageService {
 	
@@ -16,5 +17,6 @@ public interface CottageService {
 	CottageDTO deleteById(Long id);
 	CottageDTO updateInfo(CottageDTO cottageDTO);
 	CottageDTO updateAvailableTerms(Long id, DateTimeSpan newDateSpan);
+	Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDate);
 	
 }

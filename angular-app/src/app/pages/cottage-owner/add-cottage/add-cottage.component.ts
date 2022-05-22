@@ -33,7 +33,7 @@ export class AddCottageComponent implements OnInit {
     cottageReservation: [],
     cottageQuickReservation: [],
     availableReservationDateSpan: [],
-    cottageOwner : { 
+    cottageOwner: {
       id: 0,
       username: '',
       password: '',
@@ -41,7 +41,15 @@ export class AddCottageComponent implements OnInit {
       lastName: '',
       email: '',
       phoneNumber: '',
-      roles: []},
+      address: {
+        street: '',
+        city: '',
+        country: '',
+        latitude: '',
+        longitude: '',
+      },
+      roles: [],
+    },
   };
 
   @Output() submitted = new EventEmitter<boolean>();
@@ -65,9 +73,11 @@ export class AddCottageComponent implements OnInit {
 
   validatingForm: FormGroup;
 
-  constructor(private _cottageService: CottageService,
+  constructor(
+    private _cottageService: CottageService,
     private _additionalServiceService: AdditionalServiceService,
-    private _userService: UserService) {
+    private _userService: UserService
+  ) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
       loginFormModalPassword: new FormControl('', Validators.required),

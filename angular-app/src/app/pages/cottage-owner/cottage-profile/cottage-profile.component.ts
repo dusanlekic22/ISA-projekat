@@ -46,6 +46,13 @@ export class CottageProfileComponent implements OnInit {
       email: '',
       phoneNumber: '',
       roles: [],
+      address: {
+        street: '',
+        city: '',
+        country: '',
+        latitude: '',
+        longitude: '',
+      },
     },
   };
 
@@ -94,6 +101,13 @@ export class CottageProfileComponent implements OnInit {
       email: '',
       phoneNumber: '',
       roles: [],
+      address: {
+        street: '',
+        city: '',
+        country: '',
+        latitude: '',
+        longitude: '',
+      },
     },
   };
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CottageOwnerHomeComponent } from '../cottage-owner-home/cottage-owner-home.component';
-import { CottageService } from '../cottage.service';
-import { ICottage } from '../cottage-profile/cottage';
+import { ICottage } from '../cottage-owner/cottage-profile/cottage';
+import { CottageService } from '../cottage-owner/services/cottage.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',

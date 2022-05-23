@@ -1,5 +1,5 @@
+import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
-import { FishingTrainerCoursesComponent } from './pages/fishing-course-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';

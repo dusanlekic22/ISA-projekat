@@ -10,7 +10,7 @@ import { CottageService } from '../services/cottage.service';
 @Component({
   selector: 'app-cottage-owner-home',
   templateUrl: './cottage-owner-home.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['./cottage-owner-home.component.css'],
 })
 export class CottageOwnerHomeComponent implements OnInit {
   addFormVisible: boolean = false;
@@ -65,7 +65,7 @@ export class CottageOwnerHomeComponent implements OnInit {
   searchCottages(filter: string) {
     if(filter!='')
       this.filteredCottages = this.cottages.filter(cottage => cottage.name.toLowerCase().includes(filter.toLowerCase()));
-    else 
+    else
       this.filteredCottages = this.cottages;
   }
 }

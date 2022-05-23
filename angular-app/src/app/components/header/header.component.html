@@ -1,125 +1,109 @@
-<div class="container-fluid">
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <button
+      class="navbar-toggler navbar-toggler-right"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" href="#">KVZR</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
+          <a
+            class="nav-link"
+            [routerLink]="['/cottageOwnerHome/${loggedInUser.id}']"
+            routerLinkActive="router-link-active"
+            target="_blank"
+            >Cottages</a
+          >
+        </li>
+        <li class="nav-item" *appHasRole="['ROLE_FISHING_TRAINER']">
+          <a
+            class="nav-link"
+            [routerLink]="['/fishingTrainerCourses']"
+            routerLinkActive="router-link-active"
+            >Fishing Courses</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/customer/' + loggedInUser.id]">
+            Profile
+          </a>
+        </li>
+      </ul>
+
+      <div class="dropdown ml-2" *ngIf="!isLoggedIn()">
         <button
-          class="navbar-toggler navbar-toggler-right"
+          class="btn btn-success dropdown-toggle"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          id="dropdownForm"
+          data-toggle="dropdown"
+          aria-haspopup="true"
           aria-expanded="false"
-          aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          Login
         </button>
-
-        <a class="navbar-brand" href="#">KVZR</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
-              <a
-                class="nav-link"
-                [routerLink]="['/cottageOwnerHome/${loggedInUser.id}']" 
-                routerLinkActive="router-link-active" 
-                target="_blank"
-                >Cottages</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                target="_blank"
-                >Boats</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                target="_blank"
-                >Fishing Trainers</a
-              >
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn()">
-              <a
-                class="nav-link"
-                [routerLink]="['/customer/' + loggedInUser.id]"
-              >
-                Profile
-              </a>
-            </li>
-          </ul>
-
-          <div class="dropdown ml-2" *ngIf="!isLoggedIn()">
-            <button
-              class="btn btn-success dropdown-toggle"
-              type="button"
-              id="dropdownForm"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Login
-            </button>
-            <div class="dropdown-menu">
-              <form class="px-4 py-3">
-                <div class="form-group">
-                  <label for="exampleDropdownFormEmail1">Username</label>
-                  <ng-template>Username </ng-template>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Username</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="username"
-                      name="username"
-                      placeholder="Username"
-                      required
-                    />
-                  </mat-form-field>
-                </div>
-                <div class="form-group">
-                  <label for="exampleDropdownFormPassword1">Password</label>
-                  <ng-template matStepLabel>Fill out password</ng-template>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input
-                      type="password"
-                      matInput
-                      [(ngModel)]="password"
-                      name="password"
-                      placeholder="Password"
-                      required
-                    />
-                  </mat-form-field>
-                </div>
-                <button (click)="login()" class="btn btn-primary">
-                  Sign in
-                </button>
-              </form>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" [routerLink]="regLink"
-                >New around here? Sign up</a
-              >
-              <a class="dropdown-item" href="#">Forgot password?</a>
+        <div class="dropdown-menu">
+          <form class="px-4 py-3">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail1">Username</label>
+              <ng-template>Username </ng-template>
+              <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="username"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </mat-form-field>
             </div>
-          </div>
-          <ul class="navbar-nav" *ngIf="isLoggedIn()">
-            <li class="nav-item" *ngIf="loggedInUser">
-              <a href="" class="nav-link">{{
-                loggedInUser.firstName + " " + loggedInUser.lastName
-              }}</a>
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn()">
-              <button (click)="logout()" class="btn btn-primary">Logout</button>
-            </li>
-          </ul>
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Password</label>
+              <ng-template matStepLabel>Fill out password</ng-template>
+              <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input
+                  type="password"
+                  matInput
+                  [(ngModel)]="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <button (click)="login()" class="btn btn-primary">Sign in</button>
+          </form>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="regLink"
+            >New around here? Sign up</a
+          >
+          <a class="dropdown-item" href="#">Forgot password?</a>
         </div>
       </div>
-    </nav>
-  </header>
-</div>
+      <ul class="navbar-nav" *ngIf="isLoggedIn()">
+        <li class="nav-item" *ngIf="loggedInUser">
+          <a href="" class="nav-link">{{
+            loggedInUser.firstName + " " + loggedInUser.lastName
+          }}</a>
+        </li>
+      </ul>
+      <button (click)="logout()" class="btn btn-primary" *ngIf="isLoggedIn()">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
 <div
   mdbModal
   #frame="mdbModal"

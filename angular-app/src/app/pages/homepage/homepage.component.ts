@@ -1,8 +1,11 @@
+import { CottageService } from './../cottage-owner/services/cottage.service';
+import { IDateTimeSpan } from './../../model/date-time-span';
 import { Component, OnInit } from '@angular/core';
 import { ICottage } from '../cottage-owner/cottage-profile/cottage';
-import { CottageService } from '../cottage-owner/services/cottage.service';
-
 import { MatChip } from '@angular/material/chips';
+import { ReservationService } from 'src/app/service/reservation.service';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -12,13 +15,17 @@ export class HomepageComponent implements OnInit {
   searchCottageName!: string;
   searchCottageBeds!: string;
   cottages!: ICottage[];
-  startCottageDate!: Date;
-  endCottageDate!: Date;
+  startCottageDate: Date = new Date();
+  endCottageDate: Date = new Date();
   optionsCottages: string[] = ['dare', 'leka'];
   chips!: MatChip;
   cottageChips: string[] = [];
+  cottageTimespan!: IDateTimeSpan;
 
-  constructor(private _cottageService: CottageService) {}
+  constructor(
+    private _cottageService: CottageService,
+    private _reservationService: ReservationService
+  ) {}
 
   ngOnInit(): void {
     this._cottageService.getCottages().subscribe((data) => {
@@ -33,5 +40,17 @@ export class HomepageComponent implements OnInit {
     } else {
       this.cottageChips = this.cottageChips.filter((e) => e !== option);
     }
+  }
+
+  availableCottages() {
+    console.log(this.startCottageDate);
+    this.cottageTimespan.startDate = this.startCottageDate;
+    this.cottageTimespan.endDate = this.endCottageDate;
+    this._reservationService
+      .getAvailableCottagesByTimeSpan(this.cottageTimespan)
+      .subscribe((data) => {
+        console.log('podaci', data);
+        this.cottages = data;
+      });
   }
 }

@@ -8,28 +8,20 @@
             <div class="row pt-4 ml-5">
               <div class="mb-3">
                 <div class="col-4">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Start of reservation</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="startCottageDate"
-                      type="datetime-local"
-                      placeholder="start date"
-                    />
-                  </mat-form-field>
+                  <input
+                    [(ngModel)]="startCottageDate"
+                    type="datetime-local"
+                    placeholder="start date"
+                  />
                 </div>
               </div>
               <div class="mb-3">
                 <div class="col-4">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>End of reservation</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="endCottageDate"
-                      type="datetime-local"
-                      placeholder="start date"
-                    />
-                  </mat-form-field>
+                  <input
+                    [(ngModel)]="endCottageDate"
+                    type="datetime-local"
+                    placeholder="start date"
+                  />
                 </div>
               </div>
               <div class="mb-3">
@@ -47,7 +39,9 @@
               </div>
               <div class="mb-3">
                 <div class="col-4">
-                  <button class="btn btn-success">Apply</button>
+                  <button class="btn btn-success" (click)="availableCottages()">
+                    Apply
+                  </button>
                 </div>
               </div>
             </div>

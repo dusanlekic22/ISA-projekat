@@ -27,3 +27,13 @@ mat-icon {
   font-size: 20px;
   margin-right: 5px;
 }
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.test {
+  position: absolute;
+  height: 300px;
+  width: 400px;
+  background: white;
+  z-index: 20;
+}

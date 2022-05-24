@@ -13,19 +13,19 @@ public class FishingCourseDTO {
 
 	private Long id;
 	private String name;
-	private Address address;
 	private String promoDescription;
-	private Set<FishingImage> fishingImage;
 	private Integer capacity;
-	private Set<FishingQuickReservation> fishingQuickReservation;
 	private String fishingRules;
 	private String fishingEquipment;
-	private Set<AdditionalService> additionalService;
-	private Set<FishingReservation> fishingReservation;
 	private Double price;
 	private Double cancellationPercentageKeep;
+	private Address address;
+	private Set<FishingImage> fishingImage;
+	private Set<FishingQuickReservation> fishingQuickReservation;
+	private Set<AdditionalService> additionalService;
+	private Set<FishingReservation> fishingReservation;
 	private FishingTrainer fishingTrainer;
-	
+
 	public FishingCourseDTO() {
 		super();
 	}
@@ -46,14 +46,6 @@ public class FishingCourseDTO {
 		this.name = name;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public String getPromoDescription() {
 		return promoDescription;
 	}
@@ -62,28 +54,12 @@ public class FishingCourseDTO {
 		this.promoDescription = promoDescription;
 	}
 
-	public Set<FishingImage> getFishingImage() {
-		return fishingImage;
-	}
-
-	public void setFishingImage(Set<FishingImage> fishingImage) {
-		this.fishingImage = fishingImage;
-	}
-
 	public Integer getCapacity() {
 		return capacity;
 	}
 
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
-	}
-
-	public Set<FishingQuickReservation> getFishingQuickReservation() {
-		return fishingQuickReservation;
-	}
-
-	public void setFishingQuickReservation(Set<FishingQuickReservation> fishingQuickReservation) {
-		this.fishingQuickReservation = fishingQuickReservation;
 	}
 
 	public String getFishingRules() {
@@ -98,24 +74,8 @@ public class FishingCourseDTO {
 		return fishingEquipment;
 	}
 
-	public void setFishingEquipment(String fisingEquipment) {
-		this.fishingEquipment = fisingEquipment;
-	}
-
-	public Set<AdditionalService> getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
-	}
-
-	public Set<FishingReservation> getFishingReservation() {
-		return fishingReservation;
-	}
-
-	public void setFishingReservation(Set<FishingReservation> fishingReservation) {
-		this.fishingReservation = fishingReservation;
+	public void setFishingEquipment(String fishingEquipment) {
+		this.fishingEquipment = fishingEquipment;
 	}
 
 	public Double getPrice() {
@@ -134,6 +94,46 @@ public class FishingCourseDTO {
 		this.cancellationPercentageKeep = cancellationPercentageKeep;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Set<FishingImage> getFishingImage() {
+		return fishingImage;
+	}
+
+	public void setFishingImage(Set<FishingImage> fishingImage) {
+		this.fishingImage = fishingImage;
+	}
+
+	public Set<FishingQuickReservation> getFishingQuickReservation() {
+		return fishingQuickReservation;
+	}
+
+	public void setFishingQuickReservation(Set<FishingQuickReservation> fishingQuickReservation) {
+		this.fishingQuickReservation = fishingQuickReservation;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
+	}
+
+	public Set<FishingReservation> getFishingReservation() {
+		return fishingReservation;
+	}
+
+	public void setFishingReservation(Set<FishingReservation> fishingReservation) {
+		this.fishingReservation = fishingReservation;
+	}
+
 	public FishingTrainer getFishingTrainer() {
 		return fishingTrainer;
 	}
@@ -141,5 +141,5 @@ public class FishingCourseDTO {
 	public void setFishingTrainer(FishingTrainer fishingTrainer) {
 		this.fishingTrainer = fishingTrainer;
 	}
-	
+
 }

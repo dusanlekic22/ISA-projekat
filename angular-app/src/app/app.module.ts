@@ -1,3 +1,5 @@
+import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
+import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { ChangePasswordComponent } from './pages/admin-pages/change-password/change-password.component';
 import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
 import { HasRoleDirective } from './directive/hasRole.directive';
@@ -27,7 +29,7 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner/cottage-owner-home/cottage-owner-home.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import {
   MDBBootstrapModule,
   ModalModule,
@@ -69,7 +71,9 @@ import { MatChipsModule } from '@angular/material/chips';
     CustomerProfileComponent,
     ChangeCustomerInfoComponent,
     DatePipe,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    FishingTrainerCoursesComponent,
+    FishingCourseProfileComponent
   ],
   imports: [
     NgbModule,

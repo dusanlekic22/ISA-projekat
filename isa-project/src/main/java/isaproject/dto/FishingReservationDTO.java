@@ -8,17 +8,17 @@ import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 
-public class FishingReservationDTO{
-	
+public class FishingReservationDTO {
+
 	private Long id;
 	private DateTimeSpan duration;
-	private Address location;
 	private Integer capacity;
-	private Set<AdditionalService> additionalService;
 	private Double price = 0.0;
+	private Address location;
+	private Set<AdditionalService> additionalService;
 	private FishingCourse fishingCourse;
 	private Customer customer;
-	
+
 	public FishingReservationDTO() {
 	}
 
@@ -38,14 +38,6 @@ public class FishingReservationDTO{
 		this.duration = duration;
 	}
 
-	public Address getLocation() {
-		return location;
-	}
-
-	public void setLocation(Address location) {
-		this.location = location;
-	}
-
 	public Integer getCapacity() {
 		return capacity;
 	}
@@ -54,20 +46,28 @@ public class FishingReservationDTO{
 		this.capacity = capacity;
 	}
 
-	public Set<AdditionalService> getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
-	}
-
 	public Double getPrice() {
 		return price;
 	}
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Address getLocation() {
+		return location;
+	}
+
+	public void setLocation(Address location) {
+		this.location = location;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
 	}
 
 	public FishingCourse getFishingCourse() {
@@ -85,5 +85,5 @@ public class FishingReservationDTO{
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 }

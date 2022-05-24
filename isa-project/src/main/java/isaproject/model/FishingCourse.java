@@ -31,24 +31,28 @@ public class FishingCourse implements Serializable {
 
 	private String name;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
-	private Address address;
-
 	private String promoDescription;
 
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = { PERSIST, MERGE })
-	private Set<FishingImage> fishingImage = new HashSet<FishingImage>();
-
 	private Integer capacity;
-
-	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private Set<FishingQuickReservation> fishingQuickReservation = new HashSet<FishingQuickReservation>();
 
 	private String fishingRules;
 
 	private String fishingEquipment;
+
+	private Double price = 0.0;
+
+	private Double cancellationPercentageKeep = 0.0;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private Address address;
+
+	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = { PERSIST, MERGE })
+	private Set<FishingImage> fishingImage = new HashSet<FishingImage>();
+
+	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
+	@JsonManagedReference
+	private Set<FishingQuickReservation> fishingQuickReservation = new HashSet<FishingQuickReservation>();
 
 	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -57,10 +61,6 @@ public class FishingCourse implements Serializable {
 	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private Set<FishingReservation> fishingReservation = new HashSet<FishingReservation>();
-
-	private Double price = 0.0;
-
-	private Double cancellationPercentageKeep = 0.0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fishingTrainer_id", referencedColumnName = "id")
@@ -85,14 +85,6 @@ public class FishingCourse implements Serializable {
 		this.name = name;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public String getPromoDescription() {
 		return promoDescription;
 	}
@@ -101,28 +93,12 @@ public class FishingCourse implements Serializable {
 		this.promoDescription = promoDescription;
 	}
 
-	public Set<FishingImage> getFishingImage() {
-		return fishingImage;
-	}
-
-	public void setFishingImage(Set<FishingImage> fishingImage) {
-		this.fishingImage = fishingImage;
-	}
-
 	public Integer getCapacity() {
 		return capacity;
 	}
 
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
-	}
-
-	public Set<FishingQuickReservation> getFishingQuickReservation() {
-		return fishingQuickReservation;
-	}
-
-	public void setFishingQuickReservation(Set<FishingQuickReservation> fishingQuickReservation) {
-		this.fishingQuickReservation = fishingQuickReservation;
 	}
 
 	public String getFishingRules() {
@@ -137,24 +113,8 @@ public class FishingCourse implements Serializable {
 		return fishingEquipment;
 	}
 
-	public void setFishingEquipment(String fisingEquipment) {
-		this.fishingEquipment = fisingEquipment;
-	}
-
-	public Set<AdditionalService> getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
-	}
-
-	public Set<FishingReservation> getFishingReservation() {
-		return fishingReservation;
-	}
-
-	public void setFishingReservation(Set<FishingReservation> fishingReservation) {
-		this.fishingReservation = fishingReservation;
+	public void setFishingEquipment(String fishingEquipment) {
+		this.fishingEquipment = fishingEquipment;
 	}
 
 	public Double getPrice() {
@@ -171,6 +131,46 @@ public class FishingCourse implements Serializable {
 
 	public void setCancellationPercentageKeep(Double cancellationPercentageKeep) {
 		this.cancellationPercentageKeep = cancellationPercentageKeep;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Set<FishingImage> getFishingImage() {
+		return fishingImage;
+	}
+
+	public void setFishingImage(Set<FishingImage> fishingImage) {
+		this.fishingImage = fishingImage;
+	}
+
+	public Set<FishingQuickReservation> getFishingQuickReservation() {
+		return fishingQuickReservation;
+	}
+
+	public void setFishingQuickReservation(Set<FishingQuickReservation> fishingQuickReservation) {
+		this.fishingQuickReservation = fishingQuickReservation;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
+	}
+
+	public Set<FishingReservation> getFishingReservation() {
+		return fishingReservation;
+	}
+
+	public void setFishingReservation(Set<FishingReservation> fishingReservation) {
+		this.fishingReservation = fishingReservation;
 	}
 
 	public FishingTrainer getFishingTrainer() {

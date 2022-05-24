@@ -1,3 +1,4 @@
+import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
 import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { NgModule } from '@angular/core';
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'fishingTrainerCourses',
     component: FishingTrainerCoursesComponent,
+  },
+  {
+    path: 'fishingCourseProfile/:id',
+    component: FishingCourseProfileComponent,
   },
   { path: '**', redirectTo: '' },
 ];

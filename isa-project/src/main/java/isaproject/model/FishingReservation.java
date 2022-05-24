@@ -32,18 +32,18 @@ public class FishingReservation implements Serializable {
 	@Embedded
 	private DateTimeSpan duration;
 	
+	@Column(nullable = false)
+	private Integer capacity;
+
+	@Column(nullable = false)
+	private Double price = 0.0;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "id")
 	private Address location;
 	
-	@Column(nullable = false)
-	private Integer capacity;
-	
 	@OneToMany(mappedBy = "fishingQuickReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
-	
-	@Column(nullable = false)
-	private Double price = 0.0;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingCourse_id", referencedColumnName = "id")
@@ -73,14 +73,6 @@ public class FishingReservation implements Serializable {
 		this.duration = duration;
 	}
 
-	public Address getLocation() {
-		return location;
-	}
-
-	public void setLocation(Address location) {
-		this.location = location;
-	}
-
 	public Integer getCapacity() {
 		return capacity;
 	}
@@ -89,20 +81,28 @@ public class FishingReservation implements Serializable {
 		this.capacity = capacity;
 	}
 
-	public Set<AdditionalService> getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
-	}
-
 	public Double getPrice() {
 		return price;
 	}
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Address getLocation() {
+		return location;
+	}
+
+	public void setLocation(Address location) {
+		this.location = location;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
 	}
 
 	public FishingCourse getFishingCourse() {
@@ -120,5 +120,5 @@ public class FishingReservation implements Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 }

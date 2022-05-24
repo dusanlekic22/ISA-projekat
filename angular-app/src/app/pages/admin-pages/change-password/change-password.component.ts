@@ -3,7 +3,13 @@ import { UserService } from 'src/app/service/user.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { Component, OnInit, ViewChild, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-change-password',
@@ -31,7 +37,9 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkFirstTimeLoginIn();
+    if (this.isUserAdmin()) {
+      this.checkFirstTimeLoginIn();
+    }
   }
 
   get formModalPassword() {
@@ -81,7 +89,8 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.checkFirstTimeLoginIn();
+    if (this.isUserAdmin()) {
+      this.checkFirstTimeLoginIn();
+    }
   }
-
 }

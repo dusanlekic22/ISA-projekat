@@ -82,6 +82,32 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-cottage"
+                  >Cottage</label
+                >
+                <div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Choose a cottage</mat-label>
+                    <mat-select
+                      [(ngModel)]="cottage"
+                      id="input-cottage"
+                      name="cottage"
+                    >
+                      <mat-option
+                        *ngFor="let cottage of cottages"
+                        [value]="cottage"
+                      >
+                        {{ cottage.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <button (click)="addQuickReservation()" class="btn btn-info">

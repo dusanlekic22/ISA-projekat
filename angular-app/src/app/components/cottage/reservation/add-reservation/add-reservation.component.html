@@ -89,19 +89,21 @@
                   >Customer</label
                 >
                 <div>
-                  <mat-label>Choose customer</mat-label>
-                  <select [(ngModel)]="customer">
-                    <option
-                      #customerSelect
-                      *ngFor="let user of eligibleCustomers"
-                      [ngValue]="user"
+                  <mat-form-field appearance="fill">
+                    <mat-label>Choose a customer</mat-label>
+                    <mat-select
+                      [(ngModel)]="cottageReservation.customer"
                       id="input-customer"
                       name="customer"
                     >
-                      {{ user.firstName }} {{ user.lastName }}
-                    </option>
-                  </select>
-                  <p>value is {{ customer }}</p>
+                      <mat-option
+                        *ngFor="let customer of eligibleCustomers"
+                        [value]="customer"
+                      >
+                        {{ customer.firstName }} {{ customer.lastName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
             </div>

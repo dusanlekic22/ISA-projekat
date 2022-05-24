@@ -11,6 +11,8 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { BusinessOwnerRegitrationComponent } from './pages/registration/business-owner-registration/business-owner-registration.component';
 import { ChooseRegistrationComponent } from './pages/registration/choose-registration/choose-registration.component';
 import { RegistrationComponent } from './pages/registration/registration/registration.component';
+import { AddReservationComponent } from './components/cottage/reservation/add-reservation/add-reservation.component';
+import { AddCottageQuickReservationComponent } from './components/cottage/reservation/add-cottage-quick-reservation/add-cottage-quick-reservation.component';
 
 const routes: Routes = [
   {
@@ -22,7 +24,15 @@ const routes: Routes = [
     component: CottageOwnerProfileComponent,
   },
   {
-    path: 'cottageOwnerHome/:id',
+    path: 'newCottageReservation',
+    component: AddReservationComponent,
+  },
+  {
+    path: 'newCottageQuickReservation',
+    component: AddCottageQuickReservationComponent,
+  },
+  {
+    path: 'cottageOwnerHome',
     component: CottageOwnerHomeComponent
   },
   {

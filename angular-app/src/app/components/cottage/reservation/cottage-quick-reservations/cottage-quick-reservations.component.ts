@@ -7,17 +7,17 @@ import { ICottage } from 'src/app/model/cottage';
 @Component({
   selector: 'app-cottage-quick-reservations',
   templateUrl: './cottage-quick-reservations.component.html',
-  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css']
+  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
 })
 export class CottageQuickReservationsComponent implements OnInit {
-
-  @Input() cottage! : ICottage ;
+  @Input() cottage!: ICottage;
   @Input() imageObject!: Array<object>;
 
   constructor(
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _toastr: ToastrService,
-    private _cottageService: CottageService,) { }
+    private _cottageService: CottageService,
+  ) {}
 
   ngOnInit(): void {
   }
@@ -39,25 +39,26 @@ export class CottageQuickReservationsComponent implements OnInit {
           this._toastr.error('Reservation removal failed');
         }
       );
+    this._cottageService.getCottagesByCottageOwnerId;
   }
 
   private getCottage() {
-    this._cottageService.getCottageById(this.cottage.id).subscribe((cottage) => {
-      this.cottage = cottage;
-      this.cottage.cottageImage.forEach((element) => {
-        this.imageObject.push({
-          image: element.image,
-          thumbImage: element.image,
-          alt: 'alt of image',
+    this._cottageService
+      .getCottageById(this.cottage.id)
+      .subscribe((cottage) => {
+        this.cottage = cottage;
+        this.cottage.cottageImage.forEach((element) => {
+          this.imageObject.push({
+            image: element.image,
+            thumbImage: element.image,
+            alt: 'alt of image',
+          });
         });
       });
-    });
   }
 
-  
   openQuickReservationForm() {
     // this.addReservationFormOpened = true;
     // this.quickReservationFormElement.nativeElement.scrollIntoView();
   }
-
 }

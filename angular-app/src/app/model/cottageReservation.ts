@@ -7,4 +7,5 @@ export interface ICottageReservation{
     guestCapacity: number;
     price: number;
     customer: ICustomer;
+    confirmed:boolean;
 }

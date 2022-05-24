@@ -1,3 +1,4 @@
+import { UserService } from './../../../../service/user.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageQuickReservationService } from 'src/app/pages/cottage-owner/services/cottage-quick-reservation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +13,7 @@ import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation'
 })
 export class AddCottageQuickReservationComponent implements OnInit {
   @Input() cottage!: ICottage;
-  @Input() cottageQuickReservation: ICottageQuickReservation={
+  @Input() cottageQuickReservation: ICottageQuickReservation = {
     id: 0,
     duration: {
       startDate: new Date(),
@@ -21,31 +22,36 @@ export class AddCottageQuickReservationComponent implements OnInit {
     guestCapacity: 0,
     price: 0,
   };
-  @Input() minDate!:string;
+  minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
-  
+  cottages!: ICottage[];
+
   constructor(
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _toastr: ToastrService,
     private _cottageService: CottageService,
+    private _userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.minDate = this.date();
+    this._userService.currentUser.subscribe((user) => {
+      this._cottageService
+        .getCottagesByCottageOwnerId(user.id)
+        .subscribe((cottages) => {
+          this.cottages = cottages;
+        });
+    });
+  }
 
   addQuickReservation(): void {
-    // this.cottageQuickReservation.duration.startDate = this.format(
-    //   this.cottageQuickReservation.duration.startDate
-    // );
-    // this.cottageQuickReservation.duration.endDate = this.format(
-    //   this.cottageQuickReservation.duration.endDate
-    // );
     this._cottageQuickReservationService
       .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
       .subscribe(
         (quickReservation) => {
           //this.addReservationFormOpened = false;
-         this._toastr.success('Reservation was successfully added.');
-         this.submitted.emit();
+          this._toastr.success('Reservation was successfully added.');
+          this.submitted.emit();
         },
         (err) => {
           this._toastr.error(
@@ -56,13 +62,22 @@ export class AddCottageQuickReservationComponent implements OnInit {
       );
   }
 
-  format(d: Date): Date {
-    return new Date(
-      d.getFullYear(),
-      d.getMonth(),
-      d.getDate(),
-      d.getHours(),
-      d.getMinutes() - d.getTimezoneOffset()
-    );
+  date() {
+    let min = new Date();
+    let month = '';
+    let day = '';
+    if (min.getMonth() < 10) {
+      month = '0' + (min.getMonth() + 1).toString();
+    } else {
+      month = (min.getMonth() + 1).toString();
+    }
+    if (min.getDate() < 10) {
+      day = '0' + min.getDate().toString();
+    } else {
+      day = min.getDate().toString();
+    }
+    let x = min.getFullYear().toString() + '-' + month + '-' + day + 'T00:00';
+    console.log(x);
+    return x;
   }
 }

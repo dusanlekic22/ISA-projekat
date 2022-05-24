@@ -3,6 +3,7 @@ import { CottageReservationService } from 'src/app/pages/cottage-owner/services/
 import { ToastrService } from 'ngx-toastr';
 import { ICustomer } from 'src/app/model/customer';
 import { ICottageReservation } from 'src/app/model/cottageReservation';
+import { ICottage } from 'src/app/model/cottage';
 
 @Component({
   selector: 'app-add-reservation',
@@ -12,6 +13,7 @@ import { ICottageReservation } from 'src/app/model/cottageReservation';
 export class AddReservationComponent implements OnInit {
   @Input() minDate!:string;
   @Output() submitted = new EventEmitter<boolean>();
+  @Input() cottage! : ICottage;
   eligibleCustomers!: ICustomer[];
   customer!: ICustomer;
 
@@ -44,6 +46,7 @@ export class AddReservationComponent implements OnInit {
       points: '',
       loyalityProgram: '',
     },
+    confirmed:false
   };
 
   constructor(
@@ -56,12 +59,13 @@ export class AddReservationComponent implements OnInit {
     .getCustomerHasReservationNow()
     .subscribe((customers) => {
       this.eligibleCustomers = customers;
+      customers.forEach(customer=>console.log(customer.firstName))
     });
   }
 
   addReservation(): void {
     this._cottageReservationService
-      .addCottageReservation(this.cottageReservation)
+      .addCottageReservation(this.cottageReservation,this.cottage)
       .subscribe(
         (reservation) => {
           this._toastr.success('Reservation was successfully added.');

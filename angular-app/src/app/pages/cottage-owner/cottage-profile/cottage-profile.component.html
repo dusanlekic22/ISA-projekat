@@ -72,6 +72,13 @@
         [imageObject]="imageObject"
       >
       </app-cottage-quick-reservations>
+
+      <app-add-cottage-quick-reservation
+        (submitted)="quickReservationAdded()"
+        [cottage]="cottage"
+        [cottageQuickReservation]="cottageQuickReservation"
+      >
+      </app-add-cottage-quick-reservation>
     </mat-tab>
     <mat-tab label="Reservations">
       <!-- TABELA -->
@@ -79,6 +86,11 @@
         [reservations]="activeReservations"
         [customers]="eligibleCustomers"
       ></app-cottage-reservations>
+      <app-add-reservation
+        (submitted)="reservationAdded()"
+        [cottage]="cottage"
+        [minDate]="minDateString"
+      ></app-add-reservation>
     </mat-tab>
     <mat-tab label="Reservations history">
       <app-cottage-reservations
@@ -87,15 +99,4 @@
       ></app-cottage-reservations>
     </mat-tab>
   </mat-tab-group>
-  <app-add-cottage-quick-reservation
-    (submitted)="quickReservationAdded()"
-    [cottage]="cottage"
-    [cottageQuickReservation]="cottageQuickReservation"
-    [minDate]="minDateString"
-  >
-  </app-add-cottage-quick-reservation>
-  <app-add-reservation
-    (submitted)="reservationAdded()"
-    [minDate]="minDateString"
-  ></app-add-reservation>
 </div>

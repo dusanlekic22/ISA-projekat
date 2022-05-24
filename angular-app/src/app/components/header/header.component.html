@@ -20,16 +20,38 @@
             <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
               <a
                 class="nav-link"
-                [routerLink]="['/cottageOwnerHome/${loggedInUser.id}']" 
-                routerLinkActive="router-link-active" 
+                [routerLink]="['/cottageOwnerHome']"
+                routerLinkActive="router-link-active"
                 >Cottages</a
               >
             </li>
-            <li class="nav-item"  *appHasRole="['ROLE_BOAT_OWNER']">
+            <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
+              <div ngbDropdown>
+                <a class="nav-link" ngbDropdownToggle> Reservations </a>
+                <div
+                  ngbDropdownMenu
+                  class="dropdown-menu-right dropdown-menu-arrow"
+                >
+                  <a
+                    class="dropdown-item"
+                    routerLinkActive="router-link-active"
+                    [routerLink]="['/newCottageReservation']"
+                    >New reservation</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="['/newCottageQuickReservation']"
+                    routerLinkActive="router-link-active"
+                    >New quick reservation</a
+                  >
+                </div>
+              </div>
+            </li>
+            <li class="nav-item" *appHasRole="['ROLE_BOAT_OWNER']">
               <a
                 class="nav-link"
                 href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                [routerLink]="['/boatOwnerHome/${loggedInUser.id}']" 
+                [routerLink]="['/boatOwnerHome']"
                 >Boats</a
               >
             </li>

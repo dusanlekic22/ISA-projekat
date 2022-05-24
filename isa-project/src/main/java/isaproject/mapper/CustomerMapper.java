@@ -7,6 +7,7 @@ public class CustomerMapper {
 
 	public static Customer customerDTOtoCustomer(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
+		customer.setId(customerDTO.getId());
 		customer.setUsername(customerDTO.getUsername());
 		customer.setPassword(customerDTO.getPassword());
 		customer.setFirstName(customerDTO.getFirstName());
@@ -21,6 +22,7 @@ public class CustomerMapper {
 
 	public static CustomerDTO customertoCustomerDTO(Customer customer) {
 		CustomerDTO customerDTO = new CustomerDTO();
+		customerDTO.setId(customer.getId());
 		customerDTO.setUsername(customer.getUsername());
 		customerDTO.setPassword(customer.getPassword());
 		customerDTO.setFirstName(customer.getFirstName());

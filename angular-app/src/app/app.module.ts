@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './pages/admin-pages/change-password/change-password.component';
 import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
 import { HasRoleDirective } from './directive/hasRole.directive';
 import { NgModule } from '@angular/core';
@@ -68,6 +69,7 @@ import { MatChipsModule } from '@angular/material/chips';
     CustomerProfileComponent,
     ChangeCustomerInfoComponent,
     DatePipe,
+    ChangePasswordComponent
   ],
   imports: [
     NgbModule,

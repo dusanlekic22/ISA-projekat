@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CottageProfileComponent } from './cottage-profile.component';
+import { CottageEditComponent } from './cottage-edit.component';
 
-describe('CottageProfileComponent', () => {
-  let component: CottageProfileComponent;
-  let fixture: ComponentFixture<CottageProfileComponent>;
+describe('CottageEditComponent', () => {
+  let component: CottageEditComponent;
+  let fixture: ComponentFixture<CottageEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CottageProfileComponent ]
+      declarations: [ CottageEditComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CottageProfileComponent);
+    fixture = TestBed.createComponent(CottageEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

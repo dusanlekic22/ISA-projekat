@@ -2,19 +2,15 @@ package isaproject.model;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class DateTimeSpan {
 	
-	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime startDate;
-	@Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	private LocalDateTime endDate;
 
 	public DateTimeSpan() {
-		
 	}
 
 	public DateTimeSpan(LocalDateTime startDate, LocalDateTime endDate) {
@@ -23,7 +19,7 @@ public class DateTimeSpan {
 		validate();
 	}
 	
-	public DateTimeSpan(DateTimeSpan dateTimeSpan) {
+	public DateTimeSpan(DateTimeSpan dateTimeSpan){
 		this.startDate = dateTimeSpan.startDate;
 		this.endDate = dateTimeSpan.endDate;
 		validate();

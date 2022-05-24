@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { tap } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
-import { IAdditionalService } from '../cottage-profile/additionalService';
-import { ICottage } from '../cottage-profile/cottage';
-import { IDateSpan } from '../cottage-profile/dateSpan';
-import { AdditionalServiceService } from '../services/additional-service.service';
-import { CottageService } from '../services/cottage.service';
+import { IAdditionalService } from '../../../pages/cottage-owner/cottage-profile/additionalService';
+import { ICottage } from '../../../pages/cottage-owner/cottage-profile/cottage';
+import { IDateSpan } from '../../../pages/cottage-owner/cottage-profile/dateSpan';
+import { AdditionalServiceService } from '../../../pages/cottage-owner/services/additional-service.service';
+import { CottageService } from '../../../pages/cottage-owner/services/cottage.service';
 
 @Component({
   selector: 'app-add-cottage',
@@ -118,7 +118,6 @@ export class AddCottageComponent implements OnInit {
 
   onItemAdded(input: any): void {
     let text = input.display.split(' ');
-    console.log(input);
     this.additionalServiceTags.pop();
     this.additionalServiceTags.push({ id: 0, name: text[0], price: text[1] });
   }

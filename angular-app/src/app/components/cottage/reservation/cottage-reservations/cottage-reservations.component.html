@@ -1,0 +1,78 @@
+<div class="row" style="margin-top: 20px">
+  <div class="col">
+    <div class="card shadow">
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">Available reservations</h3>
+          </div>
+          <div class="col-4 text-right">
+            <button class="btn btn-info" (click)="openQuickReservationForm()">
+              Add reservation
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive" style="overflow: visible">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Guest Capacity</th>
+              <th scope="col">Price(in €)</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of reservations">
+              <td>
+                {{ reservation.duration.startDate | dateCustom }}
+              </td>
+              <td>
+                {{ reservation.duration.endDate | dateCustom }}
+              </td>
+              <td>
+                {{ reservation.guestCapacity }}
+              </td>
+              <td>
+                {{ reservation.price }}
+              </td>
+              <td class="text-right">
+                <div ngbDropdown placement="bottom-right">
+                  <a
+                    class="btn btn-sm btn-icon-only text-light"
+                    ngbDropdownToggle
+                  >
+                    <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right dropdown-menu-arrow"
+                  >
+                    <a
+                      class="dropdown-item"
+                      (click)="deleteReservation(reservation.id)"
+                      >Delete</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      (click)="customerInfo(reservation.customer)"
+                      >See customer info</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      *ngIf="isCustomerEligible(reservation.customer)"
+                      (click)="newReservation(reservation.customer)"
+                      >New reservation</a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

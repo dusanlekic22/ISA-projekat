@@ -121,6 +121,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		}
 
 		for (DateTimeSpan dateTimeSpan : cottageQuickReservation.getCottage().getAvailableReservationDateSpan()) {
+
 			if (cottageQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
 				reserveAvailableDateSpan(cottageQuickReservation, dateTimeSpan);
 				break;

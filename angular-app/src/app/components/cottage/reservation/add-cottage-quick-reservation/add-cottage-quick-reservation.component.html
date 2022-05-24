@@ -1,0 +1,94 @@
+<div #quickReservationInput class="container mt-5 pb-4">
+  <div class="card bg-secondary shadow">
+    <div class="card-header bg-white border-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Quick reservation</h3>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form>
+        <!-- Ovde -->
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="input-date"
+                  >Duration span date</label
+                >
+                <div class="md-form mb-5">
+                  <div class="mt-2 ml-2">
+                    <label>Choose a starting date and time</label>
+                    <div>
+                      <input
+                        #availableStartSelect
+                        type="datetime-local"
+                        placeholder="Start date"
+                        [min]="minDate"
+                        [(ngModel)]="cottageQuickReservation.duration.startDate"
+                        name="quickReservationStart"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="mt-2 ml-2">
+                    <label>Choose an ending date and time</label>
+                    <div>
+                      <input
+                        type="datetime-local"
+                        placeholder="End date"
+                        [min]="minDate"
+                        [(ngModel)]="cottageQuickReservation.duration.endDate"
+                        name="quickReservationEnd"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-people"
+                  >Maximum number of people</label
+                >
+                <input
+                  [(ngModel)]="cottageQuickReservation.guestCapacity"
+                  name="capacity"
+                  type="number"
+                  id="input-people"
+                  class="form-control form-control-alternative"
+                  min="1"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-price"
+                  >Price(in €)</label
+                >
+                <input
+                  [(ngModel)]="cottageQuickReservation.price"
+                  name="price"
+                  type="number"
+                  id="input-price"
+                  class="form-control form-control-alternative"
+                  min="1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button (click)="addQuickReservation()" class="btn btn-info">
+            Add a reservation
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { IUser, IRole } from './../../registration/registration/user';
+import { ICustomer } from './../../../model/customer';
 import { IDateSpan } from './dateSpan';
 import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -16,7 +16,7 @@ import { CottageReservationService } from '../services/cottage-reservation.servi
 @Component({
   selector: 'app-cottage-profile',
   templateUrl: './cottage-profile.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['../cottage-style.css'],
 })
 export class CottageProfileComponent implements OnInit {
   cottage: ICottage = {
@@ -62,10 +62,13 @@ export class CottageProfileComponent implements OnInit {
   reservationFormElement!: ElementRef<HTMLInputElement>;
   @ViewChild('customerSelect')
   customerSelectElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('availableStartSelect')
+  availableStartSelectElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
   minDate!: Date;
+  minDateString!: string;
   initialImage = '';
   imagePickerConf: object = {
     borderRadius: '4px',
@@ -84,38 +87,8 @@ export class CottageProfileComponent implements OnInit {
     price: 0,
   };
 
-  cottageReservation: ICottageReservation = {
-    id: 0,
-    duration: {
-      startDate: new Date(),
-      endDate: new Date(),
-    },
-    guestCapacity: 0,
-    price: 0,
-    customer: {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      username: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: '',
-        longitude: '',
-      },
-    },
-  };
-
   availableDateSpan!: IDateSpan;
-  availableStartDate!: Date;
-  availableEndDate!: Date;
-  eligibleCustomers!: IUser[];
-  customer!: IUser;
+  eligibleCustomers!: ICustomer[];
 
   imageObject: Array<object> = [
     {
@@ -132,30 +105,16 @@ export class CottageProfileComponent implements OnInit {
   activeReservations!: ICottageReservation[];
   passedReservations!: ICottageReservation[];
 
-  availableSpanFormOpened: boolean = false;
-
   constructor(
     private _route: ActivatedRoute,
     private _cottageService: CottageService,
     private _cottageQuickReservationService: CottageQuickReservationService,
-    private _cottageReservationService: CottageReservationService,
     private _additionalServiceService: AdditionalServiceService,
-    private _toastr: ToastrService,
-    private _router: Router
+    private _cottageReservationService: CottageReservationService,
   ) {}
 
-  openQuickReservationForm() {
-    this.addReservationFormOpened = true;
-    this.quickReservationFormElement.nativeElement.scrollIntoView();
-  }
-
-  openAvailableSpanForm() {
-    this.availableSpanFormOpened = true;
-  }
-
   ngOnInit(): void {
-    this.availableStartDate = new Date();
-    this.availableEndDate = new Date();
+    this.minDateString = this.date();
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
     this.getCottage();
     this._cottageQuickReservationService
@@ -174,7 +133,6 @@ export class CottageProfileComponent implements OnInit {
       .getActiveCottageReservationByCottageId(this.cottageId)
       .subscribe((activeReservations) => {
         this.activeReservations = activeReservations;
-        console.log(activeReservations[0].duration.startDate);
       });
     this._cottageReservationService
       .getPassedCottageReservationByCottageId(this.cottageId)
@@ -188,8 +146,28 @@ export class CottageProfileComponent implements OnInit {
       });
     this.minDate = new Date(Date.now());
   }
+  added(){
+      this.getCottage();
+  }
 
-  private getCottage() {
+  reservationAdded(){
+    this._cottageReservationService
+    .getActiveCottageReservationByCottageId(this.cottage.id)
+    .subscribe((reservations) => {
+      this.activeReservations = reservations;
+    });
+  }
+
+  quickReservationAdded(){
+    this.getCottage();
+    this._cottageQuickReservationService
+    .getCottageQuickReservations()
+    .subscribe((cottageQuickReservation) => {
+      this.cottage.cottageQuickReservation = cottageQuickReservation;
+    });
+  }
+
+  getCottage() {
     this._cottageService.getCottageById(this.cottageId).subscribe((cottage) => {
       this.cottage = cottage;
       this.cottage.cottageImage.forEach((element) => {
@@ -198,40 +176,6 @@ export class CottageProfileComponent implements OnInit {
           thumbImage: element.image,
           alt: 'alt of image',
         });
-      });
-    });
-  }
-
-  onItemAdded(input: any): void {
-    let text = input.display.split(' ');
-    this.additionalServiceTags.pop();
-    this.additionalServiceTags.push({ id: 0, name: text[0], price: text[1] });
-  }
-
-  addStartEvent(startDate: Date, event: MatDatepickerInputEvent<Date>) {
-    if (event.value != null) {
-      startDate.setFullYear(event.value.getFullYear());
-      startDate.setMonth(event.value.getMonth());
-      startDate.setDate(event.value.getDate());
-    }
-  }
-
-  addEndEvent(endDate: Date, event: MatDatepickerInputEvent<Date>) {
-    if (event.value != null) {
-      endDate.setFullYear(event.value.getFullYear());
-      endDate.setMonth(event.value.getMonth());
-      endDate.setDate(event.value.getDate());
-      console.log('grrr' + this.availableEndDate);
-    }
-  }
-
-  edit(): void {
-    this._cottageService.editCottageInfo(this.cottage).subscribe((cottage) => {
-      this.cottage = cottage;
-      this.additionalServiceTags.forEach((element) => {
-        this._additionalServiceService
-          .addAdditionalService(element, this.cottage)
-          .subscribe((additionalService) => {});
       });
     });
   }
@@ -253,130 +197,22 @@ export class CottageProfileComponent implements OnInit {
     this.imageString = event;
   }
 
-  addQuickReservation(): void {
-    this.cottageQuickReservation.duration.startDate = this.format(
-      this.cottageQuickReservation.duration.startDate
-    );
-    this.cottageQuickReservation.duration.endDate = this.format(
-      this.cottageQuickReservation.duration.endDate
-    );
-    this._cottageQuickReservationService
-      .addCottageQuickReservation(this.cottageQuickReservation, this.cottage)
-      .subscribe(
-        (quickReservation) => {
-          this.addReservationFormOpened = false;
-          this._toastr.success('Reservation was successfully added.');
-          this.getCottage();
-          this._cottageQuickReservationService
-            .getCottageQuickReservations()
-            .subscribe((cottageQuickReservation) => {
-              this.cottage.cottageQuickReservation = cottageQuickReservation;
-            });
-        },
-        (err) => {
-          this._toastr.error(
-            'Reservation term overlaps with another.',
-            'Try a different date!'
-          );
-        }
-      );
-  }
-
-  deleteQuickReservation(id: number): void {
-    this._cottageQuickReservationService
-      .deleteCottageQuickReservations(id)
-      .subscribe(
-        (quickReservation) => {
-          this._toastr.success('Reservation was successfully removed.');
-          this.getCottage();
-          this._cottageQuickReservationService
-            .getCottageQuickReservations()
-            .subscribe((cottageQuickReservation) => {
-              this.cottage.cottageQuickReservation = cottageQuickReservation;
-            });
-        },
-        (err) => {
-          this._toastr.error('Reservation removal failed');
-        }
-      );
-  }
-
-  addReservation(): void {
-    console.log(this.cottageReservation.customer);
-    this._cottageReservationService
-      .addCottageReservation(this.cottageReservation)
-      .subscribe(
-        (reservation) => {
-          this._toastr.success('Reservation was successfully added.');
-          this._cottageReservationService
-            .getActiveCottageReservationByCottageId(this.cottageId)
-            .subscribe((reservations) => {
-              this.activeReservations = reservations;
-            });
-        },
-        (err) => {
-          this._toastr.error(
-            'Reservation term overlaps with another.',
-            'Try a different date!'
-          );
-        }
-      );
-  }
-
-  format(d: Date): Date {
-    return new Date(
-      d.getFullYear(),
-      d.getMonth(),
-      d.getDate(),
-      d.getHours(),
-      d.getMinutes() - d.getTimezoneOffset()
-    );
-  }
-
-  addDateSpan() {
-    this._cottageService
-      .editAvailableTerms(this.cottage.id, {
-        startDate: this.availableStartDate,
-        endDate: this.availableEndDate,
-      })
-      .subscribe(
-        (cottage) => {
-          this.cottage = cottage;
-        },
-        (err) => {
-          this._toastr.error(
-            'Theres already an active reservation in this date span.',
-            'Try a different date!'
-          );
-        }
-      );
-    this.availableSpanFormOpened = false;
-  }
-
-  removeTerm(span: IDateSpan) {
-    this.cottage.availableReservationDateSpan =
-      this.cottage.availableReservationDateSpan.filter((term) => term != span);
-    this._cottageService.editCottage(this.cottage).subscribe((cottage) => {
-      this.cottage = cottage;
-    });
-  }
-
-  newReservation(customer: IUser) {
-    this.reservationFormElement.nativeElement.scrollIntoView(true);
-    this.customer = customer;
-    this.customerSelectElement.nativeElement.value = customer.firstName;
-  }
-
-  customerInfo(customer: IUser) {
-    this._router.navigate([`customer/${customer.id}`]);
-  }
-
-  isCustomerEligible(customer: IUser) {
-    return this.eligibleCustomers.includes(customer);
-  }
-
-  selectChange(event:any) {
-    //In my case $event come with a id value
-    this.cottageReservation.customer = this.eligibleCustomers[event];
+  date() {
+    let min = new Date();
+    let month = '';
+    let day = '';
+    if (min.getMonth() < 10) {
+      month = '0' + (min.getMonth() + 1).toString();
+    } else {
+      month = (min.getMonth() + 1).toString();
+    }
+    if (min.getDate() < 10) {
+      day = '0' + min.getDate().toString();
+    } else {
+      day = min.getDate().toString();
+    }
+    let x = min.getFullYear().toString() + '-' + month + '-' + day + 'T00:00';
+    console.log(x);
+    return x;
   }
 }

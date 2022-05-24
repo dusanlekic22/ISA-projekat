@@ -1,9 +1,9 @@
-import { ICottageQuickReservation } from './../../../../pages/cottage-owner/cottage-profile/cottageQuickReservation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageQuickReservationService } from 'src/app/pages/cottage-owner/services/cottage-quick-reservation.service';
-import { ICottage } from 'src/app/pages/cottage-owner/cottage-profile/cottage';
 import { ToastrService } from 'ngx-toastr';
 import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
+import { ICottage } from 'src/app/model/cottage';
+import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
 
 @Component({
   selector: 'app-add-cottage-quick-reservation',

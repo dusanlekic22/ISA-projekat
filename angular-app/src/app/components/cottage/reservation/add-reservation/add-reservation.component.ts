@@ -1,9 +1,8 @@
-import { ICottageReservation } from './../../../../pages/cottage-owner/cottage-profile/cottageReservation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageReservationService } from 'src/app/pages/cottage-owner/services/cottage-reservation.service';
-import { ICottage } from 'src/app/pages/cottage-owner/cottage-profile/cottage';
 import { ToastrService } from 'ngx-toastr';
 import { ICustomer } from 'src/app/model/customer';
+import { ICottageReservation } from 'src/app/model/cottageReservation';
 
 @Component({
   selector: 'app-add-reservation',

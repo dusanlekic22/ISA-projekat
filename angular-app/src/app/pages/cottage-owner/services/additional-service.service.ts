@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
+import { ICottage } from 'src/app/model/cottage';
 import { environment } from 'src/environments/environment';
-import { IAdditionalService } from '../cottage-profile/additionalService';
-import { ICottage } from '../cottage-profile/cottage';
+import { IAdditionalService } from '../../../model/additionalService';
 
 @Injectable({
   providedIn: 'root'

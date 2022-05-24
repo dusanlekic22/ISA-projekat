@@ -1,11 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { tap } from 'rxjs';
+import { ICottage } from 'src/app/model/cottage';
+import { IDateSpan } from 'src/app/model/dateSpan';
 import { UserService } from 'src/app/service/user.service';
-import { IAdditionalService } from '../../../pages/cottage-owner/cottage-profile/additionalService';
-import { ICottage } from '../../../pages/cottage-owner/cottage-profile/cottage';
-import { IDateSpan } from '../../../pages/cottage-owner/cottage-profile/dateSpan';
+import { IAdditionalService } from '../../../model/additionalService';
 import { AdditionalServiceService } from '../../../pages/cottage-owner/services/additional-service.service';
 import { CottageService } from '../../../pages/cottage-owner/services/cottage.service';
 

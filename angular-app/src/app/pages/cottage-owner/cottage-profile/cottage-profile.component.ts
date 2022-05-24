@@ -1,17 +1,15 @@
 import { ICustomer } from './../../../model/customer';
-import { IDateSpan } from './dateSpan';
-import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IAdditionalService } from './additionalService';
-import { ICottage } from './cottage';
-import { ICottageQuickReservation } from './cottageQuickReservation';
-import { ToastrService } from 'ngx-toastr';
+import { IAdditionalService } from '../../../model/additionalService';
 import { CottageService } from '../services/cottage.service';
 import { CottageQuickReservationService } from '../services/cottage-quick-reservation.service';
 import { AdditionalServiceService } from '../services/additional-service.service';
 import { CottageReservationService } from '../services/cottage-reservation.service';
+import { ICottage } from 'src/app/model/cottage';
+import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
+import { ICottageReservation } from 'src/app/model/cottageReservation';
+import { IDateSpan } from 'src/app/model/dateSpan';
 
 @Component({
   selector: 'app-cottage-profile',

@@ -1,4 +1,4 @@
-import { ICustomer } from './../../../model/customer';
+import { ICustomer } from "./customer";
 import { IDateSpan } from "./dateSpan";
 
 export interface ICottageReservation{

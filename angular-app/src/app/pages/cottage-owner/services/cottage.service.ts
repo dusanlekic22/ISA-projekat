@@ -3,12 +3,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ICottage } from '../cottage-profile/cottage';
-import { ICottageImage } from '../cottage-profile/cottageImage';
-import { IAdditionalService } from '../cottage-profile/additionalService';
-import { ICottageReservation } from '../cottage-profile/cottageReservation';
 import { environment } from 'src/environments/environment';
-import { IDateSpan } from '../cottage-profile/dateSpan';
+import { ICottage } from 'src/app/model/cottage';
+import { ICottageImage } from 'src/app/model/cottageImage';
+import { IDateSpan } from 'src/app/model/dateSpan';
 
 @Injectable({
   providedIn: 'root'

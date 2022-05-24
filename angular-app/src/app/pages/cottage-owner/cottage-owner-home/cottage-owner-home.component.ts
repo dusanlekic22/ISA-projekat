@@ -2,11 +2,10 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
-import { IAdditionalService } from '../cottage-profile/additionalService';
-import { ICottage } from '../cottage-profile/cottage';
 import { IUser } from '../../registration/registration/user';
 import { CottageService } from '../services/cottage.service';
 import { ToastrService } from 'ngx-toastr';
+import { ICottage } from 'src/app/model/cottage';
 
 @Component({
   selector: 'app-cottage-owner-home',

@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
+import { ICottage } from 'src/app/model/cottage';
+import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
 import { environment } from 'src/environments/environment';
-import { ICottage } from '../cottage-profile/cottage';
-import { ICottageQuickReservation } from '../cottage-profile/cottageQuickReservation';
 
 @Injectable({
   providedIn: 'root'

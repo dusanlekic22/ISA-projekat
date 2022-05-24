@@ -1,7 +1,7 @@
-import { ICottageReservation } from './../../../../pages/cottage-owner/cottage-profile/cottageReservation';
 import { Component, Input, OnInit } from '@angular/core';
 import { ICustomer } from 'src/app/model/customer';
 import { Router } from '@angular/router';
+import { ICottageReservation } from 'src/app/model/cottageReservation';
 
 @Component({
   selector: 'app-cottage-reservations',

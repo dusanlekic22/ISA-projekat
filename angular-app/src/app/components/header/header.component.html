@@ -25,11 +25,11 @@
                 >Cottages</a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item"  *appHasRole="['ROLE_BOAT_OWNER']">
               <a
                 class="nav-link"
                 href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                target="_blank"
+                [routerLink]="['/boatOwnerHome/${loggedInUser.id}']" 
                 >Boats</a
               >
             </li>

@@ -1,8 +1,8 @@
-import { ICottage } from './../../../pages/cottage-owner/cottage-profile/cottage';
 import { Component, Input, OnInit } from '@angular/core';
 import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
 import { ToastrService } from 'ngx-toastr';
-import { IDateSpan } from 'src/app/pages/cottage-owner/cottage-profile/dateSpan';
+import { ICottage } from 'src/app/model/cottage';
+import { IDateSpan } from 'src/app/model/dateSpan';
 
 @Component({
   selector: 'app-cottage-available-terms',

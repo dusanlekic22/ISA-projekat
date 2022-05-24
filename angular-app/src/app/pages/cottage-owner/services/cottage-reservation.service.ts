@@ -1,10 +1,9 @@
 import { ICustomer } from './../../../model/customer';
-import { IUser } from './../../registration/registration/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ICottageReservation } from '../cottage-profile/cottageReservation';
+import { ICottageReservation } from 'src/app/model/cottageReservation';
 
 @Injectable({
   providedIn: 'root'

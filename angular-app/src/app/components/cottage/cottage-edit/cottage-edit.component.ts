@@ -1,9 +1,9 @@
-import { ICottage } from './../../../pages/cottage-owner/cottage-profile/cottage';
 import { Component, Input, OnInit } from '@angular/core';
 import { AdditionalServiceService } from 'src/app/pages/cottage-owner/services/additional-service.service';
 import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
-import { IAdditionalService } from 'src/app/pages/cottage-owner/cottage-profile/additionalService';
+import { IAdditionalService } from 'src/app/model/additionalService';
 import { ToastrService } from 'ngx-toastr';
+import { ICottage } from 'src/app/model/cottage';
 
 @Component({
   selector: 'app-cottage-edit',

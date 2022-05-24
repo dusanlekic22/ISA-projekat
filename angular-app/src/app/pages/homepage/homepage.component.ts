@@ -1,10 +1,9 @@
 import { CottageService } from './../cottage-owner/services/cottage.service';
 import { IDateTimeSpan } from './../../model/date-time-span';
 import { Component, OnInit } from '@angular/core';
-import { ICottage } from '../cottage-owner/cottage-profile/cottage';
 import { MatChip } from '@angular/material/chips';
 import { ReservationService } from 'src/app/service/reservation.service';
-import * as moment from 'moment';
+import { ICottage } from 'src/app/model/cottage';
 
 @Component({
   selector: 'app-homepage',

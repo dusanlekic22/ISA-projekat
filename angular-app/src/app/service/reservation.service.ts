@@ -1,10 +1,11 @@
-import { ICottage } from './../pages/cottage-owner/cottage-profile/cottage';
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { IDateTimeSpan } from '../model/date-time-span';
+import { ICottage } from '../model/cottage';
 
 @Injectable({
   providedIn: 'root',

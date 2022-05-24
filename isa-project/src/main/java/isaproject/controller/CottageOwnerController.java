@@ -1,5 +1,6 @@
 package isaproject.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import isaproject.mapper.UserMapper;
 import isaproject.model.CottageOwner;
 import isaproject.model.User;
 import isaproject.service.CottageOwnerService;
+import isaproject.service.CustomerService;
 import isaproject.service.UserService;
 
 @RestController
@@ -24,11 +26,13 @@ public class CottageOwnerController {
 	private CottageOwnerService cottageOwnerService;
 	private UserService userService;
 
-	public CottageOwnerController(CottageOwnerService cottageOwnerService, UserService userService) {
+	@Autowired
+	public CottageOwnerController(CottageOwnerService cottageOwnerService, UserService userService, CustomerService customerService) {
 		super();
 		this.cottageOwnerService = cottageOwnerService;
 		this.userService = userService;
 	}
+
 
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> addUser(@RequestBody BusinessOwnerDTO businessOwnerDTO) {

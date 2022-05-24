@@ -1,3 +1,4 @@
+import { ICustomer } from './../../../model/customer';
 import { IUser } from './../../registration/registration/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -40,8 +41,8 @@ export class CottageReservationService {
     );
   }
 
-  getCustomerHasReservationNow(): Observable<IUser[]> {
-    return this._http.get<IUser[]>(environment.apiUrl + `/cottageReservation/customerHasReservationNow`).pipe(
+  getCustomerHasReservationNow(): Observable<ICustomer[]> {
+    return this._http.get<ICustomer[]>(environment.apiUrl + `/cottageReservation/customerHasReservationNow`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

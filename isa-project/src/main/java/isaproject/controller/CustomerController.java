@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +48,14 @@ public class CustomerController {
 			throw new InvalidParameterException();
 		}
 		return new ResponseEntity<>(customer, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{id}/businessOwner")
+	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','FISHING_TRAINER','ADMIN')")
+	public ResponseEntity<CustomerDTO> getCustomerForBusinessOwner(@PathVariable(value = "id") Long customerId) {
+
+		CustomerDTO customer = this.customerService.getCustomer(customerId);
+		return new ResponseEntity<>(customer, HttpStatus.OK);
 	}
 
 	// Endpoint za registraciju novog korisnika

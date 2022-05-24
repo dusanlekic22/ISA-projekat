@@ -18,6 +18,13 @@ export class CustomerService {
       catchError(this.handleError)
     );
   }
+  
+  getCustomerByIdForBusinessOwner(customerId: number): Observable<ICustomer> {
+    return this._http.get<ICustomer>(this._customerUrl + `/${customerId}/businessOwner`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);

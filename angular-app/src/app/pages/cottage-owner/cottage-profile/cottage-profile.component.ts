@@ -1,4 +1,4 @@
-import { IUser, IRole } from './../../registration/registration/user';
+import { ICustomer } from './../../../model/customer';
 import { IDateSpan } from './dateSpan';
 import { ICottageReservation } from './cottageReservation';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -62,10 +62,13 @@ export class CottageProfileComponent implements OnInit {
   reservationFormElement!: ElementRef<HTMLInputElement>;
   @ViewChild('customerSelect')
   customerSelectElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('availableStartSelect')
+  availableStartSelectElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
   minDate!: Date;
+  minDateString!: string;
   initialImage = '';
   imagePickerConf: object = {
     borderRadius: '4px',
@@ -108,14 +111,18 @@ export class CottageProfileComponent implements OnInit {
         latitude: '',
         longitude: '',
       },
+      enabled: true,
+      verificationCode: '',
+      points: '',
+      loyalityProgram: '',
     },
   };
 
   availableDateSpan!: IDateSpan;
   availableStartDate!: Date;
   availableEndDate!: Date;
-  eligibleCustomers!: IUser[];
-  customer!: IUser;
+  eligibleCustomers!: ICustomer[];
+  customer!: ICustomer;
 
   imageObject: Array<object> = [
     {
@@ -154,6 +161,7 @@ export class CottageProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.minDateString = this.date();
     this.availableStartDate = new Date();
     this.availableEndDate = new Date();
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
@@ -187,6 +195,7 @@ export class CottageProfileComponent implements OnInit {
         this.eligibleCustomers = customers;
       });
     this.minDate = new Date(Date.now());
+    this.availableStartSelectElement.nativeElement.min = '2022-05-22T16:15:23';
   }
 
   private getCottage() {
@@ -334,6 +343,7 @@ export class CottageProfileComponent implements OnInit {
   }
 
   addDateSpan() {
+    console.log(this.availableStartDate);
     this._cottageService
       .editAvailableTerms(this.cottage.id, {
         startDate: this.availableStartDate,
@@ -361,22 +371,41 @@ export class CottageProfileComponent implements OnInit {
     });
   }
 
-  newReservation(customer: IUser) {
+  newReservation(customer: ICustomer) {
     this.reservationFormElement.nativeElement.scrollIntoView(true);
     this.customer = customer;
     this.customerSelectElement.nativeElement.value = customer.firstName;
   }
 
-  customerInfo(customer: IUser) {
-    this._router.navigate([`customer/${customer.id}`]);
+  customerInfo(customer: ICustomer) {
+    this._router.navigateByUrl(`customer/${customer.id}`);
   }
 
-  isCustomerEligible(customer: IUser) {
+  isCustomerEligible(customer: ICustomer) {
     return this.eligibleCustomers.includes(customer);
   }
 
-  selectChange(event:any) {
+  selectChange(event: any) {
     //In my case $event come with a id value
-    this.cottageReservation.customer = this.eligibleCustomers[event];
+    console.log(event);
+  }
+
+  date() {
+    let min = new Date();
+    let month = '';
+    let day = '';
+    if (min.getMonth() < 10) {
+      month = '0' + (min.getMonth() + 1).toString();
+    } else {
+      month = (min.getMonth() + 1).toString();
+    }
+    if (min.getDate() < 10) {
+      day = '0' + min.getDate().toString();
+    } else {
+      day = min.getDate().toString();
+    }
+    let x = min.getFullYear().toString() + '-' + month + '-' + day + 'T00:00';
+    console.log(x);
+    return x;
   }
 }

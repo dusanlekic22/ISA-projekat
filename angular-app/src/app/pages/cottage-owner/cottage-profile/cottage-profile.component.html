@@ -266,42 +266,31 @@
           </div>
           <div *ngIf="availableSpanFormOpened" class="md-form mb-5">
             <div class="mt-2 ml-2">
-              <mat-label>Choose a starting date and time</mat-label>
-              <input
-                type="datetime-local"
-                placeholder="Start date"
-                [min]="minDate"
-                [(ngModel)]="availableStartDate"
-              />
+              <label>Choose a starting date and time</label>
+              <div>
+                <input
+                  #availableStartSelect
+                  type="datetime-local"
+                  placeholder="Start date"
+                  [(ngModel)]="availableStartDate"
+                  name="availableStart"
+                  [min]="minDateString"
+                />
+              </div>
             </div>
 
             <div class="mt-2 ml-2">
-              <mat-label>Choose an ending date and time</mat-label>
-              <input
-                type="datetime-local"
-                placeholder="End date"
-                [min]="minDate"
-                [(ngModel)]="availableEndDate"
-              />
+              <label>Choose an ending date and time</label>
+              <div>
+                <input
+                  type="datetime-local"
+                  placeholder="End date"
+                  [min]="minDateString"
+                  [(ngModel)]="availableEndDate"
+                  name="availableEnd"
+                />
+              </div>
             </div>
-
-            <!-- <mat-form-field appearance="fill">
-              <mat-label>Choose an ending date and time</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker1"
-                placeholder="End date"
-                [min]="minDate"
-                [(ngModel)]="availableEndDate"
-              />
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker1"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-            <ngb-timepicker [(ngModel)]="availableEndTime"></ngb-timepicker> -->
             <div class="ml-5 mt-3">
               <button class="btn btn-info" (click)="addDateSpan()">
                 Add available term
@@ -595,34 +584,34 @@
                     >Duration span date</label
                   >
                   <div class="md-form mb-5">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Enter a date range</mat-label>
-                      <mat-date-range-input
-                        [rangePicker]="picker2"
-                        [min]="minDate"
-                      >
+                    <div class="mt-2 ml-2">
+                      <label>Choose a starting date and time</label>
+                      <div>
                         <input
-                          matStartDate
+                          #availableStartSelect
+                          type="datetime-local"
                           placeholder="Start date"
-                          name="quickReservationStart"
+                          [min]="minDateString"
                           [(ngModel)]="
                             cottageQuickReservation.duration.startDate
                           "
+                          name="quickReservationStart"
                         />
+                      </div>
+                    </div>
+
+                    <div class="mt-2 ml-2">
+                      <label>Choose an ending date and time</label>
+                      <div>
                         <input
-                          matEndDate
+                          type="datetime-local"
                           placeholder="End date"
-                          name="quickReservationEnd"
+                          [min]="minDateString"
                           [(ngModel)]="cottageQuickReservation.duration.endDate"
+                          name="quickReservationEnd"
                         />
-                      </mat-date-range-input>
-                      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                      <mat-datepicker-toggle
-                        matSuffix
-                        [for]="picker2"
-                      ></mat-datepicker-toggle>
-                      <mat-date-range-picker #picker2></mat-date-range-picker>
-                    </mat-form-field>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -691,32 +680,32 @@
                     >Duration span date</label
                   >
                   <div class="md-form mb-5">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Enter a date range</mat-label>
-                      <mat-date-range-input
-                        [rangePicker]="picker3"
-                        [min]="minDate"
-                      >
+                    <div class="mt-2 ml-2">
+                      <label>Choose a starting date and time</label>
+                      <div>
                         <input
-                          matStartDate
+                          #availableStartSelect
+                          type="datetime-local"
                           placeholder="Start date"
-                          name="reservationStart"
+                          [min]="minDateString"
                           [(ngModel)]="cottageReservation.duration.startDate"
+                          name="reservationStart"
                         />
+                      </div>
+                    </div>
+
+                    <div class="mt-2 ml-2">
+                      <label>Choose an ending date and time</label>
+                      <div>
                         <input
-                          matEndDate
+                          type="datetime-local"
                           placeholder="End date"
-                          name="reservationEnd"
+                          [min]="minDateString"
                           [(ngModel)]="cottageReservation.duration.endDate"
+                          name="reservationEnd"
                         />
-                      </mat-date-range-input>
-                      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                      <mat-datepicker-toggle
-                        matSuffix
-                        [for]="picker3"
-                      ></mat-datepicker-toggle>
-                      <mat-date-range-picker #picker3></mat-date-range-picker>
-                    </mat-form-field>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -763,16 +752,20 @@
                   >
                   <div>
                       <mat-label>Choose customer</mat-label>
-                      <select (ngModelChange)="selectChange($event)">
+                      <select
+                        [(ngModel)]="customer"
+                      >
                         <option
                           #customerSelect
                           *ngFor="let user of eligibleCustomers"
-                          [value]="user.id"
+                          [value]="user"
                           id="input-customer"
+                          name="customer"
                         >
                           {{ user.firstName }} {{ user.lastName }}
                         </option>
                       </select>
+                      <p>value is {{customer}}</p>
                   </div>
                 </div>
               </div>

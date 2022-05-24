@@ -6,11 +6,12 @@ import { IAdditionalService } from '../cottage-profile/additionalService';
 import { ICottage } from '../cottage-profile/cottage';
 import { IUser } from '../../registration/registration/user';
 import { CottageService } from '../services/cottage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cottage-owner-home',
   templateUrl: './cottage-owner-home.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['../cottage-style.css'],
 })
 export class CottageOwnerHomeComponent implements OnInit {
   addFormVisible: boolean = false;
@@ -24,7 +25,8 @@ export class CottageOwnerHomeComponent implements OnInit {
   constructor(
     private _router: Router,
     private _cottageService: CottageService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _toastr: ToastrService
   ) {}
 
   getCottages(ownerId : number): void{
@@ -58,7 +60,13 @@ export class CottageOwnerHomeComponent implements OnInit {
 
   deleteCottage(cottageId: number) {
     this._cottageService.deleteCottage(cottageId).subscribe((cottages) => {
+      this._toastr.success('Cottage successfully removed.');
       this.getCottages(this.cottageOwner.id);
+    },
+    (error) => {
+      this._toastr.error(
+        "You can't delete a cottage that has active reservations!"
+      );
     });
   }
 

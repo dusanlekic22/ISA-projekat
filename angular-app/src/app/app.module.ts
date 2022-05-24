@@ -35,7 +35,7 @@ import {
   ButtonsModule,
 } from 'angular-bootstrap-md';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AddCottageComponent } from './pages/cottage-owner/add-cottage/add-cottage.component';
+import { AddCottageComponent } from './components/cottage/add-cottage/add-cottage.component';
 import { TagInputModule } from 'ngx-chips';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carousel-base.component';
@@ -48,6 +48,12 @@ import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owne
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { CottageEditComponent } from './components/cottage/cottage-edit/cottage-edit.component';
+import { CottageReservationsComponent } from './components/cottage/reservation/cottage-reservations/cottage-reservations.component';
+import { CottageQuickReservationsComponent } from './components/cottage/reservation/cottage-quick-reservations/cottage-quick-reservations.component';
+import { AddReservationComponent } from './components/cottage/reservation/add-reservation/add-reservation.component';
+import { AddCottageQuickReservationComponent } from './components/cottage/reservation/add-cottage-quick-reservation/add-cottage-quick-reservation.component';
+import { CottageAvailableTermsComponent } from './components/cottage/cottage-available-terms/cottage-available-terms.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +74,12 @@ import { MatChipsModule } from '@angular/material/chips';
     CustomerProfileComponent,
     ChangeCustomerInfoComponent,
     DatePipe,
+    CottageEditComponent,
+    CottageReservationsComponent,
+    CottageQuickReservationsComponent,
+    AddReservationComponent,
+    AddCottageQuickReservationComponent,
+    CottageAvailableTermsComponent,
   ],
   imports: [
     NgbModule,

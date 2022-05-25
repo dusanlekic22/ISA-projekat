@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 import isaproject.dto.CottageQuickReservationDTO;
 import isaproject.dto.CottageReservationDTO;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public class CottageQuickReservationMapper {
 	

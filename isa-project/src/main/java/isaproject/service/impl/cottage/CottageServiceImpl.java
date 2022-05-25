@@ -1,4 +1,4 @@
-package isaproject.service.impl;
+package isaproject.service.impl.cottage;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +13,13 @@ import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
-import isaproject.model.Cottage;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.cottage.Cottage;
 import isaproject.repository.AddressRepository;
-import isaproject.repository.CottageRepository;
-import isaproject.service.CottageQuickReservationService;
-import isaproject.service.CottageReservationService;
-import isaproject.service.CottageService;
+import isaproject.repository.cottage.CottageRepository;
+import isaproject.service.cottage.CottageQuickReservationService;
+import isaproject.service.cottage.CottageReservationService;
+import isaproject.service.cottage.CottageService;
 
 @Service
 public class CottageServiceImpl implements CottageService {

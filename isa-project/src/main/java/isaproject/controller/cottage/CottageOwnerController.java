@@ -1,4 +1,4 @@
-package isaproject.controller;
+package isaproject.controller.cottage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +13,11 @@ import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.UserDTO;
 import isaproject.exception.ResourceConflictException;
 import isaproject.mapper.UserMapper;
-import isaproject.model.CottageOwner;
 import isaproject.model.User;
-import isaproject.service.CottageOwnerService;
+import isaproject.model.cottage.CottageOwner;
 import isaproject.service.CustomerService;
 import isaproject.service.UserService;
+import isaproject.service.cottage.CottageOwnerService;
 
 @RestController
 @RequestMapping(value = "/cottageOwner", produces = MediaType.APPLICATION_JSON_VALUE)

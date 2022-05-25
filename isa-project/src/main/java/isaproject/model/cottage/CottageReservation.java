@@ -1,8 +1,9 @@
-package isaproject.model;
+package isaproject.model.cottage;
 
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,13 +17,17 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import isaproject.model.AdditionalService;
+import isaproject.model.Customer;
+import isaproject.model.DateTimeSpan;
+
 @Entity
-@Table(name = "CottageQuickReservation")
-public class CottageQuickReservation implements Serializable {
+@Table(name = "CottageReservation")
+public class CottageReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public CottageQuickReservation() {
+	public CottageReservation() {
 	}
 
 	@Id
@@ -32,20 +37,22 @@ public class CottageQuickReservation implements Serializable {
 	private DateTimeSpan duration;
 	private Integer guestCapacity;
 	private Integer price;
-	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
-	private Set<AdditionalService> additionalService;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cottage_id", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
+	@JoinColumn(name = "cottage_id")
 	@JsonBackReference
 	private Cottage cottage;
-	private boolean isReserved;
-	
-	public boolean isReserved() {
-		return isReserved;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Customer customer;
+	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
+
+	public boolean isConfirmed() {
+		return confirmed;
 	}
 
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 
 	public long getId() {
@@ -80,20 +87,28 @@ public class CottageQuickReservation implements Serializable {
 		this.price = price;
 	}
 
-	public Set<AdditionalService> getAdditionalService() {
-		return additionalService;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
-	}
-
 	public Cottage getCottage() {
 		return cottage;
 	}
 
 	public void setCottage(Cottage cottage) {
 		this.cottage = cottage;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
 	}
 
 }

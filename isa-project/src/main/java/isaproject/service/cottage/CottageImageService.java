@@ -1,4 +1,4 @@
-package isaproject.service;
+package isaproject.service.cottage;
 
 import isaproject.dto.CottageImageDTO;
 

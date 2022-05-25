@@ -5,11 +5,11 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import isaproject.dto.CustomerDTO;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public interface CustomerService {
 

@@ -1,4 +1,4 @@
-package isaproject.controller;
+package isaproject.controller.cottage;
 
 import java.util.Set;
 
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.service.cottage.CottageService;
 import isaproject.dto.DateSpanDTO;
-import isaproject.service.CottageService;
 
 @RestController
 @RequestMapping(value = "/cottage", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,4 +1,4 @@
-package isaproject.service.impl;
+package isaproject.service.impl.cottage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
-import isaproject.model.CottageOwner;
+import isaproject.model.cottage.CottageOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
-import isaproject.repository.CottageOwnerRepository;
-import isaproject.service.CottageOwnerService;
+import isaproject.repository.cottage.CottageOwnerRepository;
 import isaproject.service.RoleService;
+import isaproject.service.cottage.CottageOwnerService;
 
 @Service
 public class CottageOwnerServiceImpl implements CottageOwnerService{

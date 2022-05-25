@@ -1,4 +1,4 @@
-package isaproject.service.impl;
+package isaproject.service.impl.cottage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageImageDTO;
 import isaproject.mapper.CottageImageMapper;
-import isaproject.model.CottageImage;
-import isaproject.repository.CottageImageRepository;
-import isaproject.service.CottageImageService;
+import isaproject.model.cottage.CottageImage;
+import isaproject.repository.cottage.CottageImageRepository;
+import isaproject.service.cottage.CottageImageService;
 
 @Service
 public class CottageImageServiceImpl implements CottageImageService {

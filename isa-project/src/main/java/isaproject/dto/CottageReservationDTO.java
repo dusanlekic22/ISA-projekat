@@ -3,9 +3,9 @@ package isaproject.dto;
 import java.util.Set;
 
 import isaproject.model.AdditionalService;
-import isaproject.model.Cottage;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.cottage.Cottage;
 
 public class CottageReservationDTO {
 

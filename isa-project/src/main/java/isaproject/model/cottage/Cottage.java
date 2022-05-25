@@ -1,4 +1,4 @@
-package isaproject.model;
+package isaproject.model.cottage;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -21,6 +21,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import isaproject.model.AdditionalService;
+import isaproject.model.Address;
+import isaproject.model.Customer;
+import isaproject.model.DateTimeSpan;
 
 @Entity(name ="cottage")
 public class Cottage implements Serializable {

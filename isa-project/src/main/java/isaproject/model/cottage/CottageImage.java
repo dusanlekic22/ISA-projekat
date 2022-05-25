@@ -1,4 +1,4 @@
-package isaproject.model;
+package isaproject.model.cottage;
 
 import java.io.Serializable;
 

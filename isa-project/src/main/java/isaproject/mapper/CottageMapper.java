@@ -1,7 +1,7 @@
 package isaproject.mapper;
 
 import isaproject.dto.CottageDTO;
-import isaproject.model.Cottage;
+import isaproject.model.cottage.Cottage;
 
 public class CottageMapper {
 	

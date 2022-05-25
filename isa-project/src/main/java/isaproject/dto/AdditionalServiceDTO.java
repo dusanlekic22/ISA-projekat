@@ -1,6 +1,6 @@
 package isaproject.dto;
 
-import isaproject.model.Cottage;
+import isaproject.model.cottage.Cottage;
 
 public class AdditionalServiceDTO {
 	

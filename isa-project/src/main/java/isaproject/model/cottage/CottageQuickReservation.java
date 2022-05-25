@@ -1,9 +1,8 @@
-package isaproject.model;
+package isaproject.model.cottage;
 
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,13 +16,16 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import isaproject.model.AdditionalService;
+import isaproject.model.DateTimeSpan;
+
 @Entity
-@Table(name = "CottageReservation")
-public class CottageReservation implements Serializable {
+@Table(name = "CottageQuickReservation")
+public class CottageQuickReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public CottageReservation() {
+	public CottageQuickReservation() {
 	}
 
 	@Id
@@ -33,22 +35,20 @@ public class CottageReservation implements Serializable {
 	private DateTimeSpan duration;
 	private Integer guestCapacity;
 	private Integer price;
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
-	@JoinColumn(name = "cottage_id")
+	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
+	private Set<AdditionalService> additionalService;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cottage_id", referencedColumnName = "id")
 	@JsonBackReference
 	private Cottage cottage;
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Customer customer;
-	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<AdditionalService> additionalService;
-	private boolean confirmed;
-
-	public boolean isConfirmed() {
-		return confirmed;
+	private boolean isReserved;
+	
+	public boolean isReserved() {
+		return isReserved;
 	}
 
-	public void setConfirmed(boolean confirmed) {
-		this.confirmed = confirmed;
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
 	}
 
 	public long getId() {
@@ -83,28 +83,20 @@ public class CottageReservation implements Serializable {
 		this.price = price;
 	}
 
-	public Cottage getCottage() {
-		return cottage;
-	}
-
-	public void setCottage(Cottage cottage) {
-		this.cottage = cottage;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public Set<AdditionalService> getAdditionalService() {
 		return additionalService;
 	}
 
 	public void setAdditionalService(Set<AdditionalService> additionalService) {
 		this.additionalService = additionalService;
+	}
+
+	public Cottage getCottage() {
+		return cottage;
+	}
+
+	public void setCottage(Cottage cottage) {
+		this.cottage = cottage;
 	}
 
 }

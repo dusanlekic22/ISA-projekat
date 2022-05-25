@@ -1,4 +1,4 @@
-package isaproject.service.impl;
+package isaproject.service.impl.cottage;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -15,17 +15,17 @@ import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.mapper.CustomerMapper;
-import isaproject.model.Cottage;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
-import isaproject.repository.CottageQuickReservationRepository;
-import isaproject.repository.CottageRepository;
-import isaproject.repository.CottageReservationRepository;
+import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
-import isaproject.service.CottageReservationService;
+import isaproject.repository.cottage.CottageQuickReservationRepository;
+import isaproject.repository.cottage.CottageRepository;
+import isaproject.repository.cottage.CottageReservationRepository;
 import isaproject.service.CustomerService;
+import isaproject.service.cottage.CottageReservationService;
 
 @Service
 public class CottageReservationServiceImpl implements CottageReservationService {

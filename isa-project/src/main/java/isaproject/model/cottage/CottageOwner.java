@@ -1,4 +1,4 @@
-package isaproject.model;
+package isaproject.model.cottage;
 
 import java.util.Set;
 
@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import isaproject.model.User;
 
 @Entity
 public class CottageOwner extends User {

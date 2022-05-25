@@ -1,7 +1,7 @@
-package isaproject.service;
+package isaproject.service.cottage;
 
 import isaproject.dto.BusinessOwnerDTO;
-import isaproject.model.CottageOwner;
+import isaproject.model.cottage.CottageOwner;
 
 public interface CottageOwnerService {
 	

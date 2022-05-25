@@ -1,4 +1,4 @@
-package isaproject.controller;
+package isaproject.controller.cottage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageImageDTO;
-import isaproject.service.CottageImageService;
+import isaproject.service.cottage.CottageImageService;
 
 @RestController
 @RequestMapping(value = "/cottageImage", produces = MediaType.APPLICATION_JSON_VALUE)

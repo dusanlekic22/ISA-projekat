@@ -18,6 +18,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 
 @Entity
 @Table(name = "AdditionalService")

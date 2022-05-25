@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CustomerMapper;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.UserRepository;
 import isaproject.service.CustomerService;

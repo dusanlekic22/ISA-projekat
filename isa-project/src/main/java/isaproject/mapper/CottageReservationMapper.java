@@ -1,7 +1,7 @@
 package isaproject.mapper;
 
 import isaproject.dto.CottageReservationDTO;
-import isaproject.model.CottageReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public class CottageReservationMapper {
 	

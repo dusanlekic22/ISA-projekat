@@ -1,4 +1,4 @@
-package isaproject.service;
+package isaproject.service.cottage;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Set;

@@ -4,12 +4,12 @@ import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
-import isaproject.model.CottageImage;
-import isaproject.model.CottageOwner;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.cottage.CottageImage;
+import isaproject.model.cottage.CottageOwner;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public class CottageDTO {
 

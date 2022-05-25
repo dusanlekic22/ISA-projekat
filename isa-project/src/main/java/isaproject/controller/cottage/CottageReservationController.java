@@ -1,4 +1,4 @@
-package isaproject.controller;
+package isaproject.controller.cottage;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.CustomerDTO;
-import isaproject.service.CottageReservationService;
+import isaproject.service.cottage.CottageReservationService;
 import isaproject.util.ProjectUtil;
 
 @RestController

@@ -7,11 +7,11 @@ import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.model.Admin;
-import isaproject.model.CottageOwner;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Role;
 import isaproject.model.User;
 import isaproject.model.boat.BoatOwner;
+import isaproject.model.cottage.CottageOwner;
 
 public class UserMapper {
 	

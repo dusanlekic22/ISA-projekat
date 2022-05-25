@@ -8,11 +8,11 @@
 		<class>isaproject.model.boat.BoatOwner</class>
 		<class>isaproject.model.boat.BoatQuickReservation</class>
 		<class>isaproject.model.boat.BoatReservation</class>
-		<class>isaproject.model.Cottage</class>
-		<class>isaproject.model.CottageImage</class>
-		<class>isaproject.model.CottageOwner</class>
-		<class>isaproject.model.CottageQuickReservation</class>
-		<class>isaproject.model.CottageReservation</class>
+		<class>isaproject.model.cottage.Cottage</class>
+		<class>isaproject.model.cottage.CottageImage</class>
+		<class>isaproject.model.cottage.CottageOwner</class>
+		<class>isaproject.model.cottage.CottageQuickReservation</class>
+		<class>isaproject.model.cottage.CottageReservation</class>
 		<class>isaproject.model.Customer</class>
 		<class>isaproject.model.FishingCourse</class>
 		<class>isaproject.model.FishingImage</class>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICustomer } from 'src/app/model/customer';
 import { Router } from '@angular/router';
 import { ICottageReservation } from 'src/app/model/cottageReservation';
@@ -11,14 +11,13 @@ import { ICottageReservation } from 'src/app/model/cottageReservation';
 export class CottageReservationsComponent implements OnInit {
   @Input() reservations!: ICottageReservation[];
   @Input() customers! : ICustomer[];
+  @Output() customerEmit = new EventEmitter<number>();
   constructor(private _router: Router) {}
 
   ngOnInit(): void {}
 
   newReservation(customer: ICustomer) {
-    // this.reservationFormElement.nativeElement.scrollIntoView(true);
-    // this.customer = customer;
-    // this.customerSelectElement.nativeElement.value = customer.firstName;
+    this.customerEmit.emit(customer.id);
   }
 
   deleteReservation(id: number) {}
@@ -28,7 +27,7 @@ export class CottageReservationsComponent implements OnInit {
   }
   
   isCustomerEligible(customer: ICustomer) {
-    return this.customers.includes(customer);
+    return this.customers.some(c => c.id === customer.id);
   }
 
   openQuickReservationForm() {

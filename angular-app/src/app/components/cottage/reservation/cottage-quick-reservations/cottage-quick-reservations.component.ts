@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageQuickReservationService } from 'src/app/pages/cottage-owner/services/cottage-quick-reservation.service';
 import { ToastrService } from 'ngx-toastr';
 import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';

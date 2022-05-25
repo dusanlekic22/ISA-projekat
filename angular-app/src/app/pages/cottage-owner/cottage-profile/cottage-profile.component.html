@@ -72,10 +72,8 @@
         [imageObject]="imageObject"
       >
       </app-cottage-quick-reservations>
-
       <app-add-cottage-quick-reservation
         (submitted)="quickReservationAdded()"
-        [cottage]="cottage"
         [cottageQuickReservation]="cottageQuickReservation"
       >
       </app-add-cottage-quick-reservation>
@@ -85,10 +83,10 @@
       <app-cottage-reservations
         [reservations]="activeReservations"
         [customers]="eligibleCustomers"
+        (customerEmit)="reservationInput.setCustomer($event); focusReservation()"
       ></app-cottage-reservations>
-      <app-add-reservation
+      <app-add-reservation #reservationInput
         (submitted)="reservationAdded()"
-        [cottage]="cottage"
         [minDate]="minDateString"
       ></app-add-reservation>
     </mat-tab>

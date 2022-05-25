@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
 import { ICottage } from 'src/app/model/cottage';
 import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-add-cottage-quick-reservation',
@@ -12,7 +13,7 @@ import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation'
   styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
 })
 export class AddCottageQuickReservationComponent implements OnInit {
-  @Input() cottage!: ICottage;
+  cottage!: ICottage;
   @Input() cottageQuickReservation: ICottageQuickReservation = {
     id: 0,
     duration: {
@@ -30,16 +31,19 @@ export class AddCottageQuickReservationComponent implements OnInit {
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _toastr: ToastrService,
     private _cottageService: CottageService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.minDate = this.date();
+    let cottageId = this._route.snapshot.paramMap.get('cottageId');
     this._userService.currentUser.subscribe((user) => {
       this._cottageService
         .getCottagesByCottageOwnerId(user.id)
         .subscribe((cottages) => {
           this.cottages = cottages;
+          this.cottage= this.cottages.filter(c=>c.id==parseInt(cottageId!))[0];
         });
     });
   }

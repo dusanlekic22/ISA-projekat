@@ -130,6 +130,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		CottageQuickReservation cottageQuickReservationReturn = cottageQuickReservationRepository
 				.save(cottageQuickReservation);
 		for (Customer customer : cottageQuickReservation.getCottage().getSubscribers()) {
+			System.out.println(customer.getFirstName());
 			customerService.sendNewQuickReservationEmail(customer, siteUrl, cottageQuickReservationReturn);
 		}
 

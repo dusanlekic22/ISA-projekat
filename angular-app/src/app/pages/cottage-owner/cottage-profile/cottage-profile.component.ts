@@ -1,5 +1,5 @@
 import { ICustomer } from './../../../model/customer';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Pipe } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAdditionalService } from '../../../model/additionalService';
 import { CottageService } from '../services/cottage.service';
@@ -56,8 +56,8 @@ export class CottageProfileComponent implements OnInit {
 
   @ViewChild('quickReservationInput')
   quickReservationFormElement!: ElementRef<HTMLInputElement>;
-  @ViewChild('reservationInput')
-  reservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('reservationInput', {static: true, read: ElementRef})
+  reservationFormElement!:any;
   @ViewChild('customerSelect')
   customerSelectElement!: ElementRef<HTMLInputElement>;
   @ViewChild('availableStartSelect')
@@ -87,7 +87,6 @@ export class CottageProfileComponent implements OnInit {
 
   availableDateSpan!: IDateSpan;
   eligibleCustomers!: ICustomer[];
-
   imageObject: Array<object> = [
     {
       image: '../assets/img/theme/team-3-800x800.jpg',
@@ -144,24 +143,22 @@ export class CottageProfileComponent implements OnInit {
       });
     this.minDate = new Date(Date.now());
   }
-  added(){
-      this.getCottage();
-  }
 
   reservationAdded(){
     this._cottageReservationService
     .getActiveCottageReservationByCottageId(this.cottage.id)
     .subscribe((reservations) => {
       this.activeReservations = reservations;
+      this.getCottage();
     });
   }
 
   quickReservationAdded(){
-    this.getCottage();
     this._cottageQuickReservationService
     .getCottageQuickReservations()
     .subscribe((cottageQuickReservation) => {
       this.cottage.cottageQuickReservation = cottageQuickReservation;
+      this.getCottage();
     });
   }
 
@@ -193,6 +190,10 @@ export class CottageProfileComponent implements OnInit {
 
   onImageChange(event: string): void {
     this.imageString = event;
+  }
+
+  focusReservation(){
+    this.reservationFormElement.nativeElement.scrollIntoView();
   }
 
   date() {

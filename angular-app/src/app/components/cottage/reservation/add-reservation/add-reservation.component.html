@@ -1,4 +1,4 @@
-<div #reservationInput class="container mt-5 pb-4">
+<div class="container mt-5 pb-4">
   <div class="card bg-secondary shadow">
     <div class="card-header bg-white border-0">
       <div class="row align-items-center">
@@ -85,6 +85,32 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
+                <label class="form-control-label" for="input-cottage"
+                  >Cottage</label
+                >
+                <div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Choose a cottage</mat-label>
+                    <mat-select
+                      [(ngModel)]="cottage"
+                      id="input-cottage"
+                      name="cottage"
+                    >
+                      <mat-option
+                        *ngFor="let cottage of cottages"
+                        [value]="cottage"
+                      >
+                        {{ cottage.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
                 <label class="form-control-label" for="input-customer"
                   >Customer</label
                 >
@@ -92,7 +118,7 @@
                   <mat-form-field appearance="fill">
                     <mat-label>Choose a customer</mat-label>
                     <mat-select
-                      [(ngModel)]="cottageReservation.customer"
+                      [(ngModel)]="customer"
                       id="input-customer"
                       name="customer"
                     >

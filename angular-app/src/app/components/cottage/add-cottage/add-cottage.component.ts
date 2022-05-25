@@ -26,6 +26,7 @@ export class AddCottageComponent implements OnInit {
     promoDescription: '',
     bedCount: 0,
     roomCount: 0,
+    pricePerHour: 0,
     cottageRules: '',
     cottageImage: [],
     cottageReservation: [],

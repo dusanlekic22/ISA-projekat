@@ -76,14 +76,15 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label class="form-control-label" for="input-price"
-                >Price per day</label
+                >Price per hour</label
               >
               <input
                 type="number"
+                name= "pricePerHour"
                 id="input-price"
                 class="form-control form-control-alternative"
-                value="20"
                 min="1"
+                [(ngModel)]="cottage.pricePerHour"
               />
             </div>
           </div>

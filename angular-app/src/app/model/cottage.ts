@@ -13,6 +13,7 @@ export interface ICottage {
   bedCount: number;
   roomCount: number;
   cottageRules: string;
+  pricePerHour: number;
   cottageImage: ICottageImage[];
   cottageReservation: ICottageReservation[];
   cottageQuickReservation: ICottageQuickReservation[];

@@ -13,6 +13,7 @@ public class CottageMapper {
 		cottage.setPromoDescription(cottageDTO.getPromoDescription());
 		cottage.setBedCount(cottageDTO.getBedCount());
 		cottage.setRoomCount(cottageDTO.getRoomCount());
+		cottage.setPricePerHour(cottageDTO.getPricePerHour());
 		cottage.setAdditionalService(cottageDTO.getAdditionalService());
 		cottage.setCottageImage(cottageDTO.getCottageImage());
 		cottage.setCottageOwner(cottageDTO.getCottageOwner());
@@ -33,6 +34,7 @@ public class CottageMapper {
 		cottageDTO.setPromoDescription(cottage.getPromoDescription());
 		cottageDTO.setBedCount(cottage.getBedCount());
 		cottageDTO.setRoomCount(cottage.getRoomCount());
+		cottageDTO.setPricePerHour(cottage.getPricePerHour());
 		cottageDTO.setAdditionalService(cottage.getAdditionalService());
 		cottageDTO.setCottageImage(cottage.getCottageImage());
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());

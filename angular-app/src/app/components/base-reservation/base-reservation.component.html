@@ -1,0 +1,38 @@
+<div class="container-fluid p-0">
+  <div class="row pt-4 ml-5">
+    <div class="col-3">
+      <label for="date1">Start of reservation</label>
+      <input
+        id="date1"
+        matInput
+        class="p-3"
+        type="datetime-local"
+        placeholder="Start date"
+        [(ngModel)]="startCottageDate"
+        [min]="startDateCottageString"
+        (change)="activateCottageEnd()"
+        id="session-date"
+        name="date3"
+      />
+    </div>
+  </div>
+  <div class="row pt-4 ml-5">
+    <div class="col-3">
+      <div class="enddate">
+        <label for="party" *ngIf="this.endDateCottageString !== ''"
+          >End of reservation</label
+        >
+        <input
+          matInput
+          class="p-3"
+          *ngIf="this.endDateCottageString !== ''"
+          type="datetime-local"
+          placeholder="End date"
+          [min]="endDateCottageString"
+          [(ngModel)]="endCottageDate"
+          name="date4"
+        />
+      </div>
+    </div>
+  </div>
+</div>

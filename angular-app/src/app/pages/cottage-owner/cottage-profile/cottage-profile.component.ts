@@ -30,7 +30,7 @@ export class CottageProfileComponent implements OnInit {
     promoDescription: '',
     bedCount: 0,
     roomCount: 0,
-    pricePerHour:0,
+    pricePerHour: 0,
     cottageRules: '',
     cottageImage: [],
     cottageReservation: [],
@@ -57,8 +57,8 @@ export class CottageProfileComponent implements OnInit {
 
   @ViewChild('quickReservationInput')
   quickReservationFormElement!: ElementRef<HTMLInputElement>;
-  @ViewChild('reservationInput', {static: true, read: ElementRef})
-  reservationFormElement!:any;
+  @ViewChild('reservationInput', { static: true, read: ElementRef })
+  reservationFormElement!: any;
   @ViewChild('customerSelect')
   customerSelectElement!: ElementRef<HTMLInputElement>;
   @ViewChild('availableStartSelect')
@@ -108,7 +108,7 @@ export class CottageProfileComponent implements OnInit {
     private _cottageService: CottageService,
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _additionalServiceService: AdditionalServiceService,
-    private _cottageReservationService: CottageReservationService,
+    private _cottageReservationService: CottageReservationService
   ) {}
 
   ngOnInit(): void {
@@ -145,22 +145,22 @@ export class CottageProfileComponent implements OnInit {
     this.minDate = new Date(Date.now());
   }
 
-  reservationAdded(){
+  reservationAdded() {
     this._cottageReservationService
-    .getActiveCottageReservationByCottageId(this.cottage.id)
-    .subscribe((reservations) => {
-      this.activeReservations = reservations;
-      this.getCottage();
-    });
+      .getActiveCottageReservationByCottageId(this.cottage.id)
+      .subscribe((reservations) => {
+        this.activeReservations = reservations;
+        this.getCottage();
+      });
   }
 
-  quickReservationAdded(){
+  quickReservationAdded() {
     this._cottageQuickReservationService
-    .getCottageQuickReservations()
-    .subscribe((cottageQuickReservation) => {
-      this.cottage.cottageQuickReservation = cottageQuickReservation;
-      this.getCottage();
-    });
+      .getCottageQuickReservations()
+      .subscribe((cottageQuickReservation) => {
+        this.cottage.cottageQuickReservation = cottageQuickReservation;
+        this.getCottage();
+      });
   }
 
   getCottage() {
@@ -193,7 +193,7 @@ export class CottageProfileComponent implements OnInit {
     this.imageString = event;
   }
 
-  focusReservation(){
+  focusReservation() {
     this.reservationFormElement.nativeElement.scrollIntoView();
   }
 

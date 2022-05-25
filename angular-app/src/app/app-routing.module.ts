@@ -1,3 +1,4 @@
+import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -33,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'cottageOwnerHome',
-    component: CottageOwnerHomeComponent
+    component: CottageOwnerHomeComponent,
   },
   {
     path: 'cottageProfile/:cottageId',
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'customer/:id',
     component: CustomerProfileComponent,
+  },
+  {
+    path: 'cottage/:id/:startDate/:endDate',
+    component: CottageReservationComponent,
   },
   { path: '**', redirectTo: '' },
 ];

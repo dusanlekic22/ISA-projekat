@@ -1,3 +1,4 @@
+import { FormControl, Validators } from '@angular/forms';
 import { CottageService } from './../cottage-owner/services/cottage.service';
 import { IDateTimeSpan } from './../../model/date-time-span';
 import { Component, OnInit } from '@angular/core';
@@ -20,6 +21,11 @@ export class HomepageComponent implements OnInit {
   chips!: MatChip;
   cottageChips: string[] = [];
   cottageTimespan!: IDateTimeSpan;
+  minDate: Date = new Date();
+  minDateString: string = '';
+  startDateCottageString: string = '';
+  endDateCottageString: any = '';
+  openCottages: string = 'yes';
 
   constructor(
     private _cottageService: CottageService,
@@ -31,6 +37,8 @@ export class HomepageComponent implements OnInit {
       this.cottages = data;
       console.log('evo data', data);
     });
+    this.minDateString = this.date(new Date());
+    this.startDateCottageString = this.date(new Date());
   }
   toggleSelectionCottage(chip: MatChip, option: string) {
     let x: string[] = [];
@@ -42,14 +50,37 @@ export class HomepageComponent implements OnInit {
   }
 
   availableCottages() {
-    console.log(this.startCottageDate);
-    this.cottageTimespan.startDate = this.startCottageDate;
-    this.cottageTimespan.endDate = this.endCottageDate;
     this._reservationService
-      .getAvailableCottagesByTimeSpan(this.cottageTimespan)
+      .getAvailableCottagesByTimeSpan({
+        startDate: this.startCottageDate,
+        endDate: this.endCottageDate,
+      })
       .subscribe((data) => {
-        console.log('podaci', data);
         this.cottages = data;
+        this.openCottages = 'no';
       });
+  }
+
+  date(min: Date): string {
+    let month = '';
+    let day = '';
+    if (min.getMonth() < 10) {
+      month = '0' + (min.getMonth() + 1).toString();
+    } else {
+      month = (min.getMonth() + 1).toString();
+    }
+    if (min.getDate() < 10) {
+      day = '0' + min.getDate().toString();
+    } else {
+      day = min.getDate().toString();
+    }
+    let x = min.getFullYear().toString() + '-' + month + '-' + day + 'T00:00';
+    return x;
+  }
+
+  activateCottageEnd() {
+    let x = '';
+    x = this.startCottageDate.toString();
+    this.endDateCottageString = this.startCottageDate;
   }
 }

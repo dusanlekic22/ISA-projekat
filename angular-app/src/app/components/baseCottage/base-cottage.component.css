@@ -17,7 +17,7 @@
 
 .cardOverlay {
   position: absolute;
-  bottom: 0;
+  bottom: 0%;
   background: rgba(0, 0, 0, 0.5);
   color: #f1f1f1;
   width: 100%;
@@ -49,4 +49,17 @@
 
 .starcolor {
   color: #b51414;
+}
+
+.reservationbtn {
+  width: 90%;
+  margin-left: 5%;
+}
+
+.cottageCard {
+  /* height: 313px; */
+}
+
+.reserv-btn {
+  height: 60px;
 }

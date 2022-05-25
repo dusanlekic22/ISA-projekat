@@ -19,7 +19,7 @@ public class CottageMapper {
 		cottage.setCottageQuickReservation(cottageDTO.getCottageQuickReservation());
 		cottage.setCottageReservation(cottageDTO.getCottageReservation());
 		cottage.setCottageRules(cottageDTO.getCottageRules());
-		cottage.setAvailableReservationDateSpan(cottageDTO.getAvailableReservationDateSpan());
+		cottage.setAvailableReservationDateSpanWithPrice(cottageDTO.getAvailableReservationDateSpanWithPrice());
 		cottage.setCottageOwner(cottageDTO.getCottageOwner());
 		cottage.setSubscribers(cottageDTO.getSubscribers());
 		return cottage;
@@ -39,7 +39,7 @@ public class CottageMapper {
 		cottageDTO.setCottageQuickReservation(cottage.getCottageQuickReservation());
 		cottageDTO.setCottageReservation(cottage.getCottageReservation());
 		cottageDTO.setCottageRules(cottage.getCottageRules());
-		cottageDTO.setAvailableReservationDateSpan(cottage.getAvailableReservationDateSpan());
+		cottageDTO.setAvailableReservationDateSpanWithPrice(cottage.getAvailableReservationDateSpanWithPrice());
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());
 		cottageDTO.setSubscribers(cottage.getSubscribers());
 		return cottageDTO;

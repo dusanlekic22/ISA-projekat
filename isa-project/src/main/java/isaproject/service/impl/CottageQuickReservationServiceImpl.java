@@ -20,6 +20,7 @@ import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.ReservationDateSpanWithPrice;
 import isaproject.repository.CottageQuickReservationRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.repository.CottageReservationRepository;
@@ -75,21 +76,21 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	private void reserveAvailableDateSpan(CottageQuickReservation cottageQuickReservation, DateTimeSpan availableDateSpan) {
 		Cottage cottage = cottageQuickReservation.getCottage();
 		DateTimeSpan duration = cottageQuickReservation.getDuration();
-		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
+		cottage.getAvailableReservationDateSpanWithPrice().remove(availableDateSpan);
 		if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateTimeSpan newDateSpan = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+			cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newDateSpan,33));
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
 			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
-			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+			cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newDateSpan,33));
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
 			DateTimeSpan newDateSpan2 = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
-			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
+			cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newDateSpan1,33));
+			cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newDateSpan2,33));
 		}
 		cottageRepository.save(cottage);
 	}
@@ -120,10 +121,9 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 			}
 		}
 
-		for (DateTimeSpan dateTimeSpan : cottageQuickReservation.getCottage().getAvailableReservationDateSpan()) {
-
-			if (cottageQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpan(cottageQuickReservation, dateTimeSpan);
+		for (ReservationDateSpanWithPrice dateTimeSpan : cottageQuickReservation.getCottage().getAvailableReservationDateSpanWithPrice()) {
+			if (cottageQuickReservation.getDuration().overlapsWith(dateTimeSpan.getDateSpan())) {
+				reserveAvailableDateSpan(cottageQuickReservation, dateTimeSpan.getDateSpan());
 				break;
 			}
 		}
@@ -169,31 +169,31 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		Cottage cottage = cottageQuickReservation.getCottage();
 		DateTimeSpan duration = cottageQuickReservation.getDuration();
 		DateTimeSpan newAvailableDateSpan = new DateTimeSpan(duration);
-		Set<DateTimeSpan> availableDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		Set<ReservationDateSpanWithPrice> availableDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpanWithPrice());
 		boolean startChanged = false;
 		boolean endChanged = false;
-		for (DateTimeSpan dateTimeSpan : availableDateSpans) {
-			if (newAvailableDateSpan.getStartDate().compareTo(dateTimeSpan.getEndDate()) == 0) {
-				cottage.getAvailableReservationDateSpan().remove(dateTimeSpan);
+		for (ReservationDateSpanWithPrice dateTimeSpan : availableDateSpans) {
+			if (newAvailableDateSpan.getStartDate().compareTo(dateTimeSpan.getDateSpan().getEndDate()) == 0) {
+				cottage.getAvailableReservationDateSpanWithPrice().remove(dateTimeSpan);
 				if (endChanged) {
-					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), newAvailableDateSpan.getEndDate());
+					cottage.getAvailableReservationDateSpanWithPrice().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getDateSpan().getStartDate(), newAvailableDateSpan.getEndDate());
 				} else {
-					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), duration.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getDateSpan().getStartDate(), duration.getEndDate());
 					startChanged = true;
 				}
-				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+				cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newAvailableDateSpan,33));
 			}
-			if (newAvailableDateSpan.getEndDate().compareTo(dateTimeSpan.getStartDate()) == 0) {
-				cottage.getAvailableReservationDateSpan().remove(dateTimeSpan);
+			if (newAvailableDateSpan.getEndDate().compareTo(dateTimeSpan.getDateSpan().getStartDate()) == 0) {
+				cottage.getAvailableReservationDateSpanWithPrice().remove(dateTimeSpan);
 				if (startChanged) {
-					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(), dateTimeSpan.getEndDate());
+					cottage.getAvailableReservationDateSpanWithPrice().remove(newAvailableDateSpan);
+					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(), dateTimeSpan.getDateSpan().getEndDate());
 				} else {
-					newAvailableDateSpan = new DateTimeSpan(duration.getStartDate(), dateTimeSpan.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(duration.getStartDate(), dateTimeSpan.getDateSpan().getEndDate());
 					endChanged = true;
 				}
-				cottage.getAvailableReservationDateSpan().add(newAvailableDateSpan);
+				cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newAvailableDateSpan,33));
 			}
 		}
 

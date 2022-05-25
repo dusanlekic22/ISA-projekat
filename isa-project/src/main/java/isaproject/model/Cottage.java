@@ -56,7 +56,7 @@ public class Cottage implements Serializable {
 	private CottageOwner cottageOwner;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_available_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "date_spans_cottage"))
-	private Set<ReservationDateSpanWithPrice> availableReservationDateSpanWithPrice = new HashSet<ReservationDateSpanWithPrice>();
+	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			  name = "cottage_subscribers", 
@@ -106,13 +106,13 @@ public class Cottage implements Serializable {
 
 
 
-	public Set<ReservationDateSpanWithPrice> getAvailableReservationDateSpanWithPrice() {
-		return availableReservationDateSpanWithPrice;
+	public Set<DateTimeSpan> getAvailableReservationDateSpan() {
+		return availableReservationDateSpan;
 	}
 
-	public void setAvailableReservationDateSpanWithPrice(
-			Set<ReservationDateSpanWithPrice> availableReservationDateSpanWithPrice) {
-		this.availableReservationDateSpanWithPrice = availableReservationDateSpanWithPrice;
+	public void setAvailableReservationDateSpan(
+			Set<DateTimeSpan> availableReservationDateSpan) {
+		this.availableReservationDateSpan = availableReservationDateSpan;
 	}
 
 	public Set<CottageQuickReservation> getCottageQuickReservation() {

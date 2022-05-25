@@ -15,7 +15,6 @@ import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.model.Cottage;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.ReservationDateSpanWithPrice;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.CottageRepository;
 import isaproject.service.CottageQuickReservationService;
@@ -92,22 +91,22 @@ public class CottageServiceImpl implements CottageService {
 				return null;
 		}
 		boolean overlapped = false;
-		Set<ReservationDateSpanWithPrice> availaDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpanWithPrice());
-		for (ReservationDateSpanWithPrice reservationSpanWithPrice : availaDateSpans) {
-			if (reservationSpanWithPrice.getDateSpan().overlapsWith(newDateSpan)) {
-				cottage.getAvailableReservationDateSpanWithPrice().remove(reservationSpanWithPrice);
-				if (newDateSpan.getStartDate().compareTo(reservationSpanWithPrice.getDateSpan().getStartDate()) <= 0) {
-					reservationSpanWithPrice = new ReservationDateSpanWithPrice( new DateTimeSpan(newDateSpan.getStartDate(), reservationSpanWithPrice.getDateSpan().getEndDate()),33);
+		Set<DateTimeSpan> availaDateSpans = new HashSet<>(cottage.getAvailableReservationDateSpan());
+		for (DateTimeSpan reservationSpan : availaDateSpans) {
+			if (reservationSpan.overlapsWith(newDateSpan)) {
+				cottage.getAvailableReservationDateSpan().remove(reservationSpan);
+				if (newDateSpan.getStartDate().compareTo(reservationSpan.getStartDate()) <= 0) {
+					reservationSpan = new DateTimeSpan(newDateSpan.getStartDate(), reservationSpan.getEndDate());
 				}
-				if (newDateSpan.getEndDate().compareTo(reservationSpanWithPrice.getDateSpan().getEndDate()) >= 0) {
-					reservationSpanWithPrice = new ReservationDateSpanWithPrice( new DateTimeSpan(reservationSpanWithPrice.getDateSpan().getStartDate(), newDateSpan.getEndDate()),33);
+				if (newDateSpan.getEndDate().compareTo(reservationSpan.getEndDate()) >= 0) {
+					reservationSpan = new DateTimeSpan(reservationSpan.getStartDate(), newDateSpan.getEndDate());
 				}
 				overlapped = true;
-				cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice( reservationSpanWithPrice.getDateSpan(),33));
+				cottage.getAvailableReservationDateSpan().add(reservationSpan);
 			}
 		}
 		if (!overlapped)
-			cottage.getAvailableReservationDateSpanWithPrice().add(new ReservationDateSpanWithPrice(newDateSpan, 0));
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
 
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
@@ -163,8 +162,8 @@ public class CottageServiceImpl implements CottageService {
 	        	
 	            CottageDTO dto;
 	            for(Cottage p : cottages){
-	            	for(ReservationDateSpanWithPrice d : p.getAvailableReservationDateSpanWithPrice()) {
-	            	if(d.getDateSpan().isTimeSpanBetween(reservationDate)) {	
+	            	for(DateTimeSpan d : p.getAvailableReservationDateSpan()) {
+	            	if(d.isTimeSpanBetween(reservationDate)) {	
 	                dto = CottageMapper.CottageToCottageDTO(p);
 	                availableCottages.add(dto);
 	                }

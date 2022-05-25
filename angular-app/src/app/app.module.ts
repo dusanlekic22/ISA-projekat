@@ -1,3 +1,4 @@
+import { CottageReservationsComponent } from './components/cottage/reservation/cottage-reservations/cottage-reservations.component';
 import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
 import { HasRoleDirective } from './directive/hasRole.directive';
 import { NgModule } from '@angular/core';
@@ -82,6 +83,7 @@ import { CottageReservationComponent } from './pages/reservation/cottage-reserva
     CottageAvailableTermsComponent,
     BaseReservationComponent,
     CottageReservationComponent,
+    CottageReservationsComponent,
   ],
   imports: [
     NgbModule,

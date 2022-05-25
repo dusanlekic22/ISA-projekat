@@ -1,13 +1,11 @@
 package isaproject.model;
 
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "BoatReservation")
@@ -29,33 +28,26 @@ public class BoatReservation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Temporal(TIMESTAMP)
-	private Date endDate;
+	@Embedded
+	private DateTimeSpan duration;
 	private Integer price;
 	private String guestCapacity;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "boat_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Boat boat;
-	@Temporal(TIMESTAMP)
-	private Date startDate;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Customer customer;
-	@OneToMany(mappedBy = "boatReservation")
-	private Collection<AdditionalService> additionalService;
+	@OneToMany(mappedBy = "boatQuickReservation", fetch = FetchType.EAGER)
+	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setDuration(Date param) {
-		this.endDate = param;
 	}
 
 	public Integer getPrice() {
@@ -82,14 +74,6 @@ public class BoatReservation implements Serializable {
 		this.boat = param;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date param) {
-		this.startDate = param;
-	}
-
 	public Customer getCustomer() {
 	    return customer;
 	}
@@ -98,12 +82,28 @@ public class BoatReservation implements Serializable {
 	    this.customer = param;
 	}
 
-	public Collection<AdditionalService> getAdditionalService() {
-	    return additionalService;
+	public DateTimeSpan getDuration() {
+		return duration;
 	}
 
-	public void setAdditionalService(Collection<AdditionalService> param) {
-	    this.additionalService = param;
+	public void setDuration(DateTimeSpan duration) {
+		this.duration = duration;
 	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}	
 
 }

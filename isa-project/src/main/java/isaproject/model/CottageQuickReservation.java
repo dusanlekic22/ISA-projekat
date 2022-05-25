@@ -34,8 +34,8 @@ public class CottageQuickReservation implements Serializable {
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService;
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
-	@JoinColumn(name = "cottage_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cottage_id", referencedColumnName = "id")
 	@JsonBackReference
 	private Cottage cottage;
 	private boolean isReserved;

@@ -29,7 +29,8 @@ public class AdditionalService implements Serializable {
 	private long id;
 	private String name;
 	private String price;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+	@JsonBackReference
 	private Boat boat;
 	@ManyToOne(fetch = LAZY)
 	private CottageQuickReservation cottageQuickReservation;

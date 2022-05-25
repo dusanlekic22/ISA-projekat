@@ -1,24 +1,29 @@
 package isaproject.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import isaproject.model.BoatImage;
-import isaproject.model.BoatOwner;
-
-import javax.persistence.ManyToOne;
-import static javax.persistence.FetchType.LAZY;
-import javax.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "Boat")
@@ -38,27 +43,44 @@ public class Boat implements Serializable {
 	private String engineNumber;
 	private String topSpeed;
 	private String enginePower;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private Address address;
 	private String description;
-	private String capacity;
+	private Integer capacity;
 	private String boatRules;
 	@Enumerated(EnumType.STRING)
 	private CancelConditionEnum cancelCondition;
-	private String fishingEquipment;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "boat_fishing_equipment", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "equipment_boat"))
+	private Set<String> fishingEquipment;
 	private Integer pricePerHour;
-	@OneToMany(mappedBy = "boat")
-	private Set<BoatQuickReservation> boatQuickReservation;
-	@OneToMany(mappedBy = "boat")
-	private Set<NavigationEquipment> navigationEquipment;
-	@OneToMany(mappedBy = "boat")
-	private Set<AdditionalService> additionalService;
-	@OneToMany(mappedBy = "boat")
+	@JsonManagedReference
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
+	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
+	private Set<BoatReservation> boatReservation= new HashSet<>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<NavigationEquipment> navigationEquipment= new HashSet<>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<AdditionalService> additionalService= new HashSet<>();
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<BoatImage> boatImage;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "boatOwner_id", referencedColumnName = "id")
 	private BoatOwner boatOwner;
-
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "boat_available_date_spans", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "date_spans_boat"))
+	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			  name = "boat_subscribers", 
+			  joinColumns = @JoinColumn(name = "boat_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	private Set<Customer> subscribers = new HashSet<>();
+	
 	public long getId() {
 		return id;
 	}
@@ -131,11 +153,11 @@ public class Boat implements Serializable {
 		this.description = param;
 	}
 
-	public String getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(String param) {
+	public void setCapacity(Integer param) {
 		this.capacity = param;
 	}
 
@@ -155,12 +177,13 @@ public class Boat implements Serializable {
 		this.cancelCondition = param;
 	}
 
-	public String getFishingEquipment() {
+
+	public Set<String> getFishingEquipment() {
 		return fishingEquipment;
 	}
 
-	public void setFishingEquipment(String param) {
-		this.fishingEquipment = param;
+	public void setFishingEquipment(Set<String> fishingEquipment) {
+		this.fishingEquipment = fishingEquipment;
 	}
 
 	public Integer getPricePerHour() {
@@ -211,4 +234,29 @@ public class Boat implements Serializable {
 	    this.boatOwner = param;
 	}
 
+	public Set<DateTimeSpan> getAvailableReservationDateSpan() {
+		return availableReservationDateSpan;
+	}
+
+	public void setAvailableReservationDateSpan(Set<DateTimeSpan> availableReservationDateSpan) {
+		this.availableReservationDateSpan = availableReservationDateSpan;
+	}
+
+	public Set<Customer> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(Set<Customer> subscribers) {
+		this.subscribers = subscribers;
+	}
+
+	public Set<BoatReservation> getBoatReservation() {
+		return boatReservation;
+	}
+
+	public void setBoatReservation(Set<BoatReservation> boatReservation) {
+		this.boatReservation = boatReservation;
+	}
+
+	
 }

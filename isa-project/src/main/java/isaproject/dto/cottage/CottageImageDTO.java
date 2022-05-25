@@ -1,4 +1,4 @@
-package isaproject.dto;
+package isaproject.dto.cottage;
 
 import isaproject.model.cottage.Cottage;
 

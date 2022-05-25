@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.service.cottage.CottageReservationService;
 import isaproject.util.ProjectUtil;
 

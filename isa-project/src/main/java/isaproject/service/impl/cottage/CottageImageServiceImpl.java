@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import isaproject.dto.CottageImageDTO;
+import isaproject.dto.cottage.CottageImageDTO;
 import isaproject.mapper.CottageImageMapper;
 import isaproject.model.cottage.CottageImage;
 import isaproject.repository.cottage.CottageImageRepository;

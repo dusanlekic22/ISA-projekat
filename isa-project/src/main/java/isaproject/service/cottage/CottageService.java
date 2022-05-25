@@ -2,9 +2,9 @@ package isaproject.service.cottage;
 
 import java.util.Set;
 
-import isaproject.dto.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.cottage.CottageDTO;
 
 public interface CottageService {
 	

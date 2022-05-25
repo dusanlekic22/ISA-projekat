@@ -1,6 +1,6 @@
 package isaproject.mapper;
 
-import isaproject.dto.CottageImageDTO;
+import isaproject.dto.cottage.CottageImageDTO;
 import isaproject.model.cottage.CottageImage;
 
 public class CottageImageMapper {

@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import isaproject.dto.CottageQuickReservationDTO;
-import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.cottage.CottageQuickReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageQuickReservationMapper;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.model.Customer;

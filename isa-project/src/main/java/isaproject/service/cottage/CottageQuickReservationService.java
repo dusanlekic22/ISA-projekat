@@ -5,8 +5,8 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
-import isaproject.dto.CottageQuickReservationDTO;
-import isaproject.dto.CottageReservationDTO;
+import isaproject.dto.cottage.CottageQuickReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
 
 public interface CottageQuickReservationService {
 

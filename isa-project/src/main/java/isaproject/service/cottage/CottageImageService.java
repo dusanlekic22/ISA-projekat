@@ -1,6 +1,6 @@
 package isaproject.service.cottage;
 
-import isaproject.dto.CottageImageDTO;
+import isaproject.dto.cottage.CottageImageDTO;
 
 public interface CottageImageService {
 	

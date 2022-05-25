@@ -63,6 +63,7 @@
       <button
         *ngIf="openForReservation !== 'yes'"
         class="btn btn-success reservationbtn"
+        [routerLink]="['/cottage/' + this.id]"
       >
         Rezervisi
       </button>

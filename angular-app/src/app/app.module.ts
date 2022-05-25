@@ -49,11 +49,12 @@ import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owne
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { CottageEditComponent } from './components/cottage/cottage-edit/cottage-edit.component';
-import { CottageReservationsComponent } from './components/cottage/reservation/cottage-reservations/cottage-reservations.component';
 import { CottageQuickReservationsComponent } from './components/cottage/reservation/cottage-quick-reservations/cottage-quick-reservations.component';
 import { AddReservationComponent } from './components/cottage/reservation/add-reservation/add-reservation.component';
 import { AddCottageQuickReservationComponent } from './components/cottage/reservation/add-cottage-quick-reservation/add-cottage-quick-reservation.component';
 import { CottageAvailableTermsComponent } from './components/cottage/cottage-available-terms/cottage-available-terms.component';
+import { BaseReservationComponent } from './components/base-reservation/base-reservation.component';
+import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
 
 @NgModule({
   declarations: [
@@ -75,11 +76,12 @@ import { CottageAvailableTermsComponent } from './components/cottage/cottage-ava
     ChangeCustomerInfoComponent,
     DatePipe,
     CottageEditComponent,
-    CottageReservationsComponent,
     CottageQuickReservationsComponent,
     AddReservationComponent,
     AddCottageQuickReservationComponent,
     CottageAvailableTermsComponent,
+    BaseReservationComponent,
+    CottageReservationComponent,
   ],
   imports: [
     NgbModule,

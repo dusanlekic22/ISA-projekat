@@ -48,6 +48,7 @@ import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owne
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { CottageReservationComponent } from './components/cottage-reservation/cottage-reservation.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { MatChipsModule } from '@angular/material/chips';
     CustomerProfileComponent,
     ChangeCustomerInfoComponent,
     DatePipe,
+    CottageReservationComponent,
   ],
   imports: [
     NgbModule,

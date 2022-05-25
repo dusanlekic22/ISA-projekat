@@ -30,6 +30,7 @@
             title="Compare"
           >
             <p class="starcolor d-flex align-items-center mb-2">
+              Ocena:
               <i class="fa fa-star" aria-hidden="true"></i>
               <i class="fa fa-star" aria-hidden="true"></i>
               <i class="fa fa-star" aria-hidden="true"></i>
@@ -39,19 +40,32 @@
           </a>
         </div>
       </div>
-      <p class="mb-0">
-        <strong>
-          <a href="#" v-if="isOpen === 'OPEN'" class="text-secondary"
-            >Otvoren</a
-          >
-          <a href="#" v-else class="text-secondary">Zatvoren</a>
-        </strong>
-      </p>
-      <p class="mb-1">
-        <small>
-          <a href="#" class="text-secondary">Tekst</a>
-        </small>
-      </p>
+      <div class="row d-flex">
+        <div class="col-7 text-dark">
+          <strong *ngIf="address">{{ address.city }}</strong>
+        </div>
+        <div class="col-4 offset-1 text-dark text-center">
+          <strong>Price: </strong>{{ "  " + price }}
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <strong *ngIf="address">{{ address.street }}</strong>
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <strong *ngIf="address">{{ address.country }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="reserv-btn">
+      <button
+        *ngIf="openForReservation !== 'yes'"
+        class="btn btn-success reservationbtn"
+      >
+        Rezervisi
+      </button>
     </div>
   </div>
 </div>

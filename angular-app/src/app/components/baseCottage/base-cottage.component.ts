@@ -1,3 +1,4 @@
+import { IAddress } from './../../pages/registration/registration/user';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 @Component({
@@ -8,7 +9,13 @@ import { Router } from '@angular/router';
 export class BaseCottageComponent implements OnInit {
   @Input() id!: string;
   @Input() name!: string;
+  @Input() price!: string;
+  @Input() openForReservation!: string;
+  @Input() address!: IAddress;
   constructor(public router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.openForReservation);
+    console.log('adressa', this.address);
+  }
 }

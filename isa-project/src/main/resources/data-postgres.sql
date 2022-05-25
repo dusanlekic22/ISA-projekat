@@ -50,6 +50,6 @@ insert into cottage (name, promo_description, bed_count, room_count, cottage_rul
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 5,6);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-18', '2022-05-25', 5, 70, true,5,5);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,5,5);
-insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-01', '2022-05-31',5);
+insert into cottage_available_date_spans (start_date, end_date,price, cottage_id) values ('2022-05-01', '2022-05-31',33,5);
 
 insert into cottage_subscribers (cottage_id,customer_id) values (1,2)

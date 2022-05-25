@@ -37,6 +37,14 @@ public class DateTimeSpan {
 		return endDate;
 	}
 
+	public void setStartDate(LocalDateTime startDate) {
+		this.startDate = startDate;
+	}
+
+	public void setEndDate(LocalDateTime endDate) {
+		this.endDate = endDate;
+	}
+
 	public boolean validate() {
 		return startDate.compareTo(endDate) < 0;
 	}

@@ -37,3 +37,19 @@ mat-icon {
   background: white;
   z-index: 20;
 }
+
+input {
+  font-size: 20px;
+}
+
+.enddate {
+  height: 80px;
+}
+
+.boxc {
+  width: 250px;
+}
+
+.chips {
+  width: 100px;
+}

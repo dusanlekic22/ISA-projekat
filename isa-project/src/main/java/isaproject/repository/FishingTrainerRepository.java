@@ -6,4 +6,6 @@ import isaproject.model.FishingTrainer;
 
 public interface FishingTrainerRepository extends JpaRepository<FishingTrainer, Long> {
 
+	FishingTrainer findByUsername(String username);
+
 }

@@ -7,7 +7,7 @@ import { ICottage } from 'src/app/model/cottage';
 @Component({
   selector: 'app-cottage-quick-reservations',
   templateUrl: './cottage-quick-reservations.component.html',
-  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./cottage-quick-reservations.component.css'],
 })
 export class CottageQuickReservationsComponent implements OnInit {
   @Input() cottage!: ICottage;

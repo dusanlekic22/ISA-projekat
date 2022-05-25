@@ -22,9 +22,8 @@ export class RegistrationService {
   }
 
   getCityandCountry(lat: string, long: string): Observable<any> {
-    console.log('lat' + lat, 'long' + long);
     return this.http.get<any>(
-      ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=sr`
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`
     );
   }
 

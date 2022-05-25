@@ -6,7 +6,7 @@ import { ICottageReservation } from 'src/app/model/cottageReservation';
 @Component({
   selector: 'app-cottage-reservations',
   templateUrl: './cottage-reservations.component.html',
-  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./cottage-reservations.component.css'],
 })
 export class CottageReservationsComponent implements OnInit {
   @Input() reservations!: ICottageReservation[];
@@ -25,7 +25,7 @@ export class CottageReservationsComponent implements OnInit {
   customerInfo(customer: ICustomer) {
     this._router.navigateByUrl(`customer/${customer.id}`);
   }
-  
+
   isCustomerEligible(customer: ICustomer) {
     return this.customers.some(c => c.id === customer.id);
   }

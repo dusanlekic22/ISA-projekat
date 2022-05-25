@@ -1,0 +1,106 @@
+<div class="header bg-gradient-danger pb-8 pt-5">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1>Fishing Trainer Courses</h1>
+      </div>
+      <form
+        class="navbar-search navbar-search-dark form-inline mr-3 d-flex ml-lg-auto"
+      >
+        <div class="form-group mb-0">
+          <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                ><i class="fas fa-search"></i
+              ></span>
+            </div>
+            <input
+              class="form-control"
+              placeholder="Fishing course name"
+              name="search"
+              type="text"
+              [ngModel]="filter"
+              (ngModelChange)="searchFishingCourses($event)"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7 pb-5">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0 d-flex align-items-center">
+          <h3 class="mb-0">Fishing Courses</h3>
+          <app-add-fishing-course class="ml-auto" (submitted)="added($event)"></app-add-fishing-course>
+        </div>
+        <div class="table-responsive" style="overflow: visible">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Price(in €)</th>
+                <th scope="col">Capacity</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngIf="filteredCourses">
+              <tr class="tr" *ngFor="let fishingCourse of filteredCourses">
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{ fishingCourse.name }}</span>
+                    </div>
+                  </div>
+                </th>
+                <td>
+                  {{
+                    fishingCourse.address.city +
+                      ", " +
+                      fishingCourse.address.country
+                  }}
+                </td>
+                <td>
+                  {{ fishingCourse.price }}
+                </td>
+                <td>
+                  {{ fishingCourse.capacity }}
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a
+                        class="dropdown-item"
+                        (click)="fishingCourseProfile(fishingCourse.id)"
+                        >Edit</a
+                      >
+                      <a
+                        class="dropdown-item"
+                        (click)="deleteFishingCourses(fishingCourse.id)"
+                        >Delete</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

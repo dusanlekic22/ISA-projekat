@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-add-reservation',
   templateUrl: './add-reservation.component.html',
-  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./add-reservation.component.css'],
 })
 export class AddReservationComponent implements OnInit {
   @Input() minDate!:string;
@@ -77,7 +77,7 @@ export class AddReservationComponent implements OnInit {
         });
     });
   }
-  
+
   setCustomer(id:number){
     this.customer=this.eligibleCustomers.filter(c=>c.id==id)[0];
   }
@@ -89,7 +89,7 @@ export class AddReservationComponent implements OnInit {
       .subscribe(
         (reservation) => {
           this._toastr.success('Reservation was successfully added.');
-            
+
         this.submitted.emit();
         },
         (err) => {

@@ -1,0 +1,144 @@
+<div>
+  <button
+    type="button"
+    mdbBtn
+    color="default"
+    rounded="true"
+    data-toggle="modal"
+    data-target="#basicExample"
+    (click)="frame.show()"
+    mdbWavesEffect
+  >
+    Add
+  </button>
+  <div
+    mdbModal
+    #frame="mdbModal"
+    class="modal fade left"
+    style="overflow-y: auto"
+    id="frameModalTop"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Fishing Course</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="frame.hide()"
+          >
+            <span aria-hidden="true">X</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Name</label>
+            <input
+              [(ngModel)]="fishingCourse.name"
+              type="text"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Description</label>
+            <input
+              [(ngModel)]="fishingCourse.promoDescription"
+              type="text"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Fishing equipment</label>
+            <input
+              [(ngModel)]="fishingCourse.fishingEquipment"
+              type="email"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Capacity</label>
+            <input
+              [(ngModel)]="fishingCourse.capacity"
+              type="email"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Rules</label>
+            <input
+              [(ngModel)]="fishingCourse.fishingRules"
+              type="text"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-5">
+            <label for="defaultForm-email">Price</label>
+            <input
+              [(ngModel)]="fishingCourse.price"
+              type="text"
+              id="defaultForm-email"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+          </div>
+          <div class="md-form mb-4">
+            <label>Additional services (Format:Name Price)</label>
+            <tag-input
+              (onAdd)="onItemAdded($event)"
+              [(ngModel)]="additionalServiceTags"
+              [modelAsStrings]="true"
+              #input
+            >
+              <ng-template let-item="item" let-index="index">
+                <!-- DEFINE HERE YOUR TEMPLATE -->
+                <span>
+                  <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
+                  <!-- ex. item.myDisplayValue -->
+
+                  {{ item.name }}({{ item.price }}€)
+                </span>
+                <delete-icon
+                  (click)="input.removeItem(item, index)"
+                ></delete-icon>
+              </ng-template>
+            </tag-input>
+          </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            (click)="addFishingCourse()"
+            mdbBtn
+            color="default"
+            class="waves-light"
+            mdbWavesEffect
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

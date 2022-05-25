@@ -14,7 +14,7 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 @Component({
   selector: 'app-cottage-profile',
   templateUrl: './cottage-profile.component.html',
-  styleUrls: ['../cottage-style.css'],
+  styleUrls: ['./cottage-profile.component.css'],
 })
 export class CottageProfileComponent implements OnInit {
   cottage: ICottage = {

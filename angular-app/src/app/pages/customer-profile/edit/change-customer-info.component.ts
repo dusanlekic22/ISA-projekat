@@ -87,12 +87,8 @@ export class ChangeCustomerInfoComponent implements OnInit {
             a.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            if (data.city === '') {
-              this.city = data.locality;
-            } else {
-              this.city = data.city;
-            }
-            this.country = data.countryName;
+            this.city = data.address.city;
+            this.country = data.address.country;
           });
       });
       google.maps.event.addListener(map, 'click', (event) => {
@@ -108,12 +104,9 @@ export class ChangeCustomerInfoComponent implements OnInit {
             event.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            if (data.city === '') {
-              this.city = data.locality;
-            } else {
-              this.city = data.city;
-            }
-            this.country = data.countryName;
+            console.log(data)
+            this.city = data.address.city;
+            this.country = data.address.country;
           });
       });
     }

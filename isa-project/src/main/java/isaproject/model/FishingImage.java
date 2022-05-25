@@ -1,26 +1,35 @@
 package isaproject.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import isaproject.model.FishingCourse;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import static javax.persistence.FetchType.LAZY;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class FishingImage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public FishingImage() {
-	}
-
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private String image;
-	@ManyToOne(fetch = LAZY)
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fishingCourse_id", referencedColumnName = "id")
+	@JsonBackReference
 	private FishingCourse fishingCourse;
+
+	public FishingImage() {
+	}
 
 	public long getId() {
 		return id;

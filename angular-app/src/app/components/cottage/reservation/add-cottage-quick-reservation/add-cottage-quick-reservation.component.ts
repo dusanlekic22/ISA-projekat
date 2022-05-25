@@ -10,7 +10,7 @@ import { ActivatedRoute, Route } from '@angular/router';
 @Component({
   selector: 'app-add-cottage-quick-reservation',
   templateUrl: './add-cottage-quick-reservation.component.html',
-  styleUrls: ['../../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./add-cottage-quick-reservation.component.css'],
 })
 export class AddCottageQuickReservationComponent implements OnInit {
   cottage!: ICottage;

@@ -1,4 +1,6 @@
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
+import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
+import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -63,6 +65,13 @@ const routes: Routes = [
   {
     path: 'cottage/:id/:startDate/:endDate',
     component: CottageReservationComponent,
+  },
+  { path: 'fishingTrainerCourses',
+    component: FishingTrainerCoursesComponent
+  },
+  {
+    path: 'fishingCourseProfile/:id',
+    component: FishingCourseProfileComponent,
   },
   { path: '**', redirectTo: '' },
 ];

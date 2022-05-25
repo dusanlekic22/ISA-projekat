@@ -7,7 +7,7 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 @Component({
   selector: 'app-cottage-available-terms',
   templateUrl: './cottage-available-terms.component.html',
-  styleUrls: ['../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./cottage-available-terms.component.css'],
 })
 export class CottageAvailableTermsComponent implements OnInit {
   @Input() cottage!: ICottage;
@@ -54,7 +54,7 @@ export class CottageAvailableTermsComponent implements OnInit {
       this.cottage = cottage;
     });
   }
-  
+
   openAvailableSpanForm() {
     this.availableSpanFormOpened = true;
   }

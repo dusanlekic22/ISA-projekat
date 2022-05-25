@@ -8,7 +8,7 @@ import { ICottage } from 'src/app/model/cottage';
 @Component({
   selector: 'app-cottage-edit',
   templateUrl: './cottage-edit.component.html',
-  styleUrls: ['../../../pages/cottage-owner/cottage-style.css'],
+  styleUrls: ['./cottage-edit.component.css'],
 })
 export class CottageEditComponent implements OnInit {
   @Input() cottage!: ICottage;
@@ -29,7 +29,7 @@ export class CottageEditComponent implements OnInit {
         this.cottage = cottage;
         this.additionalServiceTags.forEach((element) => {
           this._additionalServiceService
-            .addAdditionalService(element, this.cottage)
+            .addAdditionalServiceForCottage(element, this.cottage)
             .subscribe((additionalService) => {});
         });
       },

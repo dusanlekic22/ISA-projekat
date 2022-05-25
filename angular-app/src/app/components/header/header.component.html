@@ -1,234 +1,127 @@
-<div class="container-fluid">
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <button
-          class="navbar-toggler navbar-toggler-right"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <button
+      class="navbar-toggler navbar-toggler-right"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <a class="navbar-brand" href="#">KVZR</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
-              <a
-                class="nav-link"
-                [routerLink]="['/cottageOwnerHome']"
-                routerLinkActive="router-link-active"
-                >Cottages</a
-              >
-            </li>
-            <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
-              <div ngbDropdown>
-                <a class="nav-link" ngbDropdownToggle> Reservations </a>
-                <div
-                  ngbDropdownMenu
-                  class="dropdown-menu-right dropdown-menu-arrow"
-                >
-                  <a
-                    class="dropdown-item"
-                    routerLinkActive="router-link-active"
-                    [routerLink]="['/newCottageReservation']"
-                    >New reservation</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    [routerLink]="['/newCottageQuickReservation']"
-                    routerLinkActive="router-link-active"
-                    >New quick reservation</a
-                  >
-                </div>
-              </div>
-            </li>
-            <li class="nav-item" *appHasRole="['ROLE_BOAT_OWNER']">
-              <a
-                class="nav-link"
-                href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                [routerLink]="['/boatOwnerHome']"
-                >Boats</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://codepen.io/lawrencepa1988/full/RjEXzZ/"
-                target="_blank"
-                >Fishing Trainers</a
-              >
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn()">
-              <a
-                class="nav-link"
-                [routerLink]="['/customer/' + loggedInUser.id]"
-              >
-                Profile
-              </a>
-            </li>
-          </ul>
-
-          <div class="dropdown ml-2" *ngIf="!isLoggedIn()">
-            <button
-              class="btn btn-success dropdown-toggle"
-              type="button"
-              id="dropdownForm"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+    <a class="navbar-brand" href="#">KVZR</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
+          <a
+            class="nav-link"
+            [routerLink]="['/cottageOwnerHome']"
+            routerLinkActive="router-link-active"
+            >Cottages</a
+          >
+        </li>
+        <li class="nav-item" *appHasRole="['ROLE_COTTAGE_OWNER']">
+          <div ngbDropdown>
+            <a class="nav-link" ngbDropdownToggle> Reservations </a>
+            <div
+              ngbDropdownMenu
+              class="dropdown-menu-right dropdown-menu-arrow"
             >
-              Login
-            </button>
-            <div class="dropdown-menu">
-              <form class="px-4 py-3">
-                <div class="form-group">
-                  <label for="exampleDropdownFormEmail1">Username</label>
-                  <ng-template>Username </ng-template>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Username</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="username"
-                      name="username"
-                      placeholder="Username"
-                      required
-                    />
-                  </mat-form-field>
-                </div>
-                <div class="form-group">
-                  <label for="exampleDropdownFormPassword1">Password</label>
-                  <ng-template matStepLabel>Fill out password</ng-template>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input
-                      type="password"
-                      matInput
-                      [(ngModel)]="password"
-                      name="password"
-                      placeholder="Password"
-                      required
-                    />
-                  </mat-form-field>
-                </div>
-                <button (click)="login()" class="btn btn-primary">
-                  Sign in
-                </button>
-              </form>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" [routerLink]="regLink"
-                >New around here? Sign up</a
+              <a
+                class="dropdown-item"
+                routerLinkActive="router-link-active"
+                [routerLink]="['/newCottageReservation']"
+                >New reservation</a
               >
-              <a class="dropdown-item" href="#">Forgot password?</a>
+              <a
+                class="dropdown-item"
+                [routerLink]="['/newCottageQuickReservation']"
+                routerLinkActive="router-link-active"
+                >New quick reservation</a
+              >
             </div>
           </div>
-          <ul class="navbar-nav" *ngIf="isLoggedIn()">
-            <li class="nav-item" *ngIf="loggedInUser">
-              <a href="" class="nav-link">{{
-                loggedInUser.firstName + " " + loggedInUser.lastName
-              }}</a>
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn()">
-              <button (click)="logout()" class="btn btn-primary">Logout</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-</div>
-<div
-  mdbModal
-  #frame="mdbModal"
-  class="modal fade left"
-  style="overflow-y: auto"
-  id="frameModalTop"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="myModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Change password</h4>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <label for="defaultForm-password">Password</label>
-          <input
-            [(ngModel)]="changePassword"
-            type="password"
-            id="defaultForm-password"
-            [formControl]="$any(formModalPassword)"
-            class="form-control"
-            mdbInput
-            mdbValidate
-          />
-          <mdb-error
-            *ngIf="
-              formModalPassword!.invalid &&
-              (formModalPassword!.dirty || formModalPassword!.touched)
-            "
+        </li>
+        <li class="nav-item" *appHasRole="['ROLE_FISHING_TRAINER']">
+          <a
+            class="nav-link"
+            [routerLink]="['/fishingTrainerCourses']"
+            routerLinkActive="router-link-active"
+            >Fishing Courses</a
           >
-            Input invalid
-          </mdb-error>
-          <mdb-success
-            *ngIf="
-              formModalPassword!.valid &&
-              (formModalPassword!.dirty || formModalPassword!.touched)
-            "
-          >
-            Input valid
-          </mdb-success>
-        </div>
-        <div class="md-form mb-5">
-          <label for="defaultForm-confirm-password">Confirm password</label>
-          <input
-            [(ngModel)]="confirmChangePassword"
-            type="password"
-            id="defaultForm-confirm-password"
-            [formControl]="$any(formModalConfirmPassword)"
-            class="form-control"
-            mdbInput
-            mdbValidate
-          />
-          <mdb-error
-            *ngIf="
-              formModalConfirmPassword!.invalid &&
-              (formModalConfirmPassword!.dirty ||
-                formModalConfirmPassword!.touched)
-            "
-          >
-            Input invalid
-          </mdb-error>
-          <mdb-success
-            *ngIf="
-              formModalConfirmPassword!.valid &&
-              (formModalConfirmPassword!.dirty ||
-                formModalConfirmPassword!.touched)
-            "
-          >
-            Input valid
-          </mdb-success>
-        </div>
-      </div>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/customer/' + loggedInUser.id]">
+            Profile
+          </a>
+        </li>
+      </ul>
 
-      <div class="modal-footer d-flex justify-content-center">
+      <div class="dropdown ml-2" *ngIf="!isLoggedIn()">
         <button
-          (click)="submitChangePassword()"
-          mdbBtn
-          color="default"
-          class="waves-light"
-          mdbWavesEffect
+          class="btn btn-success dropdown-toggle"
+          type="button"
+          id="dropdownForm"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
         >
-          Submit
+          Login
         </button>
+        <div class="dropdown-menu">
+          <form class="px-4 py-3">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail1">Username</label>
+              <ng-template>Username </ng-template>
+              <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="username"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Password</label>
+              <ng-template matStepLabel>Fill out password</ng-template>
+              <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input
+                  type="password"
+                  matInput
+                  [(ngModel)]="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <button (click)="login()" class="btn btn-primary">Sign in</button>
+          </form>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="regLink"
+            >New around here? Sign up</a
+          >
+          <a class="dropdown-item" href="#">Forgot password?</a>
+        </div>
       </div>
+      <ul class="navbar-nav" *ngIf="isLoggedIn()">
+        <li class="nav-item" *ngIf="loggedInUser">
+          <a href="" class="nav-link">{{
+            loggedInUser.firstName + " " + loggedInUser.lastName
+          }}</a>
+        </li>
+      </ul>
+      <button (click)="logout()" class="btn btn-primary" *ngIf="isLoggedIn()">
+        Logout
+      </button>
     </div>
   </div>
-</div>
+</nav>
+<app-change-password [loggedInUser]="loggedInUser"></app-change-password>

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.model.Admin;
@@ -86,6 +87,22 @@ public class UserMapper {
 		user.setPhoneNumber(userDTO.getPhoneNumber());
 		user.setAddress(userDTO.getAddress());
 		return user;
+	}
+
+	public static FishingTrainerDTO FishingTrainerToDTO(FishingTrainer fishingTrainer) {
+		FishingTrainerDTO fishingTrainerDTO = new FishingTrainerDTO();
+		fishingTrainerDTO.setId(fishingTrainer.getId());
+		fishingTrainerDTO.setUsername(fishingTrainer.getUsername());
+		fishingTrainerDTO.setPassword(fishingTrainer.getPassword());
+		fishingTrainerDTO.setFirstName(fishingTrainer.getFirstName());
+		fishingTrainerDTO.setLastName(fishingTrainer.getLastName());
+		fishingTrainerDTO.setEmail(fishingTrainer.getEmail());
+		fishingTrainerDTO.setRoles(SetRoleToDTO(fishingTrainer.getRoles()));
+		fishingTrainerDTO.setPhoneNumber(fishingTrainer.getPhoneNumber());
+		fishingTrainerDTO.setAddress(fishingTrainer.getAddress());
+		fishingTrainerDTO.setBiography(fishingTrainer.getBiography());
+		fishingTrainerDTO.setFishingCourse(fishingTrainer.getFishingCourse());
+		return fishingTrainerDTO;
 	}
 	
 }

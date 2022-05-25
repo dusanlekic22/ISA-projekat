@@ -21,23 +21,24 @@ public class AdditionalService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public AdditionalService() {
-	}
-
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
 	private String price;
-	@ManyToOne(fetch = LAZY)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JsonBackReference(value = "boat")
 	private Boat boat;
-	@ManyToOne(fetch = LAZY)
-	private CottageQuickReservation cottageQuickReservation;
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-	@JsonBackReference
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JsonBackReference(value = "cottage")
 	private Cottage cottage;
-	@ManyToOne(fetch = LAZY)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JsonBackReference(value = "fishingCourse")
 	private FishingCourse fishingCourse;
+
 	@ManyToOne(fetch = LAZY)
 	private FishingReservation fishingReservation;
 	@ManyToOne(fetch = LAZY)
@@ -45,9 +46,15 @@ public class AdditionalService implements Serializable {
 	@ManyToOne(fetch = LAZY)
 	private CottageReservation cottageReservation;
 	@ManyToOne(fetch = LAZY)
-	private BoatQuickReservation boatQuickReservation;
+	private CottageQuickReservation cottageQuickReservation;
 	@ManyToOne(fetch = LAZY)
 	private BoatReservation boatReservation;
+	@ManyToOne(fetch = LAZY)
+	private BoatQuickReservation boatQuickReservation;
+
+	public AdditionalService() {
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -73,75 +80,75 @@ public class AdditionalService implements Serializable {
 	}
 
 	public Boat getBoat() {
-	    return boat;
+		return boat;
 	}
 
 	public void setBoat(Boat param) {
-	    this.boat = param;
+		this.boat = param;
 	}
 
 	public CottageQuickReservation getCottageQuickReservation() {
-	    return cottageQuickReservation;
+		return cottageQuickReservation;
 	}
 
 	public void setCottageQuickReservation(CottageQuickReservation param) {
-	    this.cottageQuickReservation = param;
+		this.cottageQuickReservation = param;
 	}
 
 	public Cottage getCottage() {
-	    return cottage;
+		return cottage;
 	}
 
 	public void setCottage(Cottage param) {
-	    this.cottage = param;
+		this.cottage = param;
 	}
 
 	public FishingCourse getFishingCourse() {
-	    return fishingCourse;
+		return fishingCourse;
 	}
 
 	public void setFishingCourse(FishingCourse param) {
-	    this.fishingCourse = param;
+		this.fishingCourse = param;
 	}
 
 	public FishingReservation getFishingReservation() {
-	    return fishingReservation;
+		return fishingReservation;
 	}
 
 	public void setFishingReservation(FishingReservation param) {
-	    this.fishingReservation = param;
+		this.fishingReservation = param;
 	}
 
 	public FishingQuickReservation getFishingQuickReservation() {
-	    return fishingQuickReservation;
+		return fishingQuickReservation;
 	}
 
 	public void setFishingQuickReservation(FishingQuickReservation param) {
-	    this.fishingQuickReservation = param;
+		this.fishingQuickReservation = param;
 	}
 
 	public CottageReservation getCottageReservation() {
-	    return cottageReservation;
+		return cottageReservation;
 	}
 
 	public void setCottageReservation(CottageReservation param) {
-	    this.cottageReservation = param;
+		this.cottageReservation = param;
 	}
 
 	public BoatQuickReservation getBoatQuickReservation() {
-	    return boatQuickReservation;
+		return boatQuickReservation;
 	}
 
 	public void setBoatQuickReservation(BoatQuickReservation param) {
-	    this.boatQuickReservation = param;
+		this.boatQuickReservation = param;
 	}
 
 	public BoatReservation getBoatReservation() {
-	    return boatReservation;
+		return boatReservation;
 	}
 
 	public void setBoatReservation(BoatReservation param) {
-	    this.boatReservation = param;
+		this.boatReservation = param;
 	}
 
 }

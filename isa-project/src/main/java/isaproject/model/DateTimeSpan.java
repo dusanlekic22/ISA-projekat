@@ -1,12 +1,12 @@
 package isaproject.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class DateTimeSpan {
-	
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 
@@ -67,37 +67,19 @@ public class DateTimeSpan {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-		return result;
+		return Objects.hash(endDate, startDate);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		DateTimeSpan other = (DateTimeSpan) obj;
-//		if(this.startDate == other.startDate && this.endDate == other.endDate)
-//			return true;
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		if (endDate == null) {
-			if (other.endDate != null)
-				return false;
-		} else if (!endDate.equals(other.endDate))
-			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
-			return false;
-		return true;
+		DateTimeSpan other = (DateTimeSpan) obj;
+		return Objects.equals(endDate, other.endDate) && Objects.equals(startDate, other.startDate);
 	}
-	
-	
 
 }

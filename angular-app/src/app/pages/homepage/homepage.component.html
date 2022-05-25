@@ -1,178 +1,195 @@
-<div class="firstSection"></div>
 <div class="container-fluid">
-  <div class="secondSection">
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab label="Cottages">
-        <div class="container">
-          <form class="example-form">
-            <div class="row pt-4 ml-5">
-              <div class="col-3">
-                <label for="date1">Start of reservation</label>
-                <input
-                  id="date1"
-                  matInput
-                  class="p-3"
-                  type="datetime-local"
-                  placeholder="Start date"
-                  [(ngModel)]="startCottageDate"
-                  [min]="startDateCottageString"
-                  (change)="activateCottageEnd()"
-                  id="session-date"
-                  name="date1"
-                />
-                <div class="enddate">
-                  <label for="party" *ngIf="this.endDateCottageString !== ''"
-                    >End of reservation</label
-                  >
+  <div class="row top">
+    <div class="col-12 firstSection"></div>
+  </div>
+  <div class="row linija bottom"></div>
+
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Cottages">
+          <div class="container">
+            <form class="example-form">
+              <div class="row pt-4 ml-5">
+                <div class="col-3">
+                  <label for="date1">Start of reservation</label>
                   <input
+                    id="date1"
                     matInput
                     class="p-3"
-                    *ngIf="this.endDateCottageString !== ''"
                     type="datetime-local"
-                    placeholder="End date"
-                    [min]="endDateCottageString"
-                    [(ngModel)]="endCottageDate"
-                    name="date2"
+                    placeholder="Start date"
+                    [(ngModel)]="startCottageDate"
+                    [min]="startDateCottageString"
+                    (change)="activateCottageEnd()"
+                    id="session-date"
+                    name="date1"
                   />
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="col-4 boxc">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Search cottage by name</mat-label>
-                    <textarea
-                      matInput
-                      [(ngModel)]="searchCottageName"
-                      name="searchCottageName"
-                      placeholder="Ex. It makes me feel..."
-                    ></textarea>
-                  </mat-form-field>
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Search cottage by name</mat-label>
-                    <textarea
-                      matInput
-                      [(ngModel)]="searchCottageName"
-                      name="searchCottageName"
-                      placeholder="Ex. It makes me feel..."
-                    ></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="col-4 chips">
-                  <mat-chip-list [(ngModel)]="chips" selectable multiple>
-                    <mat-chip
-                      #c="matChip"
-                      *ngFor="let option of optionsCottages"
-                      [value]="option"
-                      (click)="toggleSelectionCottage(c, option)"
+                  <div class="enddate">
+                    <label for="party" *ngIf="this.endDateCottageString !== ''"
+                      >End of reservation</label
                     >
-                      <mat-icon *ngIf="c.selected">check</mat-icon>
-                      {{ option }}
-                    </mat-chip>
-                  </mat-chip-list>
+                    <input
+                      matInput
+                      class="p-3"
+                      *ngIf="this.endDateCottageString !== ''"
+                      type="datetime-local"
+                      placeholder="End date"
+                      [min]="endDateCottageString"
+                      [(ngModel)]="endCottageDate"
+                      name="date2"
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="col-4 boxc">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Search cottage by name</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="searchCottageName"
+                        name="searchCottageName"
+                        placeholder="Ex. It makes me feel..."
+                      ></textarea>
+                    </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Search cottage by name</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="searchCottageName"
+                        name="searchCottageName"
+                        placeholder="Ex. It makes me feel..."
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="col-4 chips">
+                    <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                      <mat-chip
+                        #c="matChip"
+                        *ngFor="let option of optionsCottages"
+                        [value]="option"
+                        (click)="toggleSelectionCottage(c, option)"
+                      >
+                        <mat-icon *ngIf="c.selected">check</mat-icon>
+                        {{ option }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="col-4">
+                    <button
+                      class="btn btn-success"
+                      (click)="availableCottages()"
+                    >
+                      Apply
+                    </button>
+                  </div>
                 </div>
               </div>
+            </form>
+
+            <div class="container mt-3">
+              <div class="row d-flex p-2 text-white">
+                <div class="col-4 p-2" *ngFor="let cottage of cottages">
+                  <app-base-cottage
+                    name="{{ cottage.name }}"
+                    id="{{ cottage.id }}"
+                    [address]="cottage.address"
+                    price="{{ '0$' }}"
+                    openForReservation="{{ openCottages }}"
+                    [startDate]="startCottageDate"
+                    [endDate]="endCottageDate"
+                  >
+                  </app-base-cottage>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Boats">
+          <form class="example-form">
+            <div class="row">
               <div class="mb-3">
                 <div class="col-4">
-                  <button class="btn btn-success" (click)="availableCottages()">
-                    Apply
-                  </button>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Search cottage by name</mat-label>
+                    <textarea
+                      matInput
+                      [(ngModel)]="searchCottageName"
+                      name="searchCottageName"
+                      placeholder="Ex. It makes me feel..."
+                    ></textarea>
+                  </mat-form-field>
                 </div>
               </div>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Search cottage by number of beds</mat-label>
+                <textarea
+                  matInput
+                  [(ngModel)]="searchCottageBeds"
+                  name="searchCottageBeds"
+                  placeholder="Ex. It makes me feel..."
+                ></textarea>
+              </mat-form-field>
             </div>
           </form>
-
-          <div class="container mt-3">
-            <div class="row d-flex p-2 text-white">
-              <div class="col-4 p-2" *ngFor="let cottage of cottages">
-                <app-base-cottage
-                  name="{{ cottage.name }}"
-                  id="{{ cottage.id }}"
-                  [address]="cottage.address"
-                  price="{{ '0$' }}"
-                  openForReservation="{{ openCottages }}"
-                  [startDate]="startCottageDate"
-                  [endDate]="endCottageDate"
-                >
-                </app-base-cottage>
-              </div>
+          <div class="container py-5">
+            <div class="d-flex bd-highlight mb-3">
+              <app-base-cottage> </app-base-cottage>
+              <app-base-cottage> </app-base-cottage>
+              <app-base-cottage> </app-base-cottage>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Boats">
-        <form class="example-form">
-          <div class="row">
-            <div class="mb-3">
-              <div class="col-4">
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Search cottage by name</mat-label>
-                  <textarea
-                    matInput
-                    [(ngModel)]="searchCottageName"
-                    name="searchCottageName"
-                    placeholder="Ex. It makes me feel..."
-                  ></textarea>
-                </mat-form-field>
+        </mat-tab>
+        <mat-tab label="Adventures">
+          <form class="example-form">
+            <div class="row">
+              <div class="mb-3">
+                <div class="col-4">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Search cottage by name</mat-label>
+                    <textarea
+                      matInput
+                      [(ngModel)]="searchCottageName"
+                      name="searchCottageName"
+                      placeholder="Ex. It makes me feel..."
+                    ></textarea>
+                  </mat-form-field>
+                </div>
               </div>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Search cottage by number of beds</mat-label>
+                <textarea
+                  matInput
+                  [(ngModel)]="searchCottageBeds"
+                  name="searchCottageBeds"
+                  placeholder="Ex. It makes me feel..."
+                ></textarea>
+              </mat-form-field>
             </div>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Search cottage by number of beds</mat-label>
-              <textarea
-                matInput
-                [(ngModel)]="searchCottageBeds"
-                name="searchCottageBeds"
-                placeholder="Ex. It makes me feel..."
-              ></textarea>
-            </mat-form-field>
-          </div>
-        </form>
-        <div class="container py-5">
-          <div class="d-flex bd-highlight mb-3">
-            <app-base-cottage> </app-base-cottage>
-            <app-base-cottage> </app-base-cottage>
-            <app-base-cottage> </app-base-cottage>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Adventures">
-        <form class="example-form">
-          <div class="row">
-            <div class="mb-3">
-              <div class="col-4">
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Search cottage by name</mat-label>
-                  <textarea
-                    matInput
-                    [(ngModel)]="searchCottageName"
-                    name="searchCottageName"
-                    placeholder="Ex. It makes me feel..."
-                  ></textarea>
-                </mat-form-field>
-              </div>
+          </form>
+          <div class="container py-5">
+            <div class="d-flex bd-highlight mb-3">
+              <app-base-cottage> </app-base-cottage>
+              <app-base-cottage> </app-base-cottage>
+              <app-base-cottage> </app-base-cottage>
             </div>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Search cottage by number of beds</mat-label>
-              <textarea
-                matInput
-                [(ngModel)]="searchCottageBeds"
-                name="searchCottageBeds"
-                placeholder="Ex. It makes me feel..."
-              ></textarea>
-            </mat-form-field>
           </div>
-        </form>
-        <div class="container py-5">
-          <div class="d-flex bd-highlight mb-3">
-            <app-base-cottage> </app-base-cottage>
-            <app-base-cottage> </app-base-cottage>
-            <app-base-cottage> </app-base-cottage>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="col-2 grad2"></div>
   </div>
 </div>

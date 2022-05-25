@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,11 +14,18 @@ export class BaseReservationComponent implements OnInit {
   startDateCottageString: string = '';
   endDateCottageString: any = '';
 
-  constructor() {}
+  constructor(private _route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.minDateString = this.date(new Date());
     this.startDateCottageString = this.date(new Date());
+    this._route.params.subscribe((data) => {
+      this.startCottageDate = data.startDate;
+      this.endCottageDate = data.endDate;
+      if (this.endCottageDate !== null) {
+        this.activateCottageEnd();
+      }
+    });
   }
 
   date(min: Date): string {

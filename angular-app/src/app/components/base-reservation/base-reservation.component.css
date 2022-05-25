@@ -1,0 +1,21 @@
+.test {
+  position: absolute;
+  height: 300px;
+  width: 400px;
+  background: white;
+  z-index: 20;
+}
+
+input {
+  font-size: 20px;
+  min-width: 240px;
+  width: 250px;
+}
+
+.enddate {
+  height: 80px;
+}
+
+.boxc {
+  width: 250px;
+}

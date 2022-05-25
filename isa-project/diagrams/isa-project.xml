@@ -1,10 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><entities>
 	<entity>
-		<entity-name>isaproject.model.BoatImage</entity-name>
-		<entity-width>224</entity-width>
+		<entity-name>isaproject.model.BoatReservation</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>246</entity-height>
+		<entity-X-Coordinate>994</entity-X-Coordinate>
+		<entity-Y-Coordinate>310</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>isaproject.model.CottageReservation</entity-name>
+		<entity-width>144</entity-width>
+		<entity-height>246</entity-height>
+		<entity-X-Coordinate>688</entity-X-Coordinate>
+		<entity-Y-Coordinate>786</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>isaproject.model.FishingReservation</entity-name>
+		<entity-width>196</entity-width>
+		<entity-height>286</entity-height>
+		<entity-X-Coordinate>765</entity-X-Coordinate>
+		<entity-Y-Coordinate>1604</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>isaproject.model.FishingQuickReservation</entity-name>
+		<entity-width>171</entity-width>
+		<entity-height>266</entity-height>
+		<entity-X-Coordinate>1790</entity-X-Coordinate>
+		<entity-Y-Coordinate>1865</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>isaproject.model.CottageImage</entity-name>
+		<entity-width>174</entity-width>
 		<entity-height>146</entity-height>
-		<entity-X-Coordinate>136</entity-X-Coordinate>
-		<entity-Y-Coordinate>252</entity-Y-Coordinate>
+		<entity-X-Coordinate>480</entity-X-Coordinate>
+		<entity-Y-Coordinate>605</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -33,44 +77,22 @@
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.FishingTrainer</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>70</entity-height>
-		<entity-X-Coordinate>-6</entity-X-Coordinate>
-		<entity-Y-Coordinate>1461</entity-Y-Coordinate>
+		<entity-name>isaproject.model.CottageQuickReservation</entity-name>
+		<entity-width>217</entity-width>
+		<entity-height>226</entity-height>
+		<entity-X-Coordinate>461</entity-X-Coordinate>
+		<entity-Y-Coordinate>1507</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.NavigationEquipment</entity-name>
-		<entity-width>161</entity-width>
-		<entity-height>146</entity-height>
-		<entity-X-Coordinate>858</entity-X-Coordinate>
-		<entity-Y-Coordinate>-60</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.FishingQuickReservation</entity-name>
-		<entity-width>171</entity-width>
-		<entity-height>266</entity-height>
-		<entity-X-Coordinate>1790</entity-X-Coordinate>
-		<entity-Y-Coordinate>1865</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.CottageOwner</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>70</entity-height>
-		<entity-X-Coordinate>83</entity-X-Coordinate>
-		<entity-Y-Coordinate>1043</entity-Y-Coordinate>
+		<entity-name>isaproject.model.Customer</entity-name>
+		<entity-width>164</entity-width>
+		<entity-height>188</entity-height>
+		<entity-X-Coordinate>781</entity-X-Coordinate>
+		<entity-Y-Coordinate>549</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -88,23 +110,12 @@
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.BoatQuickReservation</entity-name>
-		<entity-width>181</entity-width>
-		<entity-height>226</entity-height>
-		<entity-X-Coordinate>1783</entity-X-Coordinate>
-		<entity-Y-Coordinate>102</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.BoatOwner</entity-name>
+		<entity-name>isaproject.model.FishingTrainer</entity-name>
 		<entity-width>120</entity-width>
 		<entity-height>70</entity-height>
-		<entity-X-Coordinate>170</entity-X-Coordinate>
-		<entity-Y-Coordinate>-33</entity-Y-Coordinate>
-		<primary-collapsed>true</primary-collapsed>
+		<entity-X-Coordinate>-6</entity-X-Coordinate>
+		<entity-Y-Coordinate>1461</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
 	</entity>
@@ -112,7 +123,7 @@
 	<entity>
 		<entity-name>isaproject.model.Cottage</entity-name>
 		<entity-width>145</entity-width>
-		<entity-height>326</entity-height>
+		<entity-height>386</entity-height>
 		<entity-X-Coordinate>521</entity-X-Coordinate>
 		<entity-Y-Coordinate>1061</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -132,39 +143,6 @@
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.Boat</entity-name>
-		<entity-width>211</entity-width>
-		<entity-height>466</entity-height>
-		<entity-X-Coordinate>410</entity-X-Coordinate>
-		<entity-Y-Coordinate>-50</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.BoatReservation</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>246</entity-height>
-		<entity-X-Coordinate>994</entity-X-Coordinate>
-		<entity-Y-Coordinate>310</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.CottageReservation</entity-name>
-		<entity-width>144</entity-width>
-		<entity-height>266</entity-height>
-		<entity-X-Coordinate>688</entity-X-Coordinate>
-		<entity-Y-Coordinate>786</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
 		<entity-name>isaproject.model.FishingCourse</entity-name>
 		<entity-width>190</entity-width>
 		<entity-height>326</entity-height>
@@ -176,33 +154,22 @@
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.CottageQuickReservation</entity-name>
-		<entity-width>217</entity-width>
-		<entity-height>226</entity-height>
-		<entity-X-Coordinate>461</entity-X-Coordinate>
-		<entity-Y-Coordinate>1507</entity-Y-Coordinate>
+		<entity-name>isaproject.model.CottageOwner</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>70</entity-height>
+		<entity-X-Coordinate>83</entity-X-Coordinate>
+		<entity-Y-Coordinate>1043</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.CottageImage</entity-name>
-		<entity-width>174</entity-width>
+		<entity-name>isaproject.model.NavigationEquipment</entity-name>
+		<entity-width>161</entity-width>
 		<entity-height>146</entity-height>
-		<entity-X-Coordinate>480</entity-X-Coordinate>
-		<entity-Y-Coordinate>605</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.FishingReservation</entity-name>
-		<entity-width>196</entity-width>
-		<entity-height>286</entity-height>
-		<entity-X-Coordinate>765</entity-X-Coordinate>
-		<entity-Y-Coordinate>1604</entity-Y-Coordinate>
+		<entity-X-Coordinate>858</entity-X-Coordinate>
+		<entity-Y-Coordinate>-60</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -220,11 +187,11 @@
 	</entity>
 
 	<entity>
-		<entity-name>isaproject.model.Customer</entity-name>
-		<entity-width>164</entity-width>
-		<entity-height>168</entity-height>
-		<entity-X-Coordinate>781</entity-X-Coordinate>
-		<entity-Y-Coordinate>549</entity-Y-Coordinate>
+		<entity-name>isaproject.model.boat.Boat</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>526</entity-height>
+		<entity-X-Coordinate>1443</entity-X-Coordinate>
+		<entity-Y-Coordinate>-89</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>

@@ -15,6 +15,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatQuickReservation;
+import isaproject.model.boat.BoatReservation;
+
 @Entity
 @Table(name = "AdditionalService")
 public class AdditionalService implements Serializable {
@@ -30,12 +34,12 @@ public class AdditionalService implements Serializable {
 	private String name;
 	private String price;
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-	@JsonBackReference
+	@JsonBackReference(value = "boat")
 	private Boat boat;
 	@ManyToOne(fetch = LAZY)
 	private CottageQuickReservation cottageQuickReservation;
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-	@JsonBackReference
+	@JsonBackReference(value = "cottage")
 	private Cottage cottage;
 	@ManyToOne(fetch = LAZY)
 	private FishingCourse fishingCourse;

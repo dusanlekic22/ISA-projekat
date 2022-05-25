@@ -30,20 +30,23 @@ import isaproject.service.CustomerService;
 @Service
 public class CottageQuickReservationServiceImpl implements CottageQuickReservationService {
 
-	@Autowired
 	CottageQuickReservationRepository cottageQuickReservationRepository;
-
-	@Autowired
 	CottageReservationRepository cottageReservationRepository;
-
-	@Autowired
 	CottageRepository cottageRepository;
-
-	@Autowired
 	CustomerRepository customerRepository;
-
-	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	public CottageQuickReservationServiceImpl(CottageQuickReservationRepository cottageQuickReservationRepository,
+			CottageReservationRepository cottageReservationRepository, CottageRepository cottageRepository,
+			CustomerRepository customerRepository, CustomerService customerService) {
+		super();
+		this.cottageQuickReservationRepository = cottageQuickReservationRepository;
+		this.cottageReservationRepository = cottageReservationRepository;
+		this.cottageRepository = cottageRepository;
+		this.customerRepository = customerRepository;
+		this.customerService = customerService;
+	}
 
 	@Override
 	public CottageQuickReservationDTO findById(Long id) {

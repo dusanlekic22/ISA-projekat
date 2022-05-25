@@ -24,14 +24,21 @@ import isaproject.service.CottageService;
 @Service
 public class CottageServiceImpl implements CottageService {
 
-	@Autowired
 	private CottageRepository cottageRepository;
-	@Autowired
 	private AddressRepository addressRepository;
-	@Autowired
 	private CottageReservationService cottageReservationService;
-	@Autowired
 	private CottageQuickReservationService cottageQuickReservationService;
+
+	@Autowired
+	public CottageServiceImpl(CottageRepository cottageRepository, AddressRepository addressRepository,
+			CottageReservationService cottageReservationService,
+			CottageQuickReservationService cottageQuickReservationService) {
+		super();
+		this.cottageRepository = cottageRepository;
+		this.addressRepository = addressRepository;
+		this.cottageReservationService = cottageReservationService;
+		this.cottageQuickReservationService = cottageQuickReservationService;
+	}
 
 	public CottageDTO findById(Long id) {
 		Cottage cottage = cottageRepository.findById(id).orElse(null);
@@ -85,8 +92,7 @@ public class CottageServiceImpl implements CottageService {
 			if (newDateSpan.overlapsWith(cottageReservation.getDuration()))
 				return null;
 		}
-		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService
-				.findByCottageId(id)) {
+		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByCottageId(id)) {
 			if (newDateSpan.overlapsWith(cottageQuickReservation.getDuration()))
 				return null;
 		}
@@ -158,23 +164,20 @@ public class CottageServiceImpl implements CottageService {
 		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
 		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
 		Set<CottageDTO> availableCottages = new HashSet<>();
-		  if(cottages.size()!=0){
-	        	
-	            CottageDTO dto;
-	            for(Cottage p : cottages){
-	            	for(DateTimeSpan d : p.getAvailableReservationDateSpan()) {
-	            	if(d.isTimeSpanBetween(reservationDate)) {	
-	                dto = CottageMapper.CottageToCottageDTO(p);
-	                availableCottages.add(dto);
-	                }
-	                }
-	            }
-	        }
-		
-		  return availableCottages;
-	}	
-	
-	
+		if (cottages.size() != 0) {
 
-	
+			CottageDTO dto;
+			for (Cottage p : cottages) {
+				for (DateTimeSpan d : p.getAvailableReservationDateSpan()) {
+					if (d.isTimeSpanBetween(reservationDate)) {
+						dto = CottageMapper.CottageToCottageDTO(p);
+						availableCottages.add(dto);
+					}
+				}
+			}
+		}
+
+		return availableCottages;
+	}
+
 }

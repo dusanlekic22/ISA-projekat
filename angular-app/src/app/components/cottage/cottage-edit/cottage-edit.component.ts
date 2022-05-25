@@ -12,7 +12,7 @@ import { ICottage } from 'src/app/model/cottage';
 })
 export class CottageEditComponent implements OnInit {
   @Input() cottage!: ICottage;
-  additionalServiceTags: IAdditionalService[] = [];
+  @Input() additionalServiceTags: IAdditionalService[] = [];
 
   constructor(
     private _cottageService: CottageService,

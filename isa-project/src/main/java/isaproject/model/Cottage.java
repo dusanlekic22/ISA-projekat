@@ -49,7 +49,7 @@ public class Cottage implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();
-	@JsonManagedReference
+	@JsonManagedReference(value = "cottage")
 	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	@ManyToOne(fetch = FetchType.EAGER)

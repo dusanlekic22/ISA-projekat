@@ -29,7 +29,10 @@
 <div class="container mt--7 pb-4">
   <div class="row">
     <div class="col-xl-8 order-xl-1 mb-4">
-      <app-cottage-edit [cottage]="cottage"></app-cottage-edit>
+      <app-cottage-edit
+        [cottage]="cottage"
+        [additionalServiceTags]="additionalServiceTags"
+      ></app-cottage-edit>
     </div>
     <div class="col-xl-4 order-xl-2 container">
       <div class="order-xl-3 mb-5 mb-xl-0">
@@ -83,9 +86,12 @@
       <app-cottage-reservations
         [reservations]="activeReservations"
         [customers]="eligibleCustomers"
-        (customerEmit)="reservationInput.setCustomer($event); focusReservation()"
+        (customerEmit)="
+          reservationInput.setCustomer($event); focusReservation()
+        "
       ></app-cottage-reservations>
-      <app-add-reservation #reservationInput
+      <app-add-reservation
+        #reservationInput
         (submitted)="reservationAdded()"
         [minDate]="minDateString"
       ></app-add-reservation>

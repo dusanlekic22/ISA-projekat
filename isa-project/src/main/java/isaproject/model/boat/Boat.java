@@ -1,4 +1,4 @@
-package isaproject.model;
+package isaproject.model.boat;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -23,7 +23,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import isaproject.model.AdditionalService;
+import isaproject.model.Address;
+import isaproject.model.CancelConditionEnum;
+import isaproject.model.Customer;
+import isaproject.model.DateTimeSpan;
+import isaproject.model.NavigationEquipment;
 
 @Entity
 @Table(name = "Boat")
@@ -63,7 +71,7 @@ public class Boat implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<NavigationEquipment> navigationEquipment= new HashSet<>();
-	@JsonManagedReference
+	@JsonBackReference(value = "boat")
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<AdditionalService> additionalService= new HashSet<>();
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })

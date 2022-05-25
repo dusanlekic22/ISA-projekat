@@ -1,4 +1,4 @@
-package isaproject.model;
+package isaproject.model.boat;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -16,13 +16,17 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import isaproject.model.AdditionalService;
+import isaproject.model.Customer;
+import isaproject.model.DateTimeSpan;
+
 @Entity
-@Table(name = "BoatQuickReservation")
-public class BoatQuickReservation implements Serializable {
+@Table(name = "BoatReservation")
+public class BoatReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public BoatQuickReservation() {
+	public BoatReservation() {
 	}
 
 	@Id
@@ -32,13 +36,15 @@ public class BoatQuickReservation implements Serializable {
 	private DateTimeSpan duration;
 	private Integer price;
 	private String guestCapacity;
-	@OneToMany(mappedBy = "boatQuickReservation", fetch = FetchType.EAGER)
-	private Set<AdditionalService> additionalService;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "boat_id", referencedColumnName = "id")
 	@JsonBackReference
 	private Boat boat;
-	private boolean isReserved;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Customer customer;
+	@OneToMany(mappedBy = "boatQuickReservation", fetch = FetchType.EAGER)
+	private Set<AdditionalService> additionalService;
+	private boolean confirmed;
 	
 	public long getId() {
 		return id;
@@ -46,26 +52,6 @@ public class BoatQuickReservation implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public DateTimeSpan getDuration() {
-		return duration;
-	}
-
-	public void setDuration(DateTimeSpan duration) {
-		this.duration = duration;
-	}
-
-	public boolean isReserved() {
-		return isReserved;
-	}
-
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
-	}
-
-	public void setAdditionalService(Set<AdditionalService> additionalService) {
-		this.additionalService = additionalService;
 	}
 
 	public Integer getPrice() {
@@ -92,8 +78,36 @@ public class BoatQuickReservation implements Serializable {
 		this.boat = param;
 	}
 
-	public Set<AdditionalService> getAdditionalService() {
-	    return additionalService;
+	public Customer getCustomer() {
+	    return customer;
 	}
+
+	public void setCustomer(Customer param) {
+	    this.customer = param;
+	}
+
+	public DateTimeSpan getDuration() {
+		return duration;
+	}
+
+	public void setDuration(DateTimeSpan duration) {
+		this.duration = duration;
+	}
+
+	public Set<AdditionalService> getAdditionalService() {
+		return additionalService;
+	}
+
+	public void setAdditionalService(Set<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}	
 
 }

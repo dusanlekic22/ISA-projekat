@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import isaproject.model.boat.Boat;
+
 @Entity
 @Table(name = "NavigationEquipment")
 public class NavigationEquipment implements Serializable {

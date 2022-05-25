@@ -8,6 +8,8 @@ import isaproject.dto.CustomerDTO;
 import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
+import isaproject.model.boat.BoatQuickReservation;
+import isaproject.model.boat.BoatReservation;
 
 public interface CustomerService {
 
@@ -22,8 +24,15 @@ public interface CustomerService {
 	public void sendNewQuickReservationEmail(Customer user, String siteURL, CottageQuickReservation cottageQuickReservation)
 			throws UnsupportedEncodingException, MessagingException;
 	
+	public void sendNewQuickReservationEmail(Customer user, String siteURL, BoatQuickReservation boatQuickReservation)
+			throws UnsupportedEncodingException, MessagingException;
+	
 	public void sendReservationConfirmationEmail(String siteURL, CottageReservation cottageReservation)
 			throws UnsupportedEncodingException, MessagingException;
+	
+	public void sendReservationConfirmationEmail(String siteURL, BoatReservation boatReservation)
+			throws UnsupportedEncodingException, MessagingException;
+
 
 	public boolean verify(String verificationCode);
 }

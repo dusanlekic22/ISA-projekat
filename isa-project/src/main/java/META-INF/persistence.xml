@@ -3,11 +3,11 @@
 	<persistence-unit name="isa-project">
 		<class>isaproject.model.AdditionalService</class>
 		<class>isaproject.model.Address</class>
-		<class>isaproject.model.Boat</class>
-		<class>isaproject.model.BoatImage</class>
-		<class>isaproject.model.BoatOwner</class>
-		<class>isaproject.model.BoatQuickReservation</class>
-		<class>isaproject.model.BoatReservation</class>
+		<class>isaproject.model.boat.Boat</class>
+		<class>isaproject.model.boat.BoatImage</class>
+		<class>isaproject.model.boat.BoatOwner</class>
+		<class>isaproject.model.boat.BoatQuickReservation</class>
+		<class>isaproject.model.boat.BoatReservation</class>
 		<class>isaproject.model.Cottage</class>
 		<class>isaproject.model.CottageImage</class>
 		<class>isaproject.model.CottageOwner</class>

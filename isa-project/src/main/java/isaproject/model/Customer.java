@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import isaproject.model.boat.BoatReservation;
+
 @Entity
 @Table(name = "Customer")
 public class Customer extends User {

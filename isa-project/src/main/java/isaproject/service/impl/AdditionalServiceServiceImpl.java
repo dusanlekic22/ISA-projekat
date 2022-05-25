@@ -24,6 +24,7 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService{
 		AdditionalService additionalService = additionalServiceRepository.getById(id);
 		return AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(additionalService);
 	}
+	
 	@Transactional
 	@Override
 	public AdditionalServiceDTO save(AdditionalServiceDTO additionalServiceDTO) {

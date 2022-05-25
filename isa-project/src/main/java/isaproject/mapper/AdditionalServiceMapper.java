@@ -10,7 +10,9 @@ public class AdditionalServiceMapper {
 		additionalService.setId(additionalServiceDTO.getId());
 		additionalService.setName(additionalServiceDTO.getName());
 		additionalService.setPrice(additionalServiceDTO.getPrice());
+		additionalService.setBoat(additionalServiceDTO.getBoat());
 		additionalService.setCottage(additionalServiceDTO.getCottage());
+		additionalService.setFishingCourse(additionalServiceDTO.getFishingCourse());
 		return additionalService;
 	}
 	
@@ -19,7 +21,9 @@ public class AdditionalServiceMapper {
 		additionalServiceDTO.setId(additionalService.getId());
 		additionalServiceDTO.setName(additionalService.getName());
 		additionalServiceDTO.setPrice(additionalService.getPrice());
+		additionalServiceDTO.setBoat(additionalService.getBoat());
 		additionalServiceDTO.setCottage(additionalService.getCottage());
+		additionalServiceDTO.setFishingCourse(additionalService.getFishingCourse());
 		return additionalServiceDTO;
 	}
 

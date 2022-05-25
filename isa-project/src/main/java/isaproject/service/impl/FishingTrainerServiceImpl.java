@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.FishingTrainerDTO;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.FishingTrainer;
@@ -50,6 +51,12 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		registrationRequestRepository.save(request);
 
 		return this.fishingTrainerRepository.save(fishingTrainer);
+	}
+
+	@Override
+	public FishingTrainerDTO findByUsername(String username) {
+		FishingTrainer fishingTrainer = fishingTrainerRepository.getByUsername(username);
+		return UserMapper.FishingTrainerToDTO(fishingTrainer);
 	}
 
 }

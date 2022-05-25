@@ -95,7 +95,7 @@ export class AddCottageComponent implements OnInit {
     this._cottageService.saveCottage(this.cottage).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
         this._additionalServiceService
-          .addAdditionalService(element, this.cottage)
+          .addAdditionalServiceForCottage(element, this.cottage)
           .subscribe((additionalService) => {});
       });
 

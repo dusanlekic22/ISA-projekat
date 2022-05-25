@@ -16,7 +16,7 @@ import { CottageReservationService } from '../services/cottage-reservation.servi
 @Component({
   selector: 'app-cottage-profile',
   templateUrl: './cottage-profile.component.html',
-  styleUrls: ['../cotage-style.css'],
+  styleUrls: ['./cottage-profile.component.css'],
 })
 export class CottageProfileComponent implements OnInit {
   cottage: ICottage = {
@@ -230,7 +230,7 @@ export class CottageProfileComponent implements OnInit {
       this.cottage = cottage;
       this.additionalServiceTags.forEach((element) => {
         this._additionalServiceService
-          .addAdditionalService(element, this.cottage)
+          .addAdditionalServiceForCottage(element, this.cottage)
           .subscribe((additionalService) => {});
       });
     });

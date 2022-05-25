@@ -59,4 +59,11 @@ export class FishingTrainerCoursesComponent implements OnInit {
     this.router.navigateByUrl(`fishingCourseProfile/${id}`);
   }
 
+  added(submitted:boolean){
+    if(submitted)
+    {
+      this.getFishingCourses(this.fishingTrainer.id);
+    }
+  }
+
 }

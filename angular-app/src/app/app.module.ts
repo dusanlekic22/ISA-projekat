@@ -1,3 +1,5 @@
+import { AddFishingCourseComponent } from './pages/fishing-trainer-pages/add-fishing-course/add-fishing-course.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
 import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { ChangePasswordComponent } from './pages/admin-pages/change-password/change-password.component';
@@ -57,6 +59,7 @@ import { MatChipsModule } from '@angular/material/chips';
     AppComponent,
     HomepageComponent,
     HeaderComponent,
+    FooterComponent,
     CottageProfileComponent,
     RegistrationComponent,
     CottageOwnerProfileComponent,
@@ -73,7 +76,8 @@ import { MatChipsModule } from '@angular/material/chips';
     DatePipe,
     ChangePasswordComponent,
     FishingTrainerCoursesComponent,
-    FishingCourseProfileComponent
+    FishingCourseProfileComponent,
+    AddFishingCourseComponent
   ],
   imports: [
     NgbModule,

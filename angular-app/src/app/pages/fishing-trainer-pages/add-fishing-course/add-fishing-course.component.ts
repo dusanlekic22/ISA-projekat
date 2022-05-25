@@ -1,3 +1,4 @@
+import { IFishingTrainer } from './../../../model/fishingTrainer';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FishingCourseService } from './../../../service/fishingCourse.service';
 import { AdditionalServiceService } from './../../cottage-owner/services/additional-service.service';
@@ -58,8 +59,10 @@ export class AddFishingCourseComponent implements OnInit {
   additionalServiceTags: IAdditionalService[] = [];
 
   ngOnInit(): void {
-    this.fishingTrainerService.getFishingTrainer().subscribe((user) => {
-      this.fishingCourse.fishingTrainer = user;
+    this.fishingTrainerService.getFishingTrainer().subscribe((user: IFishingTrainer) => {
+      if (user.id != undefined) {
+        this.fishingCourse.fishingTrainer = user;
+      }
     });
     this.additionalServiceService
       .getFreeAdditionalServices()
@@ -68,39 +71,24 @@ export class AddFishingCourseComponent implements OnInit {
       });
   }
 
-  validatingForm: FormGroup;
-
   constructor(
     private fishingCourseService: FishingCourseService,
     private additionalServiceService: AdditionalServiceService,
     private fishingTrainerService: FishingTrainerService
-  ) {
-    this.validatingForm = new FormGroup({
-      loginFormModalEmail: new FormControl('', Validators.email),
-      loginFormModalPassword: new FormControl('', Validators.required),
-    });
-  }
+  ) {}
 
   addFishingCourse() {
     this.fishingCourseService
       .saveFishingCourse(this.fishingCourse)
-      .subscribe((data) => {
+      .subscribe((fishingCourse) => {
         this.additionalServiceTags.forEach((element) => {
           this.additionalServiceService
-            .addAdditionalServiceForFishingCourse(element, this.fishingCourse)
+            .addAdditionalServiceForFishingCourse(element, fishingCourse)
             .subscribe((additionalService) => {});
         });
 
         this.submitted.emit(true);
       });
-  }
-
-  get loginFormModalEmail() {
-    return this.validatingForm.get('loginFormModalEmail');
-  }
-
-  get loginFormModalPassword() {
-    return this.validatingForm.get('loginFormModalPassword');
   }
 
   onItemAdded(input: any): void {

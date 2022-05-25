@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -55,7 +56,7 @@ public class FishingCourse implements Serializable {
 	private Set<FishingQuickReservation> fishingQuickReservation = new HashSet<FishingQuickReservation>();
 
 	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value = "fishingCourse")
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
 
 	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
@@ -64,6 +65,7 @@ public class FishingCourse implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fishingTrainer_id", referencedColumnName = "id")
+	@JsonBackReference
 	private FishingTrainer fishingTrainer;
 
 	public FishingCourse() {

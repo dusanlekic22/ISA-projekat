@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import isaproject.model.BoatImage;
 import isaproject.model.BoatOwner;
 
@@ -52,6 +54,7 @@ public class Boat implements Serializable {
 	@OneToMany(mappedBy = "boat")
 	private Set<NavigationEquipment> navigationEquipment;
 	@OneToMany(mappedBy = "boat")
+	@JsonManagedReference(value = "boat")
 	private Set<AdditionalService> additionalService;
 	@OneToMany(mappedBy = "boat")
 	private Set<BoatImage> boatImage;

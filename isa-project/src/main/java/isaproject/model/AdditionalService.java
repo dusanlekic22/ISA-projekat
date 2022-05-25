@@ -26,19 +26,19 @@ public class AdditionalService implements Serializable {
 	private long id;
 	private String name;
 	private String price;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JsonBackReference
+	@JsonBackReference(value = "boat")
 	private Boat boat;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JsonBackReference
+	@JsonBackReference(value = "cottage")
 	private Cottage cottage;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JsonBackReference
+	@JsonBackReference(value = "fishingCourse")
 	private FishingCourse fishingCourse;
-	
+
 	@ManyToOne(fetch = LAZY)
 	private FishingReservation fishingReservation;
 	@ManyToOne(fetch = LAZY)
@@ -51,7 +51,7 @@ public class AdditionalService implements Serializable {
 	private BoatReservation boatReservation;
 	@ManyToOne(fetch = LAZY)
 	private BoatQuickReservation boatQuickReservation;
-	
+
 	public AdditionalService() {
 	}
 

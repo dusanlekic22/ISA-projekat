@@ -55,7 +55,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 
 	@Override
 	public FishingTrainerDTO findByUsername(String username) {
-		FishingTrainer fishingTrainer = fishingTrainerRepository.getByUsername(username);
+		FishingTrainer fishingTrainer = fishingTrainerRepository.findByUsername(username);
 		return UserMapper.FishingTrainerToDTO(fishingTrainer);
 	}
 

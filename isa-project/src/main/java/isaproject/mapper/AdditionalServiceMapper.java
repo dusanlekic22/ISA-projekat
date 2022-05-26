@@ -11,6 +11,7 @@ public class AdditionalServiceMapper {
 		additionalService.setName(additionalServiceDTO.getName());
 		additionalService.setPrice(additionalServiceDTO.getPrice());
 		additionalService.setCottage(additionalServiceDTO.getCottage());
+		additionalService.setBoat(additionalServiceDTO.getBoat());
 		return additionalService;
 	}
 	
@@ -20,6 +21,7 @@ public class AdditionalServiceMapper {
 		additionalServiceDTO.setName(additionalService.getName());
 		additionalServiceDTO.setPrice(additionalService.getPrice());
 		additionalServiceDTO.setCottage(additionalService.getCottage());
+		additionalServiceDTO.setBoat(additionalService.getBoat());
 		return additionalServiceDTO;
 	}
 

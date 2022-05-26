@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -63,9 +62,8 @@ public class FishingCourse implements Serializable {
 	@JsonManagedReference
 	private Set<FishingReservation> fishingReservation = new HashSet<FishingReservation>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingTrainer_id", referencedColumnName = "id")
-	@JsonBackReference
 	private FishingTrainer fishingTrainer;
 
 	public FishingCourse() {

@@ -1,3 +1,4 @@
+import { FishingCourseEditComponent } from './pages/fishing-trainer-pages/fishing-course-edit/fishing-course-edit.component';
 import { CottageReservationsComponent } from './components/cottage/reservation/cottage-reservations/cottage-reservations.component';
 import { AddFishingCourseComponent } from './pages/fishing-trainer-pages/add-fishing-course/add-fishing-course.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -93,7 +94,8 @@ import { CottageReservationComponent } from './pages/reservation/cottage-reserva
     ChangePasswordComponent,
     FishingTrainerCoursesComponent,
     FishingCourseProfileComponent,
-    AddFishingCourseComponent
+    AddFishingCourseComponent,
+    FishingCourseEditComponent
   ],
   imports: [
     NgbModule,

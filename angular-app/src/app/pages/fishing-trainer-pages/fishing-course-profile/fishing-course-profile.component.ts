@@ -57,14 +57,14 @@ export class FishingCourseProfileComponent implements OnInit {
   // passedReservations!: IFishingCourseReservation[];
 
   constructor(
-    private _route: ActivatedRoute,
-    private _fishingCourseService: FishingCourseService,
+    private route: ActivatedRoute,
+    private fishingCourseService: FishingCourseService,
     // private _fishingCourseQuickReservationService: FishingCourseQuickReservationService,
     // private _fishingCourseReservationService: FishingCourseReservationService
   ) {}
 
   ngOnInit(): void {
-    this.fishingCourseId = +this._route.snapshot.paramMap.get('id')!;
+    this.fishingCourseId = +this.route.snapshot.paramMap.get('id')!;
     this.getFishingCourse();
     // this._fishingCourseQuickReservationService
     //   .getFishingCourseQuickReservations()
@@ -109,7 +109,7 @@ export class FishingCourseProfileComponent implements OnInit {
   // }
 
   getFishingCourse() {
-    this._fishingCourseService
+    this.fishingCourseService
       .getFishingCourseById(this.fishingCourseId)
       .subscribe((fishingCourse) => {
         this.fishingCourse = fishingCourse;
@@ -126,7 +126,7 @@ export class FishingCourseProfileComponent implements OnInit {
 
   addFishingCourseImage(): void {
     if (this.fishingImage.image != '' && this.fishingImage.image != null)
-      this._fishingCourseService
+      this.fishingCourseService
         .addFishingCourseImage(this.fishingImage)
         .subscribe((fishingCourseImage) => {
           this.imageObject.push({

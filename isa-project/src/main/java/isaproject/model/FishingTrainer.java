@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "FishingTrainer")
@@ -17,7 +17,7 @@ public class FishingTrainer extends User {
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy = "fishingTrainer", fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<FishingCourse> fishingCourse = new HashSet<FishingCourse>();
 
 	private String biography = "";

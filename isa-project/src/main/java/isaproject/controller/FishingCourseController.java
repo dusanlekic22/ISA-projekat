@@ -53,8 +53,8 @@ public class FishingCourseController {
 	@PutMapping
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<FishingCourseDTO> update(@RequestBody FishingCourseDTO fishingCourseDTO) {
-		fishingCourseService.update(fishingCourseDTO);
-		return new ResponseEntity<>(fishingCourseDTO, HttpStatus.OK);
+		FishingCourseDTO courseDTO = fishingCourseService.update(fishingCourseDTO);
+		return new ResponseEntity<>(courseDTO, HttpStatus.OK);
 	}
 
 	@PutMapping("/info")

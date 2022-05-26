@@ -51,7 +51,7 @@ public class Cottage implements Serializable {
 	private Set<CottageQuickReservation> cottageQuickReservation = new HashSet<>();
 	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<CottageImage> cottageImage = new HashSet<>();
-	@JsonManagedReference
+	@JsonManagedReference("cottageReservation")
 	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER)
 	private Set<CottageReservation> cottageReservation = new HashSet<>();
 	@JsonManagedReference(value = "cottage")

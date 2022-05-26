@@ -88,4 +88,17 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
       },
     });
   }
+
+  registerBoatOwner() {
+    this._registrationService.registerBoatOwner(this.user).subscribe({
+      next: (data) => {
+        this.user = data;
+        console.log('pozvan' + data);
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+        console.error('There was an error!', error);
+      },
+    });
+  }
 }

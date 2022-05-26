@@ -4,6 +4,7 @@ import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.ser
 import { IAdditionalService } from 'src/app/model/additionalService';
 import { ToastrService } from 'ngx-toastr';
 import { ICottage } from 'src/app/model/cottage';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cottage-edit',
@@ -12,15 +13,25 @@ import { ICottage } from 'src/app/model/cottage';
 })
 export class CottageEditComponent implements OnInit {
   @Input() cottage!: ICottage;
-  @Input() additionalServiceTags: IAdditionalService[] = [];
+  additionalServiceTags: IAdditionalService[] = [];
 
   constructor(
     private _cottageService: CottageService,
     private _additionalServiceService: AdditionalServiceService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this._additionalServiceService
+      .getAdditionalServicesByCottageId(cottageId)
+      .subscribe((additionalService) => {
+        this.additionalServiceTags = additionalService.filter(
+          (additionalService) => additionalService.name != null
+        );
+      });
+  }
 
   edit(): void {
     this._cottageService.editCottageInfo(this.cottage).subscribe(
@@ -29,7 +40,7 @@ export class CottageEditComponent implements OnInit {
         this.cottage = cottage;
         this.additionalServiceTags.forEach((element) => {
           this._additionalServiceService
-            .addAdditionalService(element, this.cottage)
+            .addAdditionalServiceForCottage(element, this.cottage)
             .subscribe((additionalService) => {});
         });
       },

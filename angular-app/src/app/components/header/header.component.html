@@ -55,6 +55,28 @@
                 >Boats</a
               >
             </li>
+            <li class="nav-item" *appHasRole="['ROLE_BOAT_OWNER']">
+              <div ngbDropdown>
+                <a class="nav-link" ngbDropdownToggle> Reservations </a>
+                <div
+                  ngbDropdownMenu
+                  class="dropdown-menu-right dropdown-menu-arrow"
+                >
+                  <a
+                    class="dropdown-item"
+                    routerLinkActive="router-link-active"
+                    [routerLink]="['/newBoatReservation']"
+                    >New reservation</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="['/newBoatQuickReservation']"
+                    routerLinkActive="router-link-active"
+                    >New quick reservation</a
+                  >
+                </div>
+              </div>
+            </li>
             <li class="nav-item">
               <a
                 class="nav-link"

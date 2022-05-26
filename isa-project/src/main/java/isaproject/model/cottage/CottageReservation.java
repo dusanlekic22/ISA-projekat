@@ -39,9 +39,10 @@ public class CottageReservation implements Serializable {
 	private Integer price;
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
 	@JoinColumn(name = "cottage_id")
-	@JsonBackReference
+	@JsonBackReference("cottageReservation")
 	private Cottage cottage;
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference("cottageReservationCustomer")
 	private Customer customer;
 	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<AdditionalService> additionalService;

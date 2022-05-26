@@ -10,5 +10,7 @@ public interface AdditionalServiceRepository extends JpaRepository<AdditionalSer
 
 	List<AdditionalService> findByCottageIsNull();
 	
-	List<AdditionalService> findByCottageIdIs(Long id);
+	List<AdditionalService> findByCottageId(Long id);
+	
+	List<AdditionalService> findByBoatId(Long id);
 }

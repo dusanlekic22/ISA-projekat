@@ -1,0 +1,130 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1>Boat owner home</h1>
+      </div>
+      <form
+        class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
+      >
+        <div class="form-group mb-0">
+          <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                ><i class="fas fa-search"></i
+              ></span>
+            </div>
+            <input
+              class="form-control"
+              placeholder="Boat name"
+              name="search"
+              type="text"
+              [ngModel]="filter"
+              (ngModelChange)="searchBoats($event)"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7 pb-5">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Boats</h3>
+          <app-add-boat (submitted)="added($event)"></app-add-boat>
+        </div>
+        <div class="table-responsive" style="overflow: visible">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Boat</th>
+                <th scope="col">Price(in €)</th>
+                <th scope="col">Address</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tr" *ngFor="let boat of filteredBoats">
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar rounded-circle mr-3"
+                    >
+                      <img
+                        alt="Image placeholder"
+                        src="../assets/img/theme/bootstrap.jpg"
+                      />
+                    </a>
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{ boat.name }}</span>
+                    </div>
+                  </div>
+                </th>
+                <td>$2,500 USD</td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-warning"></i> pending
+                  </span>
+                </td>
+                <td>
+                  {{ boat.description }}
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2">20%</span>
+                    <div>
+                      <div class="progress">
+                        <div
+                          class="progress-bar bg-success"
+                          role="progressbar"
+                          aria-valuenow="20"
+                          aria-valuemin="0"
+                          aria-valuemax="20"
+                          style="width: 20%"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a
+                        class="dropdown-item"
+                        (click)="boatProfile(boat.id)"
+                        >Edit</a
+                      >
+                      <a
+                        class="dropdown-item"
+                        (click)="deleteBoat(boat.id)"
+                        >Delete</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

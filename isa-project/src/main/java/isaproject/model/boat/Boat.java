@@ -47,10 +47,10 @@ public class Boat implements Serializable {
 	private long id;
 	private String name;
 	private String type;
-	private String length;
-	private String engineNumber;
-	private String topSpeed;
-	private String enginePower;
+	private Integer length;
+	private Integer engineNumber;
+	private Integer topSpeed;
+	private Integer enginePower;
 	@OneToOne(fetch = FetchType.EAGER)
 	private Address address;
 	private String description;
@@ -65,15 +65,15 @@ public class Boat implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
-	@JsonManagedReference
+	@JsonManagedReference("boatReservation")
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
-	private Set<BoatReservation> boatReservation= new HashSet<>();
+	private Set<BoatReservation> boatReservation = new HashSet<>();
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<NavigationEquipment> navigationEquipment= new HashSet<>();
+	private Set<NavigationEquipment> navigationEquipment = new HashSet<>();
 	@JsonBackReference(value = "boat")
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<AdditionalService> additionalService= new HashSet<>();
+	private Set<AdditionalService> additionalService = new HashSet<>();
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<BoatImage> boatImage;
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -83,12 +83,9 @@ public class Boat implements Serializable {
 	@CollectionTable(name = "boat_available_date_spans", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "date_spans_boat"))
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			  name = "boat_subscribers", 
-			  joinColumns = @JoinColumn(name = "boat_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	@JoinTable(name = "boat_subscribers", joinColumns = @JoinColumn(name = "boat_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
-	
+
 	public long getId() {
 		return id;
 	}
@@ -113,36 +110,36 @@ public class Boat implements Serializable {
 		this.type = param;
 	}
 
-	public String getLength() {
+	public Integer getLength() {
 		return length;
 	}
 
-	public void setLength(String param) {
-		this.length = param;
+	public void setLength(Integer length) {
+		this.length = length;
 	}
 
-	public String getEngineNumber() {
+	public Integer getEngineNumber() {
 		return engineNumber;
 	}
 
-	public void setEngineNumber(String param) {
-		this.engineNumber = param;
+	public void setEngineNumber(Integer engineNumber) {
+		this.engineNumber = engineNumber;
 	}
 
-	public String getTopSpeed() {
+	public Integer getTopSpeed() {
 		return topSpeed;
 	}
 
-	public void setTopSpeed(String param) {
-		this.topSpeed = param;
+	public void setTopSpeed(Integer topSpeed) {
+		this.topSpeed = topSpeed;
 	}
 
-	public String getEnginePower() {
+	public Integer getEnginePower() {
 		return enginePower;
 	}
 
-	public void setEnginePower(String param) {
-		this.enginePower = param;
+	public void setEnginePower(Integer enginePower) {
+		this.enginePower = enginePower;
 	}
 
 	public Address getAddress() {
@@ -185,7 +182,6 @@ public class Boat implements Serializable {
 		this.cancelCondition = param;
 	}
 
-
 	public Set<String> getFishingEquipment() {
 		return fishingEquipment;
 	}
@@ -203,43 +199,43 @@ public class Boat implements Serializable {
 	}
 
 	public Set<BoatQuickReservation> getBoatQuickReservation() {
-	    return boatQuickReservation;
+		return boatQuickReservation;
 	}
 
 	public void setBoatQuickReservation(Set<BoatQuickReservation> param) {
-	    this.boatQuickReservation = param;
+		this.boatQuickReservation = param;
 	}
 
 	public Set<NavigationEquipment> getNavigationEquipment() {
-	    return navigationEquipment;
+		return navigationEquipment;
 	}
 
 	public void setNavigationEquipment(Set<NavigationEquipment> param) {
-	    this.navigationEquipment = param;
+		this.navigationEquipment = param;
 	}
 
 	public Set<AdditionalService> getAdditionalService() {
-	    return additionalService;
+		return additionalService;
 	}
 
 	public void setAdditionalService(Set<AdditionalService> param) {
-	    this.additionalService = param;
+		this.additionalService = param;
 	}
 
 	public Set<BoatImage> getBoatImage() {
-	    return boatImage;
+		return boatImage;
 	}
 
 	public void setBoatImage(Set<BoatImage> param) {
-	    this.boatImage = param;
+		this.boatImage = param;
 	}
 
 	public BoatOwner getBoatOwner() {
-	    return boatOwner;
+		return boatOwner;
 	}
 
 	public void setBoatOwner(BoatOwner param) {
-	    this.boatOwner = param;
+		this.boatOwner = param;
 	}
 
 	public Set<DateTimeSpan> getAvailableReservationDateSpan() {
@@ -266,5 +262,4 @@ public class Boat implements Serializable {
 		this.boatReservation = boatReservation;
 	}
 
-	
 }

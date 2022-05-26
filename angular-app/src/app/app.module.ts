@@ -61,6 +61,16 @@ import { AddCottageQuickReservationComponent } from './components/cottage/reserv
 import { CottageAvailableTermsComponent } from './components/cottage/cottage-available-terms/cottage-available-terms.component';
 import { BaseReservationComponent } from './components/base-reservation/base-reservation.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
+import { BoatOwnerHomeComponent } from './pages/boat-owner/boat-owner-home/boat-owner-home.component';
+import { BoatOwnerProfileComponent } from './pages/boat-owner/boat-owner-profile/boat-owner-profile.component';
+import { BoatProfileComponent } from './pages/boat-owner/boat-profile/boat-profile.component';
+import { AddBoatComponent } from './components/boat/add-boat/add-boat.component';
+import { BoatAvailableTermsComponent } from './components/boat/boat-available-terms/boat-available-terms.component';
+import { BoatEditComponent } from './components/boat/boat-edit/boat-edit.component';
+import { AddBoatQuickReservationComponent } from './components/boat/reservation/add-boat-quick-reservation/add-boat-quick-reservation.component';
+import { AddBoatReservationComponent } from './components/boat/reservation/add-boat-reservation/add-boat-reservation.component';
+import { BoatReservationsComponent } from './components/boat/reservation/boat-reservations/boat-reservations.component';
+import { BoatQuickReservationsComponent } from './components/boat/reservation/boat-quick-reservations/boat-quick-reservations.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +103,17 @@ import { CottageReservationComponent } from './pages/reservation/cottage-reserva
     ChangePasswordComponent,
     FishingTrainerCoursesComponent,
     FishingCourseProfileComponent,
-    AddFishingCourseComponent
+    AddFishingCourseComponent,
+    BoatOwnerHomeComponent,
+    BoatOwnerProfileComponent,
+    BoatProfileComponent,
+    AddBoatComponent,
+    BoatEditComponent,
+    AddBoatQuickReservationComponent,
+    AddBoatReservationComponent,
+    BoatQuickReservationsComponent,
+    BoatReservationsComponent,
+    BoatAvailableTermsComponent
   ],
   imports: [
     NgbModule,

@@ -4,6 +4,7 @@ import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.ser
 import { IAdditionalService } from 'src/app/model/additionalService';
 import { ToastrService } from 'ngx-toastr';
 import { ICottage } from 'src/app/model/cottage';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cottage-edit',
@@ -17,10 +18,20 @@ export class CottageEditComponent implements OnInit {
   constructor(
     private _cottageService: CottageService,
     private _additionalServiceService: AdditionalServiceService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this._additionalServiceService
+      .getAdditionalServicesByCottageId(cottageId)
+      .subscribe((additionalService) => {
+        this.additionalServiceTags = additionalService.filter(
+          (additionalService) => additionalService.name != null
+        );
+      });
+  }
 
   edit(): void {
     this._cottageService.editCottageInfo(this.cottage).subscribe(

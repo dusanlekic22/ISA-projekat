@@ -30,4 +30,8 @@ export class RegistrationService {
   registerCottageOwner(user: IBusinessOwner): Observable<IBusinessOwner> {
     return this.http.post<any>('http://localhost:8080/cottageOwner/signup', user);
   }
+
+  registerBoatOwner(user: IBusinessOwner): Observable<IBusinessOwner> {
+    return this.http.post<any>('http://localhost:8080/boatOwner/signup', user);
+  }
 }

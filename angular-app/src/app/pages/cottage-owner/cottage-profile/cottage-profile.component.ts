@@ -64,7 +64,6 @@ export class CottageProfileComponent implements OnInit {
   @ViewChild('availableStartSelect')
   availableStartSelectElement!: ElementRef<HTMLInputElement>;
   addReservationFormOpened = false;
-  additionalServiceTags: IAdditionalService[] = [];
   cottageId!: number;
   minDate!: Date;
   minDateString!: string;
@@ -107,8 +106,7 @@ export class CottageProfileComponent implements OnInit {
     private _route: ActivatedRoute,
     private _cottageService: CottageService,
     private _cottageQuickReservationService: CottageQuickReservationService,
-    private _additionalServiceService: AdditionalServiceService,
-    private _cottageReservationService: CottageReservationService
+    private _cottageReservationService: CottageReservationService,
   ) {}
 
   ngOnInit(): void {
@@ -119,13 +117,6 @@ export class CottageProfileComponent implements OnInit {
       .getCottageQuickReservations()
       .subscribe((cottageQuickReservation) => {
         this.cottage.cottageQuickReservation = cottageQuickReservation;
-      });
-    this._additionalServiceService
-      .getAdditionalServicesByCottageId(this.cottageId)
-      .subscribe((additionalService) => {
-        this.additionalServiceTags = additionalService.filter(
-          (additionalService) => additionalService.name != null
-        );
       });
     this._cottageReservationService
       .getActiveCottageReservationByCottageId(this.cottageId)

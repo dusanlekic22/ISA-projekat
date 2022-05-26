@@ -2,10 +2,10 @@ package isaproject.mapper;
 
 import java.util.HashSet;
 
-import isaproject.dto.CottageQuickReservationDTO;
-import isaproject.dto.CottageReservationDTO;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
+import isaproject.dto.cottage.CottageQuickReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public class CottageQuickReservationMapper {
 	

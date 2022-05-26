@@ -13,6 +13,7 @@ public class AdditionalServiceMapper {
 		additionalService.setBoat(additionalServiceDTO.getBoat());
 		additionalService.setCottage(additionalServiceDTO.getCottage());
 		additionalService.setFishingCourse(additionalServiceDTO.getFishingCourse());
+		additionalService.setBoat(additionalServiceDTO.getBoat());
 		return additionalService;
 	}
 	
@@ -24,6 +25,7 @@ public class AdditionalServiceMapper {
 		additionalServiceDTO.setBoat(additionalService.getBoat());
 		additionalServiceDTO.setCottage(additionalService.getCottage());
 		additionalServiceDTO.setFishingCourse(additionalService.getFishingCourse());
+		additionalServiceDTO.setBoat(additionalService.getBoat());
 		return additionalServiceDTO;
 	}
 

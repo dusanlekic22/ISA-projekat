@@ -32,7 +32,7 @@ public class UserDeletionContoller {
 	}
 
 	@PostMapping()
-	@PreAuthorize("hasAnyRole('COTTAGE_OWNER', 'CUSTOMER', 'FISHING_TRAINER')")
+	@PreAuthorize("hasAnyRole('COTTAGE_OWNER', 'CUSTOMER', 'FISHING_TRAINER', 'BOAT_OWNER')")
 	public ResponseEntity<UserDeletionRequestDTO> create(@RequestBody CreateUserDeletionRequestDTO deletionRequestDTO) {
 		UserDeletionRequest deletionRequest = deletionService.create(deletionRequestDTO);
 		UserDeletionRequestDTO requestDTO = RequestMapper.UserDeletionRequestToDTO(deletionRequest);

@@ -12,6 +12,7 @@ public class AdditionalServiceDTO {
 	private Boat boat;
 	private Cottage cottage;
 	private FishingCourse fishingCourse;
+	private Boat boat;
 	
 	public AdditionalServiceDTO() {
 	}
@@ -64,4 +65,11 @@ public class AdditionalServiceDTO {
 		this.fishingCourse = fishingCourse;
 	}
 
+	public Boat getBoat() {
+		return boat;
+	}
+	public void setBoat(Boat boat) {
+		this.boat = boat;
+	}
+	
 }

@@ -16,6 +16,11 @@ import { ChooseRegistrationComponent } from './pages/registration/choose-registr
 import { RegistrationComponent } from './pages/registration/registration/registration.component';
 import { AddReservationComponent } from './components/cottage/reservation/add-reservation/add-reservation.component';
 import { AddCottageQuickReservationComponent } from './components/cottage/reservation/add-cottage-quick-reservation/add-cottage-quick-reservation.component';
+import { AddBoatQuickReservationComponent } from './components/boat/reservation/add-boat-quick-reservation/add-boat-quick-reservation.component';
+import { AddBoatReservationComponent } from './components/boat/reservation/add-boat-reservation/add-boat-reservation.component';
+import { BoatOwnerHomeComponent } from './pages/boat-owner/boat-owner-home/boat-owner-home.component';
+import { BoatOwnerProfileComponent } from './pages/boat-owner/boat-owner-profile/boat-owner-profile.component';
+import { BoatProfileComponent } from './pages/boat-owner/boat-profile/boat-profile.component';
 
 const routes: Routes = [
   {
@@ -41,6 +46,26 @@ const routes: Routes = [
   {
     path: 'cottageProfile/:cottageId',
     component: CottageProfileComponent,
+  },
+  {
+    path: 'boatOwnerProfile',
+    component: BoatOwnerProfileComponent,
+  },
+  {
+    path: 'newBoatReservation',
+    component: AddBoatReservationComponent,
+  },
+  {
+    path: 'newBoatQuickReservation',
+    component: AddBoatQuickReservationComponent,
+  },
+  {
+    path: 'boatOwnerHome',
+    component: BoatOwnerHomeComponent
+  },
+  {
+    path: 'boatProfile/:boatId',
+    component: BoatProfileComponent,
   },
   {
     path: 'cottage/:cottageId',

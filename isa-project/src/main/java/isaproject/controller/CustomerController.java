@@ -51,7 +51,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/{id}/businessOwner")
-	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','FISHING_TRAINER','ADMIN')")
+	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','FISHING_TRAINER','ADMIN', 'BOAT_OWNER')")
 	public ResponseEntity<CustomerDTO> getCustomerForBusinessOwner(@PathVariable(value = "id") Long customerId) {
 
 		CustomerDTO customer = this.customerService.getCustomer(customerId);

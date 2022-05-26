@@ -58,7 +58,22 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService{
 	
 	@Override
 	public Set<AdditionalServiceDTO> findByCottageId(Long id) {
-		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageIdIs(id));
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageId(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+	}
+	@Override
+	public Set<AdditionalServiceDTO> findByBoatId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByBoatId(id));
 		Set<AdditionalServiceDTO> dtos = new HashSet<>();
         if(allAdditionalServices.size()!=0){
         	

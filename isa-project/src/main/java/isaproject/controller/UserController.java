@@ -42,20 +42,20 @@ public class UserController {
 	}
 	
 	@GetMapping()
-	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public UserDTO user(Principal user) {
 		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public ResponseEntity<UserDTO> updateUser(@PathVariable(value = "id") Long userId, @RequestBody UserDTO newUserInfo,Principal user,HttpServletRequest request){
 		UserDTO updatedUser = this.userService.updateUser(userId,newUserInfo,user);
 		return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/authorize")
-	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public boolean authorize(@RequestBody Set<RoleDTO> roles, Principal user) {
 		return this.userService.isUserAuthorized(roles, user.getName());
 	}

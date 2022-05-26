@@ -35,6 +35,10 @@ insert into app_user (username, password, first_name, last_name, email, enabled,
 insert into app_user_roles (user_id, role_id) values (7, 2);
 insert into fishing_trainer (id, biography) values (7, 'Skroz lagan lik :)');
 
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('tresnja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Tresnja', 'Sljivic', 'dusanlekic2000@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user_roles (user_id, role_id) values (8, 5);
+insert into boat_owner (id) values (8);
+
 insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
 insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
 insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
@@ -53,4 +57,18 @@ insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
 insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
 insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
+insert into cottage_subscribers (cottage_id,customer_id) values (4,5);
+
+insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Biser', 'Najjaca',  1,'Nema',2,8);
+insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Delfin', 'Najjaca',  2,'Nema',3,8);
+insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Dijamant ', 'Najjaca', 2,'Nema',2,8);
+insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8);
+
+insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-18', '2022-05-27', 5, 70, true,4,5);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
+insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-05-01', '2022-05-31',4);
+insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-06-01', '2022-06-30',4);
+
+insert into boat_subscribers (boat_id,customer_id) values (4,5);
 

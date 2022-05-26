@@ -8,15 +8,28 @@ import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.model.Admin;
-import isaproject.model.CottageOwner;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Role;
 import isaproject.model.User;
+import isaproject.model.boat.BoatOwner;
+import isaproject.model.cottage.CottageOwner;
 
 public class UserMapper {
 	
 	public static CottageOwner DTOToCottageOwner(BusinessOwnerDTO businessOwnerDTO) {
 		CottageOwner user = new CottageOwner();
+		user.setId(businessOwnerDTO.getId());
+		user.setUsername(businessOwnerDTO.getUsername());
+		user.setFirstName(businessOwnerDTO.getFirstName());
+		user.setLastName(businessOwnerDTO.getLastName());
+		user.setEmail(businessOwnerDTO.getEmail());
+		user.setPhoneNumber(businessOwnerDTO.getPhoneNumber());
+		user.setAddress(businessOwnerDTO.getAddress());
+		return user;
+	}
+	
+	public static BoatOwner DTOToBoatOwner(BusinessOwnerDTO businessOwnerDTO) {
+		BoatOwner user = new BoatOwner();
 		user.setId(businessOwnerDTO.getId());
 		user.setUsername(businessOwnerDTO.getUsername());
 		user.setFirstName(businessOwnerDTO.getFirstName());

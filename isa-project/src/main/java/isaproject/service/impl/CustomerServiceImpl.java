@@ -11,11 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CustomerMapper;
-import isaproject.model.CottageQuickReservation;
-import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
 import isaproject.model.User;
+import isaproject.model.boat.BoatQuickReservation;
+import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.UserRepository;
 import isaproject.service.CustomerService;
@@ -135,6 +137,53 @@ public class CustomerServiceImpl implements CustomerService {
 
 			return true;
 		}
+	}
+
+	@Override
+	public void sendNewQuickReservationEmail(Customer user, String siteURL,
+			BoatQuickReservation boatQuickReservation) throws UnsupportedEncodingException, MessagingException {
+		String toAddress = user.getEmail();
+		String subject = "New " + boatQuickReservation.getBoat().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "New reservation is available in " + boatQuickReservation.getBoat().getName() + "<br>"
+				+ "from: " + boatQuickReservation.getDuration().getStartDate() 
+				+ " to: " + boatQuickReservation.getDuration().getEndDate() + "<br>"
+				+ " with a discount price of: " + boatQuickReservation.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteURL + "/cottageQuickReservation/appoint/"+boatQuickReservation.getId()+"/user/"+user.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);
+		
+	}
+
+	@Override
+	public void sendReservationConfirmationEmail(String siteURL, BoatReservation boatReservation)
+			throws UnsupportedEncodingException, MessagingException {
+		Customer user = boatReservation.getCustomer();
+		String toAddress = user.getEmail();
+		String subject = "New " + boatReservation.getBoat().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "Your reservation in " + boatReservation.getBoat().getName() + "<br>"
+				+ "from: " + boatReservation.getDuration().getStartDate() 
+				+ " to: " + boatReservation.getDuration().getEndDate() + "<br>"
+				+ " with a price of: " + boatReservation.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteURL + "/cottageReservation/confirm/" + boatReservation.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);
+
 	}
 
 }

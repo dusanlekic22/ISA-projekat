@@ -7,7 +7,7 @@ import { IBoat } from 'src/app/model/boat/boat';
 @Component({
   selector: 'app-boat-quick-reservations',
   templateUrl: './boat-quick-reservations.component.html',
-  styleUrls: ['../../../../pages/boat-owner/boat-style.css'],
+  styleUrls: ['./boat-quick-reservations.component.css'],
 })
 export class BoatQuickReservationsComponent implements OnInit {
   @Input() boat!: IBoat;

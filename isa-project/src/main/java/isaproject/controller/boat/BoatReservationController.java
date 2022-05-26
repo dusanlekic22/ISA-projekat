@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ import isaproject.service.boat.BoatReservationService;
 import isaproject.util.ProjectUtil;
 
 @RestController
-@RequestMapping(value = "/BoatReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/boatReservation", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class BoatReservationController {
 
@@ -35,18 +36,21 @@ public class BoatReservationController {
 
 	@GetMapping
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAll() {
 		return new ResponseEntity<>(BoatReservationService.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/customerHasReservationNow")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
 		return new ResponseEntity<>(BoatReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassed() {
 		return new ResponseEntity<>(BoatReservationService.findAllPast(), HttpStatus.OK);
 	}
@@ -54,24 +58,27 @@ public class BoatReservationController {
 
 	@GetMapping("/active")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllActive() {
 		return new ResponseEntity<>(BoatReservationService.findAllActive(), HttpStatus.OK);
 	}
 
 	@GetMapping("/active/{boatId}")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllActiveByBoatId(@PathVariable("boatId") Long id) {
 		return new ResponseEntity<>(BoatReservationService.findAllActiveByBoatId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed/{boatId}")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassedByBoatId(@PathVariable("boatId") Long id) {
 		return new ResponseEntity<>(BoatReservationService.findAllPastByBoatId(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/owner")
-	// @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatReservationDTO> reserveOwner(@RequestBody BoatReservationDTO BoatReservationDTO,
 			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		BoatReservationDTO BoatReservationReturnDTO = BoatReservationService
@@ -82,7 +89,7 @@ public class BoatReservationController {
 	}
 
 	@PostMapping("/customer")
-	// @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<BoatReservationDTO> reserveCustomer(
 			@RequestBody BoatReservationDTO BoatReservationDTO) {
 		BoatReservationDTO BoatReservationReturnDTO = BoatReservationService
@@ -93,7 +100,6 @@ public class BoatReservationController {
 	}
 
 	@GetMapping("/confirm/{id}")
-	// @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<BoatReservationDTO> confirmReservation(@PathVariable("id") Long id) {
 		BoatReservationDTO BoatReservationDTO = BoatReservationService.confirmReservation(id);
 		if (BoatReservationDTO == null)

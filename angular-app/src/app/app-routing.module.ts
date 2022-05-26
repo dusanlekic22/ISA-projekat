@@ -61,7 +61,7 @@ const routes: Routes = [
     component: BoatOwnerHomeComponent
   },
   {
-    path: 'boatProfile/:cottageId',
+    path: 'boatProfile/:boatId',
     component: BoatProfileComponent,
   },
   {

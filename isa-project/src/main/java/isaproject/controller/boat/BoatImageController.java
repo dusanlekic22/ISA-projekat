@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ public class BoatImageController {
 	private BoatImageService boatImageService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatImageDTO> save(@RequestBody BoatImageDTO boatImageDTO) {
 		boatImageService.save(boatImageDTO);
 		return new ResponseEntity<>(boatImageDTO,HttpStatus.CREATED);

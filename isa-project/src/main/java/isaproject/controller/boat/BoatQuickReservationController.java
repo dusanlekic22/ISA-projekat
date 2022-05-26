@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,19 +42,21 @@ public class BoatQuickReservationController {
 	
 	@GetMapping("/notReserved")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatQuickReservationDTO>> getIsReservedFalse(){
 		return new ResponseEntity<>(boatQuickReservationService.findByIsReservedFalse(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/boat/{id}/notReserved")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatQuickReservationDTO>> getNotReservedAndByBoatId(@PathVariable("id")Long id){
 		return new ResponseEntity<>(boatQuickReservationService.findByIsReservedFalseAndBoatId(id),HttpStatus.OK);
 	}
 	
 	
 	@PostMapping
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatQuickReservationDTO> save(
 			@RequestBody BoatQuickReservationDTO boatQuickReservationDTO,HttpServletRequest request)
 			throws UnsupportedEncodingException, MessagingException {
@@ -64,7 +67,7 @@ public class BoatQuickReservationController {
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatReservationDTO> appointQuickBoatReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		BoatReservationDTO boatReservationReturnDTO = boatQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(boatReservationReturnDTO == null)
@@ -74,6 +77,7 @@ public class BoatQuickReservationController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseBody
+	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatQuickReservationDTO> deleteById(@PathVariable("id") Long id) {
 		BoatQuickReservationDTO boatQuickReservationDTO = boatQuickReservationService.deleteById(id);
 		return new ResponseEntity<>(boatQuickReservationDTO,HttpStatus.OK);

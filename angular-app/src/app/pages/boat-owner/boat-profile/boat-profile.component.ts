@@ -1,7 +1,6 @@
 import { ICustomer } from './../../../model/customer';
 import { Component, ElementRef, OnInit, ViewChild, Pipe } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IAdditionalService } from '../../../model/additionalService';
 import { BoatService } from '../services/boat.service';
 import { BoatQuickReservationService } from '../services/boat-quick-reservation.service';
 import { BoatReservationService } from '../services/boat-reservation.service';
@@ -9,7 +8,6 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
-import { AdditionalServiceService } from '../../cottage-owner/services/additional-service.service';
 
 @Component({
   selector: 'app-boat-profile',

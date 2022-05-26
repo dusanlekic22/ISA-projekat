@@ -89,11 +89,11 @@
           reservationInput.setCustomer($event); focusReservation()
         "
       ></app-boat-reservations>
-      <app-add-reservation
+      <app-add-boat-reservation
         #reservationInput
         (submitted)="reservationAdded()"
         [minDate]="minDateString"
-      ></app-add-reservation>
+      ></app-add-boat-reservation>
     </mat-tab>
     <mat-tab label="Reservations history">
       <app-boat-reservations

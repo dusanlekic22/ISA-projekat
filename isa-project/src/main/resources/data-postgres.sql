@@ -52,4 +52,4 @@ insert into cottage_reservation (start_date, end_date, guest_capacity, price, co
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-01', '2022-05-31',4);
 
-insert into cottage_subscribers (cottage_id,customer_id) values (4,2)
+insert into cottage_subscribers (cottage_id,customer_id) values (4,5)

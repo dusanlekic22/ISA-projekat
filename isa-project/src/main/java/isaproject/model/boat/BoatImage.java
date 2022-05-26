@@ -4,6 +4,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class BoatImage implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@Column(columnDefinition="text", length=10485760)
 	private String image;
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "boat_id", referencedColumnName = "id")

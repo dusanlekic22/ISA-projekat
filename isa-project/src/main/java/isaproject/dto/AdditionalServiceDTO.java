@@ -1,7 +1,7 @@
 package isaproject.dto;
 
-import isaproject.model.Boat;
-import isaproject.model.Cottage;
+import isaproject.model.boat.Boat;
+import isaproject.model.cottage.Cottage;
 import isaproject.model.FishingCourse;
 
 public class AdditionalServiceDTO {
@@ -12,7 +12,6 @@ public class AdditionalServiceDTO {
 	private Boat boat;
 	private Cottage cottage;
 	private FishingCourse fishingCourse;
-	private Boat boat;
 	
 	public AdditionalServiceDTO() {
 	}
@@ -39,14 +38,6 @@ public class AdditionalServiceDTO {
 
 	public void setPrice(String price) {
 		this.price = price;
-	}
-
-	public Boat getBoat() {
-		return boat;
-	}
-
-	public void setBoat(Boat boat) {
-		this.boat = boat;
 	}
 
 	public Cottage getCottage() {

@@ -43,5 +43,10 @@ public class AdditionalServiceController {
 	public Set<AdditionalServiceDTO> getByCottageId(@PathVariable("id") Long id){
 		return additionalServiceService.findByCottageId(id);
 	}
-
+	
+	@GetMapping("/fishingCourse/{id}")
+	@ResponseBody
+	public Set<AdditionalServiceDTO> getByFishingCourseId(@PathVariable("id") Long id){
+		return additionalServiceService.findByFishingCourseId(id);
+	}
 }

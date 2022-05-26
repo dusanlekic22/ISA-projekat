@@ -53,7 +53,7 @@
             >Fishing Courses</a
           >
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn()">
+        <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/customer/' + loggedInUser.id]">
             Profile
           </a>

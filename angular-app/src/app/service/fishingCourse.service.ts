@@ -45,9 +45,9 @@ export class FishingCourseService {
     .pipe(catchError(this.handleError));
   }
 
-  addFishingCourseImage(image: IFishingImage): Observable<IFishingImage[]> {
+  addFishingCourseImage(image: IFishingImage): Observable<IFishingImage> {
     return this.http
-    .post<IFishingImage[]>(`${this.fishingImageUrl}`, image)
+    .post<IFishingImage>(`${this.fishingImageUrl}`, image)
     .pipe(catchError(this.handleError));
   }
 

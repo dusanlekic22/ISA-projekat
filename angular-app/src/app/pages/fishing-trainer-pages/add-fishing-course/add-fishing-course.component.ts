@@ -1,8 +1,10 @@
+import { ModalDirective } from 'angular-bootstrap-md';
+import { emptyFishingCourse } from './../../../model/fishingCourse';
 import { IAdditionalService } from './../../../model/additionalService';
 import { IFishingTrainer } from './../../../model/fishingTrainer';
 import { FishingCourseService } from './../../../service/fishingCourse.service';
 import { AdditionalServiceService } from './../../cottage-owner/services/additional-service.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { IFishingCourse } from 'src/app/model/fishingCourse';
 import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
 
@@ -12,60 +14,18 @@ import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
   styleUrls: ['./add-fishing-course.component.css'],
 })
 export class AddFishingCourseComponent implements OnInit {
-  fishingCourse: IFishingCourse = {
-    id: 0,
-    name: '',
-    address: {
-      city: '',
-      country: '',
-      latitude: '0',
-      longitude: '0',
-      street: '',
-    },
-    promoDescription: '',
-    fishingImage: [],
-    capacity: 0,
-    fishingReservation: [],
-    fishingQuickReservation: [],
-    fishingRules: '',
-    fishingEquipment: '',
-    cancellationPercentageKeep: 0,
-    additionalService: [],
-    price: 0,
-    fishingTrainer: {
-      id: 0,
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: '',
-        longitude: '',
-      },
-      roles: [],
-      biography: '',
-      fishingCourse: [],
-    },
-  };
-
+  fishingCourse: IFishingCourse = emptyFishingCourse;
+  @ViewChild('frame') addModal!: ModalDirective;
   @Output() submitted = new EventEmitter<boolean>();
   additionalServiceTags: IAdditionalService[] = [];
 
   ngOnInit(): void {
-    this.fishingTrainerService.getFishingTrainer().subscribe((user: IFishingTrainer) => {
-      if (user.id != undefined) {
-        this.fishingCourse.fishingTrainer = user;
-      }
-    });
-    this.additionalServiceService
-      .getFreeAdditionalServices()
-      .subscribe((additionalService: IAdditionalService[]) => {
-        this.additionalServiceTags = additionalService;
+    this.fishingTrainerService
+      .getFishingTrainer()
+      .subscribe((user: IFishingTrainer) => {
+        if (user.id != undefined) {
+          this.fishingCourse.fishingTrainer = user;
+        }
       });
   }
 
@@ -86,6 +46,7 @@ export class AddFishingCourseComponent implements OnInit {
         });
 
         this.submitted.emit(true);
+        this.addModal.hide();
       });
   }
 

@@ -35,6 +35,20 @@ export class AdditionalServiceService {
       );
   }
 
+  getAdditionalServicesByFishingCourseId(
+    fishingCourseId: number
+  ): Observable<IAdditionalService[]> {
+    return this._http
+      .get<IAdditionalService[]>(
+        environment.apiUrl +
+          `/additionalService/fishingCourse/${fishingCourseId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   addAdditionalServiceForCottage(
     additionalService: IAdditionalService,
     cottage: ICottage

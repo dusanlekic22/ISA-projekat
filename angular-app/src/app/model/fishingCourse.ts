@@ -21,3 +21,44 @@ export interface IFishingCourse {
   cancellationPercentageKeep: number;
   fishingTrainer: IFishingTrainer;
 }
+
+export const emptyFishingCourse = {
+  id: 0,
+  name: '',
+  address: {
+    city: '',
+    country: '',
+    latitude: '0',
+    longitude: '0',
+    street: '',
+  },
+  promoDescription: '',
+  fishingImage: [],
+  capacity: 0,
+  fishingReservation: [],
+  fishingQuickReservation: [],
+  fishingRules: '',
+  fishingEquipment: '',
+  cancellationPercentageKeep: 0,
+  additionalService: [],
+  price: 0,
+  fishingTrainer: {
+    id: 0,
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: '',
+      longitude: '',
+    },
+    roles: [],
+    biography: '',
+    fishingCourse: [],
+  },
+};

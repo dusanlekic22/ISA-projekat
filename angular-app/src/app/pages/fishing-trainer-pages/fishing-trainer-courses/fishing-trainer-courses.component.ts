@@ -1,10 +1,11 @@
+import { ModalDirective } from 'angular-bootstrap-md';
 import { Router } from '@angular/router';
 import { IUser } from './../../registration/registration/user';
 import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
 import { IFishingCourse } from './../../../model/fishingCourse';
 import { FishingCourseService } from './../../../service/fishingCourse.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-fishing-trainer-courses',
@@ -59,11 +60,9 @@ export class FishingTrainerCoursesComponent implements OnInit {
     this.router.navigateByUrl(`fishingCourseProfile/${id}`);
   }
 
-  added(submitted:boolean){
-    if(submitted)
-    {
+  added(submitted: boolean) {
+    if (submitted) {
       this.getFishingCourses(this.fishingTrainer.id);
     }
   }
-
 }

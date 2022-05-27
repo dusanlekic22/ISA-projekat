@@ -13,7 +13,7 @@
 	<entity>
 		<entity-name>isaproject.model.CottageReservation</entity-name>
 		<entity-width>144</entity-width>
-		<entity-height>266</entity-height>
+		<entity-height>246</entity-height>
 		<entity-X-Coordinate>688</entity-X-Coordinate>
 		<entity-Y-Coordinate>786</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -90,7 +90,7 @@
 	<entity>
 		<entity-name>isaproject.model.CottageQuickReservation</entity-name>
 		<entity-width>217</entity-width>
-		<entity-height>206</entity-height>
+		<entity-height>226</entity-height>
 		<entity-X-Coordinate>461</entity-X-Coordinate>
 		<entity-Y-Coordinate>1507</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -112,7 +112,7 @@
 	<entity>
 		<entity-name>isaproject.model.Customer</entity-name>
 		<entity-width>164</entity-width>
-		<entity-height>168</entity-height>
+		<entity-height>188</entity-height>
 		<entity-X-Coordinate>781</entity-X-Coordinate>
 		<entity-Y-Coordinate>549</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -123,7 +123,7 @@
 	<entity>
 		<entity-name>isaproject.model.FishingTrainer</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>108</entity-height>
+		<entity-height>128</entity-height>
 		<entity-X-Coordinate>-6</entity-X-Coordinate>
 		<entity-Y-Coordinate>1461</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -134,7 +134,7 @@
 	<entity>
 		<entity-name>isaproject.model.Cottage</entity-name>
 		<entity-width>145</entity-width>
-		<entity-height>346</entity-height>
+		<entity-height>386</entity-height>
 		<entity-X-Coordinate>521</entity-X-Coordinate>
 		<entity-Y-Coordinate>1061</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
@@ -148,6 +148,17 @@
 		<entity-height>188</entity-height>
 		<entity-X-Coordinate>294</entity-X-Coordinate>
 		<entity-Y-Coordinate>791</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>isaproject.model.FishingCourse</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>386</entity-height>
+		<entity-X-Coordinate>193</entity-X-Coordinate>
+		<entity-Y-Coordinate>1660</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -214,17 +225,6 @@
 		<entity-height>326</entity-height>
 		<entity-X-Coordinate>1762</entity-X-Coordinate>
 		<entity-Y-Coordinate>722</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>isaproject.model.FishingCourse</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>366</entity-height>
-		<entity-X-Coordinate>193</entity-X-Coordinate>
-		<entity-Y-Coordinate>1660</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>

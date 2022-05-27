@@ -14,6 +14,8 @@ import isaproject.mapper.CustomerMapper;
 import isaproject.model.CottageQuickReservation;
 import isaproject.model.CottageReservation;
 import isaproject.model.Customer;
+import isaproject.model.FishingQuickReservation;
+import isaproject.model.FishingReservation;
 import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.repository.CustomerRepository;
@@ -135,6 +137,50 @@ public class CustomerServiceImpl implements CustomerService {
 
 			return true;
 		}
+	}
+
+	@Override
+	public void sendNewQuickReservationEmail(Customer customer, String siteUrl,
+			FishingQuickReservation fishingQuickReservationReturn) {
+		String toAddress = customer.getEmail();
+		String subject = "New " + fishingQuickReservationReturn.getFishingCourse().getName() + " reservation available";
+		String content = "Dear " + customer.getFirstName() + ",<br>"
+				+ "New reservation is available in " + fishingQuickReservationReturn.getFishingCourse().getName() + "<br>"
+				+ "from: " + fishingQuickReservationReturn.getDuration().getStartDate() 
+				+ " to: " + fishingQuickReservationReturn.getDuration().getEndDate() + "<br>"
+				+ " with a discount price of: " + fishingQuickReservationReturn.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteUrl + "/fishingQuickReservation/appoint/"+fishingQuickReservationReturn.getId()+"/user/"+customer.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);		
+	}
+
+	@Override
+	public void sendReservationConfirmationEmail(String siteUrl, FishingReservation fishingReservationReturn) {
+		Customer user = fishingReservationReturn.getCustomer();
+		String toAddress = user.getEmail();
+		String subject = "New " + fishingReservationReturn.getFishingCourse().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>"
+				+ "Your reservation in " + fishingReservationReturn.getFishingCourse().getName() + "<br>"
+				+ "from: " + fishingReservationReturn.getDuration().getStartDate() 
+				+ " to: " + fishingReservationReturn.getDuration().getEndDate() + "<br>"
+				+ " with a price of: " + fishingReservationReturn.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>" 
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteUrl + "/fishingReservation/confirm/" + fishingReservationReturn.getId();
+
+		content = content.replace("[[URL]]", reserveURL);
+
+		Mail mail = new Mail(toAddress, subject, content);
+
+		service.sendMailHTML(mail);		
 	}
 
 }

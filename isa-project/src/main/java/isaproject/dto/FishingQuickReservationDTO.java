@@ -4,23 +4,22 @@ import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
-import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 
-public class FishingReservationDTO {
+public class FishingQuickReservationDTO {
 
 	private Long id;
 	private DateTimeSpan duration;
 	private Integer capacity;
-	private Double price = 0.0;
+	private Double price;
 	private Address location;
 	private Set<AdditionalService> additionalService;
 	private FishingCourse fishingCourse;
-	private Customer customer;
-	private boolean confirmed;
+	private boolean isReserved;
 
-	public FishingReservationDTO() {
+	public FishingQuickReservationDTO() {
+		super();
 	}
 
 	public Long getId() {
@@ -79,20 +78,12 @@ public class FishingReservationDTO {
 		this.fishingCourse = fishingCourse;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public boolean isReserved() {
+		return isReserved;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public boolean isConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(boolean confirmed) {
-		this.confirmed = confirmed;
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
 	}
 
 }

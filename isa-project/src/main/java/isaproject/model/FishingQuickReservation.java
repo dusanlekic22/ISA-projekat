@@ -50,6 +50,8 @@ public class FishingQuickReservation implements Serializable {
 	@JsonBackReference
 	private FishingCourse fishingCourse;
 
+	private boolean isReserved;
+
 	public FishingQuickReservation() {
 	}
 
@@ -107,6 +109,14 @@ public class FishingQuickReservation implements Serializable {
 
 	public void setFishingCourse(FishingCourse fishingCourse) {
 		this.fishingCourse = fishingCourse;
+	}
+
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
 	}
 
 }

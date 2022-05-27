@@ -100,6 +100,8 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		cottageReservation.setConfirmed(true);
 		cottageReservation.setCustomer(customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get());
+		long reservationPrice = cottageReservation.getCottage().getPricePerHour()*cottageReservation.getDuration().getHours();
+		cottageReservation.setPrice((int) (long) reservationPrice);
 		if (!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}

@@ -100,6 +100,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 				.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		boatReservation.setConfirmed(true);
 		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
+		long reservationPrice = boatReservation.getBoat().getPricePerHour()*boatReservation.getDuration().getHours();
+		boatReservation.setPrice((int) (long) reservationPrice);
 		if (!boatReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}

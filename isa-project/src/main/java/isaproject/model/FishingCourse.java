@@ -2,6 +2,7 @@ package isaproject.model;
 
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.EAGER;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,11 +15,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -63,10 +65,15 @@ public class FishingCourse implements Serializable {
 	@JsonManagedReference
 	private Set<FishingReservation> fishingReservation = new HashSet<FishingReservation>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingTrainer_id", referencedColumnName = "id")
-	@JsonBackReference
 	private FishingTrainer fishingTrainer;
+
+	@ManyToMany(fetch = EAGER)
+	@JoinTable(name = "fishing_course_subscribers",
+			   joinColumns = @JoinColumn(name = "fishingCourse_id"),
+			   inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	private Set<Customer> subscribers = new HashSet<>();
 
 	public FishingCourse() {
 	}
@@ -181,6 +188,14 @@ public class FishingCourse implements Serializable {
 
 	public void setFishingTrainer(FishingTrainer fishingTrainer) {
 		this.fishingTrainer = fishingTrainer;
+	}
+
+	public Set<Customer> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(Set<Customer> subscribers) {
+		this.subscribers = subscribers;
 	}
 
 }

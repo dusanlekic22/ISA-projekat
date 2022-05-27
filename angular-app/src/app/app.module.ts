@@ -1,3 +1,8 @@
+import { AddFishingQuickReservationComponent } from './pages/fishing-trainer-pages/add-fishing-quick-reservation/add-fishing-quick-reservation.component';
+import { AddFishingReservationComponent } from './pages/fishing-trainer-pages/add-fishing-reservation/add-fishing-reservation.component';
+import { FishingReservationsComponent } from './pages/fishing-trainer-pages/fishing-reservations/fishing-reservations.component';
+import { FishingQuickReservationsComponent } from './pages/fishing-trainer-pages/fishing-quick-reservations/fishing-quick-reservations.component';
+import { FishingCourseEditComponent } from './pages/fishing-trainer-pages/fishing-course-edit/fishing-course-edit.component';
 import { CottageReservationsComponent } from './components/cottage/reservation/cottage-reservations/cottage-reservations.component';
 import { AddFishingCourseComponent } from './pages/fishing-trainer-pages/add-fishing-course/add-fishing-course.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -113,7 +118,12 @@ import { BoatQuickReservationsComponent } from './components/boat/reservation/bo
     AddBoatReservationComponent,
     BoatQuickReservationsComponent,
     BoatReservationsComponent,
-    BoatAvailableTermsComponent
+    BoatAvailableTermsComponent,
+    FishingCourseEditComponent,
+    FishingQuickReservationsComponent,
+    FishingReservationsComponent,
+    AddFishingReservationComponent,
+    AddFishingQuickReservationComponent,
   ],
   imports: [
     NgbModule,

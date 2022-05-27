@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CustomerDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.model.Customer;
+import isaproject.model.FishingQuickReservation;
+import isaproject.model.FishingReservation;
 import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.model.boat.BoatQuickReservation;
@@ -82,46 +84,41 @@ public class CustomerServiceImpl implements CustomerService {
 		service.sendMailHTML(mail);
 	}
 
-	public void sendNewQuickReservationEmail(Customer user, String siteURL, CottageQuickReservation cottageQuickReservation)
-			throws MessagingException {
+	public void sendNewQuickReservationEmail(Customer user, String siteURL,
+			CottageQuickReservation cottageQuickReservation) {
 		String toAddress = user.getEmail();
 		String subject = "New " + cottageQuickReservation.getCottage().getName() + " reservation available";
-		String content = "Dear " + user.getFirstName() + ",<br>"
-				+ "New reservation is available in " + cottageQuickReservation.getCottage().getName() + "<br>"
-				+ "from: " + cottageQuickReservation.getDuration().getStartDate() 
-				+ " to: " + cottageQuickReservation.getDuration().getEndDate() + "<br>"
-				+ " with a discount price of: " + cottageQuickReservation.getPrice() + "€.<br>"
-				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>" 
+		String content = "Dear " + user.getFirstName() + ",<br>" + "New reservation is available in "
+				+ cottageQuickReservation.getCottage().getName() + "<br>" + "from: "
+				+ cottageQuickReservation.getDuration().getStartDate() + " to: "
+				+ cottageQuickReservation.getDuration().getEndDate() + "<br>" + " with a discount price of: "
+				+ cottageQuickReservation.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
-		String reserveURL = siteURL + "/cottageQuickReservation/appoint/"+cottageQuickReservation.getId()+"/user/"+user.getId();
-
+		String reserveURL = siteURL + "/cottageQuickReservation/appoint/" + cottageQuickReservation.getId() + "/user/"
+				+ user.getId();
 		content = content.replace("[[URL]]", reserveURL);
-
 		Mail mail = new Mail(toAddress, subject, content);
-
 		service.sendMailHTML(mail);
 	}
-	
+
 	public void sendReservationConfirmationEmail(String siteURL, CottageReservation cottageReservation)
 			throws MessagingException {
 		Customer user = cottageReservation.getCustomer();
 		String toAddress = user.getEmail();
 		String subject = "New " + cottageReservation.getCottage().getName() + " reservation available";
-		String content = "Dear " + user.getFirstName() + ",<br>"
-				+ "Your reservation in " + cottageReservation.getCottage().getName() + "<br>"
-				+ "from: " + cottageReservation.getDuration().getStartDate() 
-				+ " to: " + cottageReservation.getDuration().getEndDate() + "<br>"
-				+ " with a price of: " + cottageReservation.getPrice() + "€ needs confirmation.<br>"
-				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>" 
+		String content = "Dear " + user.getFirstName() + ",<br>" + "Your reservation in "
+				+ cottageReservation.getCottage().getName() + "<br>" + "from: "
+				+ cottageReservation.getDuration().getStartDate() + " to: "
+				+ cottageReservation.getDuration().getEndDate() + "<br>" + " with a price of: "
+				+ cottageReservation.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
 		String reserveURL = siteURL + "/cottageReservation/confirm/" + cottageReservation.getId();
-
 		content = content.replace("[[URL]]", reserveURL);
-
 		Mail mail = new Mail(toAddress, subject, content);
-
 		service.sendMailHTML(mail);
 	}
 
@@ -140,26 +137,23 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void sendNewQuickReservationEmail(Customer user, String siteURL,
-			BoatQuickReservation boatQuickReservation) throws UnsupportedEncodingException, MessagingException {
+	public void sendNewQuickReservationEmail(Customer user, String siteURL, BoatQuickReservation boatQuickReservation)
+			throws UnsupportedEncodingException, MessagingException {
 		String toAddress = user.getEmail();
 		String subject = "New " + boatQuickReservation.getBoat().getName() + " reservation available";
-		String content = "Dear " + user.getFirstName() + ",<br>"
-				+ "New reservation is available in " + boatQuickReservation.getBoat().getName() + "<br>"
-				+ "from: " + boatQuickReservation.getDuration().getStartDate() 
-				+ " to: " + boatQuickReservation.getDuration().getEndDate() + "<br>"
-				+ " with a discount price of: " + boatQuickReservation.getPrice() + "€.<br>"
-				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>" 
+		String content = "Dear " + user.getFirstName() + ",<br>" + "New reservation is available in "
+				+ boatQuickReservation.getBoat().getName() + "<br>" + "from: "
+				+ boatQuickReservation.getDuration().getStartDate() + " to: "
+				+ boatQuickReservation.getDuration().getEndDate() + "<br>" + " with a discount price of: "
+				+ boatQuickReservation.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
-		String reserveURL = siteURL + "/cottageQuickReservation/appoint/"+boatQuickReservation.getId()+"/user/"+user.getId();
-
+		String reserveURL = siteURL + "/cottageQuickReservation/appoint/" + boatQuickReservation.getId() + "/user/"
+				+ user.getId();
 		content = content.replace("[[URL]]", reserveURL);
-
 		Mail mail = new Mail(toAddress, subject, content);
-
 		service.sendMailHTML(mail);
-		
 	}
 
 	@Override
@@ -168,22 +162,56 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer user = boatReservation.getCustomer();
 		String toAddress = user.getEmail();
 		String subject = "New " + boatReservation.getBoat().getName() + " reservation available";
-		String content = "Dear " + user.getFirstName() + ",<br>"
-				+ "Your reservation in " + boatReservation.getBoat().getName() + "<br>"
-				+ "from: " + boatReservation.getDuration().getStartDate() 
-				+ " to: " + boatReservation.getDuration().getEndDate() + "<br>"
-				+ " with a price of: " + boatReservation.getPrice() + "€ needs confirmation.<br>"
-				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>" 
+		String content = "Dear " + user.getFirstName() + ",<br>" + "Your reservation in "
+				+ boatReservation.getBoat().getName() + "<br>" + "from: " + boatReservation.getDuration().getStartDate()
+				+ " to: " + boatReservation.getDuration().getEndDate() + "<br>" + " with a price of: "
+				+ boatReservation.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
 		String reserveURL = siteURL + "/cottageReservation/confirm/" + boatReservation.getId();
-
 		content = content.replace("[[URL]]", reserveURL);
-
 		Mail mail = new Mail(toAddress, subject, content);
-
 		service.sendMailHTML(mail);
+	}
 
+	@Override
+	public void sendNewQuickReservationEmail(Customer customer, String siteUrl,
+			FishingQuickReservation fishingQuickReservationReturn) {
+		String toAddress = customer.getEmail();
+		String subject = "New " + fishingQuickReservationReturn.getFishingCourse().getName() + " reservation available";
+		String content = "Dear " + customer.getFirstName() + ",<br>" + "New reservation is available in "
+				+ fishingQuickReservationReturn.getFishingCourse().getName() + "<br>" + "from: "
+				+ fishingQuickReservationReturn.getDuration().getStartDate() + " to: "
+				+ fishingQuickReservationReturn.getDuration().getEndDate() + "<br>" + " with a discount price of: "
+				+ fishingQuickReservationReturn.getPrice() + "€.<br>"
+				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteUrl + "/fishingQuickReservation/appoint/" + fishingQuickReservationReturn.getId()
+				+ "/user/" + customer.getId();
+		content = content.replace("[[URL]]", reserveURL);
+		Mail mail = new Mail(toAddress, subject, content);
+		service.sendMailHTML(mail);
+	}
+
+	@Override
+	public void sendReservationConfirmationEmail(String siteUrl, FishingReservation fishingReservationReturn) {
+		Customer user = fishingReservationReturn.getCustomer();
+		String toAddress = user.getEmail();
+		String subject = "New " + fishingReservationReturn.getFishingCourse().getName() + " reservation available";
+		String content = "Dear " + user.getFirstName() + ",<br>" + "Your reservation in "
+				+ fishingReservationReturn.getFishingCourse().getName() + "<br>" + "from: "
+				+ fishingReservationReturn.getDuration().getStartDate() + " to: "
+				+ fishingReservationReturn.getDuration().getEndDate() + "<br>" + " with a price of: "
+				+ fishingReservationReturn.getPrice() + "€ needs confirmation.<br>"
+				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
+				+ "Thank you,<br>" + "Your company name.";
+
+		String reserveURL = siteUrl + "/fishingReservation/confirm/" + fishingReservationReturn.getId();
+		content = content.replace("[[URL]]", reserveURL);
+		Mail mail = new Mail(toAddress, subject, content);
+		service.sendMailHTML(mail);
 	}
 
 }

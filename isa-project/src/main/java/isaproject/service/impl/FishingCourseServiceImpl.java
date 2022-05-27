@@ -45,7 +45,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public FishingCourseDTO findById(Long id) {
-		FishingCourse course = courseRepository.getById(id);
+		FishingCourse course = courseRepository.findById(id).orElse(null);
 		return FishingCourseMapper.FishingCourseToDTO(course);
 	}
 

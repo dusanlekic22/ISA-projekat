@@ -11,4 +11,5 @@ public interface AdditionalServiceService {
 	Set<AdditionalServiceDTO> findFree();
 	Set<AdditionalServiceDTO> findByCottageId(Long id);
 	Set<AdditionalServiceDTO> findByBoatId(Long id);
+	Set<AdditionalServiceDTO> findByFishingCourseId(Long id);
 }

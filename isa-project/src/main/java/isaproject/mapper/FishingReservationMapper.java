@@ -15,6 +15,7 @@ public class FishingReservationMapper {
 		fishingReservation.setAdditionalService(fishingReservationDTO.getAdditionalService());
 		fishingReservation.setFishingCourse(fishingReservationDTO.getFishingCourse());
 		fishingReservation.setCustomer(fishingReservationDTO.getCustomer());
+		fishingReservation.setConfirmed(fishingReservationDTO.isConfirmed());
 		return fishingReservation;
 	}
 
@@ -28,6 +29,7 @@ public class FishingReservationMapper {
 		fishingReservationDTO.setAdditionalService(fishingReservation.getAdditionalService());
 		fishingReservationDTO.setFishingCourse(fishingReservation.getFishingCourse());
 		fishingReservationDTO.setCustomer(fishingReservation.getCustomer());
+		fishingReservationDTO.setConfirmed(fishingReservation.isConfirmed());
 		return fishingReservationDTO;
 	}
 

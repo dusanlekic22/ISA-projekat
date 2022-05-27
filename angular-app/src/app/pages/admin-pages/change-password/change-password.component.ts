@@ -85,6 +85,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   isUserAdmin(): boolean {
+    if (!this.loggedInUser) return false;
     return this.loggedInUser.roles.some((role) => role.name === 'ROLE_ADMIN');
   }
 

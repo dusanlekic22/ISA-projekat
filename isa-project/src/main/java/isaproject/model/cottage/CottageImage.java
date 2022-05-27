@@ -2,6 +2,8 @@ package isaproject.model.cottage;
 
 import static javax.persistence.FetchType.LAZY;
 
+import static javax.persistence.FetchType.LAZY;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="header-body">
       <div class="text-center">
-        <h1>Fishing Trainer Courses</h1>
+        <h1 class="text-white display-3">Fishing Trainer Courses</h1>
       </div>
       <form
         class="navbar-search navbar-search-dark form-inline mr-3 d-flex ml-lg-auto"
@@ -36,7 +36,10 @@
       <div class="card shadow">
         <div class="card-header border-0 d-flex align-items-center">
           <h3 class="mb-0">Fishing Courses</h3>
-          <app-add-fishing-course class="ml-auto" (submitted)="added($event)"></app-add-fishing-course>
+          <app-add-fishing-course
+            class="ml-auto"
+            (submitted)="added($event)"
+          ></app-add-fishing-course>
         </div>
         <div class="table-responsive" style="overflow: visible">
           <table class="table align-items-center table-flush">

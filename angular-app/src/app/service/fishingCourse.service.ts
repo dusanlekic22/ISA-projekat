@@ -45,9 +45,9 @@ export class FishingCourseService {
     .pipe(catchError(this.handleError));
   }
 
-  addFishingCourseImage(image: IFishingImage): Observable<IFishingImage[]> {
+  addFishingCourseImage(image: IFishingImage): Observable<IFishingImage> {
     return this.http
-    .post<IFishingImage[]>(`${this.fishingImageUrl}`, image)
+    .post<IFishingImage>(`${this.fishingImageUrl}`, image)
     .pipe(catchError(this.handleError));
   }
 
@@ -57,9 +57,9 @@ export class FishingCourseService {
       .pipe(catchError(this.handleError));
   }
 
-  getFishingTrainerCourses(fishingCourseId: number): Observable<IFishingCourse[]> {
+  getFishingTrainerCourses(fishingTrainerId: number): Observable<IFishingCourse[]> {
     return this.http
-      .get<IFishingCourse[]>(`${this.fishingCourseUrl}/owner/${fishingCourseId}`)
+      .get<IFishingCourse[]>(`${this.fishingCourseUrl}/owner/${fishingTrainerId}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -72,7 +72,6 @@ export class FishingCourseService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

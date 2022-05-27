@@ -50,4 +50,9 @@ public class AdditionalServiceController {
 		return additionalServiceService.findByBoatId(id);
 	}
 
+	@GetMapping("/fishingCourse/{id}")
+	@ResponseBody
+	public Set<AdditionalServiceDTO> getByFishingCourseId(@PathVariable("id") Long id){
+		return additionalServiceService.findByFishingCourseId(id);
+	}
 }

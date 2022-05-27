@@ -18,6 +18,7 @@ public class FishingReservationDTO {
 	private Set<AdditionalService> additionalService;
 	private FishingCourse fishingCourse;
 	private Customer customer;
+	private boolean confirmed;
 
 	public FishingReservationDTO() {
 	}
@@ -84,6 +85,14 @@ public class FishingReservationDTO {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 
 }

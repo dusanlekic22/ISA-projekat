@@ -22,38 +22,40 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "FishingReservation")
 public class FishingReservation implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Embedded
 	private DateTimeSpan duration;
-	
+
 	@Column(nullable = false)
 	private Integer capacity;
 
 	@Column(nullable = false)
 	private Double price = 0.0;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "id")
 	private Address location;
-	
+
 	@OneToMany(mappedBy = "fishingQuickReservation", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingCourse_id", referencedColumnName = "id")
 	@JsonBackReference
 	private FishingCourse fishingCourse;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private Customer customer;
-	
+
+	private boolean confirmed;
+
 	public FishingReservation() {
 	}
 
@@ -119,6 +121,14 @@ public class FishingReservation implements Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 
 }

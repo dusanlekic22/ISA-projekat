@@ -10,6 +10,8 @@ import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
 import isaproject.model.cottage.CottageQuickReservation;
 import isaproject.model.cottage.CottageReservation;
+import isaproject.model.FishingQuickReservation;
+import isaproject.model.FishingReservation;
 
 public interface CustomerService {
 
@@ -35,4 +37,9 @@ public interface CustomerService {
 
 
 	public boolean verify(String verificationCode);
+
+	public void sendNewQuickReservationEmail(Customer customer, String siteUrl,
+			FishingQuickReservation fishingQuickReservationReturn);
+
+	public void sendReservationConfirmationEmail(String siteUrl, FishingReservation fishingReservationReturn);
 }

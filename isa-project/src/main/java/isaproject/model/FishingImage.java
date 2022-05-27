@@ -2,6 +2,7 @@ package isaproject.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class FishingImage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(columnDefinition="text", length=10485760)
 	private String image;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

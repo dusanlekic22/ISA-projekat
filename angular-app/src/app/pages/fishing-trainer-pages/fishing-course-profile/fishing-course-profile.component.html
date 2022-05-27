@@ -1,3 +1,98 @@
-<p>
-  fishing-course-profile works!
-</p>
+<div
+  class="header bg-gradient-info pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="
+    min-height: 600px;
+    background-size: cover;
+    background-position: center top;
+  "
+>
+  <!-- Mask -->
+  <span class="mask"></span>
+  <!-- Header container -->
+  <div class="container d-flex align-items-center">
+    <div class="row w-100 align-items-center">
+      <div class="col-2">
+        <h1 class="display-3 text-white">{{ fishingCourse.name }}</h1>
+        <p class="text-white mt-0 mb-5">{{ fishingCourse.promoDescription }}</p>
+      </div>
+      <div class="col-10">
+        <ng-image-slider
+          [slideImage]="3"
+          [images]="imageObject"
+          #nav
+        ></ng-image-slider>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt--7 pb-4">
+  <div class="row">
+    <div class="col-xl-8 order-xl-1 mb-4">
+      <app-fishing-course-edit
+        [fishingCourse]="fishingCourse"
+      ></app-fishing-course-edit>
+    </div>
+    <div class="col-xl-4 order-xl-2 mt-8 container">
+      <h6 class="heading-small text-muted mb-4">
+        Upload a fishingCourse picture
+      </h6>
+      <div
+        fxFill
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayoutGap="gappx"
+      >
+        <ngp-image-picker
+          [_config]="imagePickerConf"
+          ($imageChanged)="onImageChange($event)"
+          [_imageSrc]="fishingImage.image"
+        ></ngp-image-picker>
+        <div>
+          <button
+            style="margin-top: 15px"
+            (click)="addFishingCourseImage()"
+            class="btn btn-info"
+          >
+            Add image
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-tab-group class="mt-5">
+    <mat-tab label="Quick Reservations">
+      <!-- TABELA -->
+      <app-fishing-quick-reservations
+        [fishingCourse]="fishingCourse"
+        [imageObject]="imageObject"
+      >
+      </app-fishing-quick-reservations>
+      <app-add-fishing-quick-reservation
+        (submitted)="quickReservationAdded()"
+        [fishingQuickReservation]="fishingQuickReservation"
+      >
+      </app-add-fishing-quick-reservation>
+    </mat-tab>
+    <mat-tab label="Reservations">
+      <!-- TABELA -->
+      <app-fishing-reservations
+        [reservations]="activeReservations"
+        [customers]="eligibleCustomers"
+        (customerEmit)="
+          reservationInput.setCustomer($event); focusReservation()
+        "
+      ></app-fishing-reservations>
+      <app-add-fishing-reservation
+        #reservationInput
+        (submitted)="reservationAdded()"
+        [minDate]="minDateString"
+      ></app-add-fishing-reservation>
+    </mat-tab>
+    <mat-tab label="Reservations history">
+      <app-fishing-reservations
+        [reservations]="passedReservations"
+        [customers]="eligibleCustomers"
+      ></app-fishing-reservations>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,3 +1,8 @@
+import { IDateSpan } from './../../../model/dateSpan';
+import {
+  emptyFishingQuickReservation,
+  IFishingQuickReservation,
+} from './../../../model/fishingQuickReservation';
 import { emptyFishingCourse } from './../../../model/fishingCourse';
 import { IFishingImage } from './../../../model/fishingImage';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +11,9 @@ import { ICustomer } from 'src/app/model/customer';
 import { IAdditionalService } from 'src/app/model/additionalService';
 import { IFishingCourse } from 'src/app/model/fishingCourse';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { IFishingReservation } from 'src/app/model/fishingReservation';
+import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
+import { FishingReservationService } from 'src/app/service/fishingReservation.service';
 
 @Component({
   selector: 'app-fishing-course-profile',
@@ -21,15 +29,15 @@ export class FishingCourseProfileComponent implements OnInit {
     fishingCourse: emptyFishingCourse,
   };
 
-  // @ViewChild('quickReservationInput')
-  // quickReservationFormElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('quickReservationInput')
+  quickReservationFormElement!: ElementRef<HTMLInputElement>;
   @ViewChild('reservationInput', { static: true, read: ElementRef })
   reservationFormElement!: any;
-  // @ViewChild('customerSelect')
-  // customerSelectElement!: ElementRef<HTMLInputElement>;
-  // @ViewChild('availableStartSelect')
-  // availableStartSelectElement!: ElementRef<HTMLInputElement>;
-  // addReservationFormOpened = false;
+  @ViewChild('customerSelect')
+  customerSelectElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('availableStartSelect')
+  availableStartSelectElement!: ElementRef<HTMLInputElement>;
+  addReservationFormOpened = false;
   additionalServiceTags: IAdditionalService[] = [];
   fishingCourseId!: number;
   minDate!: Date;
@@ -40,73 +48,68 @@ export class FishingCourseProfileComponent implements OnInit {
     width: '320px',
     height: '240px',
   };
-  // fishingCourseQuickReservation: IFishingCourseQuickReservation = {
-  //   id: 0,
-  //   duration: {
-  //     startDate: new Date(),
-  //     endDate: new Date(),
-  //   },
-  //   guestCapacity: 0,
-  //   price: 0,
-  // };
+  fishingQuickReservation: IFishingQuickReservation =
+    emptyFishingQuickReservation;
 
-  // availableDateSpan!: IDateSpan;
+  availableDateSpan!: IDateSpan;
   eligibleCustomers!: ICustomer[];
   imageObject: Array<object> = [];
-  // activeReservations!: IFishingCourseReservation[];
-  // passedReservations!: IFishingCourseReservation[];
+  activeReservations!: IFishingReservation[];
+  passedReservations!: IFishingReservation[];
 
   constructor(
     private route: ActivatedRoute,
     private fishingCourseService: FishingCourseService,
-    // private _fishingCourseQuickReservationService: FishingCourseQuickReservationService,
-    // private _fishingCourseReservationService: FishingCourseReservationService
+    private fishingCourseQuickReservationService: FishingQuickReservationService,
+    private fishingCourseReservationService: FishingReservationService
   ) {}
 
   ngOnInit(): void {
     this.fishingCourseId = +this.route.snapshot.paramMap.get('id')!;
     this.getFishingCourse();
-    // this._fishingCourseQuickReservationService
-    //   .getFishingCourseQuickReservations()
-    //   .subscribe((fishingCourseQuickReservation) => {
-    //     this.fishingCourse.fishingCourseQuickReservation = fishingCourseQuickReservation;
-    //   });
-    // this._fishingCourseReservationService
-    //   .getActiveFishingCourseReservationByFishingCourseId(this.fishingCourseId)
-    //   .subscribe((activeReservations) => {
-    //     this.activeReservations = activeReservations;
-    //   });
-    // this._fishingCourseReservationService
-    //   .getPassedFishingCourseReservationByFishingCourseId(this.fishingCourseId)
-    //   .subscribe((passedReservations) => {
-    //     this.passedReservations = passedReservations;
-    //   });
-    // this._fishingCourseReservationService
-    //   .getCustomerHasReservationNow()
-    //   .subscribe((customers) => {
-    //     this.eligibleCustomers = customers;
-    //   });
+    this.fishingCourseQuickReservationService
+      .getFishingQuickReservations()
+      .subscribe((fishingCourseQuickReservation) => {
+        this.fishingCourse.fishingQuickReservation =
+          fishingCourseQuickReservation;
+      });
+    this.fishingCourseReservationService
+      .getActiveFishingReservationByFishingCourseId(this.fishingCourseId)
+      .subscribe((activeReservations) => {
+        this.activeReservations = activeReservations;
+      });
+    this.fishingCourseReservationService
+      .getPassedFishingReservationByFishingCourseId(this.fishingCourseId)
+      .subscribe((passedReservations) => {
+        this.passedReservations = passedReservations;
+      });
+    this.fishingCourseReservationService
+      .getCustomerHasReservationNow()
+      .subscribe((customers) => {
+        this.eligibleCustomers = customers;
+      });
     this.minDateString = this.date();
     this.minDate = new Date(Date.now());
   }
 
-  // reservationAdded() {
-  //   this._fishingCourseReservationService
-  //     .getActiveFishingCourseReservationByFishingCourseId(this.fishingCourse.id)
-  //     .subscribe((reservations) => {
-  //       this.activeReservations = reservations;
-  //       this.getFishingCourse();
-  //     });
-  // }
+  reservationAdded() {
+    this.fishingCourseReservationService
+      .getActiveFishingReservationByFishingCourseId(this.fishingCourse.id)
+      .subscribe((reservations) => {
+        this.activeReservations = reservations;
+        this.getFishingCourse();
+      });
+  }
 
-  // quickReservationAdded() {
-  //   this._fishingCourseQuickReservationService
-  //     .getFishingCourseQuickReservations()
-  //     .subscribe((fishingCourseQuickReservation) => {
-  //       this.fishingCourse.fishingCourseQuickReservation = fishingCourseQuickReservation;
-  //       this.getFishingCourse();
-  //     });
-  // }
+  quickReservationAdded() {
+    this.fishingCourseQuickReservationService
+      .getFishingQuickReservations()
+      .subscribe((fishingCourseQuickReservation) => {
+        this.fishingCourse.fishingQuickReservation =
+          fishingCourseQuickReservation;
+        this.getFishingCourse();
+      });
+  }
 
   getFishingCourse() {
     this.fishingCourseService

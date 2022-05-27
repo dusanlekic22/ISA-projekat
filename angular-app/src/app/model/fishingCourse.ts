@@ -22,7 +22,7 @@ export interface IFishingCourse {
   fishingTrainer: IFishingTrainer;
 }
 
-export const emptyFishingCourse = {
+export const emptyFishingCourse: IFishingCourse = {
   id: 0,
   name: '',
   address: {

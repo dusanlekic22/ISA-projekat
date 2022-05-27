@@ -28,77 +28,71 @@
 <div class="container mt--7 pb-4">
   <div class="row">
     <div class="col-xl-8 order-xl-1 mb-4">
-      <app-fishing-course-edit [fishingCourse]="fishingCourse"></app-fishing-course-edit>
+      <app-fishing-course-edit
+        [fishingCourse]="fishingCourse"
+      ></app-fishing-course-edit>
     </div>
-    <div class="col-xl-4 order-xl-2 container">
-      <div class="order-xl-3 mb-5 mb-xl-0">
-        <!-- <app-fishingCourse-available-terms
-          [fishingCourse]="fishingCourse"
-          [minDate]="minDateString"
-        ></app-fishingCourse-available-terms> -->
-      </div>
-      <div class="order-xl-2 mt-3">
-        <h6 class="heading-small text-muted mb-4">
-          Upload a fishingCourse picture
-        </h6>
-        <div
-          fxFill
-          fxLayout="column"
-          fxLayoutAlign="center center"
-          fxLayoutGap="gappx"
-        >
-          <ngp-image-picker
-            [_config]="imagePickerConf"
-            ($imageChanged)="onImageChange($event)"
-            [_imageSrc]="fishingImage.image"
-          ></ngp-image-picker>
-          <div>
-            <button
-              style="margin-top: 15px"
-              (click)="addFishingCourseImage()"
-              class="btn btn-info"
-            >
-              Add image
-            </button>
-          </div>
+    <div class="col-xl-4 order-xl-2 mt-8 container">
+      <h6 class="heading-small text-muted mb-4">
+        Upload a fishingCourse picture
+      </h6>
+      <div
+        fxFill
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayoutGap="gappx"
+      >
+        <ngp-image-picker
+          [_config]="imagePickerConf"
+          ($imageChanged)="onImageChange($event)"
+          [_imageSrc]="fishingImage.image"
+        ></ngp-image-picker>
+        <div>
+          <button
+            style="margin-top: 15px"
+            (click)="addFishingCourseImage()"
+            class="btn btn-info"
+          >
+            Add image
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <mat-tab-group>
+  <mat-tab-group class="mt-5">
     <mat-tab label="Quick Reservations">
       <!-- TABELA -->
-      <!-- <app-fishingCourse-quick-reservations
+      <app-fishing-quick-reservations
         [fishingCourse]="fishingCourse"
         [imageObject]="imageObject"
       >
-      </app-fishingCourse-quick-reservations>
-      <app-add-fishingCourse-quick-reservation
+      </app-fishing-quick-reservations>
+      <app-add-fishing-quick-reservation
         (submitted)="quickReservationAdded()"
-        [fishingCourseQuickReservation]="fishingCourseQuickReservation"
+        [fishingQuickReservation]="fishingQuickReservation"
       >
-      </app-add-fishingCourse-quick-reservation> -->
+      </app-add-fishing-quick-reservation>
     </mat-tab>
     <mat-tab label="Reservations">
       <!-- TABELA -->
-      <!-- <app-fishingCourse-reservations
+      <app-fishing-reservations
         [reservations]="activeReservations"
         [customers]="eligibleCustomers"
         (customerEmit)="
           reservationInput.setCustomer($event); focusReservation()
         "
-      ></app-fishingCourse-reservations>
-      <app-add-reservation
+      ></app-fishing-reservations>
+      <app-add-fishing-reservation
         #reservationInput
         (submitted)="reservationAdded()"
         [minDate]="minDateString"
-      ></app-add-reservation> -->
+      ></app-add-fishing-reservation>
     </mat-tab>
     <mat-tab label="Reservations history">
-      <!-- <app-fishingCourse-reservations
+      <app-fishing-reservations
         [reservations]="passedReservations"
         [customers]="eligibleCustomers"
-      ></app-fishingCourse-reservations> -->
+      ></app-fishing-reservations>
     </mat-tab>
   </mat-tab-group>
 </div>

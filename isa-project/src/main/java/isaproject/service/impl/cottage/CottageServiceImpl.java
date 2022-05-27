@@ -25,7 +25,6 @@ import isaproject.service.cottage.CottageService;
 public class CottageServiceImpl implements CottageService {
 
 	private CottageRepository cottageRepository;
-	private AddressRepository addressRepository;
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 
@@ -35,7 +34,6 @@ public class CottageServiceImpl implements CottageService {
 			CottageQuickReservationService cottageQuickReservationService) {
 		super();
 		this.cottageRepository = cottageRepository;
-		this.addressRepository = addressRepository;
 		this.cottageReservationService = cottageReservationService;
 		this.cottageQuickReservationService = cottageQuickReservationService;
 	}
@@ -73,7 +71,6 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public CottageDTO save(CottageDTO cottageDTO) {
 		Cottage cottage = CottageMapper.CottageDTOToCottage(cottageDTO);
-		addressRepository.save(cottageDTO.getAddress());
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
 

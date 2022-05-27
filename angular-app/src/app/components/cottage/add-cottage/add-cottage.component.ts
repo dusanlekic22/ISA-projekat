@@ -17,11 +17,11 @@ export class AddCottageComponent implements OnInit {
     id: 0,
     name: '',
     address: {
-      city: 'Kraljevo',
-      country: 'Srbija',
-      latitude: '73',
-      longitude: '89',
-      street: 'Zmajevacka',
+      city: '',
+      country: '',
+      latitude: '',
+      longitude: '',
+      street: '',
     },
     promoDescription: '',
     bedCount: 0,
@@ -94,10 +94,9 @@ export class AddCottageComponent implements OnInit {
     this._cottageService.saveCottage(this.cottage).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
         this._additionalServiceService
-          .addAdditionalServiceForCottage(element, this.cottage)
+          .addAdditionalServiceForCottage(element, data)
           .subscribe((additionalService) => {});
       });
-
       this.submitted.emit(submit);
     });
   }

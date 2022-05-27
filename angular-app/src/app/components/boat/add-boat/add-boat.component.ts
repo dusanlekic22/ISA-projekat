@@ -18,11 +18,11 @@ export class AddBoatComponent implements OnInit {
     id: 0,
     name: '',
     address: {
-      city: 'Kraljevo',
-      country: 'Srbija',
-      latitude: '73',
-      longitude: '89',
-      street: 'Zmajevacka',
+      city: '',
+      country: '',
+      latitude: '',
+      longitude: '',
+      street: '',
     },
     description: '',
     bedCount: 0,
@@ -101,7 +101,7 @@ export class AddBoatComponent implements OnInit {
     this._boatService.saveBoat(this.boat).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
         this._additionalServiceService
-          .addAdditionalServiceForBoat(element, this.boat)
+          .addAdditionalServiceForBoat(element, data)
           .subscribe((additionalService) => {});
       });
 

@@ -1,0 +1,8 @@
+.modal-open .modal {
+    overflow-x: auto!important;
+    overflow-y: auto!important;
+}
+
+::ng-deep .cdk-overlay-container{
+    z-index: 1200 !important;
+}

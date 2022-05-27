@@ -17,10 +17,11 @@ import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
+import isaproject.model.FishingTrainer;
 import isaproject.repository.CustomerRepository;
-import isaproject.repository.FishingCourseRepository;
 import isaproject.repository.FishingQuickReservationRepository;
 import isaproject.repository.FishingReservationRepository;
+import isaproject.repository.FishingTrainerRepository;
 import isaproject.service.CustomerService;
 import isaproject.service.FishingQuickReservationService;
 
@@ -29,120 +30,118 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 
 	FishingQuickReservationRepository fishingQuickReservationRepository;
 	FishingReservationRepository fishingReservationRepository;
-	FishingCourseRepository fishingRepository;
 	CustomerRepository customerRepository;
 	CustomerService customerService;
+	FishingTrainerRepository fishingTrainerRepository;
 
 	@Autowired
-	public FishingQuickReservationServiceImpl(FishingQuickReservationRepository fishingQuickReservationRepository,
-			FishingReservationRepository fishingReservationRepository, FishingCourseRepository fishingRepository,
-			CustomerRepository customerRepository, CustomerService customerService) {
+	public FishingQuickReservationServiceImpl(FishingQuickReservationRepository fishingCourseQuickReservationRepository,
+			FishingReservationRepository fishingCourseReservationRepository, CustomerRepository customerRepository,
+			CustomerService customerService, FishingTrainerRepository fishingTrainerRepository) {
 		super();
-		this.fishingQuickReservationRepository = fishingQuickReservationRepository;
-		this.fishingReservationRepository = fishingReservationRepository;
-		this.fishingRepository = fishingRepository;
+		this.fishingQuickReservationRepository = fishingCourseQuickReservationRepository;
+		this.fishingReservationRepository = fishingCourseReservationRepository;
 		this.customerRepository = customerRepository;
 		this.customerService = customerService;
+		this.fishingTrainerRepository = fishingTrainerRepository;
 	}
 
 	@Override
 	public FishingQuickReservationDTO findById(Long id) {
-		FishingQuickReservation fishingQuickReservation = fishingQuickReservationRepository.findById(id).orElse(null);
-		return FishingQuickReservationMapper
-				.FishingQuickReservationToFishingQuickReservationDTO(fishingQuickReservation);
+		FishingQuickReservation fishingCourseQuickReservation = fishingQuickReservationRepository.findById(id)
+				.orElse(null);
+		return FishingQuickReservationMapper.FishingQuickReservationToDTO(fishingCourseQuickReservation);
 	}
 
 	@Override
 	public Set<FishingQuickReservationDTO> findAll() {
-		Set<FishingQuickReservation> fishings = new HashSet<>(fishingQuickReservationRepository.findAll());
+		Set<FishingQuickReservation> fishingCourses = new HashSet<>(fishingQuickReservationRepository.findAll());
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
-		if (fishings.size() != 0) {
-			FishingQuickReservationDTO dto;
-			for (FishingQuickReservation p : fishings) {
-				dto = FishingQuickReservationMapper.FishingQuickReservationToFishingQuickReservationDTO(p);
-				dtos.add(dto);
-			}
+		for (FishingQuickReservation qr : fishingCourses) {
+			dtos.add(FishingQuickReservationMapper.FishingQuickReservationToDTO(qr));
 		}
 		return dtos;
 	}
 
-	private void reserveAvailableDateSpan(FishingQuickReservation fishingQuickReservation,
+	private void reserveAvailableDateSpan(FishingQuickReservation fishingCourseQuickReservation,
 			DateTimeSpan availableDateSpan) {
-		FishingCourse fishingCourse = fishingQuickReservation.getFishingCourse();
-		DateTimeSpan duration = fishingQuickReservation.getDuration();
-		Set<DateTimeSpan> availableReservation = fishingCourse.getFishingTrainer().getAvailableReservationDateSpan();
-		availableReservation.remove(availableDateSpan);
+		FishingCourse fishingCourse = fishingCourseQuickReservation.getFishingCourse();
+		FishingTrainer fishingTrainer = fishingTrainerRepository
+				.findByUsername(fishingCourse.getFishingTrainer().getUsername());
+		DateTimeSpan duration = fishingCourseQuickReservation.getDuration();
+		fishingTrainer.getAvailableReservationDateSpan().remove(availableDateSpan);
 		if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateTimeSpan newDateSpan = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-			availableReservation.add(newDateSpan);
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan);
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
 			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
-			availableReservation.add(newDateSpan);
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan);
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
 			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
 			DateTimeSpan newDateSpan2 = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-			availableReservation.add(newDateSpan1);
-			availableReservation.add(newDateSpan2);
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan1);
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan2);
 		}
-		fishingRepository.save(fishingCourse);
+		fishingTrainerRepository.save(fishingTrainer);
 	}
 
 	@Transactional
 	@Override
-	public FishingQuickReservationDTO save(FishingQuickReservationDTO fishingQuickReservationDTO, String siteUrl) {
-		FishingQuickReservation fishingQuickReservation = FishingQuickReservationMapper
-				.FishingQuickReservationDTOToFishingQuickReservation(fishingQuickReservationDTO);
-		fishingQuickReservation.setReserved(false);
+	public FishingQuickReservationDTO save(FishingQuickReservationDTO fishingCourseQuickReservationDTO,
+			String siteUrl) {
+		FishingQuickReservation fishingCourseQuickReservation = FishingQuickReservationMapper
+				.DTOToFishingQuickReservation(fishingCourseQuickReservationDTO);
+		fishingCourseQuickReservation.setReserved(false);
 
-		if (!fishingQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!fishingCourseQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
 		for (FishingQuickReservation q : fishingQuickReservationRepository
-				.findByFishingCourseId(fishingQuickReservation.getFishingCourse().getId())) {
-			if (q.getDuration().overlapsWith(fishingQuickReservation.getDuration())) {
+				.findByFishingCourseId(fishingCourseQuickReservation.getFishingCourse().getId())) {
+			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;
 			}
 		}
 
 		for (FishingReservation q : fishingReservationRepository
-				.findByFishingCourseId(fishingQuickReservation.getFishingCourse().getId())) {
-			if (q.getDuration().overlapsWith(fishingQuickReservation.getDuration())) {
+				.findByFishingCourseId(fishingCourseQuickReservation.getFishingCourse().getId())) {
+			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;
 			}
 		}
 
-		for (DateTimeSpan dateTimeSpan : fishingQuickReservation.getFishingCourse().getFishingTrainer()
-				.getAvailableReservationDateSpan()) {
-			if (fishingQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpan(fishingQuickReservation, dateTimeSpan);
+		FishingTrainer fishingTrainer = fishingTrainerRepository
+				.findByUsername(fishingCourseQuickReservation.getFishingCourse().getFishingTrainer().getUsername());
+		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
+			if (fishingCourseQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
+				reserveAvailableDateSpan(fishingCourseQuickReservation, dateTimeSpan);
 				break;
 			}
 		}
-		FishingQuickReservation fishingQuickReservationReturn = fishingQuickReservationRepository
-				.save(fishingQuickReservation);
-		for (Customer customer : fishingQuickReservation.getFishingCourse().getSubscribers()) {
+		FishingQuickReservation fishingCourseQuickReservationReturn = fishingQuickReservationRepository
+				.save(fishingCourseQuickReservation);
+		for (Customer customer : fishingCourseQuickReservation.getFishingCourse().getSubscribers()) {
 			System.out.println(customer.getFirstName());
-			customerService.sendNewQuickReservationEmail(customer, siteUrl, fishingQuickReservationReturn);
+			customerService.sendNewQuickReservationEmail(customer, siteUrl, fishingCourseQuickReservationReturn);
 		}
 
-		return FishingQuickReservationMapper
-				.FishingQuickReservationToFishingQuickReservationDTO(fishingQuickReservationReturn);
+		return FishingQuickReservationMapper.FishingQuickReservationToDTO(fishingCourseQuickReservationReturn);
 	}
 
 	@Override
 	public Set<FishingQuickReservationDTO> findByFishingCourseId(Long id) {
-		Set<FishingQuickReservation> fishingQuickReservations = new HashSet<>(
+		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
 				fishingQuickReservationRepository.findByFishingCourseId(id));
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
-		if (fishingQuickReservations.size() != 0) {
+		if (fishingCourseQuickReservations.size() != 0) {
 
 			FishingQuickReservationDTO dto;
-			for (FishingQuickReservation p : fishingQuickReservations) {
-				dto = FishingQuickReservationMapper.FishingQuickReservationToFishingQuickReservationDTO(p);
+			for (FishingQuickReservation p : fishingCourseQuickReservations) {
+				dto = FishingQuickReservationMapper.FishingQuickReservationToDTO(p);
 				dtos.add(dto);
 			}
 		}
@@ -153,79 +152,78 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 	@Transactional
 	@Override
 	public FishingQuickReservationDTO deleteById(Long id) {
-		FishingQuickReservation fishingQuickReservation = fishingQuickReservationRepository.findById(id).get();
-		freeReservedSpan(fishingQuickReservation);
+		FishingQuickReservation fishingCourseQuickReservation = fishingQuickReservationRepository.findById(id).get();
+		freeReservedSpan(fishingCourseQuickReservation);
 		fishingQuickReservationRepository.deleteById(id);
-		return FishingQuickReservationMapper
-				.FishingQuickReservationToFishingQuickReservationDTO(fishingQuickReservation);
+		return FishingQuickReservationMapper.FishingQuickReservationToDTO(fishingCourseQuickReservation);
 	}
 
-	private void freeReservedSpan(FishingQuickReservation fishingQuickReservation) {
-		FishingCourse fishingCourse = fishingQuickReservation.getFishingCourse();
-		DateTimeSpan duration = fishingQuickReservation.getDuration();
+	private void freeReservedSpan(FishingQuickReservation fishingCourseQuickReservation) {
+		FishingCourse fishingCourse = fishingCourseQuickReservation.getFishingCourse();
+		FishingTrainer fishingTrainer = fishingTrainerRepository
+				.findByUsername(fishingCourse.getFishingTrainer().getUsername());
+		DateTimeSpan duration = fishingCourseQuickReservation.getDuration();
 		DateTimeSpan newAvailableDateSpan = new DateTimeSpan(duration);
-		Set<DateTimeSpan> availableDateSpans = new HashSet<>(
-				fishingCourse.getFishingTrainer().getAvailableReservationDateSpan());
-		Set<DateTimeSpan> availableReservation = fishingCourse.getFishingTrainer().getAvailableReservationDateSpan();
+		Set<DateTimeSpan> availableDateSpans = new HashSet<>(fishingTrainer.getAvailableReservationDateSpan());
 		boolean startChanged = false;
 		boolean endChanged = false;
 		for (DateTimeSpan dateTimeSpan : availableDateSpans) {
 			if (newAvailableDateSpan.getStartDate().compareTo(dateTimeSpan.getEndDate()) == 0) {
-				availableReservation.remove(dateTimeSpan);
+				fishingTrainer.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (endChanged) {
-					availableReservation.remove(newAvailableDateSpan);
+					fishingTrainer.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
 					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(),
 							newAvailableDateSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), duration.getEndDate());
 					startChanged = true;
 				}
-				availableReservation.add(newAvailableDateSpan);
+				fishingTrainer.getAvailableReservationDateSpan().add(newAvailableDateSpan);
 			}
 			if (newAvailableDateSpan.getEndDate().compareTo(dateTimeSpan.getStartDate()) == 0) {
-				availableReservation.remove(dateTimeSpan);
+				fishingTrainer.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (startChanged) {
-					availableReservation.remove(newAvailableDateSpan);
+					fishingTrainer.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
 					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(),
 							dateTimeSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(duration.getStartDate(), dateTimeSpan.getEndDate());
 					endChanged = true;
 				}
-				availableReservation.add(newAvailableDateSpan);
+				fishingTrainer.getAvailableReservationDateSpan().add(newAvailableDateSpan);
 			}
 		}
 
-		fishingRepository.save(fishingCourse);
+		fishingTrainerRepository.save(fishingTrainer);
 	}
 
 	@Transactional
 	@Override
 	public FishingReservationDTO appointQuickReservation(Long reservationId, Long userId) {
-		FishingQuickReservation fishingQuickReservation = fishingQuickReservationRepository.findById(reservationId)
-				.get();
-		if (!fishingQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		FishingQuickReservation fishingCourseQuickReservation = fishingQuickReservationRepository
+				.findById(reservationId).get();
+		if (!fishingCourseQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
-		fishingQuickReservation.setReserved(true);
-		fishingQuickReservationRepository.save(fishingQuickReservation);
-		FishingReservation fishingReservation = FishingQuickReservationMapper
-				.FishingQuickReservationToFishingReservation(fishingQuickReservation);
-		fishingReservation.setCustomer(customerRepository.findById(userId).get());
-		FishingReservation fishingReservationReturn = fishingReservationRepository.save(fishingReservation);
-		return FishingReservationMapper.FishingReservationToDTO(fishingReservationReturn);
+		fishingCourseQuickReservation.setReserved(true);
+		fishingQuickReservationRepository.save(fishingCourseQuickReservation);
+		FishingReservation fishingCourseReservation = FishingQuickReservationMapper
+				.FishingQuickReservationToFishingReservation(fishingCourseQuickReservation);
+		fishingCourseReservation.setCustomer(customerRepository.findById(userId).get());
+		FishingReservation fishingCourseReservationReturn = fishingReservationRepository.save(fishingCourseReservation);
+		return FishingReservationMapper.FishingReservationToDTO(fishingCourseReservationReturn);
 	}
 
 	@Override
 	public Set<FishingQuickReservationDTO> findByIsReservedFalseAndFishingCourseId(Long id) {
-		Set<FishingQuickReservation> fishingQuickReservations = new HashSet<>(
+		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
 				fishingQuickReservationRepository.findByIsReservedFalseAndFishingCourseId(id));
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
-		if (fishingQuickReservations.size() != 0) {
+		if (fishingCourseQuickReservations.size() != 0) {
 
 			FishingQuickReservationDTO dto;
-			for (FishingQuickReservation p : fishingQuickReservations) {
-				dto = FishingQuickReservationMapper.FishingQuickReservationToFishingQuickReservationDTO(p);
+			for (FishingQuickReservation p : fishingCourseQuickReservations) {
+				dto = FishingQuickReservationMapper.FishingQuickReservationToDTO(p);
 				dtos.add(dto);
 			}
 		}
@@ -235,14 +233,14 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 
 	@Override
 	public Set<FishingQuickReservationDTO> findByIsReservedFalse() {
-		Set<FishingQuickReservation> fishingQuickReservations = new HashSet<>(
+		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
 				fishingQuickReservationRepository.findByIsReservedFalse());
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
-		if (fishingQuickReservations.size() != 0) {
+		if (fishingCourseQuickReservations.size() != 0) {
 
 			FishingQuickReservationDTO dto;
-			for (FishingQuickReservation p : fishingQuickReservations) {
-				dto = FishingQuickReservationMapper.FishingQuickReservationToFishingQuickReservationDTO(p);
+			for (FishingQuickReservation p : fishingCourseQuickReservations) {
+				dto = FishingQuickReservationMapper.FishingQuickReservationToDTO(p);
 				dtos.add(dto);
 			}
 		}

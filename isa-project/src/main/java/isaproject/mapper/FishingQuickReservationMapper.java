@@ -9,7 +9,7 @@ import isaproject.model.FishingReservation;
 
 public class FishingQuickReservationMapper {
 	
-	public static FishingQuickReservation FishingQuickReservationDTOToFishingQuickReservation(FishingQuickReservationDTO fishingQuickReservationDTO) {
+	public static FishingQuickReservation DTOToFishingQuickReservation(FishingQuickReservationDTO fishingQuickReservationDTO) {
 		FishingQuickReservation fishingQuickReservation = new FishingQuickReservation();
 		fishingQuickReservation.setId(fishingQuickReservationDTO.getId());
 		fishingQuickReservation.setDuration(fishingQuickReservationDTO.getDuration());
@@ -22,7 +22,7 @@ public class FishingQuickReservationMapper {
 		return fishingQuickReservation;
 	}
 	
-	public static FishingQuickReservationDTO FishingQuickReservationToFishingQuickReservationDTO(FishingQuickReservation fishingQuickReservation) {
+	public static FishingQuickReservationDTO FishingQuickReservationToDTO(FishingQuickReservation fishingQuickReservation) {
 		FishingQuickReservationDTO fishingQuickReservationDTO = new FishingQuickReservationDTO();
 		fishingQuickReservationDTO.setId(fishingQuickReservation.getId());
 		fishingQuickReservationDTO.setDuration(fishingQuickReservation.getDuration());

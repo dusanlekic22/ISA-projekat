@@ -122,10 +122,10 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 				break;
 			}
 		}
+
 		FishingQuickReservation fishingCourseQuickReservationReturn = fishingQuickReservationRepository
 				.save(fishingCourseQuickReservation);
 		for (Customer customer : fishingCourseQuickReservation.getFishingCourse().getSubscribers()) {
-			System.out.println(customer.getFirstName());
 			customerService.sendNewQuickReservationEmail(customer, siteUrl, fishingCourseQuickReservationReturn);
 		}
 

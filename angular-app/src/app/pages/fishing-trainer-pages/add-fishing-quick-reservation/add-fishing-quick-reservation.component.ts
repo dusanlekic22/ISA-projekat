@@ -31,25 +31,26 @@ export class AddFishingQuickReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.minDate = this.date();
-    let fishingId = this.route.snapshot.paramMap.get('fishingId');
+    let fishingCourseId = this.route.snapshot.paramMap.get('id');
     this.userService.currentUser.subscribe((user) => {
-      this.fishingService
-        .getFishingTrainerCourses(user.id)
-        .subscribe((fishingCourses) => {
-          this.fishingCourses = fishingCourses;
-          this.fishingCourse = this.fishingCourses.filter(
-            (c) => c.id == parseInt(fishingId!)
-          )[0];
-          this.fishingQuickReservation.fishingCourse = this.fishingCourse
-        });
+      if (user.id != undefined) {
+        this.fishingService
+          .getFishingTrainerCourses(user.id)
+          .subscribe((fishingCourses) => {
+            this.fishingCourses = fishingCourses;
+            this.fishingCourse = this.fishingCourses.filter(
+              (c) => c.id === parseInt(fishingCourseId!)
+            )[0];
+            this.fishingQuickReservation.fishingCourse = this.fishingCourse;
+            this.fishingQuickReservation.location = this.fishingCourse.address;
+          });
+      }
     });
   }
 
   addQuickReservation(): void {
     this.fishingQuickReservationService
-      .addFishingQuickReservation(
-        this.fishingQuickReservation
-      )
+      .addFishingQuickReservation(this.fishingQuickReservation)
       .subscribe(
         (quickReservation) => {
           //this.addReservationFormOpened = false;

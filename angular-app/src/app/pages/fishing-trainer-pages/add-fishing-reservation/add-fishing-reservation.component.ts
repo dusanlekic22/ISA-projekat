@@ -25,30 +25,33 @@ export class AddFishingReservationComponent implements OnInit {
   fishingCourseReservation: IFishingReservation = emptyFishingReservation;
 
   constructor(
-    private _fishingCourseReservationService: FishingReservationService,
-    private _toastr: ToastrService,
-    private _userService: UserService,
-    private _fishingCourseService: FishingCourseService,
-    private _route: ActivatedRoute
+    private fishingCourseReservationService: FishingReservationService,
+    private toastr: ToastrService,
+    private userService: UserService,
+    private fishingCourseService: FishingCourseService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._fishingCourseReservationService
+    this.fishingCourseReservationService
       .getCustomerHasReservationNow()
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });
-    let fishingCourseId = this._route.snapshot.paramMap.get('fishingCourseId');
-    this._userService.currentUser.subscribe((user) => {
-      this._fishingCourseService
-        .getFishingTrainerCourses(user.id)
-        .subscribe((fishingCourses) => {
-          this.fishingCourses = fishingCourses;
-          this.fishingCourse = this.fishingCourses.filter(
-            (c) => c.id == parseInt(fishingCourseId!)
-          )[0];
-          this.fishingCourseReservation.fishingCourse = this.fishingCourse;
-        });
+    let fishingCourseId = this.route.snapshot.paramMap.get('id');
+    this.userService.currentUser.subscribe((user) => {
+      if (user.id != undefined) {
+        this.fishingCourseService
+          .getFishingTrainerCourses(user.id)
+          .subscribe((fishingCourses) => {
+            this.fishingCourses = fishingCourses;
+            this.fishingCourse = this.fishingCourses.filter(
+              (c) => c.id == parseInt(fishingCourseId!)
+            )[0];
+            this.fishingCourseReservation.fishingCourse = this.fishingCourse;
+            this.fishingCourseReservation.location = this.fishingCourse.address;
+          });
+      }
     });
   }
 
@@ -58,16 +61,16 @@ export class AddFishingReservationComponent implements OnInit {
 
   addReservation(): void {
     this.fishingCourseReservation.customer = this.customer;
-    this._fishingCourseReservationService
+    this.fishingCourseReservationService
       .addFishingReservation(this.fishingCourseReservation)
       .subscribe(
         (reservation) => {
-          this._toastr.success('Reservation was successfully added.');
+          this.toastr.success('Reservation was successfully added.');
 
           this.submitted.emit();
         },
         (err) => {
-          this._toastr.error(
+          this.toastr.error(
             'Reservation term overlaps with another.',
             'Try a different date!'
           );

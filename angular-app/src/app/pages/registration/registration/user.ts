@@ -1,4 +1,5 @@
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
+import { IAddress } from 'src/app/model/address';
 
 export interface IUser {
   id: number;
@@ -31,14 +32,6 @@ export interface IUserLogin {
 export interface IToken {
   accessToken: string;
   expiresIn: number;
-}
-
-export interface IAddress {
-  street: string;
-  city: string;
-  country: string;
-  latitude: string;
-  longitude: string;
 }
 
 export interface IRole {

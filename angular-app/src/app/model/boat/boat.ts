@@ -21,6 +21,7 @@ export interface IBoat {
   boatRules: string;
   pricePerHour: number;
   cancelCondition: string;
+  capacity:number;
   boatImage: IImage[];
   boatReservation: IBoatReservation[];
   boatQuickReservation: IBoatQuickReservation[];

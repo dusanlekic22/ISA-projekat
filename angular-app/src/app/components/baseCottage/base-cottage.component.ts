@@ -1,6 +1,6 @@
-import { IAddress } from './../../pages/registration/registration/user';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { IAddress } from 'src/app/model/address';
 @Component({
   selector: 'app-base-cottage',
   templateUrl: './base-cottage.component.html',

@@ -5,6 +5,7 @@ import { IAdditionalService } from 'src/app/model/additionalService';
 import { ToastrService } from 'ngx-toastr';
 import { ICottage } from 'src/app/model/cottage';
 import { ActivatedRoute } from '@angular/router';
+import { IAddress } from 'src/app/model/address';
 
 @Component({
   selector: 'app-cottage-edit',
@@ -31,6 +32,10 @@ export class CottageEditComponent implements OnInit {
           (additionalService) => additionalService.name != null
         );
       });
+  }
+
+  setAddress(address:IAddress){
+    this.cottage.address = address;
   }
 
   edit(): void {

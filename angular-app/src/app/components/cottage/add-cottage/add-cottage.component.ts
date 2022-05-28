@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IAddress } from 'src/app/model/address';
 import { ICottage } from 'src/app/model/cottage';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { UserService } from 'src/app/service/user.service';
@@ -19,8 +20,8 @@ export class AddCottageComponent implements OnInit {
     address: {
       city: '',
       country: '',
-      latitude: '',
-      longitude: '',
+      latitude: 0,
+      longitude: 0,
       street: '',
     },
     promoDescription: '',
@@ -44,8 +45,8 @@ export class AddCottageComponent implements OnInit {
         street: '',
         city: '',
         country: '',
-        latitude: '',
-        longitude: '',
+        latitude: 0,
+        longitude: 0,
       },
       roles: [],
     },
@@ -99,6 +100,10 @@ export class AddCottageComponent implements OnInit {
       });
       this.submitted.emit(submit);
     });
+  }
+
+  setAddress(address:IAddress){
+    this.cottage.address = address;
   }
 
   removeTerm(term: IDateSpan) {

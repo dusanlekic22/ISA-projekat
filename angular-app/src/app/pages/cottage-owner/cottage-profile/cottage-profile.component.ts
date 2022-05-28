@@ -23,8 +23,8 @@ export class CottageProfileComponent implements OnInit {
     address: {
       city: '',
       country: '',
-      latitude: '',
-      longitude: '',
+      latitude: 0,
+      longitude: 0,
       street: '',
     },
     promoDescription: '',
@@ -49,8 +49,8 @@ export class CottageProfileComponent implements OnInit {
         street: '',
         city: '',
         country: '',
-        latitude: '',
-        longitude: '',
+        latitude: 0,
+        longitude: 0,
       },
     },
   };

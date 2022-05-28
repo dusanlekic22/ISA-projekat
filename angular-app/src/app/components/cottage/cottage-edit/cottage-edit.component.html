@@ -80,7 +80,7 @@
               >
               <input
                 type="number"
-                name= "pricePerHour"
+                name="pricePerHour"
                 id="input-price"
                 class="form-control form-control-alternative"
                 min="1"
@@ -108,6 +108,15 @@
       <hr class="my-4" />
       <!-- Address -->
       <h6 class="heading-small text-muted mb-4">Location</h6>
+
+      <div class="mb-4" style="height: 450px">
+        <app-map
+          [lat]="cottage.address.latitude"
+          [long]="cottage.address.longitude"
+          [edit]="true"
+          (addressEvent)="setAddress($event)"
+        ></app-map>
+      </div>
       <div class="pl-lg-4">
         <div class="row">
           <div class="col-md-12">

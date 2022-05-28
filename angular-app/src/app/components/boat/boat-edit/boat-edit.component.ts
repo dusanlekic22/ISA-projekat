@@ -5,6 +5,7 @@ import { IAdditionalService } from 'src/app/model/additionalService';
 import { ToastrService } from 'ngx-toastr';
 import { IBoat } from 'src/app/model/boat/boat';
 import { AdditionalServiceService } from 'src/app/pages/cottage-owner/services/additional-service.service';
+import { IAddress } from 'src/app/model/address';
 
 @Component({
   selector: 'app-boat-edit',
@@ -50,6 +51,10 @@ export class BoatEditComponent implements OnInit {
         );
       }
     );
+  }
+
+  setAddress(address:IAddress){
+    this.boat.address = address;
   }
 
   onItemAdded(input: any): void {

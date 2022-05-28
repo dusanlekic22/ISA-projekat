@@ -34,7 +34,6 @@ public class CottageController {
 	
 	@GetMapping
 	@ResponseBody
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public Set<CottageDTO> getAll(){
 		return cottageService.findAll();
 	}

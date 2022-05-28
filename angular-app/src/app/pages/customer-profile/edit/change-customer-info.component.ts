@@ -88,6 +88,7 @@ export class ChangeCustomerInfoComponent implements OnInit {
           )
           .subscribe((data) => {
             this.city = data.address.city;
+            this.street = data.address.road;
             this.country = data.address.country;
           });
       });
@@ -106,11 +107,13 @@ export class ChangeCustomerInfoComponent implements OnInit {
           .subscribe((data) => {
             console.log(data)
             this.city = data.address.city;
+            this.street = data.address.road;
             this.country = data.address.country;
           });
       });
     }
   }
+  
   update() {
     this.user = {
       id: this.customerId,
@@ -124,8 +127,8 @@ export class ChangeCustomerInfoComponent implements OnInit {
         street: this.street,
         city: this.city,
         country: this.country,
-        longitude: this.longitude.toString(),
-        latitude: this.latitude.toString(),
+        longitude: this.longitude,
+        latitude: this.latitude,
       },
       roles: [],
     };

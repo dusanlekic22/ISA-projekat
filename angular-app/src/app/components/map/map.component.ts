@@ -24,7 +24,6 @@ export class MapComponent implements OnInit {
   constructor(private _registrationService: RegistrationService) {}
 
   ngOnInit(): void {
-    if(this.lat != 0)
     this.mapInit();
   }
 

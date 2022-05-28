@@ -111,6 +111,7 @@
 
       <div class="mb-4" style="height: 450px">
         <app-map
+          *ngIf="cottage.address.latitude!==0 && cottage.address.longitude!==0"
           [lat]="cottage.address.latitude"
           [long]="cottage.address.longitude"
           [edit]="true"

@@ -24,9 +24,8 @@ export class BoatEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let boatId = +this._route.snapshot.paramMap.get('boatId')!;
     this._additionalServiceService
-      .getAdditionalServicesByBoatId(boatId)
+      .getAdditionalServicesByBoatId(this.boat.id)
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService.filter(
           (additionalService) => additionalService.name != null

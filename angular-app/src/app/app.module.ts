@@ -1,3 +1,4 @@
+import { RegistrationRequestsComponent } from './pages/admin-pages/registration-requests/registration-requests.component';
 import { AddFishingQuickReservationComponent } from './pages/fishing-trainer-pages/add-fishing-quick-reservation/add-fishing-quick-reservation.component';
 import { AddFishingReservationComponent } from './pages/fishing-trainer-pages/add-fishing-reservation/add-fishing-reservation.component';
 import { FishingReservationsComponent } from './pages/fishing-trainer-pages/fishing-reservations/fishing-reservations.component';
@@ -76,6 +77,8 @@ import { AddBoatQuickReservationComponent } from './components/boat/reservation/
 import { AddBoatReservationComponent } from './components/boat/reservation/add-boat-reservation/add-boat-reservation.component';
 import { BoatReservationsComponent } from './components/boat/reservation/boat-reservations/boat-reservations.component';
 import { BoatQuickReservationsComponent } from './components/boat/reservation/boat-quick-reservations/boat-quick-reservations.component';
+import { RequestsComponent } from './pages/admin-pages/requests/requests.component';
+import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-registration-request/answer-registration-request.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +127,9 @@ import { BoatQuickReservationsComponent } from './components/boat/reservation/bo
     FishingReservationsComponent,
     AddFishingReservationComponent,
     AddFishingQuickReservationComponent,
+    RequestsComponent,
+    RegistrationRequestsComponent,
+    AnswerRegistrationRequestComponent,
   ],
   imports: [
     NgbModule,

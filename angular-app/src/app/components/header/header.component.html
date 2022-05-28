@@ -82,6 +82,14 @@
             >Fishing Courses</a
           >
         </li>
+        <li class="nav-item" *appHasRole="['ROLE_ADMIN']">
+          <a
+            class="nav-link"
+            [routerLink]="['/requests']"
+            routerLinkActive="router-link-active"
+            >Requests</a
+          >
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/customer/' + loggedInUser.id]">
             Profile

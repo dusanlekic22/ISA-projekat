@@ -21,6 +21,7 @@ import { AddBoatReservationComponent } from './components/boat/reservation/add-b
 import { BoatOwnerHomeComponent } from './pages/boat-owner/boat-owner-home/boat-owner-home.component';
 import { BoatOwnerProfileComponent } from './pages/boat-owner/boat-owner-profile/boat-owner-profile.component';
 import { BoatProfileComponent } from './pages/boat-owner/boat-profile/boat-profile.component';
+import { RequestsComponent } from './pages/admin-pages/requests/requests.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,10 @@ const routes: Routes = [
   {
     path: 'fishingCourseProfile/:id',
     component: FishingCourseProfileComponent,
+  },
+  {
+    path: 'requests',
+    component: RequestsComponent
   },
   { path: '**', redirectTo: '' },
 ];

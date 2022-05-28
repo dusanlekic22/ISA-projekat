@@ -1,9 +1,8 @@
+import { IBusinessOwner } from './../../../model/business-owner';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BusinessType } from '../business-type';
 import { RegistrationService } from '../registration.service';
-import { IBusinessOwner } from './business-owner';
 
 @Component({
   selector: 'app-business-owner-registration',

@@ -25,7 +25,6 @@ import isaproject.service.boat.BoatService;
 public class BoatServiceImpl implements BoatService {
 
 	private BoatRepository boatRepository;
-	private AddressRepository addressRepository;
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
 
@@ -35,7 +34,6 @@ public class BoatServiceImpl implements BoatService {
 			BoatQuickReservationService boatQuickReservationService) {
 		super();
 		this.boatRepository = boatRepository;
-		this.addressRepository = addressRepository;
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
 	}
@@ -73,7 +71,6 @@ public class BoatServiceImpl implements BoatService {
 	@Override
 	public BoatDTO save(BoatDTO boatDTO) {
 		Boat boat = BoatMapper.BoatDTOToBoat(boatDTO);
-		addressRepository.save(boatDTO.getAddress());
 		return BoatMapper.BoatToBoatDTO(boatRepository.save(boat));
 	}
 

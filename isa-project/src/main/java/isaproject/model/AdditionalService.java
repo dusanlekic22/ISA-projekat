@@ -34,11 +34,11 @@ public class AdditionalService implements Serializable {
 	private String name;
 	private String price;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "boat")
 	private Boat boat;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "cottage")
 	private Cottage cottage;
 

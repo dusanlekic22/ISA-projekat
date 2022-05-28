@@ -29,7 +29,7 @@ public class BoatMapper {
 		boat.setSubscribers(boatDTO.getSubscribers());
 		return boat;
 	}
-	
+
 	public static BoatDTO BoatToBoatDTO(Boat boat) {
 		BoatDTO boatDTO = new BoatDTO();
 		boatDTO.setId(boat.getId());

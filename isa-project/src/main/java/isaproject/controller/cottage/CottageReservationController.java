@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +42,14 @@ public class CottageReservationController {
 
 	@GetMapping("/customerHasReservationNow")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
 		return new ResponseEntity<>(cottageReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassed() {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
@@ -54,24 +57,27 @@ public class CottageReservationController {
 
 	@GetMapping("/active")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllActive() {
 		return new ResponseEntity<>(cottageReservationService.findAllActive(), HttpStatus.OK);
 	}
 
 	@GetMapping("/active/{cottageId}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageId(@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllActiveByCottageId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed/{cottageId}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageId(@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageId(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/owner")
-	// @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> reserveOwner(@RequestBody CottageReservationDTO cottageReservationDTO,
 			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		CottageReservationDTO cottageReservationReturnDTO = cottageReservationService
@@ -82,7 +88,7 @@ public class CottageReservationController {
 	}
 
 	@PostMapping("/customer")
-	// @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<CottageReservationDTO> reserveCustomer(
 			@RequestBody CottageReservationDTO cottageReservationDTO) {
 		CottageReservationDTO cottageReservationReturnDTO = cottageReservationService
@@ -103,6 +109,7 @@ public class CottageReservationController {
 
 	@DeleteMapping("/{id}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> deleteById(@PathVariable("id") Long id) {
 		CottageReservationDTO cottageReservationDTO = cottageReservationService.deleteById(id);
 		return new ResponseEntity<>(cottageReservationDTO, HttpStatus.OK);

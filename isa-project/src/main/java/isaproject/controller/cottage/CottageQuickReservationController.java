@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,12 +41,14 @@ public class CottageQuickReservationController {
 	}
 	
 	@GetMapping("/notReserved")
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	@ResponseBody
 	public ResponseEntity<Set<CottageQuickReservationDTO>> getIsReservedFalse(){
 		return new ResponseEntity<>(cottageQuickReservationService.findByIsReservedFalse(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/cottage/{id}/notReserved")
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	@ResponseBody
 	public ResponseEntity<Set<CottageQuickReservationDTO>> getNotReservedAndByCottageId(@PathVariable("id")Long id){
 		return new ResponseEntity<>(cottageQuickReservationService.findByIsReservedFalseAndCottageId(id),HttpStatus.OK);
@@ -53,7 +56,7 @@ public class CottageQuickReservationController {
 	
 	
 	@PostMapping
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageQuickReservationDTO> save(
 			@RequestBody CottageQuickReservationDTO cottageQuickReservationDTO,HttpServletRequest request)
 			throws UnsupportedEncodingException, MessagingException {
@@ -64,7 +67,7 @@ public class CottageQuickReservationController {
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(cottageReservationReturnDTO == null)
@@ -74,6 +77,7 @@ public class CottageQuickReservationController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageQuickReservationDTO> deleteById(@PathVariable("id") Long id) {
 		CottageQuickReservationDTO cottageQuickReservationDTO = cottageQuickReservationService.deleteById(id);
 		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.OK);

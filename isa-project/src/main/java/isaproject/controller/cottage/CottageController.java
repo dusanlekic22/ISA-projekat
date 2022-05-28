@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import isaproject.model.DateTimeSpan;
-import isaproject.service.cottage.CottageService;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.cottage.CottageDTO;
+import isaproject.model.DateTimeSpan;
+import isaproject.service.cottage.CottageService;
 
 @RestController
 @RequestMapping(value = "/cottage", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,20 +39,19 @@ public class CottageController {
 	}
 	
 	@GetMapping("/{id}")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
 	public CottageDTO loadById(@PathVariable("id") Long id) {
 		return cottageService.findById(id);
 	}
 	
 	@PutMapping
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> update(@RequestBody CottageDTO cottageDTO) {
-		cottageService.update(cottageDTO);
-		return new ResponseEntity<>(cottageDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(cottageService.update(cottageDTO),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/info")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> updateInfo(@RequestBody CottageDTO cottageDTO) {
 		CottageDTO cottageReturnDTO =  cottageService.updateInfo(cottageDTO);
 		if(cottageReturnDTO==null)
@@ -60,7 +60,7 @@ public class CottageController {
 	}
 	
 	@PutMapping("/availableTerms/{id}")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> updateAvailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
 		CottageDTO cottageReturnDTO =  cottageService.updateAvailableTerms(id, dateTimeSpan);
 		if(cottageReturnDTO==null)
@@ -69,10 +69,9 @@ public class CottageController {
 	}
 	
 	@PostMapping
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> save(@RequestBody CottageDTO cottageDTO) {
-		cottageService.save(cottageDTO);
-		return new ResponseEntity<>(cottageDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(cottageService.save(cottageDTO),HttpStatus.CREATED);
 	}
 
 	@GetMapping("/search")
@@ -83,12 +82,14 @@ public class CottageController {
 	
 	@GetMapping("/owner/{id}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public Set<CottageDTO> getByCottageOwnerId(@PathVariable("id") Long id) {
 		return cottageService.findByCottageOwnerId(id);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public CottageDTO deleteById(@PathVariable("id") Long id) {
 		return cottageService.deleteById(id);
 	}

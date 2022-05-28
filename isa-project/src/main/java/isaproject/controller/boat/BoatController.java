@@ -47,8 +47,7 @@ public class BoatController {
 	@PutMapping
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatDTO> update(@RequestBody BoatDTO boatDTO) {
-		boatService.update(boatDTO);
-		return new ResponseEntity<>(boatDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(boatService.update(boatDTO),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/info")
@@ -72,8 +71,7 @@ public class BoatController {
 	@PostMapping
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatDTO> save(@RequestBody BoatDTO boatDTO) {
-		boatService.save(boatDTO);
-		return new ResponseEntity<>(boatDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(boatService.save(boatDTO),HttpStatus.CREATED);
 	}
 
 	@GetMapping("/search")

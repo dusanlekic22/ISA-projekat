@@ -1,9 +1,9 @@
-import { IAddress } from './../pages/registration/registration/user';
 import { IFishingTrainer } from './fishingTrainer';
 import { IFishingReservation } from './fishingReservation';
 import { IFishingQuickReservation } from './fishingQuickReservation';
 import { IFishingImage } from './fishingImage';
 import { IAdditionalService } from './additionalService';
+import { IAddress } from './address';
 
 export interface IFishingCourse {
   id: number;

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IAddress } from 'src/app/model/address';
 import { ICottage } from 'src/app/model/cottage';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { UserService } from 'src/app/service/user.service';
@@ -17,11 +18,11 @@ export class AddCottageComponent implements OnInit {
     id: 0,
     name: '',
     address: {
-      city: 'Kraljevo',
-      country: 'Srbija',
-      latitude: '73',
-      longitude: '89',
-      street: 'Zmajevacka',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+      street: '',
     },
     promoDescription: '',
     bedCount: 0,
@@ -44,8 +45,8 @@ export class AddCottageComponent implements OnInit {
         street: '',
         city: '',
         country: '',
-        latitude: '',
-        longitude: '',
+        latitude: 0,
+        longitude: 0,
       },
       roles: [],
     },
@@ -94,12 +95,15 @@ export class AddCottageComponent implements OnInit {
     this._cottageService.saveCottage(this.cottage).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
         this._additionalServiceService
-          .addAdditionalServiceForCottage(element, this.cottage)
+          .addAdditionalServiceForCottage(element, data)
           .subscribe((additionalService) => {});
       });
-
       this.submitted.emit(submit);
     });
+  }
+
+  setAddress(address:IAddress){
+    this.cottage.address = address;
   }
 
   removeTerm(term: IDateSpan) {

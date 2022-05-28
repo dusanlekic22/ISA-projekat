@@ -100,6 +100,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 				.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		boatReservation.setConfirmed(true);
 		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
+		long reservationPrice = boatReservation.getBoat().getPricePerHour()*boatReservation.getDuration().getHours();
+		boatReservation.setPrice((int) (long) reservationPrice);
 		if (!boatReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
@@ -119,7 +121,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
 			if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
 				overlaps = true;
-				reserveAvailableDateSpanForCustomer(boatReservation, dateTimeSpan);
+				reserveAvailableDateSpan(boatReservation, dateTimeSpan);
 				break;
 			}
 		}
@@ -137,7 +139,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 				&& existingReservation.getDuration().isBetween(LocalDateTime.now());
 	}
 	
-	private void reserveAvailableDateSpanForOwner(BoatReservation boatReservation, DateTimeSpan availableDateSpan) {
+	private void reserveAvailableDateSpan(BoatReservation boatReservation, DateTimeSpan availableDateSpan) {
 		Boat boat = boatReservation.getBoat();
 		DateTimeSpan duration = boatReservation.getDuration();
 		boat.getAvailableReservationDateSpan().remove( availableDateSpan);
@@ -147,30 +149,6 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			boat.getAvailableReservationDateSpan().add( newDateSpan);
 		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
 				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
-			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
-		
-			boat.getAvailableReservationDateSpan().add(newDateSpan);
-		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
-				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
-			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
-			DateTimeSpan newDateSpan2 = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-		
-			boat.getAvailableReservationDateSpan().add(newDateSpan1);
-			boat.getAvailableReservationDateSpan().add(newDateSpan2);
-		}
-		boatRepository.save(boat);
-	}
-
-	private void reserveAvailableDateSpanForCustomer(BoatReservation boatReservation, DateTimeSpan availableDateSpan) {
-		Boat boat = boatReservation.getBoat();
-		DateTimeSpan duration = boatReservation.getDuration();
-		boat.getAvailableReservationDateSpan().remove( availableDateSpan);
-		if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) == 0
-				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
-			DateTimeSpan newDateSpan = new DateTimeSpan(duration.getEndDate(), availableDateSpan.getEndDate());
-			boat.getAvailableReservationDateSpan().add( newDateSpan);
-		} else if (duration.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
-				&& duration.getEndDate().compareTo(availableDateSpan.getEndDate()) == 0) {
 			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(), duration.getStartDate());
 		
 			boat.getAvailableReservationDateSpan().add(newDateSpan);
@@ -224,7 +202,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		
 		for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
 			if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpanForOwner(boatReservation, dateTimeSpan);
+				reserveAvailableDateSpan(boatReservation, dateTimeSpan);
 				break;
 			}
 		}

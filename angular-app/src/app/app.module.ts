@@ -76,6 +76,7 @@ import { AddBoatQuickReservationComponent } from './components/boat/reservation/
 import { AddBoatReservationComponent } from './components/boat/reservation/add-boat-reservation/add-boat-reservation.component';
 import { BoatReservationsComponent } from './components/boat/reservation/boat-reservations/boat-reservations.component';
 import { BoatQuickReservationsComponent } from './components/boat/reservation/boat-quick-reservations/boat-quick-reservations.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { BoatQuickReservationsComponent } from './components/boat/reservation/bo
     FishingReservationsComponent,
     AddFishingReservationComponent,
     AddFishingQuickReservationComponent,
+    MapComponent
   ],
   imports: [
     NgbModule,

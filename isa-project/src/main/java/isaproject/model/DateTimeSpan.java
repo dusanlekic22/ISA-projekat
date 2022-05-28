@@ -1,6 +1,7 @@
 package isaproject.model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import javax.persistence.Embeddable;
@@ -9,13 +10,17 @@ import javax.persistence.Embeddable;
 public class DateTimeSpan {
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-
+	private Long hours;
+	private Long days;
+	
 	public DateTimeSpan() {
 	}
 
 	public DateTimeSpan(LocalDateTime startDate, LocalDateTime endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
+		hours = ChronoUnit.HOURS.between(startDate, endDate);
+		days = ChronoUnit.DAYS.between(startDate, endDate);
 		validate();
 	}
 	
@@ -80,6 +85,14 @@ public class DateTimeSpan {
 			return false;
 		DateTimeSpan other = (DateTimeSpan) obj;
 		return Objects.equals(endDate, other.endDate) && Objects.equals(startDate, other.startDate);
+	}
+
+	public Long getHours() {
+		return hours;
+	}
+
+	public Long getDays() {
+		return days;
 	}
 
 }

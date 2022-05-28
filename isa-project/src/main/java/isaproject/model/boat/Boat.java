@@ -51,7 +51,7 @@ public class Boat implements Serializable {
 	private Integer engineNumber;
 	private Integer topSpeed;
 	private Integer enginePower;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Address address;
 	private String description;
 	private Integer capacity;

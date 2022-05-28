@@ -177,6 +177,12 @@
               Input valid
             </mdb-success>
           </div>
+          <div>
+            <app-map
+              [edit]="true"
+              (addressEvent)="setAddress($event)"
+            ></app-map>
+          </div>
           <div class="md-form mb-4">
             <label>Additional services(Format:Name Price)</label>
             <tag-input
@@ -204,8 +210,7 @@
           <div class="md-form mb-5">
             <mat-form-field appearance="fill">
               <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker" 
-              [min]="minDate">
+              <mat-date-range-input [rangePicker]="picker" [min]="minDate">
                 <input
                   matStartDate
                   placeholder="Start date"
@@ -241,7 +246,11 @@
                 {{ term.startDate | date: "dd/MM/yyyy" }}-{{
                   term.endDate | date: "dd/MM/yyyy"
                 }}
-                <button (click)="removeTerm(term)" mat-icon-button color="primary">
+                <button
+                  (click)="removeTerm(term)"
+                  mat-icon-button
+                  color="primary"
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

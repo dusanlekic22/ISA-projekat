@@ -132,8 +132,8 @@ export class RegistrationComponent implements OnInit {
         street: this.street,
         city: this.city,
         country: this.country,
-        latitude: this.latitude.toString(),
-        longitude: this.longitude.toString(),
+        latitude: this.latitude,
+        longitude: this.longitude,
       },
       roles: [],
     };

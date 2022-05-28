@@ -30,6 +30,7 @@
   <div class="row">
     <div class="col-xl-8 order-xl-1 mb-4">
       <app-boat-edit
+        *ngIf="boat.id!==0"
         [boat]="boat"
       ></app-boat-edit>
     </div>

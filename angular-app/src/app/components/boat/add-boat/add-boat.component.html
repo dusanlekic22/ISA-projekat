@@ -1,267 +1,402 @@
 <div>
-    <button
-      type="button"
-      mdbBtn
-      color="default"
-      rounded="true"
-      data-toggle="modal"
-      data-target="#basicExample"
-      (click)="frame.show()"
-      mdbWavesEffect
-    >
-      Add a boat
-    </button>
-    <div
-      mdbModal
-      #frame="mdbModal"
-      class="modal fade left"
-      style="overflow-y: auto"
-      id="frameModalTop"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header text-center">
-            <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-              (click)="frame.hide()"
+  <button
+    type="button"
+    mdbBtn
+    color="default"
+    rounded="true"
+    data-toggle="modal"
+    data-target="#basicExample"
+    (click)="frame.show()"
+    mdbWavesEffect
+  >
+    Add a boat
+  </button>
+  <div
+    mdbModal
+    #frame="mdbModal"
+    class="modal fade left"
+    style="overflow-y: auto"
+    id="frameModalTop"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="frame.hide()"
+          >
+            <delete-icon></delete-icon>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.name"
+              type="text"
+              id="defaultForm-name"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-name">Name</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
             >
-              <span aria-hidden="true">times</span>
-            </button>
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
           </div>
-          <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.description"
+              type="text"
+              id="defaultForm-description"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-description">Description</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.type"
+              type="text"
+              id="defaultForm-type"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-type">Type</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.engineNumber"
+              type="number"
+              id="defaultForm-engineNumber"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-engineNumber">Number of beds</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.length"
+              type="number"
+              id="defaultForm-length"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-length">Length</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.topSpeed"
+              type="number"
+              id="defaultForm-topSpeed"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-topSpeed">Top speed</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.enginePower"
+              type="number"
+              id="defaultForm-enginePower"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-enginePower">Engine power</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.capacity"
+              type="number"
+              id="defaultForm-capacity"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-capacity">Capacity</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div class="md-form mb-5">
+            <input
+              [(ngModel)]="boat.boatRules"
+              type="text"
+              id="defaultForm-boatRules"
+              [formControl]="$any(loginFormModalEmail)"
+              class="form-control"
+              mdbInput
+              mdbValidate
+            />
+            <label for="defaultForm-boatRules">Rules</label>
+            <mdb-error
+              *ngIf="
+                loginFormModalEmail!.invalid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input invalid
+            </mdb-error>
+            <mdb-success
+              *ngIf="
+                loginFormModalEmail!.valid &&
+                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
+              "
+            >
+              Input valid
+            </mdb-success>
+          </div>
+          <div style="z-index: 1200">
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a Condition</mat-label>
+              <mat-select
+                [(ngModel)]="boat.cancelCondition"
+                id="input-cancel"
+                name="cancel"
+              >
+                <mat-option value="FREE"> Free </mat-option>
+                <mat-option value="WITH_PAYBACK"> With payback </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="md-form mb-4">
+            <label>Additional services(Format:Name Price)</label>
+            <tag-input
+              (onAdd)="onItemAdded($event)"
+              [(ngModel)]="additionalServiceTags"
+              [modelAsStrings]="true"
+              #input
+            >
+              <ng-template let-item="item" let-index="index">
+                <!-- DEFINE HERE YOUR TEMPLATE -->
+                <span>
+                  <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
+                  <!-- ex. item.myDisplayValue -->
+
+                  {{ item.name }}({{ item.price }}€)
+                </span>
+                <delete-icon
+                  (click)="input.removeItem(item, index)"
+                ></delete-icon>
+              </ng-template>
+            </tag-input>
+          </div>
+
+          <label>Available reservation terms</label>
+          <div class="md-form mb-5">
             <div class="md-form mb-5">
-              <input
-                [(ngModel)]="boat.name"
-                type="text"
-                id="defaultForm-email"
-                [formControl]="$any(loginFormModalEmail)"
-                class="form-control"
-                mdbInput
-                mdbValidate
-              />
-              <label for="defaultForm-email">Name</label>
-              <mdb-error
-                *ngIf="
-                  loginFormModalEmail!.invalid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input invalid
-              </mdb-error>
-              <mdb-success
-                *ngIf="
-                  loginFormModalEmail!.valid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input valid
-              </mdb-success>
-            </div>
-            <div class="md-form mb-5">
-              <input
-                [(ngModel)]="boat.description"
-                type="text"
-                id="defaultForm-email"
-                [formControl]="$any(loginFormModalEmail)"
-                class="form-control"
-                mdbInput
-                mdbValidate
-              />
-              <label for="defaultForm-email">Description</label>
-              <mdb-error
-                *ngIf="
-                  loginFormModalEmail!.invalid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input invalid
-              </mdb-error>
-              <mdb-success
-                *ngIf="
-                  loginFormModalEmail!.valid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input valid
-              </mdb-success>
-            </div>
-            <div class="md-form mb-5">
-              <input
-                [(ngModel)]="boat.roomCount"
-                type="email"
-                id="defaultForm-email"
-                [formControl]="$any(loginFormModalEmail)"
-                class="form-control"
-                mdbInput
-                mdbValidate
-              />
-              <label for="defaultForm-email">Number of rooms</label>
-              <mdb-error
-                *ngIf="
-                  loginFormModalEmail!.invalid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input invalid
-              </mdb-error>
-              <mdb-success
-                *ngIf="
-                  loginFormModalEmail!.valid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input valid
-              </mdb-success>
-            </div>
-            <div class="md-form mb-5">
-              <input
-                [(ngModel)]="boat.bedCount"
-                type="email"
-                id="defaultForm-email"
-                [formControl]="$any(loginFormModalEmail)"
-                class="form-control"
-                mdbInput
-                mdbValidate
-              />
-              <label for="defaultForm-email">Number of beds</label>
-              <mdb-error
-                *ngIf="
-                  loginFormModalEmail!.invalid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input invalid
-              </mdb-error>
-              <mdb-success
-                *ngIf="
-                  loginFormModalEmail!.valid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input valid
-              </mdb-success>
-            </div>
-            <div class="md-form mb-5">
-              <input
-                [(ngModel)]="boat.boatRules"
-                type="text"
-                id="defaultForm-email"
-                [formControl]="$any(loginFormModalEmail)"
-                class="form-control"
-                mdbInput
-                mdbValidate
-              />
-              <label for="defaultForm-email">Rules</label>
-              <mdb-error
-                *ngIf="
-                  loginFormModalEmail!.invalid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input invalid
-              </mdb-error>
-              <mdb-success
-                *ngIf="
-                  loginFormModalEmail!.valid &&
-                  (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-                "
-              >
-                Input valid
-              </mdb-success>
-            </div>
-            <div class="md-form mb-4">
-              <label>Additional services(Format:Name Price)</label>
-              <tag-input
-                (onAdd)="onItemAdded($event)"
-                [(ngModel)]="additionalServiceTags"
-                [modelAsStrings]="true"
-                #input
-              >
-                <ng-template let-item="item" let-index="index">
-                  <!-- DEFINE HERE YOUR TEMPLATE -->
-                  <span>
-                    <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
-                    <!-- ex. item.myDisplayValue -->
-  
-                    {{ item.name }}({{ item.price }}€)
-                  </span>
-                  <delete-icon
-                    (click)="input.removeItem(item, index)"
-                  ></delete-icon>
-                </ng-template>
-              </tag-input>
-            </div>
-  
-            <label>Available reservation terms</label>
-            <div class="md-form mb-5">
-              <mat-form-field appearance="fill">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker" 
-                [min]="minDate">
+              <div class="mt-2 ml-2">
+                <label>Choose a starting date and time</label>
+                <div>
                   <input
-                    matStartDate
+                    #availableStartSelect
+                    type="datetime-local"
                     placeholder="Start date"
+                    [min]="minDate"
                     [(ngModel)]="startDate"
+                    name="availableDateStart"
                   />
+                </div>
+              </div>
+
+              <div class="mt-2 ml-2">
+                <label>Choose an ending date and time</label>
+                <div>
                   <input
-                    matEndDate
+                    type="datetime-local"
                     placeholder="End date"
+                    [min]="minDate"
                     [(ngModel)]="endDate"
+                    name="availableDateEnd"
                   />
-                </mat-date-range-input>
-                <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-              </mat-form-field>
-              <span class="ml-5">
-                <button
-                  mdbBtn
-                  color="default"
-                  class="waves-light"
-                  mdbWavesEffect
-                  (click)="addDateSpan()"
-                >
-                  Add available term
-                </button>
-              </span>
-              <div class="md-form mt-5">
-                <label for="">Appointed terms : </label>
-                <div *ngFor="let term of boat.availableReservationDateSpan">
-                  {{ term.startDate | date: "dd/MM/yyyy" }}-{{
-                    term.endDate | date: "dd/MM/yyyy"
-                  }}
-                  <button (click)="removeTerm(term)" mat-icon-button color="primary">
-                    <mat-icon>delete</mat-icon>
-                  </button>
                 </div>
               </div>
             </div>
+
+            <span class="ml-5">
+              <button
+                mdbBtn
+                color="default"
+                class="waves-light"
+                mdbWavesEffect
+                (click)="addDateSpan()"
+              >
+                Add available term
+              </button>
+            </span>
+            <div class="md-form mt-5">
+              <label for="">Appointed terms : </label>
+              <div *ngFor="let term of boat.availableReservationDateSpan">
+                {{ term.startDate | date: "dd/MM/yyyy HH:MM" }} - {{
+                  term.endDate | date: "dd/MM/yyyy HH:MM"
+                }}
+                <button
+                  (click)="removeTerm(term)"
+                  mat-icon-button
+                  color="primary"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
           </div>
-  
-          <div class="modal-footer d-flex justify-content-center">
-            <button
-              (click)="addBoat(true)"
-              mdbBtn
-              color="default"
-              class="waves-light"
-              mdbWavesEffect
-            >
-              Submit
-            </button>
-          </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            (click)="addBoat(true)"
+            mdbBtn
+            color="default"
+            class="waves-light"
+            mdbWavesEffect
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

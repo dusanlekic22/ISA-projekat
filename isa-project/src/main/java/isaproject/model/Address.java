@@ -21,8 +21,8 @@ public class Address implements Serializable {
 	private String street;
 	private String city;
 	private String country;
-	private String latitude;
-	private String longitude;
+	private Double latitude;
+	private Double longitude;
 
 	public Long getId() {
 		return id;
@@ -56,19 +56,19 @@ public class Address implements Serializable {
 		this.country = param;
 	}
 
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String param) {
+	public void setLatitude(Double param) {
 		this.latitude = param;
 	}
 
-	public String getlongitude() {
+	public Double getlongitude() {
 		return longitude;
 	}
 
-	public void setlongitude(String param) {
+	public void setlongitude(Double param) {
 		this.longitude = param;
 	}
 

@@ -1,186 +1,194 @@
 <div class="card bg-secondary shadow">
-    <div class="card-header bg-white border-0">
-      <div class="row align-items-center">
-        <div class="col-8">
-          <h3 class="mb-0">Boat information</h3>
-        </div>
+  <div class="card-header bg-white border-0">
+    <div class="row align-items-center">
+      <div class="col-8">
+        <h3 class="mb-0">Boat information</h3>
       </div>
     </div>
-    <div class="card-body">
-      <form>
-        <!-- Ovde -->
-        <div class="pl-lg-4">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="form-control-label" for="input-username"
-                  >Name</label
-                >
-                <input
-                  type="text"
-                  id="input-name"
-                  name="name"
-                  class="form-control form-control-alternative"
-                  [(ngModel)]="boat.name"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="form-control-label" for="input-description"
-                  >Description</label
-                >
-                <textarea
-                  class="form-control form-control-alternative"
-                  id="input-description"
-                  name="description"
-                  >{{ boat.description }}</textarea
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-rooms"
-                  >Number of rooms</label
-                >
-                <input
-                  type="number"
-                  name="roomCount"
-                  id="input-rooms"
-                  class="form-control form-control-alternative"
-                  [(ngModel)]="boat.roomCount"
-                  min="1"
-                />
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-beds"
-                  >Number of beds</label
-                >
-                <input
-                  type="number"
-                  name="bedCount"
-                  id="input-beds"
-                  class="form-control form-control-alternative"
-                  [(ngModel)]="boat.bedCount"
-                  min="1"
-                />
-              </div>
-            </div>
-  
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-price"
-                  >Price per hour</label
-                >
-                <input
-                  type="number"
-                  name= "pricePerHour"
-                  id="input-price"
-                  class="form-control form-control-alternative"
-                  min="1"
-                  [(ngModel)]="boat.pricePerHour"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="form-control-label" for="input-rules"
-                  >Rules of conduct</label
-                >
-                <textarea
-                  class="form-control form-control-alternative"
-                  id="input-rules"
-                  name="rules"
-                  >{{ boat.boatRules }}</textarea
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="my-4" />
-        <!-- Address -->
-        <h6 class="heading-small text-muted mb-4">Location</h6>
-        <div class="pl-lg-4">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="form-control-label" for="input-address"
-                  >Address</label
-                >
-                <input
-                  [(ngModel)]="boat.address.street"
-                  name="street"
-                  id="input-address"
-                  class="form-control form-control-alternative"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-city">City</label>
-                <input
-                  [(ngModel)]="boat.address.city"
-                  name="city"
-                  type="text"
-                  id="input-city"
-                  class="form-control form-control-alternative"
-                />
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label class="form-control-label" for="input-country"
-                  >Country</label
-                >
-                <input
-                  [(ngModel)]="boat.address.country"
-                  name="country"
-                  type="text"
-                  id="input-country"
-                  class="form-control form-control-alternative"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="my-4" />
-        <!-- Address -->
-        <h6 class="heading-small text-muted mb-4">Additional services</h6>
-        <div class="pl-lg-4">
-          <tag-input
-            name="tags"
-            (onAdd)="onItemAdded($event)"
-            [(ngModel)]="additionalServiceTags"
-            [modelAsStrings]="true"
-            #input
-          >
-            <ng-template let-item="item" let-index="index">
-              <!-- DEFINE HERE YOUR TEMPLATE -->
-              <span>
-                <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
-                <!-- ex. item.myDisplayValue -->
-  
-                {{ item.name }}({{ item.price }}€)
-              </span>
-              <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
-            </ng-template>
-          </tag-input>
-        </div>
-        <div class="mt-4">
-          <button (click)="edit()" class="btn btn-info">Edit profile</button>
-        </div>
-      </form>
-    </div>
   </div>
-  
+  <div class="card-body">
+    <form>
+      <!-- Ovde -->
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-username"
+                >Name</label
+              >
+              <input
+                type="text"
+                id="input-name"
+                name="name"
+                class="form-control form-control-alternative"
+                [(ngModel)]="boat.name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-description"
+                >Description</label
+              >
+              <textarea
+                class="form-control form-control-alternative"
+                id="input-description"
+                name="description"
+                >{{ boat.description }}</textarea
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-rooms"
+                >Number of rooms</label
+              >
+              <input
+                type="number"
+                name="roomCount"
+                id="input-rooms"
+                class="form-control form-control-alternative"
+                [(ngModel)]="boat.roomCount"
+                min="1"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-beds"
+                >Number of beds</label
+              >
+              <input
+                type="number"
+                name="bedCount"
+                id="input-beds"
+                class="form-control form-control-alternative"
+                [(ngModel)]="boat.bedCount"
+                min="1"
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-price"
+                >Price per hour</label
+              >
+              <input
+                type="number"
+                name="pricePerHour"
+                id="input-price"
+                class="form-control form-control-alternative"
+                min="1"
+                [(ngModel)]="boat.pricePerHour"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-rules"
+                >Rules of conduct</label
+              >
+              <textarea
+                class="form-control form-control-alternative"
+                id="input-rules"
+                name="rules"
+                >{{ boat.boatRules }}</textarea
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <!-- Address -->
+      <h6 class="heading-small text-muted mb-4">Location</h6>
+      <div class="mb-4" style="height: 450px">
+        <app-map
+          *ngIf="boat.address.latitude !== 0 && boat.address.longitude !== 0"
+          [lat]="boat.address.latitude"
+          [long]="boat.address.longitude"
+          [edit]="true"
+          (addressEvent)="setAddress($event)"
+        ></app-map>
+      </div>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-address"
+                >Address</label
+              >
+              <input
+                [(ngModel)]="boat.address.street"
+                name="street"
+                id="input-address"
+                class="form-control form-control-alternative"
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-city">City</label>
+              <input
+                [(ngModel)]="boat.address.city"
+                name="city"
+                type="text"
+                id="input-city"
+                class="form-control form-control-alternative"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-country"
+                >Country</label
+              >
+              <input
+                [(ngModel)]="boat.address.country"
+                name="country"
+                type="text"
+                id="input-country"
+                class="form-control form-control-alternative"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <!-- Address -->
+      <h6 class="heading-small text-muted mb-4">Additional services</h6>
+      <div class="pl-lg-4">
+        <tag-input
+          name="tags"
+          (onAdd)="onItemAdded($event)"
+          [(ngModel)]="additionalServiceTags"
+          [modelAsStrings]="true"
+          #input
+        >
+          <ng-template let-item="item" let-index="index">
+            <!-- DEFINE HERE YOUR TEMPLATE -->
+            <span>
+              <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
+              <!-- ex. item.myDisplayValue -->
+
+              {{ item.name }}({{ item.price }}€)
+            </span>
+            <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
+          </ng-template>
+        </tag-input>
+      </div>
+      <div class="mt-4">
+        <button (click)="edit()" class="btn btn-info">Edit profile</button>
+      </div>
+    </form>
+  </div>
+</div>

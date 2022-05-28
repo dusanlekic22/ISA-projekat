@@ -30,7 +30,7 @@
   <div class="row">
     <div class="col-xl-8 order-xl-1 mb-4">
       <app-cottage-edit
-        *ngIf="cottage.id!==0"
+        *ngIf="cottage.id !== 0"
         [cottage]="cottage"
       ></app-cottage-edit>
     </div>

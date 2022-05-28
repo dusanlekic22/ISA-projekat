@@ -24,8 +24,8 @@ export const emptyFishingQuickReservation: IFishingQuickReservation = {
     street: '',
     city: '',
     country: '',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
   },
   fishingCourse: emptyFishingCourse,
 };

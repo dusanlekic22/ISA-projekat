@@ -1,3 +1,5 @@
+import { AnswerDeletionRequestComponent } from './pages/admin-pages/answer-deletion-request/answer-deletion-request.component';
+import { AccountDeletionRequestsComponent } from './pages/admin-pages/account-deletion-requests/account-deletion-requests.component';
 import { RegistrationRequestsComponent } from './pages/admin-pages/registration-requests/registration-requests.component';
 import { AddFishingQuickReservationComponent } from './pages/fishing-trainer-pages/add-fishing-quick-reservation/add-fishing-quick-reservation.component';
 import { AddFishingReservationComponent } from './pages/fishing-trainer-pages/add-fishing-reservation/add-fishing-reservation.component';
@@ -130,6 +132,8 @@ import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-r
     RequestsComponent,
     RegistrationRequestsComponent,
     AnswerRegistrationRequestComponent,
+    AccountDeletionRequestsComponent,
+    AnswerDeletionRequestComponent,
   ],
   imports: [
     NgbModule,

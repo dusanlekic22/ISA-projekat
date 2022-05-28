@@ -1,25 +1,25 @@
+import { IUserDeletionRequest } from './../../../model/userDeletionRequest';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { IBusinessOwnerRegistrationRequest } from 'src/app/model/businessOwnerRegistrationRequest';
 import { RequestsService } from 'src/app/service/requests.service';
 
 @Component({
-  selector: 'app-answer-registration-request',
-  templateUrl: './answer-registration-request.component.html',
-  styleUrls: ['./answer-registration-request.component.css'],
+  selector: 'app-answer-deletion-request',
+  templateUrl: './answer-deletion-request.component.html',
+  styleUrls: ['./answer-deletion-request.component.css'],
 })
-export class AnswerRegistrationRequestComponent implements OnInit {
+export class AnswerDeletionRequestComponent implements OnInit {
   @ViewChild('frame') addModal!: ModalDirective;
-  request: IBusinessOwnerRegistrationRequest = {
+  request: IUserDeletionRequest = {
     id: 0,
     accepted: false,
-    declineReason: '',
-    registrationExplanation: '',
+    deletionExplanation: '',
     userEmail: '',
+    answer: '',
   };
 
   constructor(private requestsService: RequestsService) {
-    requestsService.openDialogRegistration$.subscribe((request) => {
+    requestsService.openDialogDeletion$.subscribe((request) => {
       if (request != undefined) {
         this.request = request;
         this.show();
@@ -38,14 +38,14 @@ export class AnswerRegistrationRequestComponent implements OnInit {
   }
 
   accept() {
-    this.requestsService.acceptRegistrationRequest(this.request).subscribe((request) => {
+    this.requestsService.acceptDeletionRequest(this.request).subscribe((request) => {
       this.requestsService.submitedRegistrationRequest();
       this.close();
     });
   }
 
   decline() {
-    this.requestsService.declineRegistrationRequest(this.request).subscribe((request) => {
+    this.requestsService.declineDeletionRequest(this.request).subscribe((request) => {
       this.requestsService.submitedRegistrationRequest();
       this.close();
     });

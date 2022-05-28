@@ -1,7 +1,4 @@
-import { IBusinessOwnerRegistrationRequest } from './../../../model/business-owner-registration-request';
-import { ModalDirective } from 'angular-bootstrap-md';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RequestsService } from 'src/app/service/requests.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-requests',

@@ -1,14 +1,9 @@
-import { ModalDirective } from 'angular-bootstrap-md';
-import { IBusinessOwnerRegistrationRequest } from './../../../model/business-owner-registration-request';
 import {
   Component,
   OnInit,
-  Pipe,
-  ViewChild,
-  EventEmitter,
-  Output,
 } from '@angular/core';
 import { RequestsService } from 'src/app/service/requests.service';
+import { IBusinessOwnerRegistrationRequest } from 'src/app/model/businessOwnerRegistrationRequest';
 
 @Component({
   selector: 'app-registration-requests',
@@ -19,7 +14,7 @@ export class RegistrationRequestsComponent implements OnInit {
   requests!: IBusinessOwnerRegistrationRequest[];
 
   constructor(private requestsService: RequestsService) {
-    this.requestsService.submitedRequest$.subscribe(() => {
+    this.requestsService.submitedRegistrationRequest$.subscribe(() => {
       this.getRequests();
     });
   }
@@ -43,6 +38,6 @@ export class RegistrationRequestsComponent implements OnInit {
   }
 
   answer(requset: IBusinessOwnerRegistrationRequest) {
-    this.requestsService.openDialog(requset);
+    this.requestsService.openDialogRegistration(requset);
   }
 }

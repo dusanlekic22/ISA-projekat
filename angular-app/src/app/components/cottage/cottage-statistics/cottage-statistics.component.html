@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div
+    class="row d-flex"
+    style="
+      margin-top: 50px;
+      margin-right: 100px;
+      margin-left: 100px;
+      margin-bottom: 200px;
+    "
+  >
+    <div
+      class="card mx-auto"
+      style="
+        width: 400px;
+        margin-top: 20px;
+        margin-right: 20px;
+        margin-left: 40px;
+        margin-bottom: 20px;
+      "
+    >
+      <canvas id="resChart"></canvas>
+      <div>
+        <button (click)="reservationChartYearly()" mat-button color="primary">
+          Yearly
+        </button>
+        <button (click)="reservationChartMonthly()" mat-button color="primary">
+          Monthly
+        </button>
+        <button (click)="reservationChartWeekly()" mat-button color="primary">
+          Weekly
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

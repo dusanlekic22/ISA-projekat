@@ -2,9 +2,10 @@ package isaproject.service.cottage;
 
 import java.util.Set;
 
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.cottage.CottageDTO;
+import isaproject.model.DateTimeSpan;
 
 public interface CottageService {
 	
@@ -18,5 +19,8 @@ public interface CottageService {
 	CottageDTO updateInfo(CottageDTO cottageDTO);
 	CottageDTO updateAvailableTerms(Long id, DateTimeSpan newDateSpan);
 	Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDate);
+	ReservationCountDTO getCottageReservationCountYearly(long id);
+	ReservationCountDTO getCottageReservationCountMonthly(long id);
+	ReservationCountDTO getCottageReservationCountWeekly(long id);
 	
 }

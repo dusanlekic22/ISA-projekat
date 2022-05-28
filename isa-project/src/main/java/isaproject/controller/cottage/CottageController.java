@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.cottage.CottageService;
@@ -98,6 +99,24 @@ public class CottageController {
 	@ResponseBody
 	public Set<CottageDTO> search(@RequestBody DateSpanDTO reservationDate) {
 		return cottageService.findByReservationDate(reservationDate);
+	}
+	
+	@GetMapping("/{id}/yearlyCount")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(cottageService.getCottageReservationCountYearly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/monthlyCount")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountMonthly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(cottageService.getCottageReservationCountMonthly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/weeklyCount")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(cottageService.getCottageReservationCountWeekly(id),HttpStatus.OK);
 	}
 	
 }

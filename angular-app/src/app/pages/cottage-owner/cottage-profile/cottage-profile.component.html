@@ -103,4 +103,8 @@
       ></app-cottage-reservations>
     </mat-tab>
   </mat-tab-group>
+  <app-cottage-statistics
+    [cottage]="cottage"
+    *ngIf="cottage.id !== 0"
+  ></app-cottage-statistics>
 </div>

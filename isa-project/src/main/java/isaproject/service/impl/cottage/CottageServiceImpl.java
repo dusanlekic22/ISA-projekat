@@ -8,15 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.ReservationCountMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.ReservationCount;
 import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.cottage.CottageRepository;
+import isaproject.service.ReservationCountService;
 import isaproject.service.cottage.CottageQuickReservationService;
 import isaproject.service.cottage.CottageReservationService;
 import isaproject.service.cottage.CottageService;
@@ -27,15 +32,18 @@ public class CottageServiceImpl implements CottageService {
 	private CottageRepository cottageRepository;
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
+	private ReservationCountService reservationCountService;
 
 	@Autowired
 	public CottageServiceImpl(CottageRepository cottageRepository, AddressRepository addressRepository,
 			CottageReservationService cottageReservationService,
-			CottageQuickReservationService cottageQuickReservationService) {
+			CottageQuickReservationService cottageQuickReservationService,
+			ReservationCountService reservationCountService) {
 		super();
 		this.cottageRepository = cottageRepository;
 		this.cottageReservationService = cottageReservationService;
 		this.cottageQuickReservationService = cottageQuickReservationService;
+		this.reservationCountService = reservationCountService;
 	}
 
 	public CottageDTO findById(Long id) {
@@ -175,6 +183,57 @@ public class CottageServiceImpl implements CottageService {
 		}
 
 		return availableCottages;
+	}
+	
+	@Override
+	public ReservationCountDTO getCottageReservationCountYearly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+        for (CottageReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 7; i++) {
+                count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setYearlySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getCottageReservationCountMonthly(long id) {
+		int[] count = new int[12];
+		ReservationCount reservationCount = new ReservationCount();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+        for (CottageReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 12; i++) {
+                count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setMonthlySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getCottageReservationCountWeekly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+        for (CottageReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 4; i++) {
+                count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setWeeklySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
 }

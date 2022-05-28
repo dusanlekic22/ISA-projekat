@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { ICottage } from 'src/app/model/cottage';
 import { ICottageImage } from 'src/app/model/cottageImage';
 import { IDateSpan } from 'src/app/model/dateSpan';
+import { IReservationCount } from 'src/app/model/reservationCount';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,27 @@ export class CottageService {
 
   addCottageImage(id:number,image:string,cottage:ICottage): Observable<ICottageImage> {
     return this._http.post<ICottageImage>(environment.apiUrl + '/cottageImage',{id:id,image:image,cottage:cottage}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getCottageReservationYearlyById(cottageId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/cottage/${cottageId}/yearlyCount`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getCottageReservationMonthlyById(cottageId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/cottage/${cottageId}/monthlyCount`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getCottageReservationWeeklyById(cottageId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/cottage/${cottageId}/weeklyCount`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

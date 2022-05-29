@@ -87,14 +87,14 @@ export class AddReservationComponent implements OnInit {
             )[0];
         });
     });
-    if(cottageId!=undefined){
+    if (cottageId != undefined) {
       this._cottageAdditionalService
-      .getAdditionalServicesByCottageId(parseInt(cottageId))
-      .subscribe((tags) => {
-        tags.forEach((t) => {
-          this.cottageServices.push(t);
+        .getAdditionalServicesByCottageId(parseInt(cottageId))
+        .subscribe((tags) => {
+          tags.forEach((t) => {
+            this.cottageServices.push(t);
+          });
         });
-      });
     }
   }
 
@@ -114,7 +114,11 @@ export class AddReservationComponent implements OnInit {
 
   toggleSelectionCottage(chip: MatChip, option: IAdditionalService) {
     if (chip.toggleSelected()) {
-      this.reservationServices.push({id:0,name:option.name,price:option.price});
+      this.reservationServices.push({
+        id: 0,
+        name: option.name,
+        price: option.price,
+      });
     } else {
       this.reservationServices = this.reservationServices.filter(
         (e) => e !== option
@@ -131,10 +135,7 @@ export class AddReservationComponent implements OnInit {
           this._toastr.success('Reservation was successfully added.');
           this.reservationServices.forEach((tag) => {
             this._cottageAdditionalService
-              .addAdditionalServiceForCottageReservation(
-                tag,
-                reservation
-              )
+              .addAdditionalServiceForCottageReservation(tag, reservation)
               .subscribe((service) => {});
           });
           this.submitted.emit();

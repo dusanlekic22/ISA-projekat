@@ -6,6 +6,9 @@ import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { ActivatedRoute, Route } from '@angular/router';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
+import { MatChip } from '@angular/material/chips';
+import { IAdditionalService } from 'src/app/model/additionalService';
+import { BoatAdditionalServicesService } from 'src/app/pages/boat-owner/services/boat-additional-services.service';
 
 @Component({
   selector: 'app-add-boat-quick-reservation',
@@ -26,13 +29,18 @@ export class AddBoatQuickReservationComponent implements OnInit {
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
   boats!: IBoat[];
+  chips!: MatChip;
+  boatChips: string[] = [];
+  boatServices: IAdditionalService[] = [];
+  reservationServices: IAdditionalService[] = [];
 
   constructor(
     private _boatQuickReservationService: BoatQuickReservationService,
     private _toastr: ToastrService,
     private _boatService: BoatService,
     private _userService: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _boatAdditionalService: BoatAdditionalServicesService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +54,35 @@ export class AddBoatQuickReservationComponent implements OnInit {
           this.boat= this.boats.filter(c=>c.id==parseInt(boatId!))[0];
         });
     });
+    if(boatId!=undefined){
+      this._boatAdditionalService
+      .getAdditionalServicesByBoatId(parseInt(boatId))
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          this.boatServices.push(t);
+        });
+      });
+    }
+  }
+
+  getChips() {
+    this._boatAdditionalService
+      .getAdditionalServicesByBoatId(this.boat.id)
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          this.boatServices.push(t);
+        });
+      });
+  }
+
+  toggleSelectionBoat(chip: MatChip, option: IAdditionalService) {
+    if (chip.toggleSelected()) {
+      this.reservationServices.push({id:0,name:option.name,price:option.price});
+    } else {
+      this.reservationServices = this.reservationServices.filter(
+        (e) => e !== option
+      );
+    }
   }
 
   addQuickReservation(): void {

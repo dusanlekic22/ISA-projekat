@@ -108,6 +108,28 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-customer"
+                    >Additional services</label
+                  >
+                  <div class="col-4 chips">
+                    <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                      <mat-chip
+                        #c="matChip"
+                        *ngFor="let option of boatServices"
+                        [value]="option"
+                        (click)="toggleSelectionBoat(c, option)"
+                      >
+                        <mat-icon *ngIf="c.selected">check</mat-icon>
+                        {{ option.name }}({{ option.price }}€)
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div>
             <button (click)="addQuickReservation()" class="btn btn-info">

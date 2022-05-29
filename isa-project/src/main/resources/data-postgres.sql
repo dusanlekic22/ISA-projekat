@@ -64,6 +64,7 @@ insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Delfin', 'Najjaca',  2,'Nema',3,8);
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Dijamant ', 'Najjaca', 2,'Nema',2,8);
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8);
+insert into additional_service (name,price,boat_id) values ('Wi-fi',5,4);
 
 insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
 insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,4,5);

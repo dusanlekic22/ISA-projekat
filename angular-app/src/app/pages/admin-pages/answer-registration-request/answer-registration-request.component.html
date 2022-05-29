@@ -1,6 +1,6 @@
 <div
   mdbModal
-  #frame="mdbModal"
+  #registrationModal="mdbModal"
   class="modal fade left"
   style="overflow-y: auto"
   id="basicExample"
@@ -18,7 +18,7 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
-          (click)="frame.hide()"
+          (click)="registrationModal.hide()"
         >
           <span aria-hidden="true">X</span>
         </button>
@@ -72,6 +72,7 @@
           color="default"
           class="waves-light"
           mdbWavesEffect
+          data-dismiss="modal"
         >
           Accept
         </button>
@@ -81,6 +82,7 @@
           color="default"
           class="waves-light"
           mdbWavesEffect
+          data-dismiss="modal"
         >
           Decline
         </button>

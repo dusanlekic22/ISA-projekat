@@ -10,6 +10,7 @@ export interface ICottage {
   name: string;
   address: IAddress;
   promoDescription: string;
+  grade: number;
   bedCount: number;
   roomCount: number;
   cottageRules: string;

@@ -14,12 +14,11 @@ export class BaseCottageComponent implements OnInit {
   @Input() address!: IAddress;
   @Input() startDate!: Date;
   @Input() endDate!: Date;
+  @Input() promoDesc!: string;
+  @Input() grade!: number;
   constructor(public router: Router) {}
 
-  ngOnInit(): void {
-    console.log(this.openForReservation);
-    console.log('adressa', this.address);
-  }
+  ngOnInit(): void {}
 
   book() {}
 }

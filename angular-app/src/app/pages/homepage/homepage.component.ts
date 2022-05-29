@@ -1,3 +1,4 @@
+import { ICottageAvailability } from './../../model/cottageReservation';
 import { FormControl, Validators } from '@angular/forms';
 import { CottageService } from './../cottage-owner/services/cottage.service';
 import { IDateTimeSpan } from './../../model/date-time-span';
@@ -5,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { ReservationService } from 'src/app/service/reservation.service';
 import { ICottage } from 'src/app/model/cottage';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-homepage',
@@ -19,13 +21,31 @@ export class HomepageComponent implements OnInit {
   endCottageDate: Date = new Date();
   optionsCottages: string[] = ['dare', 'leka'];
   chips!: MatChip;
+  sortChips!: MatChip;
   cottageChips: string[] = [];
+  cottageSortChips: string[] = [];
   cottageTimespan!: IDateTimeSpan;
   minDate: Date = new Date();
   minDateString: string = '';
   startDateCottageString: string = '';
   endDateCottageString: any = '';
   openCottages: string = 'yes';
+  cottageBedCount!: number;
+  cottagePersonCount!: number;
+  cottageGrade: number = -1;
+  beds: number[] = Array.from(Array(5).keys()).map((i) => (i += 1));
+  sortListCottage: string[] = [
+    'Price ascending',
+    'Price descending',
+    'Grade ascending',
+    'Grade descending',
+    'Name ascending',
+    'Name descending',
+    'Location ascending',
+    'Location descending',
+  ];
+  paginatorCottage!: MatPaginator;
+  reservationCottage!: ICottageAvailability;
 
   constructor(
     private _cottageService: CottageService,
@@ -46,6 +66,14 @@ export class HomepageComponent implements OnInit {
       this.cottageChips.push(option);
     } else {
       this.cottageChips = this.cottageChips.filter((e) => e !== option);
+    }
+  }
+  toggleSelectionCottageSort(chip: MatChip, option: string) {
+    let x: string[] = [];
+    if (chip.toggleSelected()) {
+      this.cottageSortChips.push(option);
+    } else {
+      this.cottageSortChips = this.cottageSortChips.filter((e) => e !== option);
     }
   }
 

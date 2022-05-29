@@ -1,10 +1,15 @@
 package isaproject.service;
 
+import java.security.Principal;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.CottageDTO;
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.DateSpanDTO;
+import isaproject.model.DateTimeSpan;
 
 public interface CottageService {
 	
@@ -18,5 +23,8 @@ public interface CottageService {
 	CottageDTO updateInfo(CottageDTO cottageDTO);
 	CottageDTO updateAvailableTerms(Long id, DateTimeSpan newDateSpan);
 	Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDate);
-	
+	Page<CottageDTO> findByAvailability(
+			CottageAvailabilityDTO cottageAvailability,
+			Principal user,	
+			Pageable pageable);
 }

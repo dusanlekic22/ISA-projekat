@@ -39,16 +39,17 @@ insert into address (city, country, latitude, longitude,street) values ('Novi Sa
 insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
 insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
 
-insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 3, 15, 1,'Nema',2,4);
-insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 3, 15, 2,'Nema',3,4);
-insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca', 3, 15,2,'Nema',2,4);
-insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 3, 15,3,'Nema',1,4);
+insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca',2.5, 3, 15, 1,'Nema',2,4);
+insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca',2, 3, 15, 2,'Nema',3,4);
+insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca',2.9, 3, 15,2,'Nema',2,4);
+insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca',2.1, 3, 15,3,'Nema',1,4);
 
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-18', '2022-05-27', 5, 70, true,4,5);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-01', '2022-05-31',4);
-
+insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-01', '2022-06-30',3);
+insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-05-02 10:00:00', '2022-05-02 13:00:00',2);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
 insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);

@@ -84,12 +84,9 @@ export class RegistrationComponent implements OnInit {
             a.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            if (data.city === '') {
-              this.city = data.locality;
-            } else {
-              this.city = data.city;
-            }
-            this.country = data.countryName;
+            this.city = data.address.city;
+            this.country = data.address.country;
+            this.street = data.address.road;
           });
       });
       google.maps.event.addListener(map, 'click', (event) => {
@@ -98,21 +95,16 @@ export class RegistrationComponent implements OnInit {
         marker.setPosition(new google.maps.LatLng(event.latLng));
         this.latitude = event.latLng.lat().toFixed(4);
         this.longitude = event.latLng.lng().toFixed(4);
-        console.log('lokacija' + this.location);
+
         this._registrationService
           .getCityandCountry(
             event.latLng.lat().toFixed(4),
             event.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            if (data.city === '') {
-              console.log('ccc' + data.locality);
-              this.city = data.locality;
-            } else {
-              this.city = data.city;
-            }
-
-            this.country = data.countryName;
+            this.city = data.address.city;
+            this.country = data.address.country;
+            this.street = data.address.road;
             console.log(data);
           });
       });

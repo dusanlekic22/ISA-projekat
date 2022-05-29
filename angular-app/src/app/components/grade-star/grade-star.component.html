@@ -1,0 +1,22 @@
+<div class="starcolor d-flex align-items-center mb-2" *ngIf="grade !== null">
+  <h4>
+    Ocena: {{ " " + grade }}
+    <span class="starcolor">
+      <i
+        class="fa fa-star"
+        aria-hidden="true"
+        *ngFor="let start of fullstars"
+      ></i>
+      <i
+        class="fa fa-star-half-o"
+        aria-hidden="true"
+        *ngFor="let start of halfstars"
+      ></i>
+      <i
+        class="fa fa-star-o"
+        aria-hidden="true"
+        *ngFor="let start of emptystars"
+      ></i>
+    </span>
+  </h4>
+</div>

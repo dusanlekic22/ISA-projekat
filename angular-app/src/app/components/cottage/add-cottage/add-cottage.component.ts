@@ -24,6 +24,7 @@ export class AddCottageComponent implements OnInit {
       street: 'Zmajevacka',
     },
     promoDescription: '',
+    grade: 0,
     bedCount: 0,
     roomCount: 0,
     pricePerHour: 0,

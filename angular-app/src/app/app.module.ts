@@ -61,6 +61,8 @@ import { AddCottageQuickReservationComponent } from './components/cottage/reserv
 import { CottageAvailableTermsComponent } from './components/cottage/cottage-available-terms/cottage-available-terms.component';
 import { BaseReservationComponent } from './components/base-reservation/base-reservation.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
+import { GradeStarComponent } from './components/grade-star/grade-star.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { CottageReservationComponent } from './pages/reservation/cottage-reserva
     ChangePasswordComponent,
     FishingTrainerCoursesComponent,
     FishingCourseProfileComponent,
-    AddFishingCourseComponent
+    AddFishingCourseComponent,
+    GradeStarComponent,
   ],
   imports: [
     NgbModule,
@@ -123,6 +126,7 @@ import { CottageReservationComponent } from './pages/reservation/cottage-reserva
     ToastrModule.forRoot(),
     MatCheckboxModule,
     MatChipsModule,
+    MatPaginatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

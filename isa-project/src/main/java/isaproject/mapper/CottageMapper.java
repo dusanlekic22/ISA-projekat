@@ -53,6 +53,12 @@ public class CottageMapper {
 		return cottageDTO;
 	}
 	
+	public static CottageDTO CottageToCottageDTOWithPrice(Cottage cottage, int hours) {
+		cottage.setPricePerHour(cottage.getPricePerHour()*hours);
+		CottageDTO cottageDTO = CottageToCottageDTO(cottage);
+		return cottageDTO;
+	}
+	
 	public static Page<CottageDTO> pageCottageToPageCottageDTO(Page<Cottage> cottagePages) {
 		Page<CottageDTO> cottageDTOPages = cottagePages.map(new Function<Cottage, CottageDTO>() {
 			@Override

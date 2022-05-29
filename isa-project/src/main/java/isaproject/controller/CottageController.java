@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -100,15 +101,11 @@ public class CottageController {
 
 	@PostMapping("/availability")
 	@ResponseBody
-	public Page<CottageDTO> search(@RequestBody CottageAvailabilityDTO cottageAvailability,Principal user,	
+	public Page<CottageDTO> search(@RequestBody CottageAvailabilityDTO cottageAvailability,	
 			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "3") int size,
-			  @RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "3") int size) {
 		Pageable paging = PageRequest.of(page, size);
-		return cottageService.findByAvailability(
-				cottageAvailability,
-				user,
-				paging);
+		return cottageService.findByAvailability(cottageAvailability,paging);
 	}
 	
 	

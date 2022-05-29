@@ -21,3 +21,11 @@ export interface ICottage {
   availableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
 }
+
+export interface ICottagePage {
+  content: ICottage[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+}

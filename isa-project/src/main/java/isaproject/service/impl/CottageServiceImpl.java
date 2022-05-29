@@ -2,12 +2,17 @@ package isaproject.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,31 +191,85 @@ public class CottageServiceImpl implements CottageService {
 			CottageAvailabilityDTO cottageAvailability,
 			Pageable pageable) {
 
-		SortType filter1 = new SortType("name","desc");
 		
-		long hours = 0;
-		LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
-		LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
-		hours = ChronoUnit.HOURS.between(start, end);
-		System.out.println("adadad"+hours);
-//		String name = "%" ;
-//		Double grade = -1.0;
-//		int bed = 6;
-//		if(cottageAvailability.getName() != null) {
-//		name= name + cottageAvailability.getName().toLowerCase().concat("%");
-//		}
-//		if(cottageAvailability.getGrade() != null) {
-//			grade = cottageAvailability.getGrade();
-//		}
-//		if(cottageAvailability.getBedCapacity() != 0) {
-//			bed = cottageAvailability.getBedCapacity();
-//		}
-		return CottageMapper.pageCottageToPageCottageDTO(
-				cottageRepository.getAvailability(
-						start,end,5,
-//						name,grade,bed,
-//				filter1.getField(),filter1.getDirection(),
-				pageable));
+		int  hours = 0;
+		
+		String name = "%";
+		Double grade = -1.0;
+		int bed = 0;
+		if(cottageAvailability.getName() != null) {
+			name= name +cottageAvailability.getName().toLowerCase().concat("%");
+		}
+		if(cottageAvailability.getGrade() != null) {
+			grade= cottageAvailability.getGrade();
+		}
+		if(cottageAvailability.getBedCapacity() != 0) {
+		   bed= cottageAvailability.getBedCapacity();
+		}
+		
+		List<Sort.Order> sorts= new ArrayList<>();
+		  if(cottageAvailability.getSortBy() != null && cottageAvailability.getSortBy().size()!=0){
+	        	
+	            CottageDTO dto;
+	            for(SortType sortType : cottageAvailability.getSortBy()){
+	            	if(sortType.direction.toLowerCase().contains("desc")) {
+	         		   sorts.add(new Sort.Order(Sort.Direction.DESC,sortType.getField()));
+	         		   }
+	            	else {
+	          		   sorts.add(new Sort.Order(Sort.Direction.ASC,sortType.getField() ));
+	            	}
+	            }
+	        }
+		
+		
+	
+		Pageable paging = PageRequest.of(0, 6,Sort.by(sorts));
+		
+		
+		
+		
+		List<Cottage> availableCottages;
+		List<CottageDTO> availableCottagesWithPrice;
+		
+		if(cottageAvailability.getDateSpan() == null ||
+		   cottageAvailability.getDateSpan().getStartDate() == null ||
+		   cottageAvailability.getDateSpan().getEndDate() == null
+		   ) {
+			
+			availableCottages = cottageRepository.searchCottage(name,grade,bed, paging);
+			
+			
+			return new PageImpl(availableCottages,paging,availableCottages.size());
+			}
+		else {
+			LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
+			LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
+			hours = (int) ChronoUnit.HOURS.between(start, end);
+			System.out.println("adadad"+hours);
+			availableCottages = cottageRepository.getAvailability(start,end,name,grade,bed, paging);
+			availableCottagesWithPrice = new ArrayList<CottageDTO>();
+			  if(availableCottages.size()!=0){
+		            CottageDTO dto;
+		            for(Cottage p : availableCottages){
+		                dto = CottageMapper.CottageToCottageDTOWithPrice(p,hours);
+		                availableCottagesWithPrice.add(dto);
+		            }
+		        }
+			  return new PageImpl(availableCottagesWithPrice,paging,availableCottagesWithPrice.size());
+		}
+		
+		
+		
+		
+		 
+		 
+		  
+	
+		  
+		  
+		  
+		
+		
 	
 	}
 

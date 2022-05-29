@@ -12,6 +12,7 @@ export interface ICottageReservation {
 
 export interface ICottageAvailability {
   name: string;
+  dateSpan: IDateSpan;
   bedCapacity: number;
   price: number;
   grade: number;

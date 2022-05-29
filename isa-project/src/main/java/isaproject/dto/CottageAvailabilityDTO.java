@@ -2,6 +2,8 @@ package isaproject.dto;
 
 import java.util.List;
 
+import isaproject.model.SortType;
+
 public class CottageAvailabilityDTO {
 
 	public CottageAvailabilityDTO() {
@@ -14,7 +16,7 @@ public class CottageAvailabilityDTO {
 	private Double grade;
 	private Double longitude;
 	private Double latitude;	
-	private List<String> sortBy;
+	private List<SortType> sortBy;
 	private List<String> freeAdditionalServices;
 
 	public String getName() {
@@ -66,11 +68,11 @@ public class CottageAvailabilityDTO {
 		this.latitude = latitude;
 	}
 
-	public List<String> getSortBy() {
+	public List<SortType> getSortBy() {
 		return sortBy;
 	}
 
-	public void setSortBy(List<String> sortBy) {
+	public void setSortBy(List<SortType> sortBy) {
 		this.sortBy = sortBy;
 	}
 

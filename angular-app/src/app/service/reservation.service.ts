@@ -1,11 +1,11 @@
-
+import { ICottageAvailability } from './../model/cottageReservation';
+import { IDateSpan } from 'src/app/model/dateSpan';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { catchError, tap } from 'rxjs/operators';
-import { IDateTimeSpan } from '../model/date-time-span';
-import { ICottage } from '../model/cottage';
+import { ICottagePage } from '../model/cottage';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class ReservationService {
   constructor(private http: HttpClient) {}
 
   getAvailableCottagesByTimeSpan(
-    reservationTimespan: IDateTimeSpan
-  ): Observable<ICottage[]> {
+    reservationTimespan: ICottageAvailability
+  ): Observable<ICottagePage[]> {
     return this.http
       .post<any>(
         `${environment.apiUrl}/cottage/availability`,

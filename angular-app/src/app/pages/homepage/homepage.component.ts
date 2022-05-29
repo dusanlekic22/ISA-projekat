@@ -1,11 +1,13 @@
+import { ISortType, sortTypes } from './../../model/sortType';
+import { IDateSpan } from 'src/app/model/dateSpan';
 import { ICottageAvailability } from './../../model/cottageReservation';
 import { FormControl, Validators } from '@angular/forms';
 import { CottageService } from './../cottage-owner/services/cottage.service';
-import { IDateTimeSpan } from './../../model/date-time-span';
+
 import { Component, OnInit } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { ReservationService } from 'src/app/service/reservation.service';
-import { ICottage } from 'src/app/model/cottage';
+import { ICottage, ICottagePage } from 'src/app/model/cottage';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
@@ -17,14 +19,14 @@ export class HomepageComponent implements OnInit {
   searchCottageName!: string;
   searchCottageBeds!: string;
   cottages!: ICottage[];
-  startCottageDate: Date = new Date();
-  endCottageDate: Date = new Date();
+  startCottageDate: any = null;
+  endCottageDate: any = null;
   optionsCottages: string[] = ['dare', 'leka'];
   chips!: MatChip;
   sortChips!: MatChip;
   cottageChips: string[] = [];
   cottageSortChips: string[] = [];
-  cottageTimespan!: IDateTimeSpan;
+  cottageTimespan!: IDateSpan;
   minDate: Date = new Date();
   minDateString: string = '';
   startDateCottageString: string = '';
@@ -34,18 +36,23 @@ export class HomepageComponent implements OnInit {
   cottagePersonCount!: number;
   cottageGrade: number = -1;
   beds: number[] = Array.from(Array(5).keys()).map((i) => (i += 1));
-  sortListCottage: string[] = [
-    'Price ascending',
-    'Price descending',
-    'Grade ascending',
-    'Grade descending',
-    'Name ascending',
-    'Name descending',
-    'Location ascending',
-    'Location descending',
-  ];
+  sortListCottage: ISortType[] = sortTypes;
+
   paginatorCottage!: MatPaginator;
-  reservationCottage!: ICottageAvailability;
+  reservationCottage: ICottageAvailability = {
+    name: '',
+    dateSpan: {
+      startDate: new Date(),
+      endDate: new Date(),
+    },
+    bedCapacity: 0,
+    price: 0,
+    grade: -1,
+    longitude: 0,
+    latitude: 0,
+    sortBy: [],
+    freeAdditionalServices: [],
+  };
 
   constructor(
     private _cottageService: CottageService,
@@ -78,13 +85,18 @@ export class HomepageComponent implements OnInit {
   }
 
   availableCottages() {
+    if (this.startCottageDate === this.endCottageDate) {
+      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
+      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+    } else {
+      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
+      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+    }
     this._reservationService
-      .getAvailableCottagesByTimeSpan({
-        startDate: this.startCottageDate,
-        endDate: this.endCottageDate,
-      })
-      .subscribe((data) => {
-        this.cottages = data;
+      .getAvailableCottagesByTimeSpan(this.reservationCottage)
+      .subscribe((data: any) => {
+        console.log('podaci', data.content);
+        this.cottages = data.content;
         this.openCottages = 'no';
       });
   }

@@ -82,6 +82,8 @@ import { BoatQuickReservationsComponent } from './components/boat/reservation/bo
 import { MapComponent } from './components/map/map.component';
 import { RequestsComponent } from './pages/admin-pages/requests/requests.component';
 import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-registration-request/answer-registration-request.component';
+import { GradeStarComponent } from './components/grade-star/grade-star.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -136,6 +138,7 @@ import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-r
     AnswerRegistrationRequestComponent,
     AccountDeletionRequestsComponent,
     AnswerDeletionRequestComponent,
+    GradeStarComponent,
   ],
   imports: [
     NgbModule,
@@ -165,6 +168,7 @@ import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-r
     ToastrModule.forRoot(),
     MatCheckboxModule,
     MatChipsModule,
+    MatPaginatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

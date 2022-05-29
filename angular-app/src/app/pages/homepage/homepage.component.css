@@ -1,20 +1,20 @@
 .firstSection {
-  background-image: url("../../../assets/img/theme/home.jpg");
+  background: linear-gradient(to top, #ffffff00, #00000080),
+    url("../../../assets/img/theme/home.jpg") no-repeat top center;
   background-size: cover;
-  background-position-y: -100px;
-  height: 850px;
+  height: 750px;
+  margin-top: 70px;
+}
+
+.firstSection > img {
+  background-size: cover;
 }
 .secondSection {
   background-color: white;
   box-shadow: 0px 0px 30px 3px rgba(0, 0, 0, 0.65);
   position: relative;
-  margin-top: -250px;
-  margin-left: 10%;
-  margin-right: 10%;
   height: 100%;
-  width: 80%;
   border: 0px;
-  border-radius: 20px;
 }
 
 mat-label {
@@ -52,4 +52,64 @@ input {
 
 .chips {
   width: 100px;
+}
+
+.grad {
+  background: url("../../../assets/img/cameron-stewart-BU-tn41KnR8-unsplash.jpg")
+    no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  min-height: 1200px;
+}
+
+.grad2 {
+  background: url("../../../assets/img/david-kovalenko-9-qFzV9a2Zc-unsplash.jpg")
+    no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  min-height: 1200px;
+}
+
+.linija {
+  height: 100px;
+}
+
+.top {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 50px),
+    50% 100%,
+    0 calc(100% - 50px)
+  );
+}
+.bottom {
+  clip-path: polygon(0 0, 50% 50px, 100% 0, 100% 100%, 0 100%);
+  margin-top: -70px;
+  margin-bottom: -10px;
+  background: white;
+}
+
+.firstSection .s1 {
+  font-size: 2.2rem;
+  font-family: "Raleway", sans-serif;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 35px;
+}
+
+.firstSection .s2 {
+  font-size: 20px;
+  position: relative;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.input3 {
+  min-width: 270px;
+}
+
+.sortbtn {
+  min-width: 80px;
+  margin-top: 3px;
 }

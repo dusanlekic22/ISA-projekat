@@ -92,7 +92,7 @@ export class ChangeCustomerInfoComponent implements OnInit {
             this.country = data.address.country;
           });
       });
-      google.maps.event.addListener(map, 'click', (event) => {
+      google.maps.event.addListener(map, 'click', (event: any) => {
         position: event.latLng,
           (this.location = event.latLng.lat() + ', ' + event.latLng.lng());
         marker.setPosition(new google.maps.LatLng(event.latLng));
@@ -105,7 +105,7 @@ export class ChangeCustomerInfoComponent implements OnInit {
             event.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            console.log(data)
+            console.log(data);
             this.city = data.address.city;
             this.street = data.address.road;
             this.country = data.address.country;

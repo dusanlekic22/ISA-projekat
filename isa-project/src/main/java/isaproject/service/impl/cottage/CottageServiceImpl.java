@@ -1,12 +1,25 @@
 package isaproject.service.impl.cottage;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import isaproject.dto.CottageAvailabilityDTO;
+import isaproject.dto.CottageDTO;
+import isaproject.dto.CottageQuickReservationDTO;
+import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
@@ -14,7 +27,7 @@ import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.cottage.Cottage;
+import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.cottage.CottageRepository;
 import isaproject.service.cottage.CottageQuickReservationService;
@@ -25,11 +38,12 @@ import isaproject.service.cottage.CottageService;
 public class CottageServiceImpl implements CottageService {
 
 	private CottageRepository cottageRepository;
+	
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 
 	@Autowired
-	public CottageServiceImpl(CottageRepository cottageRepository, AddressRepository addressRepository,
+	public CottageServiceImpl(CottageRepository cottageRepository
 			CottageReservationService cottageReservationService,
 			CottageQuickReservationService cottageQuickReservationService) {
 		super();
@@ -161,20 +175,112 @@ public class CottageServiceImpl implements CottageService {
 		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
 		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
 		Set<CottageDTO> availableCottages = new HashSet<>();
-		if (cottages.size() != 0) {
-
-			CottageDTO dto;
-			for (Cottage p : cottages) {
-				for (DateTimeSpan d : p.getAvailableReservationDateSpan()) {
-					if (d.isTimeSpanBetween(reservationDate)) {
-						dto = CottageMapper.CottageToCottageDTO(p);
-						availableCottages.add(dto);
-					}
-				}
-			}
-		}
-
-		return availableCottages;
+		  if(cottages.size()!=0){
+	        	
+	            CottageDTO dto;
+	            for(Cottage p : cottages){
+	            	for(DateTimeSpan d : p.getAvailableReservationDateSpan()) {
+	            	if(d.isTimeSpanBetween(reservationDate)) {	
+	                dto = CottageMapper.CottageToCottageDTO(p);
+	                availableCottages.add(dto);
+	                }
+	                }
+	            }
+	        }
+		
+		  return availableCottages;
 	}
 
+	@Override
+	public Page<CottageDTO> findByAvailability(
+			CottageAvailabilityDTO cottageAvailability,
+			Pageable pageable) {
+
+		
+		int  hours = 0;
+		
+		String name = "%";
+		Double grade = -1.0;
+		int bed = 0;
+		if(cottageAvailability.getName() != null) {
+			name= name +cottageAvailability.getName().toLowerCase().concat("%");
+		}
+		if(cottageAvailability.getGrade() != null) {
+			grade= cottageAvailability.getGrade();
+		}
+		if(cottageAvailability.getBedCapacity() != 0) {
+		   bed= cottageAvailability.getBedCapacity();
+		}
+		
+		List<Sort.Order> sorts= new ArrayList<>();
+		  if(cottageAvailability.getSortBy() != null && cottageAvailability.getSortBy().size()!=0){
+	        	
+	            CottageDTO dto;
+	            for(SortType sortType : cottageAvailability.getSortBy()){
+	            	if(sortType.direction.toLowerCase().contains("desc")) {
+	         		   sorts.add(new Sort.Order(Sort.Direction.DESC,sortType.getField()));
+	         		   }
+	            	else {
+	          		   sorts.add(new Sort.Order(Sort.Direction.ASC,sortType.getField() ));
+	            	}
+	            }
+	        }
+		
+		
+	
+		Pageable paging = PageRequest.of(0, 6,Sort.by(sorts));
+		
+		
+		
+		
+		List<Cottage> availableCottages;
+		List<CottageDTO> availableCottagesWithPrice;
+		
+		if(cottageAvailability.getDateSpan() == null ||
+		   cottageAvailability.getDateSpan().getStartDate() == null ||
+		   cottageAvailability.getDateSpan().getEndDate() == null
+		   ) {
+			
+			availableCottages = cottageRepository.searchCottage(name,grade,bed, paging);
+			
+			
+			return new PageImpl(availableCottages,paging,availableCottages.size());
+			}
+		else {
+			LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
+			LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
+			hours = (int) ChronoUnit.HOURS.between(start, end);
+			System.out.println("adadad"+hours);
+			availableCottages = cottageRepository.getAvailability(start,end,name,grade,bed, paging);
+			availableCottagesWithPrice = new ArrayList<CottageDTO>();
+			  if(availableCottages.size()!=0){
+		            CottageDTO dto;
+		            for(Cottage p : availableCottages){
+		                dto = CottageMapper.CottageToCottageDTOWithPrice(p,hours);
+		                availableCottagesWithPrice.add(dto);
+		            }
+		        }
+			  return new PageImpl(availableCottagesWithPrice,paging,availableCottagesWithPrice.size());
+		}
+		
+		
+		
+		
+		 
+		 
+		  
+	
+		  
+		  
+		  
+		
+		
+	
+	}
+
+	
+	
+	
+
+	
 }

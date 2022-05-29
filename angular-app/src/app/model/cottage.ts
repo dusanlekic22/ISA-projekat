@@ -10,6 +10,7 @@ export interface ICottage {
   name: string;
   address: IAddress;
   promoDescription: string;
+  grade: number;
   bedCount: number;
   roomCount: number;
   cottageRules: string;
@@ -19,4 +20,12 @@ export interface ICottage {
   cottageQuickReservation: ICottageQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
+}
+
+export interface ICottagePage {
+  content: ICottage[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
 }

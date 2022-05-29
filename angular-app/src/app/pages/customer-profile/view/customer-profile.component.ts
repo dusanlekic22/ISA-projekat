@@ -34,7 +34,6 @@ export class CustomerProfileComponent implements OnInit {
               .subscribe((data) => (this.customer = data));
           }
         });
-        
       });
     });
   }

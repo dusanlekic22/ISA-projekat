@@ -1,7 +1,11 @@
 package isaproject.mapper;
 
-import isaproject.dto.cottage.CottageDTO;
-import isaproject.model.cottage.Cottage;
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
+import isaproject.dto.CottageDTO;
+import isaproject.model.Cottage;
 
 public class CottageMapper {
 	
@@ -11,6 +15,7 @@ public class CottageMapper {
 		cottage.setName(cottageDTO.getName());
 		cottage.setAddress(cottageDTO.getAddress());
 		cottage.setPromoDescription(cottageDTO.getPromoDescription());
+		cottage.setGrade(cottageDTO.getGrade());
 		cottage.setBedCount(cottageDTO.getBedCount());
 		cottage.setRoomCount(cottageDTO.getRoomCount());
 		cottage.setPricePerHour(cottageDTO.getPricePerHour());
@@ -32,6 +37,7 @@ public class CottageMapper {
 		cottageDTO.setName(cottage.getName());
 		cottageDTO.setAddress(cottage.getAddress());
 		cottageDTO.setPromoDescription(cottage.getPromoDescription());
+		cottageDTO.setGrade(cottage.getGrade());
 		cottageDTO.setBedCount(cottage.getBedCount());
 		cottageDTO.setRoomCount(cottage.getRoomCount());
 		cottageDTO.setPricePerHour(cottage.getPricePerHour());
@@ -46,4 +52,22 @@ public class CottageMapper {
 		cottageDTO.setSubscribers(cottage.getSubscribers());
 		return cottageDTO;
 	}
+	
+	public static CottageDTO CottageToCottageDTOWithPrice(Cottage cottage, int hours) {
+		cottage.setPricePerHour(cottage.getPricePerHour()*hours);
+		CottageDTO cottageDTO = CottageToCottageDTO(cottage);
+		return cottageDTO;
+	}
+	
+	public static Page<CottageDTO> pageCottageToPageCottageDTO(Page<Cottage> cottagePages) {
+		Page<CottageDTO> cottageDTOPages = cottagePages.map(new Function<Cottage, CottageDTO>() {
+			@Override
+			public CottageDTO apply(Cottage entity) {
+				CottageDTO dto = CottageMapper.CottageToCottageDTO(entity);
+				return dto;
+			}
+		});
+		return cottageDTOPages;
+	}
+	
 }

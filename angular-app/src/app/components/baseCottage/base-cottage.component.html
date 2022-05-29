@@ -29,33 +29,39 @@
             data-placement="left"
             title="Compare"
           >
-            <p class="starcolor d-flex align-items-center mb-2">
-              Ocena:
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <i class="fa fa-star-half-o" aria-hidden="true"></i>
-            </p>
+            <app-grade-star [grade]="grade"></app-grade-star>
           </a>
         </div>
       </div>
       <div class="row d-flex">
         <div class="col-7 text-dark">
-          <strong *ngIf="address">{{ address.city }}</strong>
+          Grad :<strong *ngIf="address">{{ "   " + address.city }}</strong>
         </div>
-        <div class="col-4 offset-1 text-dark text-center">
-          <strong>Price: </strong>{{ "  " + price }}
-        </div>
-      </div>
-      <div class="row d-flex pt-2">
-        <div class="col-7 text-dark">
-          <strong *ngIf="address">{{ address.street }}</strong>
+        <div
+          *ngIf="openForReservation !== 'yes'"
+          class="col-5 text-dark text-center"
+        >
+          <strong>Price: </strong>{{ "  " + price + " $" }}
         </div>
       </div>
       <div class="row d-flex pt-2">
         <div class="col-7 text-dark">
-          <strong *ngIf="address">{{ address.country }}</strong>
+          Ulica : <strong *ngIf="address"> {{ "   " + address.street }}</strong>
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Drzava :<strong *ngIf="address">
+            {{ "   " + address.country }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Description</span>
+          <strong class="text-center" *ngIf="promoDesc">
+            {{ ": " + promoDesc }}</strong
+          >
         </div>
       </div>
     </div>
@@ -63,9 +69,9 @@
       <button
         *ngIf="openForReservation !== 'yes'"
         class="btn btn-success reservationbtn"
-        [routerLink]="['/cottage/' + this.id]"
+        [routerLink]="['/cottage/' + this.id + '/' + startDate + '/' + endDate]"
       >
-        Rezervisi
+        Book
       </button>
     </div>
   </div>

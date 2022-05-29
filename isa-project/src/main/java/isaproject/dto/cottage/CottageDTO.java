@@ -15,7 +15,7 @@ public class CottageDTO {
 
 	private long id;
 	private String name;
-
+	private Double grade;
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
@@ -67,6 +67,15 @@ public class CottageDTO {
 
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
+	}
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Integer getBedCount() {

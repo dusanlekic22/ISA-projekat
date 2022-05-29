@@ -43,6 +43,7 @@ public class Cottage implements Serializable {
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
+	private Double grade;
 	private Integer roomCount;
 	private String cottageRules;
 	private Integer pricePerHour;
@@ -100,6 +101,13 @@ public class Cottage implements Serializable {
 
 	public void setPromoDescription(String param) {
 		this.promoDescription = param;
+	}
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public String getCottageRules() {

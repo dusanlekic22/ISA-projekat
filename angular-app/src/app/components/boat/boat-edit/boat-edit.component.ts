@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IBoat } from 'src/app/model/boat/boat';
 import { AdditionalServiceService } from 'src/app/pages/cottage-owner/services/additional-service.service';
 import { IAddress } from 'src/app/model/address';
+import { BoatAdditionalServicesService } from 'src/app/pages/boat-owner/services/boat-additional-services.service';
 
 @Component({
   selector: 'app-boat-edit',
@@ -19,12 +20,13 @@ export class BoatEditComponent implements OnInit {
   constructor(
     private _boatService: BoatService,
     private _additionalServiceService: AdditionalServiceService,
+    private _boatAdditionalService: BoatAdditionalServicesService,
     private _toastr: ToastrService,
     private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._additionalServiceService
+    this._boatAdditionalService
       .getAdditionalServicesByBoatId(this.boat.id)
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService.filter(
@@ -39,7 +41,7 @@ export class BoatEditComponent implements OnInit {
         this._toastr.success('Boat information successfully changed.');
         this.boat = boat;
         this.additionalServiceTags.forEach((element) => {
-          this._additionalServiceService
+          this._boatAdditionalService
             .addAdditionalServiceForBoat(element, this.boat)
             .subscribe((additionalService) => {});
         });

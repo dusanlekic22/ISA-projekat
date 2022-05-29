@@ -47,9 +47,10 @@ insert into cottage (name, promo_description,grade, bed_count, room_count, price
 insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca',2, 3, 15, 2,'Nema',3,4);
 insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca',2.9, 3, 15,2,'Nema',2,4);
 insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca',2.1, 3, 15,3,'Nema',1,4);
+insert into additional_service (name,price,cottage_id) values ('Wi-fi',5,4);
 
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
-insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-18', '2022-05-27', 5, 70, true,4,5);
+insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,4,5);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-06-01', '2022-06-30',4);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-06-01', '2022-06-30',3);
@@ -64,9 +65,10 @@ insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Delfin', 'Najjaca',  2,'Nema',3,8);
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Dijamant ', 'Najjaca', 2,'Nema',2,8);
 insert into boat (name, description,  price_per_hour, boat_rules,address_id,boat_owner_id) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8);
+insert into additional_service (name,price,boat_id) values ('Wi-fi',5,4);
 
 insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
-insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-18', '2022-05-27', 5, 70, true,4,5);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,4,5);
 insert into boat_reservation (start_date, end_date, guest_capacity, price, confirmed, boat_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
 insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-05-01', '2022-05-31',4);
 insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-06-01', '2022-06-30',4);

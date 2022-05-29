@@ -95,6 +95,7 @@
                       [(ngModel)]="cottage"
                       id="input-cottage"
                       name="cottage"
+                      (selectionChange)="getChips()"
                     >
                       <mat-option
                         *ngFor="let cottage of cottages"
@@ -130,6 +131,28 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-customer"
+                  >Additional services</label
+                >
+                <div class="col-4 chips">
+                  <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                    <mat-chip
+                      #c="matChip"
+                      *ngFor="let option of cottageServices"
+                      [value]="option"
+                      (click)="toggleSelectionCottage(c, option)"
+                    >
+                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      {{ option.name }}({{ option.price }}€)
+                    </mat-chip>
+                  </mat-chip-list>
                 </div>
               </div>
             </div>

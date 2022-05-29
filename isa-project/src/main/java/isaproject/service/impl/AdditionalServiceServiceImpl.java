@@ -101,4 +101,36 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService {
 		return dtos;
 	}
 
+	@Override
+	public Set<AdditionalServiceDTO> findByCottageReservationId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageReservationId(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+	}
+
+	@Override
+	public Set<AdditionalServiceDTO> findByCottageQuickReservationId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByCottageQuickReservationId(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+	}
+
 }

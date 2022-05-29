@@ -16,9 +16,8 @@ export interface IBoat {
   enginePower: number;
   address: IAddress;
   description: string;
-  bedCount: number;
-  roomCount: number;
   boatRules: string;
+  fishingEquipment: string[];
   pricePerHour: number;
   cancelCondition: string;
   capacity:number;
@@ -28,3 +27,47 @@ export interface IBoat {
   availableReservationDateSpan: IDateSpan[];
   boatOwner: IUser;
 }
+
+export const initBoat: IBoat = {
+  id: 0,
+  name: '',
+  address: {
+    city: '',
+    country: '',
+    latitude: 0,
+    longitude: 0,
+    street: '',
+  },
+  description: '',
+  pricePerHour: 0,
+  type: '',
+  length: 0,
+  capacity: 0,
+  engineNumber: 0,
+  topSpeed: 0,
+  enginePower: 0,
+  fishingEquipment:[],
+  cancelCondition: '',
+  boatRules: '',
+  boatImage: [],
+  boatReservation: [],
+  boatQuickReservation: [],
+  availableReservationDateSpan: [],
+  boatOwner: {
+    id: 0,
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    roles: [],
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+  },
+};

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.boat.BoatService;
@@ -98,6 +99,24 @@ public class BoatController {
 	@ResponseBody
 	public Set<BoatDTO> search(@RequestBody DateSpanDTO reservationDate) {
 		return boatService.findByReservationDate(reservationDate);
+	}
+	
+	@GetMapping("/{id}/yearlyCount")
+	@PreAuthorize("hasRole('BOAT_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(boatService.getBoatReservationCountYearly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/monthlyCount")
+	@PreAuthorize("hasRole('BOAT_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountMonthly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(boatService.getBoatReservationCountMonthly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/weeklyCount")
+	@PreAuthorize("hasRole('BOAT_OWNER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(boatService.getBoatReservationCountWeekly(id),HttpStatus.OK);
 	}
 	
 }

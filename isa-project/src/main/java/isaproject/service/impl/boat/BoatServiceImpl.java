@@ -8,15 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.ReservationCount;
 import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatReservation;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
+import isaproject.service.ReservationCountService;
 import isaproject.service.boat.BoatQuickReservationService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.service.boat.BoatService;
@@ -27,15 +32,18 @@ public class BoatServiceImpl implements BoatService {
 	private BoatRepository boatRepository;
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
+	private ReservationCountService reservationCountService;
 
 	@Autowired
 	public BoatServiceImpl(BoatRepository boatRepository, AddressRepository addressRepository,
 			BoatReservationService boatReservationService,
-			BoatQuickReservationService boatQuickReservationService) {
+			BoatQuickReservationService boatQuickReservationService,
+			ReservationCountService reservationCountService) {
 		super();
 		this.boatRepository = boatRepository;
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
+		this.reservationCountService = reservationCountService;
 	}
 
 	public BoatDTO findById(Long id) {
@@ -175,6 +183,57 @@ public class BoatServiceImpl implements BoatService {
 		}
 
 		return availableBoats;
+	}
+
+	@Override
+	public ReservationCountDTO getBoatReservationCountYearly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+        for (BoatReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 4; i++) {
+                count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setYearlySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getBoatReservationCountMonthly(long id) {
+		int[] count = new int[12];
+		ReservationCount reservationCount = new ReservationCount();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+        for (BoatReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 12; i++) {
+                count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setMonthlySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getBoatReservationCountWeekly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+        for (BoatReservation reservation : reservations)
+        {
+            for (int i = 1; i <= 4; i++) {
+                count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+            }
+           
+        }
+        reservationCount.setWeeklySum(count); 
+        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
 }

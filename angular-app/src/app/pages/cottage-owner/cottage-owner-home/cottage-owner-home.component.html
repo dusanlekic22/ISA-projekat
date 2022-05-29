@@ -5,13 +5,7 @@
         <h1>Cottage owner home</h1>
       </div>
       <form
-        class="
-          navbar-search navbar-search-dark
-          form-inline
-          mr-3
-          d-none d-md-flex
-          ml-lg-auto
-        "
+        class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
       >
         <div class="form-group mb-0">
           <div class="input-group input-group-alternative">
@@ -20,7 +14,14 @@
                 ><i class="fas fa-search"></i
               ></span>
             </div>
-            <input class="form-control" placeholder="Cottage name" name="search" type="text" [ngModel]="filter" (ngModelChange)="searchCottages($event)"/>
+            <input
+              class="form-control"
+              placeholder="Cottage name"
+              name="search"
+              type="text"
+              [ngModel]="filter"
+              (ngModelChange)="searchCottages($event)"
+            />
           </div>
         </div>
       </form>
@@ -28,16 +29,24 @@
   </div>
 </div>
 <!-- Page content -->
-<div class="container-fluid mt--7 pb-5" >
+<div class="container-fluid mt--7 pb-5">
   <!-- Table -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Cottages</h3>
-          <app-add-cottage (submitted)="added($event)"></app-add-cottage>
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Cottages</h3>
+            </div>
+            <div class="col-4 text-right">
+              <button class="btn btn-info" (click)="addCottage()">
+                Add cottage
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="table-responsive"  style="overflow: visible;">
+        <div class="table-responsive" style="overflow: visible">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
@@ -51,7 +60,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="tr" *ngFor="let cottage of filteredCottages" >
+              <tr class="tr" *ngFor="let cottage of filteredCottages">
                 <th scope="row">
                   <div class="media align-items-center">
                     <a
@@ -64,18 +73,16 @@
                       />
                     </a>
                     <div class="media-body">
-                      <span class="mb-0 text-sm">{{cottage.name}}</span>
+                      <span class="mb-0 text-sm">{{ cottage.name }}</span>
                     </div>
                   </div>
                 </th>
-                <td>$2,500 USD</td>
+                <td>{{ cottage.pricePerHour }}€</td>
                 <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> pending
-                  </span>
+                  {{ cottage.address.street }}, {{ cottage.address.city }}, {{ cottage.address.country }}
                 </td>
                 <td>
-                  {{cottage.promoDescription}}
+                  {{ cottage.promoDescription }}
                 </td>
                 <td>
                   <div class="d-flex align-items-center">
@@ -106,10 +113,14 @@
                       ngbDropdownMenu
                       class="dropdown-menu-right dropdown-menu-arrow"
                     >
-                      <a class="dropdown-item" (click)="cottageProfile(cottage.id)"
+                      <a
+                        class="dropdown-item"
+                        (click)="cottageProfile(cottage.id)"
                         >Edit</a
                       >
-                      <a class="dropdown-item" (click)="deleteCottage(cottage.id)"
+                      <a
+                        class="dropdown-item"
+                        (click)="deleteCottage(cottage.id)"
                         >Delete</a
                       >
                     </div>

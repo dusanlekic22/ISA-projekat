@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
@@ -45,6 +46,7 @@ public class CottageReservation implements Serializable {
 	@JsonBackReference("cottageReservationCustomer")
 	private Customer customer;
 	@OneToMany(mappedBy = "cottageReservation", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JsonManagedReference(value = "cottageReservationService")
 	private Set<AdditionalService> additionalService;
 	private boolean confirmed;
 

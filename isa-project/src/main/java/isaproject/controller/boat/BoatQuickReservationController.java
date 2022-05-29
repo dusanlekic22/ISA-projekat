@@ -62,8 +62,8 @@ public class BoatQuickReservationController {
 			throws UnsupportedEncodingException, MessagingException {
 		BoatQuickReservationDTO boatQuickReservationReturnDTO = boatQuickReservationService.save(boatQuickReservationDTO,ProjectUtil.getSiteURL(request));
 		if(boatQuickReservationReturnDTO == null)
-			return new ResponseEntity<>(boatQuickReservationDTO,HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(boatQuickReservationDTO,HttpStatus.CREATED);
+			return new ResponseEntity<>(boatQuickReservationReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(boatQuickReservationReturnDTO,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")

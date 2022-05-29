@@ -84,6 +84,8 @@ import { RequestsComponent } from './pages/admin-pages/requests/requests.compone
 import { AnswerRegistrationRequestComponent } from './pages/admin-pages/answer-registration-request/answer-registration-request.component';
 import { GradeStarComponent } from './components/grade-star/grade-star.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { CottageStatisticsComponent } from './components/cottage/cottage-statistics/cottage-statistics.component';
+import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-statistics.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +141,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AccountDeletionRequestsComponent,
     AnswerDeletionRequestComponent,
     GradeStarComponent,
+    CottageStatisticsComponent,
+    BoatStatisticsComponent
   ],
   imports: [
     NgbModule,

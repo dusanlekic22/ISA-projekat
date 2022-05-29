@@ -30,8 +30,7 @@ public class AdditionalServiceController {
 	@PostMapping
     @PreAuthorize("hasAnyRole('COTTAGE_OWNER','BOAT_OWNER','FISHING_TRAINER')")
 	public ResponseEntity<AdditionalServiceDTO> save(@RequestBody AdditionalServiceDTO additionalServiceDTO) {
-		additionalServiceService.save(additionalServiceDTO);
-		return new ResponseEntity<>(additionalServiceDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(additionalServiceService.save(additionalServiceDTO),HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/free")
@@ -44,15 +43,29 @@ public class AdditionalServiceController {
 	@GetMapping("/cottage/{id}")
 	@ResponseBody
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public Set<AdditionalServiceDTO> getByCottageId(@PathVariable("id") Long id){
-		return additionalServiceService.findByCottageId(id);
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByCottageId(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/cottageReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByCottageReservationId(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/cottageQuickReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageQuickReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByCottageQuickReservationId(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/boat/{id}")
 	@ResponseBody
     @PreAuthorize("hasRole('BOAT_OWNER')")
-	public Set<AdditionalServiceDTO> getByBoatId(@PathVariable("id") Long id){
-		return additionalServiceService.findByBoatId(id);
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByBoatId(id),HttpStatus.OK);
 	}
 
 	@GetMapping("/fishingCourse/{id}")

@@ -36,6 +36,7 @@
                 class="form-control form-control-alternative"
                 id="input-description"
                 name="description"
+                [(ngModel)]="cottage.promoDescription"
                 >{{ cottage.promoDescription }}</textarea
               >
             </div>
@@ -99,6 +100,7 @@
                 class="form-control form-control-alternative"
                 id="input-rules"
                 name="rules"
+                [(ngModel)]="cottage.cottageRules"
                 >{{ cottage.cottageRules }}</textarea
               >
             </div>

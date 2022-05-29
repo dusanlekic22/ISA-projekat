@@ -1,10 +1,9 @@
+import { initCottage } from './../../../model/cottage';
 import { ICustomer } from './../../../model/customer';
 import { Component, ElementRef, OnInit, ViewChild, Pipe } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IAdditionalService } from '../../../model/additionalService';
 import { CottageService } from '../services/cottage.service';
 import { CottageQuickReservationService } from '../services/cottage-quick-reservation.service';
-import { AdditionalServiceService } from '../services/additional-service.service';
 import { CottageReservationService } from '../services/cottage-reservation.service';
 import { ICottage } from 'src/app/model/cottage';
 import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
@@ -17,44 +16,7 @@ import { IDateSpan } from 'src/app/model/dateSpan';
   styleUrls: ['./cottage-profile.component.css'],
 })
 export class CottageProfileComponent implements OnInit {
-  cottage: ICottage = {
-    id: 0,
-    name: '',
-    address: {
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-      street: '',
-    },
-    promoDescription: '',
-    grade: 0,
-    bedCount: 0,
-    roomCount: 0,
-    pricePerHour: 0,
-    cottageRules: '',
-    cottageImage: [],
-    cottageReservation: [],
-    cottageQuickReservation: [],
-    availableReservationDateSpan: [],
-    cottageOwner: {
-      id: 0,
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-    },
-  };
+  cottage: ICottage = initCottage;
 
   @ViewChild('quickReservationInput')
   quickReservationFormElement!: ElementRef<HTMLInputElement>;

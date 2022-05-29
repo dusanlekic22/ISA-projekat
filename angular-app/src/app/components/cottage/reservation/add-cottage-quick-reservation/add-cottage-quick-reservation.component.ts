@@ -6,6 +6,9 @@ import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.ser
 import { ICottage } from 'src/app/model/cottage';
 import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
 import { ActivatedRoute, Route } from '@angular/router';
+import { MatChip } from '@angular/material/chips';
+import { IAdditionalService } from 'src/app/model/additionalService';
+import { CottageAdditionalServicesService } from 'src/app/pages/cottage-owner/services/cottage-additional-services.service';
 
 @Component({
   selector: 'app-add-cottage-quick-reservation',
@@ -26,13 +29,18 @@ export class AddCottageQuickReservationComponent implements OnInit {
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
   cottages!: ICottage[];
+  chips!: MatChip;
+  cottageChips: string[] = [];
+  cottageServices: IAdditionalService[] = [];
+  reservationServices: IAdditionalService[] = [];
 
   constructor(
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _toastr: ToastrService,
     private _cottageService: CottageService,
     private _userService: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _cottageAdditionalService: CottageAdditionalServicesService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +54,35 @@ export class AddCottageQuickReservationComponent implements OnInit {
           this.cottage= this.cottages.filter(c=>c.id==parseInt(cottageId!))[0];
         });
     });
+    if(cottageId!=undefined){
+      this._cottageAdditionalService
+      .getAdditionalServicesByCottageId(parseInt(cottageId))
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          this.cottageServices.push(t);
+        });
+      });
+    }
+  }
+
+  getChips() {
+    this._cottageAdditionalService
+      .getAdditionalServicesByCottageId(this.cottage.id)
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          this.cottageServices.push(t);
+        });
+      });
+  }
+
+  toggleSelectionCottage(chip: MatChip, option: IAdditionalService) {
+    if (chip.toggleSelected()) {
+      this.reservationServices.push({id:0,name:option.name,price:option.price});
+    } else {
+      this.reservationServices = this.reservationServices.filter(
+        (e) => e !== option
+      );
+    }
   }
 
   addQuickReservation(): void {
@@ -55,6 +92,14 @@ export class AddCottageQuickReservationComponent implements OnInit {
         (quickReservation) => {
           //this.addReservationFormOpened = false;
           this._toastr.success('Reservation was successfully added.');
+          this.reservationServices.forEach((tag) => {
+            this._cottageAdditionalService
+              .addAdditionalServiceForCottageQuickReservation(
+                tag,
+                quickReservation
+              )
+              .subscribe((service) => {});
+          });
           this.submitted.emit();
         },
         (err) => {

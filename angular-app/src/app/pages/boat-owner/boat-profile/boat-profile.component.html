@@ -102,5 +102,10 @@
         [customers]="eligibleCustomers"
       ></app-boat-reservations>
     </mat-tab>
+    <mat-tab label="Statistics">
+      <ng-template matTabContent #boatStatiscics>
+        <app-boat-statistics></app-boat-statistics>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

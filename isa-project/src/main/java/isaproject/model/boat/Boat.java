@@ -72,7 +72,7 @@ public class Boat implements Serializable {
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<NavigationEquipment> navigationEquipment = new HashSet<>();
 	@JsonBackReference(value = "boat")
-	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<BoatImage> boatImage;

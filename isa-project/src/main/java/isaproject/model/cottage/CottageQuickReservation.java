@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.DateTimeSpan;
@@ -36,6 +37,7 @@ public class CottageQuickReservation implements Serializable {
 	private Integer guestCapacity;
 	private Integer price;
 	@OneToMany(mappedBy = "cottageQuickReservation", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "cottageQuickReservationService")
 	private Set<AdditionalService> additionalService;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottage_id", referencedColumnName = "id")

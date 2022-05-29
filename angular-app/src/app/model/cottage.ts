@@ -29,3 +29,41 @@ export interface ICottagePage {
   totalPages: number;
   size: number;
 }
+export const initCottage: ICottage = {
+  id: 0,
+  name: '',
+  address: {
+    city: '',
+    country: '',
+    latitude: 0,
+    longitude: 0,
+    street: '',
+  },
+  grade:0,
+  promoDescription: '',
+  bedCount: 0,
+  roomCount: 0,
+  pricePerHour: 0,
+  cottageRules: '',
+  cottageImage: [],
+  cottageReservation: [],
+  cottageQuickReservation: [],
+  availableReservationDateSpan: [],
+  cottageOwner: {
+    id: 0,
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    roles: [],
+  },
+};

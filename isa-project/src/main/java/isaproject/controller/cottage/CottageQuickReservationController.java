@@ -62,8 +62,8 @@ public class CottageQuickReservationController {
 			throws UnsupportedEncodingException, MessagingException {
 		CottageQuickReservationDTO cottageQuickReservationReturnDTO = cottageQuickReservationService.save(cottageQuickReservationDTO,ProjectUtil.getSiteURL(request));
 		if(cottageQuickReservationReturnDTO == null)
-			return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.CREATED);
+			return new ResponseEntity<>(cottageQuickReservationReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageQuickReservationReturnDTO,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")

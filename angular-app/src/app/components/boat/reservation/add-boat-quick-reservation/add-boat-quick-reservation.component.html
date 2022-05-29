@@ -95,6 +95,7 @@
                         [(ngModel)]="boat"
                         id="input-boat"
                         name="boat"
+                        (selectionChange)="getChips()"
                       >
                         <mat-option
                           *ngFor="let boat of boats"

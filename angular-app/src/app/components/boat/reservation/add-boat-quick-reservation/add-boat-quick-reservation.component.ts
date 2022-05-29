@@ -92,6 +92,11 @@ export class AddBoatQuickReservationComponent implements OnInit {
         (quickReservation) => {
           //this.addReservationFormOpened = false;
           this._toastr.success('Reservation was successfully added.');
+          this.reservationServices.forEach((tag) => {
+            this._boatAdditionalService
+              .addAdditionalServiceForBoatQuickReservation(tag, quickReservation)
+              .subscribe((service) => {});
+          });
           this.submitted.emit();
         },
         (err) => {

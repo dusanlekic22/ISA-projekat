@@ -17,9 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageAvailabilityDTO;
-import isaproject.dto.CottageDTO;
-import isaproject.dto.CottageQuickReservationDTO;
-import isaproject.dto.CottageReservationDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
@@ -28,7 +25,7 @@ import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.SortType;
-import isaproject.repository.AddressRepository;
+import isaproject.model.cottage.Cottage;
 import isaproject.repository.cottage.CottageRepository;
 import isaproject.service.cottage.CottageQuickReservationService;
 import isaproject.service.cottage.CottageReservationService;
@@ -43,7 +40,7 @@ public class CottageServiceImpl implements CottageService {
 	private CottageQuickReservationService cottageQuickReservationService;
 
 	@Autowired
-	public CottageServiceImpl(CottageRepository cottageRepository
+	public CottageServiceImpl(CottageRepository cottageRepository,
 			CottageReservationService cottageReservationService,
 			CottageQuickReservationService cottageQuickReservationService) {
 		super();

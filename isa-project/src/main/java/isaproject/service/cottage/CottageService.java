@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.CottageAvailabilityDTO;
-import isaproject.dto.CottageDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 
 public interface CottageService {

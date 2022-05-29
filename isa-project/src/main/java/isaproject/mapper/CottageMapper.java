@@ -4,8 +4,8 @@ import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
 
-import isaproject.dto.CottageDTO;
-import isaproject.model.Cottage;
+import isaproject.dto.cottage.CottageDTO;
+import isaproject.model.cottage.Cottage;
 
 public class CottageMapper {
 	

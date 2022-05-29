@@ -1,13 +1,11 @@
 package isaproject.controller.cottage;
 
-import java.security.Principal;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import isaproject.dto.DateSpanDTO;
+import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
-import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.service.cottage.CottageService;
 
 @RestController

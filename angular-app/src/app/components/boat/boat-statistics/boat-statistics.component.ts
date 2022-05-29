@@ -1,16 +1,16 @@
 import { ActivatedRoute } from '@angular/router';
 import { monthsLabels, initialData } from './../../../model/reservationCount';
-import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
+import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { Chart, ChartItem, ChartType, registerables } from 'chart.js';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-cottage-statistics',
-  templateUrl: './cottage-statistics.component.html',
-  styleUrls: ['./cottage-statistics.component.css'],
+  selector: 'app-boat-statistics',
+  templateUrl: './boat-statistics.component.html',
+  styleUrls: ['./boat-statistics.component.css'],
 })
-export class CottageStatisticsComponent implements OnInit,AfterViewInit {
-  cottageId!: number;
+export class BoatStatisticsComponent implements OnInit {
+  boatId!: number;
   reservationChart!: Chart;
   currentTime: Date = new Date();
   reservationChartItem!: any;
@@ -32,21 +32,11 @@ export class CottageStatisticsComponent implements OnInit,AfterViewInit {
   data1: number[] = initialData;
   data2: number[] = initialData;
 
-  constructor(private _cottageService: CottageService,
+  constructor(private _boatService: BoatService,
     private _route:ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
-    this.reservationChartItem = document.getElementById('resChart');
-    Chart.register(...registerables);
-    this.loadReservationChart();
-    this.weeksLabels = this.addWeeksLabels();
-    this.reservationChart.data.labels = this.monthsLabels;
-    this.reservationChart.update();
-    this.reservationChartMonthly();
-  }
-
-  ngAfterViewInit(): void {
+    this.boatId = +this._route.snapshot.paramMap.get('boatId')!;
     this.reservationChartItem = document.getElementById('resChart');
     Chart.register(...registerables);
     this.loadReservationChart();
@@ -75,8 +65,8 @@ export class CottageStatisticsComponent implements OnInit,AfterViewInit {
 
   reservationChartYearly() {
     this.reservationChart.data.labels = this.yearLabels;
-    this._cottageService
-      .getCottageReservationYearlyById(this.cottageId)
+    this._boatService
+      .getBoatReservationYearlyById(this.boatId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.yearlySum;
         this.reservationChart.update();
@@ -88,8 +78,8 @@ export class CottageStatisticsComponent implements OnInit,AfterViewInit {
   reservationChartMonthly() {
     this.reservationChart.data.labels = this.monthsLabels;
     this.reservationChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageReservationMonthlyById(this.cottageId)
+    this._boatService
+      .getBoatReservationMonthlyById(this.boatId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.monthlySum;
         this.reservationChart.update();
@@ -100,8 +90,8 @@ export class CottageStatisticsComponent implements OnInit,AfterViewInit {
   reservationChartWeekly() {
     this.reservationChart.data.labels = this.weeksLabels;
     this.reservationChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageReservationWeeklyById(this.cottageId)
+    this._boatService
+      .getBoatReservationWeeklyById(this.boatId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.weeklySum;
         this.reservationChart.update();

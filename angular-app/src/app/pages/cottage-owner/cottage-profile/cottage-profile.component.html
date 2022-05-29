@@ -92,7 +92,7 @@
       ></app-cottage-reservations>
       <app-add-reservation
         #reservationInput
-        (submitted)="reservationAdded()"
+        (submitted)="reservationAdded();"
         [minDate]="minDateString"
       ></app-add-reservation>
     </mat-tab>
@@ -102,9 +102,10 @@
         [customers]="eligibleCustomers"
       ></app-cottage-reservations>
     </mat-tab>
+    <mat-tab label="Statistics">
+      <ng-template matTabContent #cottageStatiscics>
+        <app-cottage-statistics></app-cottage-statistics>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
-  <app-cottage-statistics
-    [cottage]="cottage"
-    *ngIf="cottage.id !== 0"
-  ></app-cottage-statistics>
 </div>

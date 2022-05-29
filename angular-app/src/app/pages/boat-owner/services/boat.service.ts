@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatImage } from 'src/app/model/boat/boatImage';
+import { IReservationCount } from 'src/app/model/reservationCount';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,27 @@ export class BoatService {
 
   addBoatImage(id:number,image:string,boat:IBoat): Observable<IBoatImage> {
     return this._http.post<IBoatImage>(environment.apiUrl + '/boatImage',{id:id,image:image,boat:boat}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+  
+  getBoatReservationYearlyById(boatId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/boat/${boatId}/yearlyCount`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getBoatReservationMonthlyById(boatId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/boat/${boatId}/monthlyCount`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getBoatReservationWeeklyById(boatId: number): Observable<IReservationCount> {
+    return this._http.get<IReservationCount>(environment.apiUrl + `/boat/${boatId}/weeklyCount`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );

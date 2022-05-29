@@ -193,7 +193,7 @@ public class CottageServiceImpl implements CottageService {
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
         for (CottageReservation reservation : reservations)
         {
-            for (int i = 1; i <= 7; i++) {
+            for (int i = 1; i <= 4; i++) {
                 count = reservationCountService.countYearly(reservation.getDuration(), i, count);
             }
            

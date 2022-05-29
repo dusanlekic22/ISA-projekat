@@ -1,0 +1,27 @@
+<div class="header bg-gradient-danger pb-8 pt-5">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1 class="text-white display-3">User Requests</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--7 pb-5">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <mat-tab-group class="mt-5 bg-white mat-accent">
+        <mat-tab label="Registration Requests">
+          <app-registration-requests></app-registration-requests>
+        </mat-tab>
+        <mat-tab label="Account Deletion Requests">
+          <app-account-deletion-requests></app-account-deletion-requests>
+        </mat-tab>
+      </mat-tab-group>
+      <app-answer-registration-request></app-answer-registration-request>
+      <app-answer-deletion-request></app-answer-deletion-request>
+    </div>
+  </div>
+</div>

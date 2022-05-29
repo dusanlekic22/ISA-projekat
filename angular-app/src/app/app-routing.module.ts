@@ -4,8 +4,6 @@ import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fi
 import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guard/auth.guard';
-import { Role } from './model/role.enum';
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
 import { CottageOwnerHomeComponent } from './pages/cottage-owner/cottage-owner-home/cottage-owner-home.component';
 import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
@@ -21,6 +19,7 @@ import { AddBoatReservationComponent } from './components/boat/reservation/add-b
 import { BoatOwnerHomeComponent } from './pages/boat-owner/boat-owner-home/boat-owner-home.component';
 import { BoatOwnerProfileComponent } from './pages/boat-owner/boat-owner-profile/boat-owner-profile.component';
 import { BoatProfileComponent } from './pages/boat-owner/boat-profile/boat-profile.component';
+import { RequestsComponent } from './pages/admin-pages/requests/requests.component';
 
 const routes: Routes = [
   {
@@ -97,6 +96,10 @@ const routes: Routes = [
   {
     path: 'fishingCourseProfile/:id',
     component: FishingCourseProfileComponent,
+  },
+  {
+    path: 'requests',
+    component: RequestsComponent
   },
   { path: '**', redirectTo: '' },
 ];

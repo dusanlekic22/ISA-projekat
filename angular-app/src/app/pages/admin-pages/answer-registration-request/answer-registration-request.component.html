@@ -1,0 +1,92 @@
+<div
+  mdbModal
+  #registrationModal="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="basicExample"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Registration request</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="registrationModal.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-2">
+          <label for="id">Id</label>
+          <input
+            type="text"
+            id="id"
+            class="form-control"
+            [(ngModel)]="request.id"
+            [disabled]="true"
+            mdbInput
+          />
+          <label for="userEmail">User Email</label>
+          <input
+            type="text"
+            id="userEmail"
+            class="form-control"
+            [(ngModel)]="request.userEmail"
+            [disabled]="true"
+            mdbInput
+          />
+          <label for="explanation">Registration explanation</label>
+          <textarea
+            type="text"
+            id="explanation"
+            class="form-control"
+            [(ngModel)]="request.registrationExplanation"
+            [disabled]="true"
+            mdbInput
+          ></textarea>
+        </div>
+        <div class="md-form mb-2">
+          <label for="declineReason">Decline reason</label>
+          <textarea
+            type="text"
+            id="declineReason"
+            class="form-control"
+            [(ngModel)]="request.declineReason"
+            mdbInput
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button
+          (click)="accept()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Accept
+        </button>
+        <button
+          (click)="decline()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

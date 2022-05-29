@@ -20,5 +20,6 @@ class CustomExceptionHandler extends BaseExceptionHandler {
         registerMapping(AccessDeniedException.class, HttpStatus.UNAUTHORIZED);
 		registerMapping(EntityNotFoundException.class, HttpStatus.NOT_FOUND);
         registerMapping(ReservedServiceException.class, HttpStatus.BAD_REQUEST);
+        registerMapping(AccessDeniedException.class, HttpStatus.UNAUTHORIZED);
 	}
 }

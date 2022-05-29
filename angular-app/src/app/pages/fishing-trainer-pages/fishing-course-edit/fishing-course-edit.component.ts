@@ -6,6 +6,7 @@ import { FishingCourseService } from './../../../service/fishingCourse.service';
 import { IAdditionalService } from 'src/app/model/additionalService';
 import { IFishingCourse } from 'src/app/model/fishingCourse';
 import { Component, OnInit, Input } from '@angular/core';
+import { IAddress } from 'src/app/model/address';
 
 @Component({
   selector: 'app-fishing-course-edit',
@@ -30,6 +31,10 @@ export class FishingCourseEditComponent implements OnInit {
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService;
       });
+  }
+
+  setAddress(address:IAddress){
+    this.fishingCourse.address = address;
   }
 
   edit(): void {

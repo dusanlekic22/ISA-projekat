@@ -1,9 +1,9 @@
+import { IBusinessOwner } from './../../../model/business-owner';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BusinessType } from '../business-type';
 import { RegistrationService } from '../registration.service';
-import { IBusinessOwner } from './business-owner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-business-owner-registration',
@@ -30,7 +30,8 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _registrationService: RegistrationService
+    private _registrationService: RegistrationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +61,8 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
       this.registerFishingTrainer();
     }else if (this.selectedBusiness == BusinessType.CottageOwner){
       this.registerCottageOwner();
+    }else if (this.selectedBusiness == BusinessType.BoatOwner){
+      this.registerCottageOwner();
     }
   }
 
@@ -67,7 +70,7 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
     this._registrationService.registerFishingTrainer(this.user).subscribe({
       next: (data) => {
         this.user = data;
-        console.log('pozvan' + data);
+        this.router.navigate(['']);
       },
       error: (error) => {
         this.errorMessage = error.message;
@@ -80,7 +83,7 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
     this._registrationService.registerCottageOwner(this.user).subscribe({
       next: (data) => {
         this.user = data;
-        console.log('pozvan' + data);
+        this.router.navigate(['']);
       },
       error: (error) => {
         this.errorMessage = error.message;
@@ -93,7 +96,7 @@ export class BusinessOwnerRegitrationComponent implements OnInit {
     this._registrationService.registerBoatOwner(this.user).subscribe({
       next: (data) => {
         this.user = data;
-        console.log('pozvan' + data);
+        this.router.navigate(['']);
       },
       error: (error) => {
         this.errorMessage = error.message;

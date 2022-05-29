@@ -1,275 +1,259 @@
-<div>
-  <button
-    type="button"
-    mdbBtn
-    color="default"
-    rounded="true"
-    data-toggle="modal"
-    data-target="#basicExample"
-    (click)="frame.show()"
-    mdbWavesEffect
-  >
-    Add a cottage
-  </button>
-  <div
-    mdbModal
-    #frame="mdbModal"
-    class="modal fade left"
-    style="overflow-y: auto"
-    id="frameModalTop"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="myModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-            (click)="frame.hide()"
-          >
-            <span aria-hidden="true">times</span>
-          </button>
+<div class="header pb-8 pl-5 pt-5 d-flex justify-content-center">
+  <div class="card bg-secondary shadow">
+    <div class="card-header bg-white border-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Cottage information</h3>
         </div>
-        <div class="modal-body mx-3">
-          <div class="md-form mb-5">
-            <input
-              [(ngModel)]="cottage.name"
-              type="text"
-              id="defaultForm-email"
-              [formControl]="$any(loginFormModalEmail)"
-              class="form-control"
-              mdbInput
-              mdbValidate
-            />
-            <label for="defaultForm-email">Name</label>
-            <mdb-error
-              *ngIf="
-                loginFormModalEmail!.invalid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input invalid
-            </mdb-error>
-            <mdb-success
-              *ngIf="
-                loginFormModalEmail!.valid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input valid
-            </mdb-success>
-          </div>
-          <div class="md-form mb-5">
-            <input
-              [(ngModel)]="cottage.promoDescription"
-              type="text"
-              id="defaultForm-email"
-              [formControl]="$any(loginFormModalEmail)"
-              class="form-control"
-              mdbInput
-              mdbValidate
-            />
-            <label for="defaultForm-email">Description</label>
-            <mdb-error
-              *ngIf="
-                loginFormModalEmail!.invalid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input invalid
-            </mdb-error>
-            <mdb-success
-              *ngIf="
-                loginFormModalEmail!.valid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input valid
-            </mdb-success>
-          </div>
-          <div class="md-form mb-5">
-            <input
-              [(ngModel)]="cottage.roomCount"
-              type="email"
-              id="defaultForm-email"
-              [formControl]="$any(loginFormModalEmail)"
-              class="form-control"
-              mdbInput
-              mdbValidate
-            />
-            <label for="defaultForm-email">Number of rooms</label>
-            <mdb-error
-              *ngIf="
-                loginFormModalEmail!.invalid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input invalid
-            </mdb-error>
-            <mdb-success
-              *ngIf="
-                loginFormModalEmail!.valid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input valid
-            </mdb-success>
-          </div>
-          <div class="md-form mb-5">
-            <input
-              [(ngModel)]="cottage.bedCount"
-              type="email"
-              id="defaultForm-email"
-              [formControl]="$any(loginFormModalEmail)"
-              class="form-control"
-              mdbInput
-              mdbValidate
-            />
-            <label for="defaultForm-email">Number of beds</label>
-            <mdb-error
-              *ngIf="
-                loginFormModalEmail!.invalid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input invalid
-            </mdb-error>
-            <mdb-success
-              *ngIf="
-                loginFormModalEmail!.valid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input valid
-            </mdb-success>
-          </div>
-          <div class="md-form mb-5">
-            <input
-              [(ngModel)]="cottage.cottageRules"
-              type="text"
-              id="defaultForm-email"
-              [formControl]="$any(loginFormModalEmail)"
-              class="form-control"
-              mdbInput
-              mdbValidate
-            />
-            <label for="defaultForm-email">Rules</label>
-            <mdb-error
-              *ngIf="
-                loginFormModalEmail!.invalid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input invalid
-            </mdb-error>
-            <mdb-success
-              *ngIf="
-                loginFormModalEmail!.valid &&
-                (loginFormModalEmail!.dirty || loginFormModalEmail!.touched)
-              "
-            >
-              Input valid
-            </mdb-success>
-          </div>
-          <div>
-            <app-map
-              [edit]="true"
-              (addressEvent)="setAddress($event)"
-            ></app-map>
-          </div>
-          <div class="md-form mb-4">
-            <label>Additional services(Format:Name Price)</label>
-            <tag-input
-              (onAdd)="onItemAdded($event)"
-              [(ngModel)]="additionalServiceTags"
-              [modelAsStrings]="true"
-              #input
-            >
-              <ng-template let-item="item" let-index="index">
-                <!-- DEFINE HERE YOUR TEMPLATE -->
-                <span>
-                  <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
-                  <!-- ex. item.myDisplayValue -->
-
-                  {{ item.name }}({{ item.price }}€)
-                </span>
-                <delete-icon
-                  (click)="input.removeItem(item, index)"
-                ></delete-icon>
-              </ng-template>
-            </tag-input>
-          </div>
-
-          <label>Available reservation terms</label>
-          <div class="md-form mb-5">
-            <mat-form-field appearance="fill">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-                <input
-                  matStartDate
-                  placeholder="Start date"
-                  [(ngModel)]="startDate"
-                />
-                <input
-                  matEndDate
-                  placeholder="End date"
-                  [(ngModel)]="endDate"
-                />
-              </mat-date-range-input>
-              <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
-            <span class="ml-5">
-              <button
-                mdbBtn
-                color="default"
-                class="waves-light"
-                mdbWavesEffect
-                (click)="addDateSpan()"
-              >
-                Add available term
-              </button>
-            </span>
-            <div class="md-form mt-5">
-              <label for="">Appointed terms : </label>
-              <div *ngFor="let term of cottage.availableReservationDateSpan">
-                {{ term.startDate | date: "dd/MM/yyyy" }}-{{
-                  term.endDate | date: "dd/MM/yyyy"
-                }}
-                <button
-                  (click)="removeTerm(term)"
-                  mat-icon-button
-                  color="primary"
+      </div>
+    </div>
+    <div class="card-body">
+      <form>
+        <!-- Ovde -->
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-username"
+                  >Name</label
                 >
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <input
+                  type="text"
+                  id="input-name"
+                  name="name"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="cottage.name"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-description"
+                  >Description</label
+                >
+                <textarea
+                  class="form-control form-control-alternative"
+                  id="input-description"
+                  name="description"
+                  [(ngModel)]="cottage.promoDescription"
+                  >{{ cottage.promoDescription }}</textarea
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-rooms"
+                  >Number of rooms</label
+                >
+                <input
+                  type="number"
+                  name="roomCount"
+                  id="input-rooms"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="cottage.roomCount"
+                  min="1"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-beds"
+                  >Number of beds</label
+                >
+                <input
+                  type="number"
+                  name="bedCount"
+                  id="input-beds"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="cottage.bedCount"
+                  min="1"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-price"
+                  >Price per hour</label
+                >
+                <input
+                  type="number"
+                  name="pricePerHour"
+                  id="input-price"
+                  class="form-control form-control-alternative"
+                  min="1"
+                  [(ngModel)]="cottage.pricePerHour"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-rules"
+                  >Rules of conduct</label
+                >
+                <textarea
+                  class="form-control form-control-alternative"
+                  id="input-rules"
+                  name="rules"
+                  [(ngModel)]="cottage.cottageRules"
+                  >{{ cottage.cottageRules }}</textarea
+                >
               </div>
             </div>
           </div>
         </div>
+        <hr class="my-4" />
+        <!-- Address -->
+        <h6 class="heading-small text-muted mb-4">Location</h6>
 
-        <div class="modal-footer d-flex justify-content-center">
-          <button
-            (click)="addCottage(true)"
-            mdbBtn
-            color="default"
-            class="waves-light"
-            mdbWavesEffect
+        <div class="mb-4" style="height: 450px">
+          <app-map
+            [lat]="cottage.address.latitude"
+            [long]="cottage.address.longitude"
+            [edit]="true"
+            (addressEvent)="setAddress($event)"
+          ></app-map>
+        </div>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-address"
+                  >Address</label
+                >
+                <input
+                  [(ngModel)]="cottage.address.street"
+                  name="street"
+                  id="input-address"
+                  class="form-control form-control-alternative"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-city">City</label>
+                <input
+                  [(ngModel)]="cottage.address.city"
+                  name="city"
+                  type="text"
+                  id="input-city"
+                  class="form-control form-control-alternative"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-country"
+                  >Country</label
+                >
+                <input
+                  [(ngModel)]="cottage.address.country"
+                  name="country"
+                  type="text"
+                  id="input-country"
+                  class="form-control form-control-alternative"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <label class="form-control-label">Available reservation terms</label>
+        <div class="md-form mb-5">
+          <div class="md-form mb-5">
+            <div class="mt-2 ml-2">
+              <label>Choose a starting date and time</label>
+              <div>
+                <input
+                  #availableStartSelect
+                  type="datetime-local"
+                  placeholder="Start date"
+                  [min]="minDate"
+                  [(ngModel)]="startDate"
+                  name="reservationStart"
+                />
+              </div>
+            </div>
+
+            <div class="mt-2 ml-2">
+              <label>Choose an ending date and time</label>
+              <div>
+                <input
+                  type="datetime-local"
+                  placeholder="End date"
+                  [min]="minDate"
+                  [(ngModel)]="endDate"
+                  name="reservationEnd"
+                />
+              </div>
+            </div>
+          </div>
+          <span class="ml-5">
+            <button
+              mdbBtn
+              color="default"
+              class="waves-light"
+              mdbWavesEffect
+              (click)="addDateSpan()"
+            >
+              Add available term
+            </button>
+          </span>
+          <div class="md-form mt-5">
+            <label class="form-control-label" for="">Appointed terms : </label>
+            <div *ngFor="let term of cottage.availableReservationDateSpan">
+              {{ term.startDate | date: "dd/MM/yyyy" }}-{{
+                term.endDate | date: "dd/MM/yyyy"
+              }}
+              <button
+                (click)="removeTerm(term)"
+                mat-icon-button
+                color="primary"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <!-- Address -->
+        <label class="form-control-label">Additional services</label>
+        <div class="pl-lg-4">
+          <tag-input
+            name="tags"
+            (onAdd)="onItemAdded($event)"
+            [(ngModel)]="additionalServiceTags"
+            [modelAsStrings]="true"
+            #input
           >
-            Submit
+            <ng-template let-item="item" let-index="index">
+              <!-- DEFINE HERE YOUR TEMPLATE -->
+              <span>
+                <!-- YOU MAY ACTUALLY DISPLAY WHATEVER YOU WANT IF YOU PASS AN OBJECT AS ITEM -->
+                <!-- ex. item.myDisplayValue -->
+
+                {{ item.name }}({{ item.price }}€)
+              </span>
+              <delete-icon
+                (click)="input.removeItem(item, index)"
+              ></delete-icon>
+            </ng-template>
+          </tag-input>
+        </div>
+        <div class="mt-4">
+          <button (click)="addCottage()" class="btn btn-info">
+            Edit profile
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>

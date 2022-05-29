@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ICottage } from 'src/app/model/cottage';
 import { ActivatedRoute } from '@angular/router';
 import { IAddress } from 'src/app/model/address';
+import { CottageAdditionalServicesService } from 'src/app/pages/cottage-owner/services/cottage-additional-services.service';
 
 @Component({
   selector: 'app-cottage-edit',
@@ -18,13 +19,12 @@ export class CottageEditComponent implements OnInit {
 
   constructor(
     private _cottageService: CottageService,
-    private _additionalServiceService: AdditionalServiceService,
+    private _cottageAdditionalService: CottageAdditionalServicesService,
     private _toastr: ToastrService,
-    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._additionalServiceService
+    this._cottageAdditionalService
       .getAdditionalServicesByCottageId(this.cottage.id)
       .subscribe((additionalService) => {
         this.additionalServiceTags = additionalService.filter(
@@ -43,7 +43,7 @@ export class CottageEditComponent implements OnInit {
         this._toastr.success('Cottage information successfully changed.');
         this.cottage = cottage;
         this.additionalServiceTags.forEach((element) => {
-          this._additionalServiceService
+          this._cottageAdditionalService
             .addAdditionalServiceForCottage(element, this.cottage)
             .subscribe((additionalService) => {});
         });

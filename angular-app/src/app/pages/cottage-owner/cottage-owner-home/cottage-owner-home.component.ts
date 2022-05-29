@@ -46,8 +46,8 @@ export class CottageOwnerHomeComponent implements OnInit {
     this._router.navigateByUrl(`cottageProfile/${cottageId}`);
   }
 
-  addCottageClick(){
-    this.addFormVisible=true;
+  addCottage(){
+    this._router.navigateByUrl('newCottage');
   }
 
   added(submitted:boolean){

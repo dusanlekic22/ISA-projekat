@@ -1,7 +1,11 @@
 package isaproject.dto;
 
 import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatQuickReservation;
+import isaproject.model.boat.BoatReservation;
 import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageQuickReservation;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.model.FishingCourse;
 
 public class AdditionalServiceDTO {
@@ -12,6 +16,10 @@ public class AdditionalServiceDTO {
 	private Boat boat;
 	private Cottage cottage;
 	private FishingCourse fishingCourse;
+	private CottageReservation cottageReservation;
+	private CottageQuickReservation cottageQuickReservation;
+	private BoatReservation boatReservation;
+	private BoatQuickReservation boatQuickReservation;
 	
 	public AdditionalServiceDTO() {
 	}
@@ -61,6 +69,38 @@ public class AdditionalServiceDTO {
 	}
 	public void setBoat(Boat boat) {
 		this.boat = boat;
+	}
+
+	public CottageReservation getCottageReservation() {
+		return cottageReservation;
+	}
+
+	public void setCottageReservation(CottageReservation cottageReservation) {
+		this.cottageReservation = cottageReservation;
+	}
+
+	public CottageQuickReservation getCottageQuickReservation() {
+		return cottageQuickReservation;
+	}
+
+	public void setCottageQuickReservation(CottageQuickReservation cottageQuickReservation) {
+		this.cottageQuickReservation = cottageQuickReservation;
+	}
+
+	public BoatReservation getBoatReservation() {
+		return boatReservation;
+	}
+
+	public void setBoatReservation(BoatReservation boatReservation) {
+		this.boatReservation = boatReservation;
+	}
+
+	public BoatQuickReservation getBoatQuickReservation() {
+		return boatQuickReservation;
+	}
+
+	public void setBoatQuickReservation(BoatQuickReservation boatQuickReservation) {
+		this.boatQuickReservation = boatQuickReservation;
 	}
 	
 }

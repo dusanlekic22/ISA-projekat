@@ -14,6 +14,10 @@ public class AdditionalServiceMapper {
 		additionalService.setCottage(additionalServiceDTO.getCottage());
 		additionalService.setFishingCourse(additionalServiceDTO.getFishingCourse());
 		additionalService.setBoat(additionalServiceDTO.getBoat());
+		additionalService.setCottageReservation(additionalServiceDTO.getCottageReservation());
+		additionalService.setCottageQuickReservation(additionalServiceDTO.getCottageQuickReservation());
+		additionalService.setBoatReservation(additionalServiceDTO.getBoatReservation());
+		additionalService.setBoatQuickReservation(additionalServiceDTO.getBoatQuickReservation());
 		return additionalService;
 	}
 	
@@ -26,6 +30,10 @@ public class AdditionalServiceMapper {
 		additionalServiceDTO.setCottage(additionalService.getCottage());
 		additionalServiceDTO.setFishingCourse(additionalService.getFishingCourse());
 		additionalServiceDTO.setBoat(additionalService.getBoat());
+		additionalServiceDTO.setCottageReservation(additionalService.getCottageReservation());
+		additionalServiceDTO.setCottageQuickReservation(additionalService.getCottageQuickReservation());
+		additionalServiceDTO.setBoatReservation(additionalService.getBoatReservation());
+		additionalServiceDTO.setBoatQuickReservation(additionalService.getBoatQuickReservation());
 		return additionalServiceDTO;
 	}
 

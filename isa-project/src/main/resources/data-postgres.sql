@@ -47,6 +47,7 @@ insert into cottage (name, promo_description, bed_count, room_count, price_per_h
 insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 3, 15, 2,'Nema',3,4);
 insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca', 3, 15,2,'Nema',2,4);
 insert into cottage (name, promo_description, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 3, 15,3,'Nema',1,4);
+insert into additional_service (name,price,cottage_id) values ('Wi-fi',5,4);
 
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,4,5);

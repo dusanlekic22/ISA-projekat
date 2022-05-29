@@ -9,9 +9,13 @@ import isaproject.model.AdditionalService;
 public interface AdditionalServiceRepository extends JpaRepository<AdditionalService, Long> {
 
 	List<AdditionalService> findByCottageIsNull();
-	
+
 	List<AdditionalService> findByCottageId(Long id);
-	
+
+	List<AdditionalService> findByCottageReservationId(Long id);
+
+	List<AdditionalService> findByCottageQuickReservationId(Long id);
+
 	List<AdditionalService> findByBoatId(Long id);
 
 	List<AdditionalService> findByFishingCourseId(Long id);

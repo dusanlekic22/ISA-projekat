@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAddress } from 'src/app/model/address';
 import { ICottage } from 'src/app/model/cottage';
 import { IDateSpan } from 'src/app/model/dateSpan';
+import { CottageAdditionalServicesService } from 'src/app/pages/cottage-owner/services/cottage-additional-services.service';
 import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../../../model/additionalService';
 import { AdditionalServiceService } from '../../../pages/cottage-owner/services/additional-service.service';
@@ -52,7 +53,6 @@ export class AddCottageComponent implements OnInit {
     },
   };
 
-  @Output() submitted = new EventEmitter<boolean>();
   startDate!: Date;
   endDate!: Date;
   avaliableDateSpans: IDateSpan[] = [];
@@ -76,6 +76,7 @@ export class AddCottageComponent implements OnInit {
   constructor(
     private _cottageService: CottageService,
     private _additionalServiceService: AdditionalServiceService,
+    private _cottageAdditionalService: CottageAdditionalServicesService,
     private _userService: UserService
   ) {
     this.validatingForm = new FormGroup({
@@ -91,14 +92,13 @@ export class AddCottageComponent implements OnInit {
     });
   }
 
-  addCottage(submit: boolean) {
+  addCottage() {
     this._cottageService.saveCottage(this.cottage).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
-        this._additionalServiceService
+        this._cottageAdditionalService
           .addAdditionalServiceForCottage(element, data)
           .subscribe((additionalService) => {});
       });
-      this.submitted.emit(submit);
     });
   }
 

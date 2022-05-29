@@ -10,6 +10,8 @@ public interface AdditionalServiceService {
 	AdditionalServiceDTO deleteById(Long id);
 	Set<AdditionalServiceDTO> findFree();
 	Set<AdditionalServiceDTO> findByCottageId(Long id);
+	Set<AdditionalServiceDTO> findByCottageReservationId(Long id);
+	Set<AdditionalServiceDTO> findByCottageQuickReservationId(Long id);
 	Set<AdditionalServiceDTO> findByBoatId(Long id);
 	Set<AdditionalServiceDTO> findByFishingCourseId(Long id);
 }

@@ -77,11 +77,9 @@
                     </div>
                   </div>
                 </th>
-                <td>$2,500 USD</td>
+                <td>{{ cottage.pricePerHour }}€</td>
                 <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> pending
-                  </span>
+                  {{ cottage.address.street }}, {{ cottage.address.city }}, {{ cottage.address.country }}
                 </td>
                 <td>
                   {{ cottage.promoDescription }}

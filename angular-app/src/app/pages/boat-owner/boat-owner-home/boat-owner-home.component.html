@@ -35,15 +35,23 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Boats</h3>
-          <app-add-boat (submitted)="added($event)"></app-add-boat>
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Boats</h3>
+            </div>
+            <div class="col-4 text-right">
+              <button class="btn btn-info" (click)="addBoat()">
+                Add cottage
+              </button>
+            </div>
+          </div>
         </div>
         <div class="table-responsive" style="overflow: visible">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
                 <th scope="col">Boat</th>
-                <th scope="col">Price(in €)</th>
+                <th scope="col">Price per hour(in €)</th>
                 <th scope="col">Address</th>
                 <th scope="col">Description</th>
                 <th scope="col"></th>
@@ -69,11 +77,9 @@
                     </div>
                   </div>
                 </th>
-                <td>$2,500 USD</td>
+                <td>{{boat.pricePerHour}}€</td>
                 <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> pending
-                  </span>
+                  {{boat.address.street}}, {{boat.address.city}}, {{boat.address.country}}
                 </td>
                 <td>
                   {{ boat.description }}

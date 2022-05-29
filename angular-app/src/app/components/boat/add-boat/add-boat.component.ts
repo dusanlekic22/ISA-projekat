@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IBoat } from 'src/app/model/boat/boat';
+import { IAddress } from 'src/app/model/address';
+import { IBoat, initBoat } from 'src/app/model/boat/boat';
 import { IDateSpan } from 'src/app/model/dateSpan';
+import { BoatAdditionalServicesService } from 'src/app/pages/boat-owner/services/boat-additional-services.service';
 import { AdditionalServiceService } from 'src/app/pages/cottage-owner/services/additional-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../../../model/additionalService';
@@ -14,52 +16,8 @@ import { BoatService } from '../../../pages/boat-owner/services/boat.service';
   styleUrls: ['./add-boat.component.css'],
 })
 export class AddBoatComponent implements OnInit {
-  boat: IBoat = {
-    id: 0,
-    name: '',
-    address: {
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-      street: '',
-    },
-    description: '',
-    bedCount: 0,
-    roomCount: 0,
-    pricePerHour: 0,
-    type: '',
-    length: 0,
-    capacity: 0,
-    engineNumber: 0,
-    topSpeed: 0,
-    enginePower: 0,
-    cancelCondition: '',
-    boatRules: '',
-    boatImage: [],
-    boatReservation: [],
-    boatQuickReservation: [],
-    availableReservationDateSpan: [],
-    boatOwner: {
-      id: 0,
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-    },
-  };
+  boat: IBoat = initBoat;
 
-  @Output() submitted = new EventEmitter<boolean>();
   startDate!: Date;
   endDate!: Date;
   avaliableDateSpans: IDateSpan[] = [];
@@ -83,6 +41,7 @@ export class AddBoatComponent implements OnInit {
   constructor(
     private _boatService: BoatService,
     private _additionalServiceService: AdditionalServiceService,
+    private _boatAdditionalService: BoatAdditionalServicesService,
     private _userService: UserService
   ) {
     this.validatingForm = new FormGroup({
@@ -98,15 +57,17 @@ export class AddBoatComponent implements OnInit {
     });
   }
 
-  addBoat(submit: boolean) {
+  setAddress(address:IAddress){
+    this.boat.address = address;
+  }
+
+  addBoat() {
     this._boatService.saveBoat(this.boat).subscribe((data) => {
       this.additionalServiceTags.forEach((element) => {
-        this._additionalServiceService
+        this._boatAdditionalService
           .addAdditionalServiceForBoat(element, data)
           .subscribe((additionalService) => {});
       });
-
-      this.submitted.emit(submit);
     });
   }
 

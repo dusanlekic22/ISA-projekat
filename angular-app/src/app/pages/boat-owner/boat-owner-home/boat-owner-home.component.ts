@@ -50,6 +50,10 @@ export class BoatOwnerHomeComponent implements OnInit {
     this.addFormVisible=true;
   }
 
+  addBoat(){
+    this._router.navigateByUrl('newBoat');
+  }
+
   added(submitted:boolean){
     if(submitted)
     {

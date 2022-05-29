@@ -25,8 +25,7 @@ public class BoatImageController {
 	@PostMapping
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatImageDTO> save(@RequestBody BoatImageDTO boatImageDTO) {
-		boatImageService.save(boatImageDTO);
-		return new ResponseEntity<>(boatImageDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(boatImageService.save(boatImageDTO),HttpStatus.CREATED);
 	}
 	
 }

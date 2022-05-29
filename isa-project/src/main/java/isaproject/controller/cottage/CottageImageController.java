@@ -18,15 +18,14 @@ import isaproject.service.cottage.CottageImageService;
 @RequestMapping(value = "/cottageImage", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class CottageImageController {
-	
+
 	@Autowired
 	private CottageImageService cottageImageService;
 
 	@PostMapping
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageImageDTO> save(@RequestBody CottageImageDTO cottageImageDTO) {
-		cottageImageService.save(cottageImageDTO);
-		return new ResponseEntity<>(cottageImageDTO,HttpStatus.CREATED);
+		return new ResponseEntity<>(cottageImageService.save(cottageImageDTO), HttpStatus.CREATED);
 	}
-	
+
 }

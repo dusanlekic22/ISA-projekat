@@ -20,6 +20,7 @@ import { BoatOwnerHomeComponent } from './pages/boat-owner/boat-owner-home/boat-
 import { BoatOwnerProfileComponent } from './pages/boat-owner/boat-owner-profile/boat-owner-profile.component';
 import { BoatProfileComponent } from './pages/boat-owner/boat-profile/boat-profile.component';
 import { AddCottageComponent } from './components/cottage/add-cottage/add-cottage.component';
+import { AddBoatComponent } from './components/boat/add-boat/add-boat.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'boatOwnerProfile',
     component: BoatOwnerProfileComponent,
+  },
+  {
+    path: 'newBoat',
+    component: AddBoatComponent,
   },
   {
     path: 'newBoatReservation',

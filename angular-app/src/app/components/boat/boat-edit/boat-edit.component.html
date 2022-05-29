@@ -29,6 +29,20 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
+              <label class="form-control-label" for="input-type">Type</label>
+              <input
+                type="text"
+                id="input-type"
+                name="type"
+                class="form-control form-control-alternative"
+                [(ngModel)]="boat.type"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
               <label class="form-control-label" for="input-description"
                 >Description</label
               >
@@ -42,50 +56,115 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <div class="form-group">
-              <label class="form-control-label" for="input-rooms"
-                >Number of rooms</label
+              <label class="form-control-label" for="input-length"
+                >Length</label
               >
               <input
                 type="number"
-                name="roomCount"
-                id="input-rooms"
+                name="length"
+                id="input-length"
                 class="form-control form-control-alternative"
-                [(ngModel)]="boat.roomCount"
+                [(ngModel)]="boat.length"
                 min="1"
               />
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <div class="form-group">
-              <label class="form-control-label" for="input-beds"
-                >Number of beds</label
+              <label class="form-control-label" for="input-engineNumber"
+                >Engine number</label
               >
               <input
                 type="number"
-                name="bedCount"
-                id="input-beds"
+                name="engineNumber"
+                id="input-engineNumber"
                 class="form-control form-control-alternative"
-                [(ngModel)]="boat.bedCount"
+                [(ngModel)]="boat.engineNumber"
                 min="1"
               />
             </div>
           </div>
 
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label" for="input-topSpeed"
+                >Top speed</label
+              >
+              <input
+                type="number"
+                name="topSpeed"
+                id="input-topSpeed"
+                class="form-control form-control-alternative"
+                min="1"
+                [(ngModel)]="boat.topSpeed"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label" for="input-enginePower"
+                >Engine power</label
+              >
+              <input
+                type="number"
+                name="enginePower"
+                id="input-enginePower"
+                class="form-control form-control-alternative"
+                min="1"
+                [(ngModel)]="boat.enginePower"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-4">
             <div class="form-group">
-              <label class="form-control-label" for="input-price"
+              <label class="form-control-label" for="input-pricePerHour"
                 >Price per hour</label
               >
               <input
                 type="number"
                 name="pricePerHour"
-                id="input-price"
+                id="input-pricePerHour"
                 class="form-control form-control-alternative"
                 min="1"
                 [(ngModel)]="boat.pricePerHour"
               />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-capacity"
+                >Capacity</label
+              >
+              <input
+                type="number"
+                name="capacity"
+                id="input-capacity"
+                class="form-control form-control-alternative"
+                min="1"
+                [(ngModel)]="boat.capacity"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-cancel"
+                >Cancel condition</label
+              >
+              <mat-form-field appearance="fill">
+                <mat-label>Choose a Condition</mat-label>
+                <mat-select
+                  [(ngModel)]="boat.cancelCondition"
+                  id="input-cancel"
+                  name="cancel"
+                >
+                  <mat-option value="FREE"> Free </mat-option>
+                  <mat-option value="WITH_PAYBACK"> With payback </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ import isaproject.dto.CustomerDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.mapper.CustomerMapper;
+import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.cottage.Cottage;
@@ -100,7 +101,10 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		cottageReservation.setConfirmed(true);
 		cottageReservation.setCustomer(customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get());
-		long reservationPrice = cottageReservation.getCottage().getPricePerHour()*cottageReservation.getDuration().getHours();
+		double reservationPrice = cottageReservation.getCottage().getPricePerHour()*cottageReservation.getDuration().getHours();
+		for(AdditionalService additionalService: cottageReservation.getAdditionalService()) {
+			reservationPrice+= Double.parseDouble(additionalService.getPrice());
+		}
 		cottageReservation.setPrice((int) (long) reservationPrice);
 		if (!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;

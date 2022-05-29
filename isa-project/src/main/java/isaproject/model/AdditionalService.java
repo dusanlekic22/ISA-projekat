@@ -56,9 +56,11 @@ public class AdditionalService implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "cottageQuickReservationService")
 	private CottageQuickReservation cottageQuickReservation;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "boatReservationService")
 	private BoatReservation boatReservation;
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "boatQuickReservationService")
 	private BoatQuickReservation boatQuickReservation;
 
 	public AdditionalService() {

@@ -23,7 +23,6 @@ export class AddReservationComponent implements OnInit {
   eligibleCustomers!: ICustomer[];
   @Input() customer!: ICustomer;
   cottages!: ICottage[];
-  optionsCottages: string[] = [];
   chips!: MatChip;
   cottageChips: string[] = [];
   cottageServices: IAdditionalService[] = [];
@@ -88,6 +87,15 @@ export class AddReservationComponent implements OnInit {
             )[0];
         });
     });
+    if(cottageId!=undefined){
+      this._cottageAdditionalService
+      .getAdditionalServicesByCottageId(parseInt(cottageId))
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          this.cottageServices.push(t);
+        });
+      });
+    }
   }
 
   setCustomer(id: number) {
@@ -95,13 +103,11 @@ export class AddReservationComponent implements OnInit {
   }
 
   getChips() {
-    console.log(this.cottage.id);
     this._cottageAdditionalService
       .getAdditionalServicesByCottageId(this.cottage.id)
       .subscribe((tags) => {
         tags.forEach((t) => {
           this.cottageServices.push(t);
-          this.optionsCottages.push(t.name + '(' + t.price + ')');
         });
       });
   }

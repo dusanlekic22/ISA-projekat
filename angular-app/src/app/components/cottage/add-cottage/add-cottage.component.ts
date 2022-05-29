@@ -1,3 +1,4 @@
+import { initCottage } from './../../../model/cottage';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAddress } from 'src/app/model/address';
@@ -15,43 +16,7 @@ import { CottageService } from '../../../pages/cottage-owner/services/cottage.se
   styleUrls: ['./add-cottage.component.css'],
 })
 export class AddCottageComponent implements OnInit {
-  cottage: ICottage = {
-    id: 0,
-    name: '',
-    address: {
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-      street: '',
-    },
-    promoDescription: '',
-    bedCount: 0,
-    roomCount: 0,
-    pricePerHour: 0,
-    cottageRules: '',
-    cottageImage: [],
-    cottageReservation: [],
-    cottageQuickReservation: [],
-    availableReservationDateSpan: [],
-    cottageOwner: {
-      id: 0,
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-      roles: [],
-    },
-  };
+  cottage: ICottage = initCottage;
 
   startDate!: Date;
   endDate!: Date;

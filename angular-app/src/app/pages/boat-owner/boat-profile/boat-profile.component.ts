@@ -5,7 +5,7 @@ import { BoatService } from '../services/boat.service';
 import { BoatQuickReservationService } from '../services/boat-quick-reservation.service';
 import { BoatReservationService } from '../services/boat-reservation.service';
 import { IDateSpan } from 'src/app/model/dateSpan';
-import { IBoat } from 'src/app/model/boat/boat';
+import { IBoat, initBoat } from 'src/app/model/boat/boat';
 import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
 
@@ -15,50 +15,7 @@ import { IBoatReservation } from 'src/app/model/boat/boatReservation';
   styleUrls: ['./boat-profile.component.css'],
 })
 export class BoatProfileComponent implements OnInit {
-  boat: IBoat = {
-    id: 0,
-    name: '',
-    address: {
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-      street: '',
-    },
-    description: '',
-    bedCount: 0,
-    roomCount: 0,
-    pricePerHour: 0,
-    type: '',
-    length: 0,
-    engineNumber: 0,
-    topSpeed: 0,
-    enginePower: 0,
-    capacity: 0,
-    cancelCondition: '',
-    boatRules: '',
-    boatImage: [],
-    boatReservation: [],
-    boatQuickReservation: [],
-    availableReservationDateSpan: [],
-    boatOwner: {
-      id: 0,
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-    },
-  };
+  boat: IBoat = initBoat;
 
   @ViewChild('quickReservationInput')
   quickReservationFormElement!: ElementRef<HTMLInputElement>;

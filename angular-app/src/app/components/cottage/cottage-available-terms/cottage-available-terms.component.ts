@@ -27,7 +27,6 @@ export class CottageAvailableTermsComponent implements OnInit {
   }
 
   addDateSpan() {
-    console.log(this.availableStartDate);
     this._cottageService
       .editAvailableTerms(this.cottage.id, {
         startDate: this.availableStartDate,

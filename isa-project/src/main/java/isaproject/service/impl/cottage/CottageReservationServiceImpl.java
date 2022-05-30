@@ -116,6 +116,12 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				return null;
 			}
 		}
+		
+		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+				return null;
+			}
+		}
 
 		boolean overlaps = false;
 
@@ -192,6 +198,12 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			}
 		}
 
+		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+				return null;
+			}
+		}
+		
 		for (CottageQuickReservation q : cottageQuickReservationRepository
 				.findByCottageId(cottageReservation.getCottage().getId())) {
 

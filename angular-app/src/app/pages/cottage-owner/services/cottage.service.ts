@@ -65,6 +65,13 @@ export class CottageService {
     );
   }
 
+  editUnavailableTerms(cottageId:number,dateSpan:IDateSpan): Observable<ICottage> {
+    return this._http.put<ICottage>(environment.apiUrl + `/cottage/unavailableTerms/${cottageId}`,dateSpan).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   deleteCottage(cottageId:number): Observable<ArrayBuffer> {
     return this._http.delete<ArrayBuffer>(environment.apiUrl + `/cottage/${cottageId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),

@@ -19,6 +19,7 @@ export interface ICottage {
   cottageReservation: ICottageReservation[];
   cottageQuickReservation: ICottageQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
+  unavailableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
 }
 
@@ -49,6 +50,7 @@ export const initCottage: ICottage = {
   cottageReservation: [],
   cottageQuickReservation: [],
   availableReservationDateSpan: [],
+  unavailableReservationDateSpan: [],
   cottageOwner: {
     id: 0,
     username: '',

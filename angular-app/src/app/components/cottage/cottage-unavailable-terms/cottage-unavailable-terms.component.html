@@ -1,0 +1,71 @@
+<div class="card card-profile shadow">
+  <div class="card-header border-0">
+    <div class="row align-items-center">
+      <div class="col-8">
+        <h3 class="mb-0">Unavailable terms for reservations</h3>
+      </div>
+      <div class="col-4 text-right">
+        <button class="btn btn-icon-only" (click)="openUnavailableSpanForm()">
+          <i class="bi bi-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive" style="overflow: visible">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dateSpan of cottage.unavailableReservationDateSpan">
+          <td>
+            {{ dateSpan.startDate | dateCustom }}
+          </td>
+          <td>
+            {{ dateSpan.endDate | dateCustom }}
+          </td>
+          <td class="text-right">
+            <delete-icon (click)="removeTerm(dateSpan)"></delete-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="unavailableSpanFormOpened" class="md-form mb-5">
+    <div class="mt-2 ml-2">
+      <label>Choose a starting date and time</label>
+      <div>
+        <input
+          #unavailableStartSelect
+          type="datetime-local"
+          placeholder="Start date"
+          [(ngModel)]="unavailableStartDate"
+          name="unavailableStart"
+          [min]="minDate"
+        />
+      </div>
+    </div>
+
+    <div class="mt-2 ml-2">
+      <label>Choose an ending date and time</label>
+      <div>
+        <input
+          type="datetime-local"
+          placeholder="End date"
+          [min]="minDate"
+          [(ngModel)]="unavailableEndDate"
+          name="unavailableEnd"
+        />
+      </div>
+    </div>
+    <div class="ml-5 mt-3">
+      <button class="btn btn-info" (click)="addDateSpan()">
+        Add unavailable term
+      </button>
+    </div>
+  </div>
+</div>

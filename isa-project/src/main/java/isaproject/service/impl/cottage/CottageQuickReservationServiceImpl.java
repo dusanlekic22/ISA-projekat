@@ -122,6 +122,12 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				return null;
 			}
 		}
+		
+		for (DateTimeSpan dateTimeSpan : cottageQuickReservation.getCottage().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageQuickReservation.getDuration())) {
+				return null;
+			}
+		}
 
 		for (DateTimeSpan dateTimeSpan : cottageQuickReservation.getCottage().getAvailableReservationDateSpan()) {
 			if (cottageQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {

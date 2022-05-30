@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageAvailabilityDTO;
-import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
@@ -68,6 +67,15 @@ public class CottageController {
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> updateAvailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
 		CottageDTO cottageReturnDTO =  cottageService.updateAvailableTerms(id, dateTimeSpan);
+		if(cottageReturnDTO==null)
+			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
+	}
+	
+	@PutMapping("/unavailableTerms/{id}")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<CottageDTO> updateUnavailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
+		CottageDTO cottageReturnDTO =  cottageService.updateUnavailableTerms(id, dateTimeSpan);
 		if(cottageReturnDTO==null)
 			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);

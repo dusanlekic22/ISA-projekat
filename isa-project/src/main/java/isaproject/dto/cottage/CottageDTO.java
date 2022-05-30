@@ -28,6 +28,8 @@ public class CottageDTO {
 	private Set<CottageReservation> cottageReservation;
 	private Set<AdditionalService> additionalService;
 	private Set<DateTimeSpan> availableReservationDateSpan;
+	private Set<DateTimeSpan> unavailableReservationDateSpan;
+
 	private Set<Customer> subscribers;
 
 	private CottageOwner cottageOwner;
@@ -35,6 +37,14 @@ public class CottageDTO {
 	public CottageDTO() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
+		return unavailableReservationDateSpan;
+	}
+
+	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
+		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
 	public long getId() {

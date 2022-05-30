@@ -86,6 +86,7 @@ import { GradeStarComponent } from './components/grade-star/grade-star.component
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CottageStatisticsComponent } from './components/cottage/cottage-statistics/cottage-statistics.component';
 import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-statistics.component';
+import { CottageUnavailableTermsComponent } from './components/cottage/cottage-unavailable-terms/cottage-unavailable-terms.component';
 
 @NgModule({
   declarations: [
@@ -142,7 +143,8 @@ import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-
     AnswerDeletionRequestComponent,
     GradeStarComponent,
     CottageStatisticsComponent,
-    BoatStatisticsComponent
+    BoatStatisticsComponent,
+    CottageUnavailableTermsComponent
   ],
   imports: [
     NgbModule,

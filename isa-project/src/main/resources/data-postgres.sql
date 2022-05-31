@@ -66,6 +66,7 @@ insert into cottage_reservation (start_date, end_date, guest_capacity, price, co
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-06-01', '2022-06-30',4);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-06-01', '2022-06-30',3);
 insert into cottage_available_date_spans (start_date, end_date, cottage_id) values ('2022-06-02 10:00:00', '2022-06-25 13:00:00',2);
+insert into cottage_unavailable_date_spans (start_date, end_date, cottage_id) values ('2022-07-03', '2022-07-15',4);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
 insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);

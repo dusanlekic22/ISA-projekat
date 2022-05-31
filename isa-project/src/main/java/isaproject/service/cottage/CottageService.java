@@ -45,4 +45,6 @@ public interface CottageService {
 
 	ReservationCountDTO getCottageReservationCountWeekly(long id);
 
+	CottageDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan);
+
 }

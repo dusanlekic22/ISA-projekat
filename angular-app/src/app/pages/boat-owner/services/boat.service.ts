@@ -65,6 +65,13 @@ export class BoatService {
     );
   }
 
+  editUnavailableTerms(boatId:number,dateSpan:IDateSpan): Observable<IBoat> {
+    return this._http.put<IBoat>(environment.apiUrl + `/boat/unavailableTerms/${boatId}`,dateSpan).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   deleteBoat(boatId:number): Observable<ArrayBuffer> {
     return this._http.delete<ArrayBuffer>(environment.apiUrl + `/boat/${boatId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),

@@ -154,9 +154,112 @@ public class CottageServiceImpl implements CottageService {
 		}
 		if (!overlapped)
 			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		
+		for (DateTimeSpan dateTimeSpan : cottage.getUnavailableReservationDateSpan()) {
+			if (newDateSpan.overlapsWith(dateTimeSpan)) {
+				reserveUnavailableDateSpan(cottage, newDateSpan, dateTimeSpan);
+				break;
+			}
+		}
 
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
+
+	private void reserveUnavailableDateSpan(Cottage cottage, 
+			DateTimeSpan availableDateSpan, DateTimeSpan unavailableDateSpan) {
+		cottage.getUnavailableReservationDateSpan().remove(unavailableDateSpan);
+		if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) <= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+			cottage.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+
+			cottage.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+
+			cottage.getUnavailableReservationDateSpan().add(newDateSpan1);
+			cottage.getUnavailableReservationDateSpan().add(newDateSpan2);
+		}
+		cottageRepository.save(cottage);
+	}
+
+	@Transactional
+	@Override
+	public CottageDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan) {
+		Cottage cottage = cottageRepository.findById(id).get();
+		for (CottageReservationDTO cottageReservation : cottageReservationService.findByCottageId(id)) {
+			if (newDateSpan.overlapsWith(cottageReservation.getDuration()))
+				return null;
+		}
+		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByCottageId(id)) {
+			if (newDateSpan.overlapsWith(cottageQuickReservation.getDuration()))
+				return null;
+		}
+		boolean overlapped = false;
+		Set<DateTimeSpan> unavailableDateSpans = new HashSet<>(cottage.getUnavailableReservationDateSpan());
+		for (DateTimeSpan reservationSpan : unavailableDateSpans) {
+			if (reservationSpan.overlapsWith(newDateSpan)) {
+				cottage.getUnavailableReservationDateSpan().remove(reservationSpan);
+				if (newDateSpan.getStartDate().compareTo(reservationSpan.getStartDate()) <= 0) {
+					reservationSpan = new DateTimeSpan(newDateSpan.getStartDate(), reservationSpan.getEndDate());
+				}
+				if (newDateSpan.getEndDate().compareTo(reservationSpan.getEndDate()) >= 0) {
+					reservationSpan = new DateTimeSpan(reservationSpan.getStartDate(), newDateSpan.getEndDate());
+				}
+				overlapped = true;
+				cottage.getUnavailableReservationDateSpan().add(reservationSpan);
+			}
+		}
+		if (!overlapped)
+			cottage.getUnavailableReservationDateSpan().add(newDateSpan);
+
+		for (DateTimeSpan dateTimeSpan : cottage.getAvailableReservationDateSpan()) {
+			if (newDateSpan.overlapsWith(dateTimeSpan)) {
+				reserveAvailableDateSpan(cottage, newDateSpan, dateTimeSpan);
+				break;
+			}
+		}
+
+		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
+	}
+	
+
+	private void reserveAvailableDateSpan(Cottage cottage, DateTimeSpan unavailableDateSpan,
+			DateTimeSpan availableDateSpan) {
+		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
+		if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+
+			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
+			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
+		}
+		cottageRepository.save(cottage);
+	}
+
 
 	@Transactional
 	@Override

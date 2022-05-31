@@ -82,6 +82,9 @@ public class Boat implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "boat_available_date_spans", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "date_spans_boat"))
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "boat_unavailable_date_spans", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "no_date_spans_boat"))
+	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "boat_subscribers", joinColumns = @JoinColumn(name = "boat_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
@@ -92,6 +95,14 @@ public class Boat implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
+		return unavailableReservationDateSpan;
+	}
+
+	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
+		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
 	public String getName() {

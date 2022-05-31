@@ -69,6 +69,15 @@ public class BoatController {
 		return new ResponseEntity<>(boatReturnDTO,HttpStatus.OK);
 	}
 	
+	@PutMapping("/unavailableTerms/{id}")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<BoatDTO> updateUnavailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
+		BoatDTO boatReturnDTO =  boatService.updateUnavailableTerms(id, dateTimeSpan);
+		if(boatReturnDTO==null)
+			return new ResponseEntity<>(boatReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(boatReturnDTO,HttpStatus.OK);
+	}
+	
 	@PostMapping
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatDTO> save(@RequestBody BoatDTO boatDTO) {

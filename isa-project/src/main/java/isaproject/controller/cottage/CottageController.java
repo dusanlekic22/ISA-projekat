@@ -82,6 +82,15 @@ public class CottageController {
 			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
 	}
+	
+	@PutMapping("/unavailableTerms/{id}")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<CottageDTO> updateUnavailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
+		CottageDTO cottageReturnDTO =  cottageService.updateUnavailableTerms(id, dateTimeSpan);
+		if(cottageReturnDTO==null)
+			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
+	}
 
 	@PostMapping
     @PreAuthorize("hasRole('COTTAGE_OWNER')")

@@ -19,6 +19,7 @@ export interface ICottage {
   cottageReservation: ICottageReservation[];
   cottageQuickReservation: ICottageQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
+  unavailableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
 }
 
@@ -35,8 +36,8 @@ export const initCottage: ICottage = {
   address: {
     city: '',
     country: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: 45.248007,
+    longitude: 19.842518,
     street: '',
   },
   grade:0,
@@ -49,6 +50,7 @@ export const initCottage: ICottage = {
   cottageReservation: [],
   cottageQuickReservation: [],
   availableReservationDateSpan: [],
+  unavailableReservationDateSpan: [],
   cottageOwner: {
     id: 0,
     username: '',

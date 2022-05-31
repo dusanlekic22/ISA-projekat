@@ -1,5 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FullCalendarComponent, EventApi, CalendarOptions, EventInput, DateSelectArg, EventClickArg } from '@fullcalendar/angular';
+import {
+  FullCalendarComponent,
+  EventApi,
+  CalendarOptions,
+  EventInput,
+  DateSelectArg,
+  EventClickArg,
+} from '@fullcalendar/angular';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { ToastrService } from 'ngx-toastr';
 import { createEventId } from 'src/app/event-utils';
@@ -16,10 +23,10 @@ import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
 @Component({
   selector: 'app-fishing-trainer-calendar',
   templateUrl: './fishing-trainer-calendar.component.html',
-  styleUrls: ['./fishing-trainer-calendar.component.css']
+  styleUrls: ['./fishing-trainer-calendar.component.css'],
 })
 export class FishingTrainerCalendarComponent implements OnInit {
-@ViewChild('modal') addModal!: ModalDirective;
+  @ViewChild('modal') addModal!: ModalDirective;
   @ViewChild('modalInfo') infoModal!: ModalDirective;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   currentEvents: EventApi[] = [];
@@ -48,6 +55,7 @@ export class FishingTrainerCalendarComponent implements OnInit {
   passedReservations!: IFishingReservation[];
   quickReservations!: IFishingQuickReservation[];
   availableReservationDateSpans!: IDateSpan[];
+  unavailableReservationDateSpans!: IDateSpan[];
   fishingTrainer!: IFishingTrainer;
   available: boolean = true;
   availableDateSpan: IDateSpan = {
@@ -95,8 +103,13 @@ export class FishingTrainerCalendarComponent implements OnInit {
           this.fishingTrainer = fishingTrainer;
           this.availableReservationDateSpans =
             this.fishingTrainer.availableReservationDateSpan;
+          this.unavailableReservationDateSpans =
+            this.fishingTrainer.unavailableReservationDateSpan;
           this.availableReservationDateSpans.forEach((r) =>
             calendarApi.addEvent(this.createAvailableReservationEvent(r))
+          );
+          this.unavailableReservationDateSpans.forEach((r) =>
+            calendarApi.addEvent(this.createUnavailableReservationEvent(r))
           );
           this.fishingReservationService
             .getActiveFishingReservationByFishingCourseByFishingTrainerId(
@@ -185,6 +198,23 @@ export class FishingTrainerCalendarComponent implements OnInit {
     };
   }
 
+  createUnavailableReservationEvent(dateSpan: IDateSpan): EventInput {
+    var difference =
+      (new Date(dateSpan.endDate).getTime() -
+        new Date(dateSpan.startDate).getTime()) /
+      (1000 * 60 * 60 * 24.0);
+    var allDay = Math.abs(difference) >= 1;
+    return {
+      id: createEventId(),
+      title: 'Unavailable time',
+      start: dateSpan.startDate,
+      end: dateSpan.endDate,
+      display: 'background',
+      backgroundColor: 'red',
+      allDay: allDay,
+    };
+  }
+
   handleDateSelect(selectInfo: DateSelectArg) {
     const calendarApi = this.calendarComponent.getApi();
     calendarApi.unselect(); // clear date selection
@@ -245,6 +275,20 @@ export class FishingTrainerCalendarComponent implements OnInit {
           }
         );
     } else {
+      this.fishingTrainerService
+      .editUnavailableTerms(this.fishingTrainer.id, this.availableDateSpan)
+      .subscribe(
+        () => {
+          this.loadCalendar();
+          this.hideAddModal();
+        },
+        (err) => {
+          this.toastr.error(
+            'Theres already an active reservation in this date span.',
+            'Try a different date!'
+          );
+        }
+      );
     }
   }
 
@@ -269,6 +313,6 @@ export class FishingTrainerCalendarComponent implements OnInit {
   }
 
   getCustomer(reservation: any) {
-    return `${reservation.customer.firstName} ${reservation.customer.lastName}`
+    return `${reservation.customer.firstName} ${reservation.customer.lastName}`;
   }
 }

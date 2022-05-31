@@ -13,4 +13,6 @@ public interface FishingTrainerService {
 
 	FishingTrainerDTO updateAvailableTerms(Long id, DateTimeSpan dateTimeSpan);
 
+	FishingTrainerDTO updateUnavailableTerms(Long id, DateTimeSpan dateTimeSpan);
+
 }

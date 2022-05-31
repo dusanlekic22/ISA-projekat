@@ -10,6 +10,7 @@ public class FishingTrainerDTO extends UserDTO {
 	private Set<FishingCourse> fishingCourse;
 	private String biography;
 	private Set<DateTimeSpan> availableReservationDateSpan;
+	private Set<DateTimeSpan> unavailableReservationDateSpan;
 
 	public FishingTrainerDTO() {
 	}
@@ -36,6 +37,14 @@ public class FishingTrainerDTO extends UserDTO {
 
 	public void setAvailableReservationDateSpan(Set<DateTimeSpan> availableReservationDateSpan) {
 		this.availableReservationDateSpan = availableReservationDateSpan;
+	}
+
+	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
+		return unavailableReservationDateSpan;
+	}
+
+	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
+		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
 }

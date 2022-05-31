@@ -93,3 +93,4 @@ insert into fishing_reservation (start_date, end_date, capacity, price, confirme
 insert into fishing_quick_reservation (start_date, end_date, capacity, price, is_reserved, fishing_course_id, location_id) values ('2022-06-8T10:00:00', '2022-06-9T18:30:00', 6, 100, false,1,2);
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-05-16', '2022-05-22',7);
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-1', '2022-06-5',7);
+insert into fishing_trainer_unavailable_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-6', '2022-06-7',7);

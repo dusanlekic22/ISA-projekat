@@ -6,4 +6,5 @@ export interface IFishingTrainer extends IUser {
   biography: string;
   fishingCourse: IFishingCourse[];
   availableReservationDateSpan: IDateSpan[];
+  unavailableReservationDateSpan: IDateSpan[];
 }

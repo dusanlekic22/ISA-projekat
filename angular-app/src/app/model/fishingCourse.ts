@@ -61,5 +61,6 @@ export const emptyFishingCourse: IFishingCourse = {
     biography: '',
     fishingCourse: [],
     availableReservationDateSpan: [],
+    unavailableReservationDateSpan: [],
   },
 };

@@ -25,12 +25,18 @@ public class FishingTrainer extends User {
 	private Set<FishingCourse> fishingCourse = new HashSet<FishingCourse>();
 
 	private String biography = "";
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "fishing_trainer_available_date_spans",
 					 joinColumns = @JoinColumn(name = "fishing_trainer_id"),
 					 foreignKey = @ForeignKey(name = "date_spans_fishing_trainer"))
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "fishing_trainer_unavailable_date_spans",
+					 joinColumns = @JoinColumn(name = "fishing_trainer_id"),
+					 foreignKey = @ForeignKey(name = "no_date_spans_fishing_trainer"))
+	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 
 	public FishingTrainer() {
 	}
@@ -55,9 +61,16 @@ public class FishingTrainer extends User {
 		return availableReservationDateSpan;
 	}
 
-	public void setAvailableReservationDateSpan(
-			Set<DateTimeSpan> availableReservationDateSpan) {
+	public void setAvailableReservationDateSpan(Set<DateTimeSpan> availableReservationDateSpan) {
 		this.availableReservationDateSpan = availableReservationDateSpan;
+	}
+
+	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
+		return unavailableReservationDateSpan;
+	}
+
+	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
+		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
 }

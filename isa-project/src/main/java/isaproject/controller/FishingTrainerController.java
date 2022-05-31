@@ -60,10 +60,22 @@ public class FishingTrainerController {
 
 	@PutMapping("/availableTerms/{id}")
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
-	public ResponseEntity<FishingTrainerDTO> updateAvailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
-		FishingTrainerDTO fishingTrainerDTO =  fishingTrainerService.updateAvailableTerms(id, dateTimeSpan);
-		if(fishingTrainerDTO==null)
-			return new ResponseEntity<>(fishingTrainerDTO,HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(fishingTrainerDTO,HttpStatus.OK);
+	public ResponseEntity<FishingTrainerDTO> updateAvailableTerms(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan dateTimeSpan) {
+		FishingTrainerDTO fishingTrainerDTO = fishingTrainerService.updateAvailableTerms(id, dateTimeSpan);
+		if (fishingTrainerDTO == null)
+			return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.OK);
 	}
+
+	@PutMapping("/unavailableTerms/{id}")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
+	public ResponseEntity<FishingTrainerDTO> updateUnavailableTerms(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan dateTimeSpan) {
+		FishingTrainerDTO fishingTrainerDTO = fishingTrainerService.updateUnavailableTerms(id, dateTimeSpan);
+		if (fishingTrainerDTO == null)
+			return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.OK);
+	}
+
 }

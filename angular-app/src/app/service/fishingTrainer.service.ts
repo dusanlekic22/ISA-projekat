@@ -31,6 +31,18 @@ export class FishingTrainerService {
       .pipe(catchError(this.handleError));
   }
 
+  editUnavailableTerms(
+    id: number,
+    dateSpan: IDateSpan
+  ): Observable<IFishingTrainer> {
+    return this.http
+      .put<IFishingTrainer>(
+        `${this.fishingTrainerUrl}/unavailableTerms/${id}`,
+        dateSpan
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

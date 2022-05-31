@@ -108,7 +108,110 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		if (!overlapped)
 			fishingTrainer.getAvailableReservationDateSpan().add(dateTimeSpan);
 
+		for (DateTimeSpan unavailableDateSpan : fishingTrainer.getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(unavailableDateSpan)) {
+				reserveUnavailableDateSpan(fishingTrainer, dateTimeSpan, unavailableDateSpan);
+				break;
+			}
+		}
+
 		return UserMapper.FishingTrainerToDTO(fishingTrainerRepository.save(fishingTrainer));
+	}
+
+	private void reserveUnavailableDateSpan(FishingTrainer fishingTrainer, DateTimeSpan availableDateSpan,
+			DateTimeSpan unavailableDateSpan) {
+		fishingTrainer.getUnavailableReservationDateSpan().remove(unavailableDateSpan);
+		if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) <= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+			fishingTrainer.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+
+			fishingTrainer.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+
+			fishingTrainer.getUnavailableReservationDateSpan().add(newDateSpan1);
+			fishingTrainer.getUnavailableReservationDateSpan().add(newDateSpan2);
+		}
+		fishingTrainerRepository.save(fishingTrainer);
+	}
+
+	@Transactional
+	@Override
+	public FishingTrainerDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan) {
+		FishingTrainer fishingTrainer = fishingTrainerRepository.findById(id).get();
+		for (FishingReservationDTO fishingTrainerReservation : fishingReservationService
+				.findByFishingCourseFishingTrainerId(id)) {
+			if (newDateSpan.overlapsWith(fishingTrainerReservation.getDuration()))
+				return null;
+		}
+		for (FishingQuickReservationDTO fishingTrainerQuickReservation : fishingQuickReservationService
+				.findByFishingCourseFishingTrainerId(id)) {
+			if (newDateSpan.overlapsWith(fishingTrainerQuickReservation.getDuration()))
+				return null;
+		}
+		boolean overlapped = false;
+		Set<DateTimeSpan> unavailableDateSpans = new HashSet<>(fishingTrainer.getUnavailableReservationDateSpan());
+		for (DateTimeSpan reservationSpan : unavailableDateSpans) {
+			if (reservationSpan.overlapsWith(newDateSpan)) {
+				fishingTrainer.getUnavailableReservationDateSpan().remove(reservationSpan);
+				if (newDateSpan.getStartDate().compareTo(reservationSpan.getStartDate()) <= 0) {
+					reservationSpan = new DateTimeSpan(newDateSpan.getStartDate(), reservationSpan.getEndDate());
+				}
+				if (newDateSpan.getEndDate().compareTo(reservationSpan.getEndDate()) >= 0) {
+					reservationSpan = new DateTimeSpan(reservationSpan.getStartDate(), newDateSpan.getEndDate());
+				}
+				overlapped = true;
+				fishingTrainer.getUnavailableReservationDateSpan().add(reservationSpan);
+			}
+		}
+		if (!overlapped)
+			fishingTrainer.getUnavailableReservationDateSpan().add(newDateSpan);
+
+		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
+			if (newDateSpan.overlapsWith(dateTimeSpan)) {
+				reserveAvailableDateSpan(fishingTrainer, newDateSpan, dateTimeSpan);
+				break;
+			}
+		}
+
+		return UserMapper.FishingTrainerToDTO(fishingTrainerRepository.save(fishingTrainer));
+	}
+
+	private void reserveAvailableDateSpan(FishingTrainer fishingTrainer, DateTimeSpan unavailableDateSpan,
+			DateTimeSpan availableDateSpan) {
+		fishingTrainer.getAvailableReservationDateSpan().remove(availableDateSpan);
+		if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan1);
+			fishingTrainer.getAvailableReservationDateSpan().add(newDateSpan2);
+		}
+		fishingTrainerRepository.save(fishingTrainer);
 	}
 
 }

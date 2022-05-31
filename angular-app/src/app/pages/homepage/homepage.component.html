@@ -15,6 +15,7 @@
   <div class="row bottom">
     <div class="col-2 grad"></div>
     <div class="col-8 secondSection pt-6">
+      <!-- Cottages tab -->
       <mat-tab-group mat-stretch-tabs>
         <mat-tab label="Cottages">
           <div class="container">
@@ -88,8 +89,8 @@
                     >
                       <mat-label>Bed</mat-label>
                       <mat-select
+                        name="cottageBedCount"
                         [(ngModel)]="cottageBedCount"
-                        formControlName="firstCtrl"
                       >
                         <mat-option *ngFor="let bed of beds" [value]="bed">
                           {{ bed }}
@@ -101,15 +102,12 @@
                       appearance="fill"
                     >
                       <mat-label>Sort by</mat-label>
-                      <mat-select
-                        [(ngModel)]="cottageBedCount"
-                        formControlName="firstCtrl"
-                      >
+                      <mat-select name="sortBy" [(ngModel)]="cottageSortBy">
                         <mat-option
                           *ngFor="let sort of sortListCottage"
                           [value]="sort"
                         >
-                          {{ sort }}
+                          {{ sort.text }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -132,14 +130,14 @@
                 </div>
 
                 <div class="col-4">
-                  <button class="btn btn-success" (click)="availableCottages()">
+                  <button class="btn btn-success" (click)="searchCottage()">
                     Search
                   </button>
                 </div>
               </div>
             </form>
 
-            <div class="container mt-3">
+            <div class="container mt-3 itemss">
               <div class="row d-flex p-2 text-white">
                 <div class="col-4 p-2" *ngFor="let cottage of cottages">
                   <app-base-cottage
@@ -159,8 +157,10 @@
               <div class="row d-flex text-success bg-dark rounded">
                 <div class="col-6">
                   <mat-paginator
+                    (page)="onChangeCottagePage($event)"
                     class="bg-dark text-white"
-                    [length]="12"
+                    [length]="cottageTotalElements"
+                    [pageIndex]="cottagePage"
                     [pageSize]="6"
                     aria-label="<class ='btn-success'>Select page"
                   >
@@ -172,9 +172,12 @@
                 <div class="col-3 pt-2 sortbtn">
                   <mat-chip-list [(ngModel)]="sortChips" selectable multiple>
                     <mat-chip
+                      *ngIf="openCottages === 'no'"
                       value="Price Ascending"
                       #c="matChip"
-                      (click)="toggleSelectionCottageSort(c, 'Price Ascending')"
+                      (click)="
+                        toggleSelectionCottageSort(c, priceSortCottageType)
+                      "
                     >
                       Price
                     </mat-chip>
@@ -182,7 +185,7 @@
                       value="Grade Ascending"
                       #c2="matChip"
                       (click)="
-                        toggleSelectionCottageSort(c2, 'Grade Ascending')
+                        toggleSelectionCottageSort(c2, gradeSortCottageType)
                       "
                     >
                       Grade
@@ -193,6 +196,7 @@
             </div>
           </div>
         </mat-tab>
+        <!-- Boats tab -->
         <mat-tab label="Boats">
           <div class="container">
             <form class="example-form">
@@ -274,10 +278,7 @@
                 </div>
                 <div class="mb-3">
                   <div class="col-4">
-                    <button
-                      class="btn btn-success"
-                      (click)="availableCottages()"
-                    >
+                    <button class="btn btn-success" (click)="searchCottage()">
                       Apply
                     </button>
                   </div>
@@ -303,6 +304,7 @@
             </div>
           </div>
         </mat-tab>
+        <!--Adventures tab -->
         <mat-tab label="Adventures">
           <form class="example-form">
             <div class="row">

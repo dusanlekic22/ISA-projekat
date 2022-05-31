@@ -39,7 +39,7 @@
         </div>
         <div
           *ngIf="openForReservation !== 'yes'"
-          class="col-5 text-dark text-center"
+          class="col-5 text-dark text-left"
         >
           <strong>Price: </strong>{{ "  " + price + " $" }}
         </div>
@@ -65,14 +65,15 @@
         </div>
       </div>
     </div>
-    <div class="reserv-btn">
+    <div class="reserv-btn" *ngIf="openForReservation !== 'yes'">
       <button
-        *ngIf="openForReservation !== 'yes'"
+        *appHasRole="['ROLE_CUSTOMER']"
         class="btn btn-success reservationbtn"
         [routerLink]="['/cottage/' + this.id + '/' + startDate + '/' + endDate]"
       >
         Book
       </button>
     </div>
+    <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
   </div>
 </div>

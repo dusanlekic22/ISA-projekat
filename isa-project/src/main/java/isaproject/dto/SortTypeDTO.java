@@ -1,16 +1,14 @@
-package isaproject.model;
+package isaproject.dto;
 
-public class SortType {
-
-
-	private String  field;
+public class SortTypeDTO {
+private String  field;
 	
 	private String direction;
 
-	public SortType(){}
+	public SortTypeDTO(){}
 	
 	
-	public SortType(String field,String direction){
+	public SortTypeDTO(String field,String direction){
 		this.field= field;
 		this.direction= direction;
 	}
@@ -35,7 +33,4 @@ public class SortType {
 		this.direction = direction;
 	}
 	
-	
-
-
 }

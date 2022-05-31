@@ -1,4 +1,10 @@
-import { ISortType, sortTypes } from './../../model/sortType';
+import {
+  ISortType,
+  sortTypes,
+  emptySortType,
+  priceSortType,
+  gradeSortType,
+} from './../../model/sortType';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { ICottageAvailability } from './../../model/cottageReservation';
 import { FormControl, Validators } from '@angular/forms';
@@ -8,7 +14,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { ReservationService } from 'src/app/service/reservation.service';
 import { ICottage, ICottagePage } from 'src/app/model/cottage';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-homepage',
@@ -19,24 +25,30 @@ export class HomepageComponent implements OnInit {
   searchCottageName!: string;
   searchCottageBeds!: string;
   cottages!: ICottage[];
-  startCottageDate: any = null;
-  endCottageDate: any = null;
+  startCottageDate!: Date;
+  endCottageDate!: Date;
   optionsCottages: string[] = ['dare', 'leka'];
   chips!: MatChip;
   sortChips!: MatChip;
   cottageChips: string[] = [];
-  cottageSortChips: string[] = [];
+  cottageSortChips: ISortType[] = [];
   cottageTimespan!: IDateSpan;
   minDate: Date = new Date();
-  minDateString: string = '';
+  minDateString: string = 'adasd';
   startDateCottageString: string = '';
   endDateCottageString: any = '';
   openCottages: string = 'yes';
-  cottageBedCount!: number;
+  cottageSearch: boolean = false;
+  cottageBedCount: number = 0;
   cottagePersonCount!: number;
-  cottageGrade: number = -1;
+  cottageGrade!: number;
   beds: number[] = Array.from(Array(5).keys()).map((i) => (i += 1));
   sortListCottage: ISortType[] = sortTypes;
+  cottageSortBy!: ISortType;
+  priceSortCottageType: ISortType = priceSortType;
+  gradeSortCottageType: ISortType = gradeSortType;
+  cottagePage: number = 0;
+  cottageTotalElements: number = 30;
 
   paginatorCottage!: MatPaginator;
   reservationCottage: ICottageAvailability = {
@@ -60,13 +72,21 @@ export class HomepageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._cottageService.getCottages().subscribe((data) => {
-      this.cottages = data;
-      console.log('evo data', data);
-    });
+    this.getCottages();
     this.minDateString = this.date(new Date());
     this.startDateCottageString = this.date(new Date());
   }
+
+  getCottages() {
+    this._cottageService
+      .getCottagesPagination(this.cottagePage, this.cottageSortChips)
+      .subscribe((data) => {
+        this.cottages = data.content;
+        this.cottageTotalElements = data.totalElements;
+        console.log('evo data', data);
+      });
+  }
+
   toggleSelectionCottage(chip: MatChip, option: string) {
     let x: string[] = [];
     if (chip.toggleSelected()) {
@@ -75,16 +95,27 @@ export class HomepageComponent implements OnInit {
       this.cottageChips = this.cottageChips.filter((e) => e !== option);
     }
   }
-  toggleSelectionCottageSort(chip: MatChip, option: string) {
-    let x: string[] = [];
+  toggleSelectionCottageSort(chip: MatChip, option: ISortType) {
     if (chip.toggleSelected()) {
       this.cottageSortChips.push(option);
     } else {
       this.cottageSortChips = this.cottageSortChips.filter((e) => e !== option);
     }
+    console.log('chipssss', this.cottageSortChips);
+    if (this.cottageSearch === true) {
+      this.availableCottages(this.cottagePage);
+    } else {
+      this.getCottages();
+    }
   }
 
-  availableCottages() {
+  availableCottages(page: number) {
+    this.reservationCottage.sortBy = [];
+    this.cottageSortChips.forEach((e) =>
+      this.reservationCottage.sortBy.push(e)
+    );
+    this.reservationCottage.sortBy.push(this.cottageSortBy);
+    console.log('duzina', this.reservationCottage.sortBy.length);
     if (this.startCottageDate === this.endCottageDate) {
       this.reservationCottage.dateSpan.startDate = this.startCottageDate;
       this.reservationCottage.dateSpan.endDate = this.endCottageDate;
@@ -92,13 +123,40 @@ export class HomepageComponent implements OnInit {
       this.reservationCottage.dateSpan.startDate = this.startCottageDate;
       this.reservationCottage.dateSpan.endDate = this.endCottageDate;
     }
+
+    this.reservationCottage.name = this.searchCottageName;
+    this.reservationCottage.bedCapacity = this.cottageBedCount;
+    this.reservationCottage.grade = this.cottageGrade;
     this._reservationService
-      .getAvailableCottagesByTimeSpan(this.reservationCottage)
+      .getAvailableCottagesByTimeSpan(this.reservationCottage, page)
       .subscribe((data: any) => {
         console.log('podaci', data.content);
         this.cottages = data.content;
-        this.openCottages = 'no';
+        this.cottagePage = page;
+        this.cottageTotalElements = data.totalElements;
+        if (
+          this.startCottageDate !== undefined ||
+          this.endCottageDate !== undefined ||
+          this.startCottageDate !== '' ||
+          this.endCottageDate !== ''
+        ) {
+          this.openCottages = 'no';
+        }
       });
+  }
+
+  searchCottage() {
+    this.cottageSearch = true;
+    this.availableCottages(0);
+  }
+
+  onChangeCottagePage(pe: PageEvent) {
+    this.cottagePage = pe.pageIndex;
+    if (this.cottageSearch === true) {
+      this.availableCottages(this.cottagePage);
+    } else {
+      this.getCottages();
+    }
   }
 
   date(min: Date): string {

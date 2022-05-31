@@ -1,7 +1,7 @@
+import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
 import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
 import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
-import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
@@ -70,7 +70,7 @@ const routes: Routes = [
   },
   {
     path: 'boatOwnerHome',
-    component: BoatOwnerHomeComponent
+    component: BoatOwnerHomeComponent,
   },
   {
     path: 'boatProfile/:boatId',
@@ -93,23 +93,21 @@ const routes: Routes = [
     component: ChooseRegistrationComponent,
   },
   {
-    path: 'customer/:id',
-    component: CustomerProfileComponent,
+    path: 'user/:id',
+    component: UserProfileComponent,
   },
   {
     path: 'cottage/:id/:startDate/:endDate',
     component: CottageReservationComponent,
   },
-  { path: 'fishingTrainerCourses',
-    component: FishingTrainerCoursesComponent
-  },
+  { path: 'fishingTrainerCourses', component: FishingTrainerCoursesComponent },
   {
     path: 'fishingCourseProfile/:id',
     component: FishingCourseProfileComponent,
   },
   {
     path: 'requests',
-    component: RequestsComponent
+    component: RequestsComponent,
   },
   { path: '**', redirectTo: '' },
 ];

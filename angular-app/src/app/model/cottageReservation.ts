@@ -1,3 +1,4 @@
+import { ISortType } from './sortType';
 import { ICustomer } from './customer';
 import { IDateSpan } from './dateSpan';
 
@@ -18,6 +19,6 @@ export interface ICottageAvailability {
   grade: number;
   longitude: number;
   latitude: number;
-  sortBy: string[];
+  sortBy: ISortType[];
   freeAdditionalServices: string[];
 }

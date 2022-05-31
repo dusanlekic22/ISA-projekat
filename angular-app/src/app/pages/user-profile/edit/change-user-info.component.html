@@ -11,7 +11,7 @@
               <mat-label>First name</mat-label>
               <input
                 matInput
-                [(ngModel)]="firstName"
+                [(ngModel)]="user.firstName"
                 name="firstName"
                 placeholder="First"
                 required
@@ -24,7 +24,7 @@
               <mat-label>Last name</mat-label>
               <input
                 matInput
-                [(ngModel)]="lastname"
+                [(ngModel)]="user.lastName"
                 name="lastname"
                 placeholder="Last name"
                 required
@@ -40,7 +40,7 @@
               <mat-label>Contact</mat-label>
               <input
                 matInput
-                [(ngModel)]="contact"
+                [(ngModel)]="user.phoneNumber"
                 name="contact"
                 placeholder="+381 ..."
                 required
@@ -54,7 +54,7 @@
               <input
                 type="text"
                 matInput
-                [(ngModel)]="street"
+                [(ngModel)]="user.address.street"
                 name="street"
                 placeholder="Enter your street"
                 required
@@ -70,7 +70,7 @@
               <input
                 type="text"
                 matInput
-                [(ngModel)]="country"
+                [(ngModel)]="user.address.country"
                 name="country"
                 placeholder="Enter your country"
                 required
@@ -84,7 +84,7 @@
               <input
                 type="text"
                 matInput
-                [(ngModel)]="city"
+                [(ngModel)]="user.address.city"
                 name="city"
                 placeholder="Enter your city"
                 required
@@ -100,7 +100,7 @@
               <input
                 type="password"
                 matInput
-                [(ngModel)]="password"
+                [(ngModel)]="user.password"
                 name="password"
                 placeholder="Password"
                 required

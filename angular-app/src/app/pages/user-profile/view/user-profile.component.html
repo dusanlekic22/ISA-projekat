@@ -1,0 +1,45 @@
+<div class="container con" *appHasRole="roles">
+  <div>
+    <div class="profile-header">
+      <div class="profile-img">
+        <img
+          src="https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTR8fHBlcnNvbnxlbnwwfDF8MHx8&auto=format&fit=crop&w=300&q=18"
+          width="250"
+          alt="Profile Image"
+        />
+      </div>
+      <div class="profile-nav-info">
+        <h3 class="user-name">{{ user.username }}</h3>
+        <div class="address">
+          <p id="state" class="state">New York,</p>
+          <span id="country" class="country">USA.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-bd">
+      <app-customer-profile
+        *appHasRole="['ROLE_CUSTOMER']"
+        [user]="user"
+        [userId]="userId"
+      ></app-customer-profile>
+      <app-owner-cottage-profile
+        *appHasRole="['ROLE_COTTAGE_OWNER']"
+      ></app-owner-cottage-profile>
+      <app-fishing-trainer-profile
+        *appHasRole="['ROLE_FISHING_TRAINER']"
+      ></app-fishing-trainer-profile>
+      <app-admin-profile *appHasRole="['ROLE_ADMIN']"></app-admin-profile>
+      <div class="right-side">
+        <div class="profile-body">
+          <div class="profile-posts">
+            <app-change-user-info
+              [user]="user"
+              [userId]="userId"
+            ></app-change-user-info>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

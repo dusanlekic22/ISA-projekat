@@ -46,11 +46,7 @@
           </div>
         </li>
         <li class="nav-item" *appHasRole="['ROLE_BOAT_OWNER']">
-          <a
-            class="nav-link"
-            [routerLink]="['/boatOwnerHome']"
-            >Boats</a
-          >
+          <a class="nav-link" [routerLink]="['/boatOwnerHome']">Boats</a>
         </li>
         <li class="nav-item" *appHasRole="['ROLE_BOAT_OWNER']">
           <div ngbDropdown>
@@ -91,7 +87,7 @@
           >
         </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
-          <a class="nav-link" [routerLink]="['/customer/' + loggedInUser.id]">
+          <a class="nav-link" [routerLink]="['/user/' + loggedInUser.id]">
             Profile
           </a>
         </li>

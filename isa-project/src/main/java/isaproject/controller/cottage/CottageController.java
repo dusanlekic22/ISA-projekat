@@ -1,5 +1,6 @@
 package isaproject.controller.cottage;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageAvailabilityDTO;
-import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.cottage.CottageService;
@@ -42,9 +43,18 @@ public class CottageController {
 	public Set<CottageDTO> getAll() {
 		return cottageService.findAll();
 	}
+	
+	@PostMapping("/pagination")
+	@ResponseBody
+	public Page<CottageDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size,
+			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return cottageService.findAllPagination(sortTypeDTOList,paging);
+	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	@PreAuthorize("hasRole('COTTAGE_OWNER','CUSTOMER')")	
 	public CottageDTO loadById(@PathVariable("id") Long id) {
 		return cottageService.findById(id);
 	}
@@ -103,7 +113,7 @@ public class CottageController {
 	@ResponseBody
 	public Page<CottageDTO> search(@RequestBody CottageAvailabilityDTO cottageAvailability,	
 			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "3") int size) {
+			@RequestParam(defaultValue = "6") int size) {
 		Pageable paging = PageRequest.of(page, size);
 		return cottageService.findByAvailability(cottageAvailability,paging);
 	}

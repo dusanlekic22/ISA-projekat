@@ -1,5 +1,6 @@
 package isaproject.service.cottage;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 
@@ -20,6 +22,8 @@ public interface CottageService {
 	Set<CottageDTO> findByCottageOwnerId(Long id);
 
 	Set<CottageDTO> findAll();
+	
+	Page<CottageDTO> findAllPagination(List<SortTypeDTO> sortTypeDTO,Pageable paging );
 
 	CottageDTO save(CottageDTO cottage);
 

@@ -7,12 +7,12 @@ export interface ISortType {
 export const sortTypes: ISortType[] = [
   {
     text: 'Price ascending',
-    field: 'price',
+    field: 'price_per_hour',
     direction: 'asc',
   },
   {
     text: 'Price descending',
-    field: 'price',
+    field: 'price_per_hour',
     direction: 'desc',
   },
   {
@@ -46,3 +46,21 @@ export const sortTypes: ISortType[] = [
     direction: 'asc',
   },
 ];
+
+export const emptySortType: ISortType = {
+  text: '',
+  field: 'name',
+  direction: 'asc',
+};
+
+export const priceSortType: ISortType = {
+  text: 'Price ascending',
+  field: 'price_per_hour',
+  direction: 'desc',
+};
+
+export const gradeSortType: ISortType = {
+  text: 'Grade ascending',
+  field: 'grade',
+  direction: 'desc',
+};

@@ -1,5 +1,5 @@
-import { RegistrationService } from './../../registration/registration.service';
-import { Component, OnInit } from '@angular/core';
+import { RegistrationService } from '../../registration/registration.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
 import {
   FormGroup,
@@ -13,28 +13,17 @@ import { ActivatedRoute } from '@angular/router';
 import { NumberLiteralType } from 'typescript';
 
 @Component({
-  selector: 'app-change-customer-info',
-  templateUrl: './change-customer-info.component.html',
-  styleUrls: ['./change-customer-info.component.css'],
+  selector: 'app-change-user-info',
+  templateUrl: './change-user-info.component.html',
+  styleUrls: ['./change-user-info.component.css'],
 })
-export class ChangeCustomerInfoComponent implements OnInit {
+export class ChangeUserInfoComponent implements OnInit {
+  @Input() user!: IUser;
   firstFormGroup!: FormGroup;
-  firstName!: string;
-  lastname!: string;
-  username!: string;
-  email!: string;
-  contact!: string;
-  password!: string;
   confirmPassword!: string;
   location!: string;
-  longitude!: number;
-  latitude!: number;
-  user!: IUser;
   errorMessage!: string;
-  city!: string;
-  country!: string;
-  street!: string;
-  customerId!: number;
+  @Input() userId!: number;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -45,9 +34,6 @@ export class ChangeCustomerInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.mapInit();
-    this._route.params.subscribe((data) => {
-      this.customerId = data.id;
-    });
   }
 
   mapInit() {
@@ -79,25 +65,25 @@ export class ChangeCustomerInfoComponent implements OnInit {
         this.location =
           a.latLng.lat().toFixed(4) + ', ' + a.latLng.lng().toFixed(4); //Place the value in input box
         console.log('lokacija' + this.location);
-        this.latitude = a.latLng.lat().toFixed(4);
-        this.longitude = a.latLng.lng().toFixed(4);
+        this.user.address.latitude = a.latLng.lat().toFixed(4);
+        this.user.address.longitude = a.latLng.lng().toFixed(4);
         this._registrationService
           .getCityandCountry(
             a.latLng.lat().toFixed(4),
             a.latLng.lng().toFixed(4)
           )
           .subscribe((data) => {
-            this.city = data.address.city;
-            this.street = data.address.road;
-            this.country = data.address.country;
+            this.user.address.city = data.address.city;
+            this.user.address.street = data.address.road;
+            this.user.address.country = data.address.country;
           });
       });
       google.maps.event.addListener(map, 'click', (event: any) => {
         position: event.latLng,
           (this.location = event.latLng.lat() + ', ' + event.latLng.lng());
         marker.setPosition(new google.maps.LatLng(event.latLng));
-        this.latitude = event.latLng.lat().toFixed(4);
-        this.longitude = event.latLng.lng().toFixed(4);
+        this.user.address.latitude = event.latLng.lat().toFixed(4);
+        this.user.address.longitude = event.latLng.lng().toFixed(4);
         console.log('lokacija' + this.location);
         this._registrationService
           .getCityandCountry(
@@ -106,33 +92,15 @@ export class ChangeCustomerInfoComponent implements OnInit {
           )
           .subscribe((data) => {
             console.log(data);
-            this.city = data.address.city;
-            this.street = data.address.road;
-            this.country = data.address.country;
+            this.user.address.city = data.address.city;
+            this.user.address.street = data.address.road;
+            this.user.address.country = data.address.country;
           });
       });
     }
   }
-  
-  update() {
-    this.user = {
-      id: this.customerId,
-      username: this.username,
-      password: this.password,
-      firstName: this.firstName,
-      lastName: this.lastname,
-      email: this.email,
-      phoneNumber: this.contact,
-      address: {
-        street: this.street,
-        city: this.city,
-        country: this.country,
-        longitude: this.longitude,
-        latitude: this.latitude,
-      },
-      roles: [],
-    };
 
+  update() {
     this._userService.updateUser(this.user).subscribe({
       next: (data) => {
         this.user = data;

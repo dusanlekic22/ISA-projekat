@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,19 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.ReservationCountMapper;
+import isaproject.mapper.SortTypeMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.cottage.Cottage;
-import isaproject.model.ReservationCount;
-import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageReservation;
-import isaproject.repository.AddressRepository;
 import isaproject.repository.cottage.CottageRepository;
 import isaproject.service.ReservationCountService;
 import isaproject.service.cottage.CottageQuickReservationService;
@@ -42,14 +43,13 @@ import isaproject.service.cottage.CottageService;
 public class CottageServiceImpl implements CottageService {
 
 	private CottageRepository cottageRepository;
-	
+
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 	private ReservationCountService reservationCountService;
 
 	@Autowired
-	public CottageServiceImpl(CottageRepository cottageRepository,
-			CottageReservationService cottageReservationService,
+	public CottageServiceImpl(CottageRepository cottageRepository, CottageReservationService cottageReservationService,
 			CottageQuickReservationService cottageQuickReservationService,
 			ReservationCountService reservationCountService) {
 		super();
@@ -76,6 +76,29 @@ public class CottageServiceImpl implements CottageService {
 		}
 		return dtos;
 	}
+
+	public Page<CottageDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if(sortTypes !=null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					System.out.println("Poljeeee"+sortType.getField());
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+					System.out.println(sortType.getField());
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					System.out.println("Poljeeee"+sortType.getField());
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		
+		return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(paging));
+		}else {
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(pageable));
+		}
+		}
 
 	@Transactional
 	@Override
@@ -182,124 +205,118 @@ public class CottageServiceImpl implements CottageService {
 		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
 		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
 		Set<CottageDTO> availableCottages = new HashSet<>();
-		  if(cottages.size()!=0){
-	        	
-	            CottageDTO dto;
-	            for(Cottage p : cottages){
-	            	for(DateTimeSpan d : p.getAvailableReservationDateSpan()) {
-	            	if(d.isTimeSpanBetween(reservationDate)) {	
-	                dto = CottageMapper.CottageToCottageDTO(p);
-	                availableCottages.add(dto);
-	                }
-	                }
-	            }
-	        }
-		
-		  return availableCottages;
+		if (cottages.size() != 0) {
+
+			CottageDTO dto;
+			for (Cottage p : cottages) {
+				for (DateTimeSpan d : p.getAvailableReservationDateSpan()) {
+					if (d.isTimeSpanBetween(reservationDate)) {
+						dto = CottageMapper.CottageToCottageDTO(p);
+						availableCottages.add(dto);
+					}
+				}
+			}
+		}
+
+		return availableCottages;
 	}
 
 	@Override
-	public Page<CottageDTO> findByAvailability(
-			CottageAvailabilityDTO cottageAvailability,
-			Pageable pageable) {
+	public Page<CottageDTO> findByAvailability(CottageAvailabilityDTO cottageAvailability, Pageable pageable) {
 
-		
-		int  hours = 0;
-		
+		int hours = 0;
+
 		String name = "%";
 		Double grade = -1.0;
 		int bed = 0;
-		if(cottageAvailability.getName() != null) {
-			name= name +cottageAvailability.getName().toLowerCase().concat("%");
+		if (cottageAvailability.getName() != null) {
+			name = name + cottageAvailability.getName().toLowerCase().concat("%");
 		}
-		if(cottageAvailability.getGrade() != null) {
-			grade= cottageAvailability.getGrade();
+		if (cottageAvailability.getGrade() != null) {
+			grade = cottageAvailability.getGrade();
 		}
-		if(cottageAvailability.getBedCapacity() != 0) {
-		   bed= cottageAvailability.getBedCapacity();
+		if (cottageAvailability.getBedCapacity() != 0) {
+			bed = cottageAvailability.getBedCapacity();
 		}
+		Boolean isLocationSortDisabled = true;
 		
-		List<Sort.Order> sorts= new ArrayList<>();
-		  if(cottageAvailability.getSortBy() != null && cottageAvailability.getSortBy().size()!=0){
-	        	
-	            CottageDTO dto;
-	            for(SortType sortType : cottageAvailability.getSortBy()){
-	            	if(sortType.direction.toLowerCase().contains("desc")) {
-	         		   sorts.add(new Sort.Order(Sort.Direction.DESC,sortType.getField()));
-	         		   }
-	            	else {
-	          		   sorts.add(new Sort.Order(Sort.Direction.ASC,sortType.getField() ));
-	            	}
-	            }
-	        }
-		
-		
-	
-		Pageable paging = PageRequest.of(0, 6,Sort.by(sorts));
-		
-		
-		
-		
+		List<Sort.Order> sorts = new ArrayList<>();
+		if (cottageAvailability.getSortBy() != null && cottageAvailability.getSortBy().size() != 0) {
+
+			CottageDTO dto;
+			for (SortType sortType : cottageAvailability.getSortBy()) {
+				if(sortType != null && sortType.getField().equals("latitude") ) {
+					isLocationSortDisabled = false;
+					sortType.setField("a."+sortType.getField());
+					if(sortType.getDirection().toLowerCase().contains("desc")){
+					sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));}
+					else {
+						sorts.add(new Sort.Order(Sort.Direction.ASC, "a.longitude"));
+					}
+				}
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+					System.out.println(sortType.getField());
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+		}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 		List<Cottage> availableCottages;
 		List<CottageDTO> availableCottagesWithPrice;
-		
-		if(cottageAvailability.getDateSpan() == null ||
-		   cottageAvailability.getDateSpan().getStartDate() == null ||
-		   cottageAvailability.getDateSpan().getEndDate() == null
-		   ) {
-			
-			availableCottages = cottageRepository.searchCottage(name,grade,bed, paging);
-			
-			
-			return new PageImpl(availableCottages,paging,availableCottages.size());
+
+		if (cottageAvailability.getDateSpan() == null || cottageAvailability.getDateSpan().getStartDate() == null
+				|| cottageAvailability.getDateSpan().getEndDate() == null) {
+			Page<Cottage> pageCottage;
+			if(isLocationSortDisabled) {
+			pageCottage = cottageRepository.searchCottage(name, grade, bed, paging);
+			}else {
+			pageCottage = cottageRepository.searchCottageWithSortLocation(name, grade, bed, paging);
 			}
-		else {
+			availableCottages = pageCottage.getContent();
+			return new PageImpl(availableCottages, paging, pageCottage.getTotalElements());
+		} else {
 			LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
 			LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
 			hours = (int) ChronoUnit.HOURS.between(start, end);
-			System.out.println("adadad"+hours);
-			availableCottages = cottageRepository.getAvailability(start,end,name,grade,bed, paging);
+			Page<Cottage> pageCottage;
+			if(isLocationSortDisabled) {
+			pageCottage = cottageRepository.getAvailability(start, end, name, grade, bed, paging);
+			}else {
+				pageCottage = cottageRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
+			}
+			availableCottages = pageCottage.getContent();
 			availableCottagesWithPrice = new ArrayList<CottageDTO>();
-			  if(availableCottages.size()!=0){
-		            CottageDTO dto;
-		            for(Cottage p : availableCottages){
-		                dto = CottageMapper.CottageToCottageDTOWithPrice(p,hours);
-		                availableCottagesWithPrice.add(dto);
-		            }
-		        }
-			  return new PageImpl(availableCottagesWithPrice,paging,availableCottagesWithPrice.size());
+			if (availableCottages.size() != 0) {
+				CottageDTO dto;
+				for (Cottage p : availableCottages) {
+					dto = CottageMapper.CottageToCottageDTOWithPrice(p, hours);
+					availableCottagesWithPrice.add(dto);
+				}
+			}
+		
+			Page<CottageDTO> pc = new PageImpl(availableCottagesWithPrice, paging, pageCottage.getTotalElements());
+			return pc;
 		}
-		
-		
-		
-		
-		 
-		 
-		  
-	
-		  
-		  
-		  
-		
-		
-	
+
 	}
-	
+
 	@Override
 	public ReservationCountDTO getCottageReservationCountYearly(long id) {
 		int[] count = new int[4];
 		ReservationCount reservationCount = new ReservationCount();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
-        for (CottageReservation reservation : reservations)
-        {
-            for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countYearly(reservation.getDuration(), i, count);
-            }
-           
-        }
-        reservationCount.setYearlySum(count); 
-        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= 4; i++) {
+				count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setYearlySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
 	@Override
@@ -308,15 +325,14 @@ public class CottageServiceImpl implements CottageService {
 		ReservationCount reservationCount = new ReservationCount();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
-        for (CottageReservation reservation : reservations)
-        {
-            for (int i = 1; i <= 12; i++) {
-                count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
-            }
-           
-        }
-        reservationCount.setMonthlySum(count); 
-        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= 12; i++) {
+				count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setMonthlySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
 	@Override
@@ -325,20 +341,14 @@ public class CottageServiceImpl implements CottageService {
 		ReservationCount reservationCount = new ReservationCount();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
-        for (CottageReservation reservation : reservations)
-        {
-            for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
-            }
-           
-        }
-        reservationCount.setWeeklySum(count); 
-        return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= 4; i++) {
+				count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setWeeklySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
-	
-	
-	
-
-	
 }

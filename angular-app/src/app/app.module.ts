@@ -1,3 +1,5 @@
+import { OwnerCottageProfileComponent } from './pages/user-profile/view/owner-profile/owner-cottage-profile.component';
+import { ChangeUserInfoComponent } from './pages/user-profile/edit/change-user-info.component';
 import { AnswerDeletionRequestComponent } from './pages/admin-pages/answer-deletion-request/answer-deletion-request.component';
 import { AccountDeletionRequestsComponent } from './pages/admin-pages/account-deletion-requests/account-deletion-requests.component';
 import { RegistrationRequestsComponent } from './pages/admin-pages/registration-requests/registration-requests.component';
@@ -54,8 +56,7 @@ import { TagInputModule } from 'ngx-chips';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { OwlCarouselBaseComponent } from './pages/cottage-profile/view/owl-carousel-base.component';
 import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/customer-cottage-profile.component';
-import { CustomerProfileComponent } from './pages/customer-profile/view/customer-profile.component';
-import { ChangeCustomerInfoComponent } from './pages/customer-profile/edit/change-customer-info.component';
+import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CottageProfileComponent } from './pages/cottage-owner/cottage-profile/cottage-profile.component';
 import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
@@ -86,6 +87,9 @@ import { GradeStarComponent } from './components/grade-star/grade-star.component
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CottageStatisticsComponent } from './components/cottage/cottage-statistics/cottage-statistics.component';
 import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-statistics.component';
+import { CustomerProfileComponent } from './pages/user-profile/view/customer-profile/customer-profile.component';
+import { FishingTrainerProfileComponent } from './pages/user-profile/view/fishing-trainer-profile/fishing-trainer-profile.component';
+import { AdminProfileComponent } from './pages/user-profile/view/admin-profile/admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -104,8 +108,8 @@ import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-
     AddCottageComponent,
     OwlCarouselBaseComponent,
     CustomerCottageProfileComponent,
-    CustomerProfileComponent,
-    ChangeCustomerInfoComponent,
+    UserProfileComponent,
+    ChangeUserInfoComponent,
     DatePipe,
     CottageEditComponent,
     CottageQuickReservationsComponent,
@@ -142,7 +146,11 @@ import { BoatStatisticsComponent } from './components/boat/boat-statistics/boat-
     AnswerDeletionRequestComponent,
     GradeStarComponent,
     CottageStatisticsComponent,
-    BoatStatisticsComponent
+    BoatStatisticsComponent,
+    CustomerProfileComponent,
+    FishingTrainerProfileComponent,
+    AdminProfileComponent,
+    OwnerCottageProfileComponent,
   ],
   imports: [
     NgbModule,

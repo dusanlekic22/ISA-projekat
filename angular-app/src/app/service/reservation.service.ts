@@ -14,11 +14,12 @@ export class ReservationService {
   constructor(private http: HttpClient) {}
 
   getAvailableCottagesByTimeSpan(
-    reservationTimespan: ICottageAvailability
+    reservationTimespan: ICottageAvailability,
+    page: number
   ): Observable<ICottagePage[]> {
     return this.http
       .post<any>(
-        `${environment.apiUrl}/cottage/availability`,
+        `${environment.apiUrl}/cottage/availability?page=` + page,
         reservationTimespan
       )
       .pipe(

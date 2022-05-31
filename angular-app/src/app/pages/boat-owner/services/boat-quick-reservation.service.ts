@@ -28,16 +28,23 @@ export class BoatQuickReservationService {
     );
   }
 
+  getBoatQuickReservationsByBoatId(id: number): Observable<IBoatQuickReservation[]> {
+    return this._http.get<IBoatQuickReservation[]>(environment.apiUrl + `/cottageQuickReservation/cottage/${id}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   deleteBoatQuickReservations(boatId:number): Observable<ArrayBuffer> {
     return this._http.delete<ArrayBuffer>(environment.apiUrl + `/boatQuickReservation/${boatId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
-  
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));
   }
-  
+
 }

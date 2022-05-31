@@ -45,6 +45,7 @@ export class BoatProfileComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
+    boat: initBoat
   };
 
   availableDateSpan!: IDateSpan;

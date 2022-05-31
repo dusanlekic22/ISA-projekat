@@ -40,6 +40,12 @@ public class BoatQuickReservationController {
 		return new ResponseEntity<>(boatQuickReservationService.findAll(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/boat/{id}")
+	@ResponseBody
+	public ResponseEntity<Set<BoatQuickReservationDTO>> getByBoatId(@PathVariable("id")Long id){
+		return new ResponseEntity<>(boatQuickReservationService.findByBoatId(id),HttpStatus.OK);
+	}
+	
 	@GetMapping("/notReserved")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")

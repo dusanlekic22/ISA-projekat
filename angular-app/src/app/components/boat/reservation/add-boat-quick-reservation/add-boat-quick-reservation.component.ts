@@ -4,7 +4,7 @@ import { BoatQuickReservationService } from 'src/app/pages/boat-owner/services/b
 import { ToastrService } from 'ngx-toastr';
 import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { ActivatedRoute, Route } from '@angular/router';
-import { IBoat } from 'src/app/model/boat/boat';
+import { IBoat, initBoat } from 'src/app/model/boat/boat';
 import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
 import { MatChip } from '@angular/material/chips';
 import { IAdditionalService } from 'src/app/model/additionalService';
@@ -25,6 +25,7 @@ export class AddBoatQuickReservationComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
+    boat: initBoat
   };
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();

@@ -5,7 +5,7 @@ import { ICustomer } from 'src/app/model/customer';
 import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { UserService } from 'src/app/service/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { IBoat } from 'src/app/model/boat/boat';
+import { IBoat, initBoat } from 'src/app/model/boat/boat';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
 import { MatChip } from '@angular/material/chips';
 import { IAdditionalService } from 'src/app/model/additionalService';
@@ -35,6 +35,7 @@ export class AddBoatReservationComponent implements OnInit {
       endDate: new Date(),
     },
     guestCapacity: 0,
+    boat: initBoat,
     price: 0,
     customer: {
       id: 0,

@@ -98,6 +98,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FishingTrainerCalendarComponent } from './pages/fishing-trainer-pages/fishing-trainer-calendar/fishing-trainer-calendar.component';
 import { CottageCalendarComponent } from './components/cottage/cottage-calendar/cottage-calendar.component';
+import { BoatCalendarComponent } from './components/boat/boat-calendar/boat-calendar.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -169,6 +170,7 @@ FullCalendarModule.registerPlugins([
     BoatUnavailableTermsComponent,
     FishingTrainerCalendarComponent,
     CottageCalendarComponent,
+    BoatCalendarComponent,
   ],
   imports: [
     NgbModule,

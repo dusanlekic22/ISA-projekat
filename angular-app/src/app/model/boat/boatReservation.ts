@@ -1,5 +1,6 @@
 import { ICustomer } from "../customer";
 import { IDateSpan } from "../dateSpan";
+import { IBoat } from "./boat";
 
 export interface IBoatReservation{
     id:number;
@@ -8,4 +9,5 @@ export interface IBoatReservation{
     price: number;
     customer: ICustomer;
     confirmed:boolean;
+    boat: IBoat;
 }

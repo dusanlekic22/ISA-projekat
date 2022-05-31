@@ -8,6 +8,7 @@ import isaproject.model.FishingReservation;
 
 public interface FishingReservationRepository extends JpaRepository<FishingReservation, Long>  {
 
-	Set<FishingReservation> findByFishingCourseId(Long id);
+	Set<FishingReservation> findByFishingCourse_FishingTrainer_Id(Long id);
 
+	Set<FishingReservation> findByFishingCourseId(Long id);
 }

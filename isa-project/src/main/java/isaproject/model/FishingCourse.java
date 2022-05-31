@@ -62,7 +62,7 @@ public class FishingCourse implements Serializable {
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
 
 	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@JsonManagedReference("fishingReservation")
 	private Set<FishingReservation> fishingReservation = new HashSet<FishingReservation>();
 
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -1,0 +1,90 @@
+<div>
+  <full-calendar
+    #calendar
+    [options]="calendarOptions"
+  ></full-calendar>
+</div>
+<div
+  mdbModal
+  #modal="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="basicExample"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          Add Available/Unavailable Term
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-2">
+          <label for="strDate">Start date</label>
+          <input
+            type="datetime"
+            id="strDate"
+            [(ngModel)]="availableDateSpan.startDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="endDate">End date</label>
+          <input
+            type="datetime"
+            id="endDate"
+            [(ngModel)]="availableDateSpan.endDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-1 justify-content-between d-flex">
+          <label for="avaible">Available</label>
+          <input
+            type="radio"
+            id="avaible"
+            name="availability"
+            [(ngModel)]="available"
+            [value]="true"
+          />
+          <label for="unavaible">Unavailable</label>
+          <input
+            type="radio"
+            id="unavaible"
+            name="availability"
+            [(ngModel)]="available"
+            [value]="false"
+          />
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            mdbBtn
+            (click)="submit()"
+            color="default"
+            class="waves-light"
+            mdbWavesEffect
+            data-dismiss="modal"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

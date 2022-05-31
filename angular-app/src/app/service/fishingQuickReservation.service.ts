@@ -39,6 +39,12 @@ export class FishingQuickReservationService {
       .pipe(catchError(this.handleError));
   }
 
+  getAllByFishingTrainerId(id: number): Observable<IFishingQuickReservation[]> {
+    return this.http
+      .get<IFishingQuickReservation[]>(`${this.fishingQuickReservationUrl}/fishingTrainer/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

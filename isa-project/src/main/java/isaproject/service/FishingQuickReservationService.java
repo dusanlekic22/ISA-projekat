@@ -11,8 +11,6 @@ public interface FishingQuickReservationService {
 
 	FishingQuickReservationDTO deleteById(Long id);
 
-	Set<FishingQuickReservationDTO> findByFishingCourseId(Long id);
-
 	Set<FishingQuickReservationDTO> findByIsReservedFalseAndFishingCourseId(Long id);
 
 	Set<FishingQuickReservationDTO> findByIsReservedFalse();
@@ -22,4 +20,8 @@ public interface FishingQuickReservationService {
 	FishingQuickReservationDTO save(FishingQuickReservationDTO cottageQuickReservation, String siteUrl);
 
 	FishingReservationDTO appointQuickReservation(Long reservationId, Long userId);
+
+	Set<FishingQuickReservationDTO> findByFishingCourseFishingTrainerId(Long id);
+
+	Set<FishingQuickReservationDTO> findByFishingTrainerId(Long id);
 }

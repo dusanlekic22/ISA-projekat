@@ -1,5 +1,6 @@
 import { OwnerCottageProfileComponent } from './pages/user-profile/view/owner-profile/owner-cottage-profile.component';
 import { ChangeUserInfoComponent } from './pages/user-profile/edit/change-user-info.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 import { AnswerDeletionRequestComponent } from './pages/admin-pages/answer-deletion-request/answer-deletion-request.component';
 import { AccountDeletionRequestsComponent } from './pages/admin-pages/account-deletion-requests/account-deletion-requests.component';
 import { RegistrationRequestsComponent } from './pages/admin-pages/registration-requests/registration-requests.component';
@@ -92,6 +93,16 @@ import { FishingTrainerProfileComponent } from './pages/user-profile/view/fishin
 import { AdminProfileComponent } from './pages/user-profile/view/admin-profile/admin-profile.component';
 import { CottageUnavailableTermsComponent } from './components/cottage/cottage-unavailable-terms/cottage-unavailable-terms.component';
 import { BoatUnavailableTermsComponent } from './components/boat/boat-unavailable-terms/boat-unavailable-terms.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin
+])
 
 @NgModule({
   declarations: [
@@ -154,12 +165,14 @@ import { BoatUnavailableTermsComponent } from './components/boat/boat-unavailabl
     AdminProfileComponent,
     OwnerCottageProfileComponent,
     CottageUnavailableTermsComponent,
-    BoatUnavailableTermsComponent
+    BoatUnavailableTermsComponent,
+    CalendarComponent,
   ],
   imports: [
     NgbModule,
     NgImageSliderModule,
     BrowserModule,
+    FullCalendarModule,
     NgpImagePickerModule,
     FormsModule,
     MatButtonModule,

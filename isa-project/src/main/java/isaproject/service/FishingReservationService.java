@@ -10,8 +10,6 @@ public interface FishingReservationService {
 
 	FishingReservationDTO deleteById(Long id);
 
-	Set<FishingReservationDTO> findByFishingCourseId(Long id);
-
 	Set<FishingReservationDTO> findAll();
 
 	Set<FishingReservationDTO> findAllPast();
@@ -29,4 +27,12 @@ public interface FishingReservationService {
 	FishingReservationDTO confirmReservation(Long id);
 
 	Set<CustomerDTO> findCustomersHasCurrentReservation();
+
+	Set<FishingReservationDTO> findAllActiveByFishingTrainerId(Long id);
+
+	Set<FishingReservationDTO> findAllPastByFishingTrainerId(Long id);
+
+	Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id);
+
+	Set<FishingReservationDTO> findByFishingCourseId(Long id);
 }

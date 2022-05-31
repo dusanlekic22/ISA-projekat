@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "FishingReservation")
@@ -43,15 +44,17 @@ public class FishingReservation implements Serializable {
 	private Address location;
 
 	@OneToMany(mappedBy = "fishingQuickReservation", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "fishingReservationService")
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingCourse_id", referencedColumnName = "id")
-	@JsonBackReference
+	@JsonBackReference("fishingReservation")
 	private FishingCourse fishingCourse;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
+	@JsonBackReference("fishingReservationCustomer")
 	private Customer customer;
 
 	private boolean confirmed;

@@ -64,6 +64,16 @@ public class FishingReservationController {
 	public ResponseEntity<Set<FishingReservationDTO>> getAllPassedByFishingId(@PathVariable("fishingId") Long id) {
 		return new ResponseEntity<>(fishingReservationService.findAllPastByFishingCourseId(id), HttpStatus.OK);
 	}
+	
+	@GetMapping("/active/trainer/{fishingTrainerId}")
+	public ResponseEntity<Set<FishingReservationDTO>> getAllActiveByFishingTrainerIdId(@PathVariable("fishingTrainerId") Long id) {
+		return new ResponseEntity<>(fishingReservationService.findAllActiveByFishingTrainerId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/passed/trainer/{fishingTrainerId}")
+	public ResponseEntity<Set<FishingReservationDTO>> getAllPassedByFishingTrainerIdId(@PathVariable("fishingTrainerId") Long id) {
+		return new ResponseEntity<>(fishingReservationService.findAllPastByFishingTrainerId(id), HttpStatus.OK);
+	}
 
 	@PostMapping("/owner")
 	public ResponseEntity<FishingReservationDTO> reserveOwner(@RequestBody FishingReservationDTO fishingReservationDTO,

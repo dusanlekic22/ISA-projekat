@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "FishingQuickReservation")
@@ -43,6 +44,7 @@ public class FishingQuickReservation implements Serializable {
 	private Address location;
 
 	@OneToMany(mappedBy = "fishingQuickReservation", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "fishingQuickReservationService")
 	private Set<AdditionalService> additionalService = new HashSet<AdditionalService>();
 
 	@ManyToOne(targetEntity = FishingCourse.class, fetch = FetchType.EAGER)

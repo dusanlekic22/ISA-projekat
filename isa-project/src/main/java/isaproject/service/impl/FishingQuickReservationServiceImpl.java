@@ -100,15 +100,15 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 			return null;
 		}
 
-		for (FishingQuickReservation q : fishingQuickReservationRepository
-				.findByFishingCourseId(fishingCourseQuickReservation.getFishingCourse().getId())) {
+		for (FishingQuickReservation q : fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(
+				fishingCourseQuickReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;
 			}
 		}
 
-		for (FishingReservation q : fishingReservationRepository
-				.findByFishingCourseId(fishingCourseQuickReservation.getFishingCourse().getId())) {
+		for (FishingReservation q : fishingReservationRepository.findByFishingCourse_FishingTrainer_Id(
+				fishingCourseQuickReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;
 			}
@@ -133,9 +133,9 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 	}
 
 	@Override
-	public Set<FishingQuickReservationDTO> findByFishingCourseId(Long id) {
+	public Set<FishingQuickReservationDTO> findByFishingCourseFishingTrainerId(Long id) {
 		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
-				fishingQuickReservationRepository.findByFishingCourseId(id));
+				fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(id));
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
 		if (fishingCourseQuickReservations.size() != 0) {
 
@@ -245,6 +245,17 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 			}
 		}
 
+		return dtos;
+	}
+
+	@Override
+	public Set<FishingQuickReservationDTO> findByFishingTrainerId(Long id) {
+		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
+				fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(id));
+		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
+		for (FishingQuickReservation p : fishingCourseQuickReservations) {
+			dtos.add(FishingQuickReservationMapper.FishingQuickReservationToDTO(p));
+		}
 		return dtos;
 	}
 

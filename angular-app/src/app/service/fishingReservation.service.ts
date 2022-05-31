@@ -40,6 +40,22 @@ export class FishingReservationService {
       .pipe(catchError(this.handleError));
   }
 
+  getPassedFishingReservationByFishingCourseByFishingTrainerId(
+    id: number
+  ): Observable<IFishingReservation[]> {
+    return this.http
+      .get<IFishingReservation[]>(`${this.fishingReservationUrl}/passed/trainer/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getActiveFishingReservationByFishingCourseByFishingTrainerId(
+    id: number
+  ): Observable<IFishingReservation[]> {
+    return this.http
+      .get<IFishingReservation[]>(`${this.fishingReservationUrl}/active/trainer/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   getCustomerHasReservationNow(): Observable<ICustomer[]> {
     return this.http
       .get<ICustomer[]>(

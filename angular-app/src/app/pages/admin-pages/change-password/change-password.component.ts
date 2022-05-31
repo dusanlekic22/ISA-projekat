@@ -60,6 +60,7 @@ export class ChangePasswordComponent implements OnInit {
     this.userService.changePassword(this.changePassword).subscribe({
       next: () => {
         this.closeModal();
+        this.authenticationService.logout();
       },
       error: (error) => {
         this.errorMessage = error.message;

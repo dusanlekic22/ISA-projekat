@@ -74,5 +74,11 @@ public class FishingQuickReservationController {
 		FishingQuickReservationDTO fishingQuickReservationDTO = fishingQuickReservationService.deleteById(id);
 		return new ResponseEntity<>(fishingQuickReservationDTO, HttpStatus.OK);
 	}
+	
+	@GetMapping("/fishingTrainer/{id}")
+	public ResponseEntity<Set<FishingQuickReservationDTO>> getAllByFishingTrainerId(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(fishingQuickReservationService.findByFishingTrainerId(id),
+				HttpStatus.OK);
+	}
 
 }

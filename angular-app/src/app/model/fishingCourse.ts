@@ -60,5 +60,6 @@ export const emptyFishingCourse: IFishingCourse = {
     roles: [],
     biography: '',
     fishingCourse: [],
+    availableReservationDateSpan: [],
   },
 };

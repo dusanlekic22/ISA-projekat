@@ -1,13 +1,14 @@
+import { inject } from '@angular/core/testing';
 import { UserService } from './user.service';
-import { IRole, IUser } from './../pages/registration/registration/user';
+import { IRole } from './../pages/registration/registration/user';
 import { Role } from './../model/role.enum';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, distinctUntilChanged, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IToken, IUserLogin } from '../pages/registration/registration/user';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,11 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class AuthenticationService {
   private accessToken = localStorage.getItem('jwt');
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private injector: Injector
+  ) {}
 
   login(user: IUserLogin) {
     return this.http.post<any>(`${environment.apiUrl}/auth/login`, user).pipe(
@@ -27,9 +32,15 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.purgeUser();
     localStorage.removeItem('jwt');
     this.accessToken = null;
     this.router.navigate(['']);
+  }
+
+  purgeUser() {
+    const userService = this.injector.get<UserService>(UserService);
+    userService.purgeUser();
   }
 
   getToken() {

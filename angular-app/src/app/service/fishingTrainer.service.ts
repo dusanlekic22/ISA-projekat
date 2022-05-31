@@ -3,6 +3,7 @@ import { throwError, catchError, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IDateSpan } from '../model/dateSpan';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,18 @@ export class FishingTrainerService {
       .pipe(catchError(this.handleError));
   }
 
+  editAvailableTerms(
+    id: number,
+    dateSpan: IDateSpan
+  ): Observable<IFishingTrainer> {
+    return this.http
+      .put<IFishingTrainer>(
+        `${this.fishingTrainerUrl}/availableTerms/${id}`,
+        dateSpan
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -27,7 +40,6 @@ export class FishingTrainerService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

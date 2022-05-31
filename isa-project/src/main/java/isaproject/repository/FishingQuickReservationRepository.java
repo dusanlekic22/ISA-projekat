@@ -8,7 +8,7 @@ import isaproject.model.FishingQuickReservation;
 
 public interface FishingQuickReservationRepository extends JpaRepository<FishingQuickReservation, Long> {
 
-	List<FishingQuickReservation> findByFishingCourseId(Long id);
+	List<FishingQuickReservation> findByFishingCourse_FishingTrainer_Id(Long id);
 
 	List<FishingQuickReservation> findByIsReservedFalseAndFishingCourseId(Long id);
 

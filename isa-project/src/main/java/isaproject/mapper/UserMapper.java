@@ -115,6 +115,7 @@ public class UserMapper {
 		fishingTrainerDTO.setAddress(fishingTrainer.getAddress());
 		fishingTrainerDTO.setBiography(fishingTrainer.getBiography());
 		fishingTrainerDTO.setFishingCourse(fishingTrainer.getFishingCourse());
+		fishingTrainerDTO.setAvailableReservationDateSpan(fishingTrainer.getAvailableReservationDateSpan());
 		return fishingTrainerDTO;
 	}
 	

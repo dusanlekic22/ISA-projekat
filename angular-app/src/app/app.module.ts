@@ -92,6 +92,7 @@ import { FishingTrainerProfileComponent } from './pages/user-profile/view/fishin
 import { AdminProfileComponent } from './pages/user-profile/view/admin-profile/admin-profile.component';
 import { CottageUnavailableTermsComponent } from './components/cottage/cottage-unavailable-terms/cottage-unavailable-terms.component';
 import { BoatUnavailableTermsComponent } from './components/boat/boat-unavailable-terms/boat-unavailable-terms.component';
+import { FishingCourseStatisticsComponent } from './pages/fishing-trainer-pages/fishing-course-statistics/fishing-course-statistics.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { BoatUnavailableTermsComponent } from './components/boat/boat-unavailabl
     AdminProfileComponent,
     OwnerCottageProfileComponent,
     CottageUnavailableTermsComponent,
-    BoatUnavailableTermsComponent
+    BoatUnavailableTermsComponent,
+    FishingCourseStatisticsComponent
   ],
   imports: [
     NgbModule,

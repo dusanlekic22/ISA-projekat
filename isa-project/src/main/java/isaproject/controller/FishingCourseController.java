@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.service.FishingCourseService;
 
 @RestController
@@ -79,6 +80,24 @@ public class FishingCourseController {
 	@GetMapping("/owner/{id}")
 	public Set<FishingCourseDTO> getByFishingTrainerId(@PathVariable("id") Long id) {
 		return fishingCourseService.findByFishingTrainerId(id);
+	}
+	
+	@GetMapping("/{id}/yearlyCount")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountYearly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/monthlyCount")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountMonthly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountMonthly(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/weeklyCount")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountWeekly(id),HttpStatus.OK);
 	}
 
 }

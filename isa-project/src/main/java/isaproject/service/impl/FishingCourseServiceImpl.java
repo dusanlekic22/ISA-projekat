@@ -9,13 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.ReservationCountDTO;
 import isaproject.exception.ReservedServiceException;
 import isaproject.mapper.FishingCourseMapper;
+import isaproject.mapper.ReservationCountMapper;
 import isaproject.model.FishingCourse;
+import isaproject.model.FishingReservation;
+import isaproject.model.ReservationCount;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.FishingCourseRepository;
 import isaproject.service.FishingCourseService;
 import isaproject.service.FishingReservationService;
+import isaproject.service.ReservationCountService;
 
 @Service
 public class FishingCourseServiceImpl implements FishingCourseService {
@@ -23,6 +28,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	private FishingCourseRepository courseRepository;
 	private AddressRepository addressRepository;
 	private FishingReservationService fishingReservationService;
+	private ReservationCountService reservationCountService;
 
 	@Autowired
 	public FishingCourseServiceImpl(FishingCourseRepository courseRepository, AddressRepository addressRepository,
@@ -108,6 +114,54 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 			courseDTOs.add(FishingCourseMapper.FishingCourseToDTO(fishingCourse));
 		}
 		return courseDTOs;
+	}
+
+	@Override
+	public ReservationCountDTO getFishingCourseReservationCountYearly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		FishingCourse fishingCourse = courseRepository.findById(id).get();
+		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
+		for (FishingReservation reservation : reservations) {
+			for (int i = 1; i <= 4; i++) {
+				count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setYearlySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getFishingCourseReservationCountMonthly(long id) {
+		int[] count = new int[12];
+		ReservationCount reservationCount = new ReservationCount();
+		FishingCourse fishingCourse = courseRepository.findById(id).get();
+		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
+		for (FishingReservation reservation : reservations) {
+			for (int i = 1; i <= 12; i++) {
+				count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setMonthlySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public ReservationCountDTO getFishingCourseReservationCountWeekly(long id) {
+		int[] count = new int[4];
+		ReservationCount reservationCount = new ReservationCount();
+		FishingCourse fishingCourse = courseRepository.findById(id).get();
+		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
+		for (FishingReservation reservation : reservations) {
+			for (int i = 1; i <= 4; i++) {
+				count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+			}
+
+		}
+		reservationCount.setWeeklySum(count);
+		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
 	}
 
 }

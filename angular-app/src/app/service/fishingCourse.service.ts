@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError, Observable } from 'rxjs';
 import { IFishingImage } from '../model/fishingImage';
+import { IReservationCount } from '../model/reservationCount';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +62,45 @@ export class FishingCourseService {
     return this.http
       .get<IFishingCourse[]>(`${this.fishingCourseUrl}/owner/${fishingTrainerId}`)
       .pipe(catchError(this.handleError));
+  }
+
+  getFishingCourseReservationYearlyById(
+    fishingCourseId: number
+  ): Observable<IReservationCount> {
+    return this.http
+      .get<IReservationCount>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/yearlyCount`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getFishingCourseReservationMonthlyById(
+    fishingCourseId: number
+  ): Observable<IReservationCount> {
+    return this.http
+      .get<IReservationCount>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/monthlyCount`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getFishingCourseReservationWeeklyById(
+    fishingCourseId: number
+  ): Observable<IReservationCount> {
+    return this.http
+      .get<IReservationCount>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/weeklyCount`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   handleError(error: any) {

@@ -1,30 +1,26 @@
-import { IFishingQuickReservation } from 'src/app/model/fishingQuickReservation';
-import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
-import { IDateSpan } from 'src/app/model/dateSpan';
-import { IFishingTrainer } from './../../model/fishingTrainer';
-import { IFishingReservation } from 'src/app/model/fishingReservation';
-import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
-import { FishingReservationService } from 'src/app/service/fishingReservation.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  CalendarOptions,
-  EventApi,
-  DateSelectArg,
-  EventClickArg,
-  EventInput,
-  FullCalendarComponent,
-} from '@fullcalendar/angular';
-import { createEventId } from 'src/app/event-utils';
+import { FullCalendarComponent, EventApi, CalendarOptions, EventInput, DateSelectArg, EventClickArg } from '@fullcalendar/angular';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { ToastrService } from 'ngx-toastr';
+import { createEventId } from 'src/app/event-utils';
+import { emptyCustomer } from 'src/app/model/customer';
+import { IDateSpan } from 'src/app/model/dateSpan';
+import { emptyFishingCourse } from 'src/app/model/fishingCourse';
+import { IFishingQuickReservation } from 'src/app/model/fishingQuickReservation';
+import { IFishingReservation } from 'src/app/model/fishingReservation';
+import { IFishingTrainer } from 'src/app/model/fishingTrainer';
+import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
+import { FishingReservationService } from 'src/app/service/fishingReservation.service';
+import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
+  selector: 'app-fishing-trainer-calendar',
+  templateUrl: './fishing-trainer-calendar.component.html',
+  styleUrls: ['./fishing-trainer-calendar.component.css']
 })
-export class CalendarComponent implements OnInit {
-  @ViewChild('modal') addModal!: ModalDirective;
+export class FishingTrainerCalendarComponent implements OnInit {
+@ViewChild('modal') addModal!: ModalDirective;
+  @ViewChild('modalInfo') infoModal!: ModalDirective;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
@@ -57,6 +53,25 @@ export class CalendarComponent implements OnInit {
   availableDateSpan: IDateSpan = {
     startDate: new Date(),
     endDate: new Date(),
+  };
+  reservation = {
+    id: 0,
+    duration: {
+      startDate: new Date(),
+      endDate: new Date(),
+    },
+    capacity: 0,
+    price: 0,
+    location: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    fishingCourse: emptyFishingCourse,
+    confirmed: false,
+    customer: emptyCustomer,
   };
 
   constructor(
@@ -122,6 +137,8 @@ export class CalendarComponent implements OnInit {
       start: reservation.duration.startDate,
       end: reservation.duration.endDate,
       color: '#388cdc',
+      reservation: reservation,
+      type: 'activeReservation',
     };
   }
 
@@ -132,6 +149,8 @@ export class CalendarComponent implements OnInit {
       start: reservation.duration.startDate,
       end: reservation.duration.endDate,
       color: '#639dd6',
+      reservation: reservation,
+      type: 'passedReservation',
     };
   }
 
@@ -144,10 +163,17 @@ export class CalendarComponent implements OnInit {
       start: reservation.duration.startDate,
       end: reservation.duration.endDate,
       color: '#63bdd6',
+      reservation: reservation,
+      type: 'quickReservation',
     };
   }
 
   createAvailableReservationEvent(dateSpan: IDateSpan): EventInput {
+    var difference =
+      (new Date(dateSpan.endDate).getTime() -
+        new Date(dateSpan.startDate).getTime()) /
+      (1000 * 60 * 60 * 24.0);
+    var allDay = Math.abs(difference) >= 1;
     return {
       id: createEventId(),
       title: 'Available time',
@@ -155,7 +181,7 @@ export class CalendarComponent implements OnInit {
       end: dateSpan.endDate,
       display: 'background',
       backgroundColor: 'green',
-      allDay: true,
+      allDay: allDay,
     };
   }
 
@@ -186,12 +212,15 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (
-      confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      clickInfo.event.remove();
+    if (clickInfo.event.extendedProps.type === 'activeReservation') {
+      this.reservation = clickInfo.event.extendedProps.reservation;
+      this.showInfoModal();
+    } else if (clickInfo.event.extendedProps.type === 'passedReservation') {
+      this.reservation = clickInfo.event.extendedProps.reservation;
+      this.showInfoModal();
+    } else if (clickInfo.event.extendedProps.type === 'quickReservation') {
+      this.reservation = clickInfo.event.extendedProps.reservation;
+      this.showInfoModal();
     }
   }
 
@@ -206,6 +235,7 @@ export class CalendarComponent implements OnInit {
         .subscribe(
           () => {
             this.loadCalendar();
+            this.hideAddModal();
           },
           (err) => {
             this.toastr.error(
@@ -216,7 +246,6 @@ export class CalendarComponent implements OnInit {
         );
     } else {
     }
-    this.hideAddModal();
   }
 
   showAddModal() {
@@ -225,5 +254,21 @@ export class CalendarComponent implements OnInit {
 
   hideAddModal() {
     this.addModal.hide();
+  }
+
+  showInfoModal() {
+    this.infoModal.show();
+  }
+
+  hideInfoModal() {
+    this.infoModal.hide();
+  }
+
+  getLocation(reservation: any) {
+    return `${reservation.location.country}, ${reservation.location.city}, ${reservation.location.street}`;
+  }
+
+  getCustomer(reservation: any) {
+    return `${reservation.customer.firstName} ${reservation.customer.lastName}`
   }
 }

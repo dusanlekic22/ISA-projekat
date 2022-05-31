@@ -1,6 +1,5 @@
 import { OwnerCottageProfileComponent } from './pages/user-profile/view/owner-profile/owner-cottage-profile.component';
 import { ChangeUserInfoComponent } from './pages/user-profile/edit/change-user-info.component';
-import { CalendarComponent } from './components/calendar/calendar.component';
 import { AnswerDeletionRequestComponent } from './pages/admin-pages/answer-deletion-request/answer-deletion-request.component';
 import { AccountDeletionRequestsComponent } from './pages/admin-pages/account-deletion-requests/account-deletion-requests.component';
 import { RegistrationRequestsComponent } from './pages/admin-pages/registration-requests/registration-requests.component';
@@ -97,6 +96,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { FishingTrainerCalendarComponent } from './pages/fishing-trainer-pages/fishing-trainer-calendar/fishing-trainer-calendar.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -166,7 +166,7 @@ FullCalendarModule.registerPlugins([
     OwnerCottageProfileComponent,
     CottageUnavailableTermsComponent,
     BoatUnavailableTermsComponent,
-    CalendarComponent,
+    FishingTrainerCalendarComponent,
   ],
   imports: [
     NgbModule,

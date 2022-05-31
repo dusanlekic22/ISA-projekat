@@ -1,0 +1,212 @@
+<div>
+  <full-calendar
+    #calendar
+    [options]="calendarOptions"
+  ></full-calendar>
+</div>
+<div
+  mdbModal
+  #modal="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="basicExample"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          Add Available/Unavailable Term
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-2">
+          <label for="strDate">Start date</label>
+          <input
+            type="datetime"
+            id="strDate"
+            [(ngModel)]="availableDateSpan.startDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="endDate">End date</label>
+          <input
+            type="datetime"
+            id="endDate"
+            [(ngModel)]="availableDateSpan.endDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-1 justify-content-between d-flex">
+          <label for="avaible">Available</label>
+          <input
+            type="radio"
+            id="avaible"
+            name="availability"
+            [(ngModel)]="available"
+            [value]="true"
+          />
+          <label for="unavaible">Unavailable</label>
+          <input
+            type="radio"
+            id="unavaible"
+            name="availability"
+            [(ngModel)]="available"
+            [value]="false"
+          />
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            mdbBtn
+            (click)="submit()"
+            color="default"
+            class="waves-light"
+            mdbWavesEffect
+            data-dismiss="modal"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  mdbModal
+  #modalInfo="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="basicExample"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          Reservation Info
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalInfo.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-3">
+          <label for="nameInfo">Fishing course name</label>
+          <input
+            type="text"
+            id="nameInfo"
+            [ngModel]="reservation.fishingCourse.name"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="strDateInfo">Start date</label>
+          <input
+            type="datetime"
+            id="strDateInfo"
+            [(ngModel)]="reservation.duration.startDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="endDateInfo">End date</label>
+          <input
+            type="datetime"
+            id="endDateInfo"
+            [(ngModel)]="reservation.duration.endDate"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="capacityInfo">Guest capacity</label>
+          <input
+            type="number"
+            id="capacityInfo"
+            [(ngModel)]="reservation.capacity"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="priceInfo">Price</label>
+          <input
+            type="number"
+            id="priceInfo"
+            [(ngModel)]="reservation.price"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3">
+          <label for="locationInfo">Location</label>
+          <input
+            type="text"
+            id="locationInfo"
+            [ngModel]="getLocation(reservation)"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="md-form mb-3" *ngIf="reservation.customer">
+          <label for="customerInfo">Customer</label>
+          <input
+            type="text"
+            id="customerInfo"
+            [ngModel]="getCustomer(reservation)"
+            [disabled]="true"
+            class="form-control"
+            mdbInput
+          />
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            mdbBtn
+            (click)="hideInfoModal()"
+            color="default"
+            class="waves-light"
+            mdbWavesEffect
+            data-dismiss="modal"
+          >
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

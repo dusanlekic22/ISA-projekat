@@ -14,8 +14,6 @@ public interface CottageQuickReservationService {
 
 	CottageQuickReservationDTO deleteById(Long id);
 
-	Set<CottageQuickReservationDTO> findByCottageName(String name);
-
 	Set<CottageQuickReservationDTO> findByCottageId(Long id);
 
 	Set<CottageQuickReservationDTO> findByIsReservedFalseAndCottageId(Long id);

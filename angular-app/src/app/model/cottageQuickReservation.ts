@@ -1,3 +1,4 @@
+import { ICottage } from "./cottage";
 import { IDateSpan } from "./dateSpan";
 
 export interface ICottageQuickReservation{
@@ -5,4 +6,5 @@ export interface ICottageQuickReservation{
     duration : IDateSpan;
     guestCapacity: number;
     price: number;
+    cottage: ICottage;
 }

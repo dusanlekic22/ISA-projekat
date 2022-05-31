@@ -1,3 +1,4 @@
+import { initCottage } from './../../../../model/cottage';
 import { IAdditionalService } from './../../../../model/additionalService';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageReservationService } from 'src/app/pages/cottage-owner/services/cottage-reservation.service';
@@ -34,6 +35,7 @@ export class AddReservationComponent implements OnInit {
       startDate: new Date(),
       endDate: new Date(),
     },
+    cottage: initCottage,
     guestCapacity: 0,
     price: 0,
     customer: {

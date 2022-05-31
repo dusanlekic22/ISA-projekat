@@ -56,12 +56,6 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	}
 
 	@Override
-	public Set<CottageQuickReservationDTO> findByCottageName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Set<CottageQuickReservationDTO> findAll() {
 		Set<CottageQuickReservation> cottages = new HashSet<>(cottageQuickReservationRepository.findAll());
 		Set<CottageQuickReservationDTO> dtos = new HashSet<>();
@@ -257,5 +251,5 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 
 		return dtos;
 	}
-
+	
 }

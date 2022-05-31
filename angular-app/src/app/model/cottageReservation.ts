@@ -1,3 +1,4 @@
+import { ICottage } from 'src/app/model/cottage';
 import { ISortType } from './sortType';
 import { ICustomer } from './customer';
 import { IDateSpan } from './dateSpan';
@@ -9,6 +10,7 @@ export interface ICottageReservation {
   price: number;
   customer: ICustomer;
   confirmed: boolean;
+  cottage: ICottage;
 }
 
 export interface ICottageAvailability {

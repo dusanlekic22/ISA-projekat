@@ -28,16 +28,23 @@ export class CottageQuickReservationService {
     );
   }
 
+  getCottageQuickReservationsByCottageId(id: number): Observable<ICottageQuickReservation[]> {
+    return this._http.get<ICottageQuickReservation[]>(environment.apiUrl + `/cottageQuickReservation/cottage/${id}`).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   deleteCottageQuickReservations(cottageId:number): Observable<ArrayBuffer> {
     return this._http.delete<ArrayBuffer>(environment.apiUrl + `/cottageQuickReservation/${cottageId}`).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
-  
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));
   }
-  
+
 }

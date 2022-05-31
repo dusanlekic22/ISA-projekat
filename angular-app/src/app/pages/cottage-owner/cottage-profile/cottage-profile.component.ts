@@ -46,6 +46,7 @@ export class CottageProfileComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
+    cottage: initCottage
   };
 
   availableDateSpan!: IDateSpan;

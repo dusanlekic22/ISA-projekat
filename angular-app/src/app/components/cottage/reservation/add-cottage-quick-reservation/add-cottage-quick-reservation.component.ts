@@ -1,3 +1,4 @@
+import { initCottage } from './../../../../model/cottage';
 import { UserService } from './../../../../service/user.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageQuickReservationService } from 'src/app/pages/cottage-owner/services/cottage-quick-reservation.service';
@@ -25,6 +26,7 @@ export class AddCottageQuickReservationComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
+    cottage: initCottage
   };
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();

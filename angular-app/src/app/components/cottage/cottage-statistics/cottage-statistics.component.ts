@@ -53,11 +53,10 @@ export class CottageStatisticsComponent implements OnInit {
   addWeeksLabels(): string[] {
     let labelsWeeks: string[] = [];
     var month = this.currentTime.getMonth();
-    var d = new Date(this.currentTime.getFullYear(), month, 0);
+    var d = new Date(this.currentTime.getFullYear(), month+1, 0);
     var lastDay = d.getDate();
     for (let i = 1; i <= 3; i++) {
       labelsWeeks.push(String(i * 7));
-      console.log(i);
     }
     labelsWeeks.push(String(lastDay));
     return labelsWeeks;

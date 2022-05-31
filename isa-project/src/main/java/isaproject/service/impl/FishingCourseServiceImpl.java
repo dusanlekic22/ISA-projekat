@@ -20,7 +20,7 @@ import isaproject.repository.AddressRepository;
 import isaproject.repository.FishingCourseRepository;
 import isaproject.service.FishingCourseService;
 import isaproject.service.FishingReservationService;
-import isaproject.service.ReservationCountService;
+import isaproject.service.StatisticsService;
 
 @Service
 public class FishingCourseServiceImpl implements FishingCourseService {
@@ -28,7 +28,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	private FishingCourseRepository courseRepository;
 	private AddressRepository addressRepository;
 	private FishingReservationService fishingReservationService;
-	private ReservationCountService reservationCountService;
+	private StatisticsService statisticsService;
 
 	@Autowired
 	public FishingCourseServiceImpl(FishingCourseRepository courseRepository, AddressRepository addressRepository,
@@ -124,7 +124,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
 		for (FishingReservation reservation : reservations) {
 			for (int i = 1; i <= 4; i++) {
-				count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+				count = statisticsService.countYearly(reservation.getDuration(), i, count);
 			}
 
 		}
@@ -140,7 +140,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
 		for (FishingReservation reservation : reservations) {
 			for (int i = 1; i <= 12; i++) {
-				count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+				count = statisticsService.countMonthly(reservation.getDuration(), i, count);
 			}
 
 		}
@@ -156,7 +156,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
 		for (FishingReservation reservation : reservations) {
 			for (int i = 1; i <= 4; i++) {
-				count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+				count = statisticsService.countWeekly(reservation.getDuration(), i, count);
 			}
 
 		}

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageDTO;
@@ -26,15 +27,17 @@ import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.cottage.CottageRepository;
-import isaproject.service.ReservationCountService;
+import isaproject.service.StatisticsService;
 import isaproject.service.cottage.CottageQuickReservationService;
 import isaproject.service.cottage.CottageReservationService;
 import isaproject.service.cottage.CottageService;
@@ -46,17 +49,16 @@ public class CottageServiceImpl implements CottageService {
 
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
-	private ReservationCountService reservationCountService;
+	private StatisticsService statisticsService;
 
 	@Autowired
 	public CottageServiceImpl(CottageRepository cottageRepository, CottageReservationService cottageReservationService,
-			CottageQuickReservationService cottageQuickReservationService,
-			ReservationCountService reservationCountService) {
+			CottageQuickReservationService cottageQuickReservationService, StatisticsService statisticsService) {
 		super();
 		this.cottageRepository = cottageRepository;
 		this.cottageReservationService = cottageReservationService;
 		this.cottageQuickReservationService = cottageQuickReservationService;
-		this.reservationCountService = reservationCountService;
+		this.statisticsService = statisticsService;
 	}
 
 	public CottageDTO findById(Long id) {
@@ -79,26 +81,27 @@ public class CottageServiceImpl implements CottageService {
 
 	public Page<CottageDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
 		List<Sort.Order> sorts = new ArrayList<>();
-		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
-		if(sortTypes !=null) {
+		List<SortType> sortTypes = sortTypesDTO.stream()
+				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if (sortTypes != null) {
 			for (SortType sortType : sortTypes) {
 				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
-					System.out.println("Poljeeee"+sortType.getField());
+					System.out.println("Poljeeee" + sortType.getField());
 					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
 					System.out.println(sortType.getField());
 				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
-					System.out.println("Poljeeee"+sortType.getField());
+					System.out.println("Poljeeee" + sortType.getField());
 					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
 				}
 			}
 
-		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
-		
-		return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(paging));
-		}else {
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(paging));
+		} else {
 			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(pageable));
 		}
-		}
+	}
 
 	@Transactional
 	@Override
@@ -154,7 +157,7 @@ public class CottageServiceImpl implements CottageService {
 		}
 		if (!overlapped)
 			cottage.getAvailableReservationDateSpan().add(newDateSpan);
-		
+
 		for (DateTimeSpan dateTimeSpan : cottage.getUnavailableReservationDateSpan()) {
 			if (newDateSpan.overlapsWith(dateTimeSpan)) {
 				reserveUnavailableDateSpan(cottage, newDateSpan, dateTimeSpan);
@@ -165,8 +168,8 @@ public class CottageServiceImpl implements CottageService {
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
 
-	private void reserveUnavailableDateSpan(Cottage cottage, 
-			DateTimeSpan availableDateSpan, DateTimeSpan unavailableDateSpan) {
+	private void reserveUnavailableDateSpan(Cottage cottage, DateTimeSpan availableDateSpan,
+			DateTimeSpan unavailableDateSpan) {
 		cottage.getUnavailableReservationDateSpan().remove(unavailableDateSpan);
 		if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) <= 0
 				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
@@ -231,7 +234,6 @@ public class CottageServiceImpl implements CottageService {
 
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
-	
 
 	private void reserveAvailableDateSpan(Cottage cottage, DateTimeSpan unavailableDateSpan,
 			DateTimeSpan availableDateSpan) {
@@ -259,7 +261,6 @@ public class CottageServiceImpl implements CottageService {
 		}
 		cottageRepository.save(cottage);
 	}
-
 
 	@Transactional
 	@Override
@@ -342,18 +343,18 @@ public class CottageServiceImpl implements CottageService {
 			bed = cottageAvailability.getBedCapacity();
 		}
 		Boolean isLocationSortDisabled = true;
-		
+
 		List<Sort.Order> sorts = new ArrayList<>();
 		if (cottageAvailability.getSortBy() != null && cottageAvailability.getSortBy().size() != 0) {
 
 			CottageDTO dto;
 			for (SortType sortType : cottageAvailability.getSortBy()) {
-				if(sortType != null && sortType.getField().equals("latitude") ) {
+				if (sortType != null && sortType.getField().equals("latitude")) {
 					isLocationSortDisabled = false;
-					sortType.setField("a."+sortType.getField());
-					if(sortType.getDirection().toLowerCase().contains("desc")){
-					sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));}
-					else {
+					sortType.setField("a." + sortType.getField());
+					if (sortType.getDirection().toLowerCase().contains("desc")) {
+						sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));
+					} else {
 						sorts.add(new Sort.Order(Sort.Direction.ASC, "a.longitude"));
 					}
 				}
@@ -373,10 +374,10 @@ public class CottageServiceImpl implements CottageService {
 		if (cottageAvailability.getDateSpan() == null || cottageAvailability.getDateSpan().getStartDate() == null
 				|| cottageAvailability.getDateSpan().getEndDate() == null) {
 			Page<Cottage> pageCottage;
-			if(isLocationSortDisabled) {
-			pageCottage = cottageRepository.searchCottage(name, grade, bed, paging);
-			}else {
-			pageCottage = cottageRepository.searchCottageWithSortLocation(name, grade, bed, paging);
+			if (isLocationSortDisabled) {
+				pageCottage = cottageRepository.searchCottage(name, grade, bed, paging);
+			} else {
+				pageCottage = cottageRepository.searchCottageWithSortLocation(name, grade, bed, paging);
 			}
 			availableCottages = pageCottage.getContent();
 			return new PageImpl(availableCottages, paging, pageCottage.getTotalElements());
@@ -385,9 +386,9 @@ public class CottageServiceImpl implements CottageService {
 			LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
 			hours = (int) ChronoUnit.HOURS.between(start, end);
 			Page<Cottage> pageCottage;
-			if(isLocationSortDisabled) {
-			pageCottage = cottageRepository.getAvailability(start, end, name, grade, bed, paging);
-			}else {
+			if (isLocationSortDisabled) {
+				pageCottage = cottageRepository.getAvailability(start, end, name, grade, bed, paging);
+			} else {
 				pageCottage = cottageRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
 			}
 			availableCottages = pageCottage.getContent();
@@ -399,7 +400,7 @@ public class CottageServiceImpl implements CottageService {
 					availableCottagesWithPrice.add(dto);
 				}
 			}
-		
+
 			Page<CottageDTO> pc = new PageImpl(availableCottagesWithPrice, paging, pageCottage.getTotalElements());
 			return pc;
 		}
@@ -414,7 +415,7 @@ public class CottageServiceImpl implements CottageService {
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= 4; i++) {
-				count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+				count = statisticsService.countYearly(reservation.getDuration(), i, count);
 			}
 
 		}
@@ -430,7 +431,7 @@ public class CottageServiceImpl implements CottageService {
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= 12; i++) {
-				count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+				count = statisticsService.countMonthly(reservation.getDuration(), i, count);
 			}
 
 		}
@@ -446,12 +447,74 @@ public class CottageServiceImpl implements CottageService {
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= 4; i++) {
-				count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+				count = statisticsService.countWeekly(reservation.getDuration(), i, count);
 			}
 
 		}
 		reservationCount.setWeeklySum(count);
 		return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+
+	@Override
+	public IncomeDTO getCottageIncomeYearly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears()+1;
+		int[] incomeSum = new int[(int) yearCount];
+		Income income = new Income();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				incomeSum = statisticsService.yearlyIncome(reservation.getDuration(), reservation.getPrice(), i,
+						incomeSum,duration.getStartDate().getYear());
+			}
+
+		}
+		income.setYearlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getCottageIncomeMonthly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears()+1;
+		int[][] incomeSum = new int[(int) yearCount][12];
+		Income income = new Income();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+					incomeSum = statisticsService.monthlyIncome(reservation.getDuration(), reservation.getPrice(), i, j,
+							incomeSum,duration.getStartDate().getYear());
+				}
+			}
+
+		}
+		income.setMonthlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getCottageIncomeDaily(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears()+1;
+		int[][][] incomeSum = new int[(int) yearCount][12][31];
+		Income income = new Income();
+		Cottage cottage = cottageRepository.findById(id).get();
+		Set<CottageReservation> reservations = cottage.getCottageReservation();
+		for (CottageReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+//					YearMonth yearMonthObject = YearMonth.of((int)(duration.getStartDate().getYear()+yearCount-1), j);
+//					int daysInMonth = yearMonthObject.lengthOfMonth();
+					for (int k = 1; k <= 31; k++) {
+						incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(), i,
+								j, k, incomeSum,duration.getStartDate().getYear());
+					}
+				}
+			}
+
+		}
+		income.setDailySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
 	}
 
 }

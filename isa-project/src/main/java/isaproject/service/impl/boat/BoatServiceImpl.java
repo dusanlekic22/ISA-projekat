@@ -21,7 +21,7 @@ import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
-import isaproject.service.ReservationCountService;
+import isaproject.service.StatisticsService;
 import isaproject.service.boat.BoatQuickReservationService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.service.boat.BoatService;
@@ -32,18 +32,18 @@ public class BoatServiceImpl implements BoatService {
 	private BoatRepository boatRepository;
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
-	private ReservationCountService reservationCountService;
+	private StatisticsService statisticsService;
 
 	@Autowired
 	public BoatServiceImpl(BoatRepository boatRepository, AddressRepository addressRepository,
 			BoatReservationService boatReservationService,
 			BoatQuickReservationService boatQuickReservationService,
-			ReservationCountService reservationCountService) {
+			StatisticsService statisticsService) {
 		super();
 		this.boatRepository = boatRepository;
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
-		this.reservationCountService = reservationCountService;
+		this.statisticsService = statisticsService;
 	}
 
 	public BoatDTO findById(Long id) {
@@ -296,7 +296,7 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+                count = statisticsService.countYearly(reservation.getDuration(), i, count);
             }
            
         }
@@ -313,7 +313,7 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 12; i++) {
-                count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+                count = statisticsService.countMonthly(reservation.getDuration(), i, count);
             }
            
         }
@@ -330,7 +330,7 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+                count = statisticsService.countWeekly(reservation.getDuration(), i, count);
             }
            
         }

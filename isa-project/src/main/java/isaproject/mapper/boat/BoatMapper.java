@@ -25,6 +25,7 @@ public class BoatMapper {
 		boat.setBoatReservation(boatDTO.getBoatReservation());
 		boat.setBoatRules(boatDTO.getBoatRules());
 		boat.setAvailableReservationDateSpan(boatDTO.getAvailableReservationDateSpan());
+		boat.setUnavailableReservationDateSpan(boatDTO.getUnavailableReservationDateSpan());
 		boat.setBoatOwner(boatDTO.getBoatOwner());
 		boat.setSubscribers(boatDTO.getSubscribers());
 		return boat;
@@ -51,6 +52,7 @@ public class BoatMapper {
 		boatDTO.setBoatReservation(boat.getBoatReservation());
 		boatDTO.setBoatRules(boat.getBoatRules());
 		boatDTO.setAvailableReservationDateSpan(boat.getAvailableReservationDateSpan());
+		boatDTO.setUnavailableReservationDateSpan(boat.getUnavailableReservationDateSpan());
 		boatDTO.setBoatOwner(boat.getBoatOwner());
 		boatDTO.setSubscribers(boat.getSubscribers());
 		return boatDTO;

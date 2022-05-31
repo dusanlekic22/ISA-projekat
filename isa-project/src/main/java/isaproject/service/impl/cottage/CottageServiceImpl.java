@@ -139,33 +139,6 @@ public class CottageServiceImpl implements CottageService {
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
 
-	private void reserveAvailableDateSpan(Cottage cottage, DateTimeSpan unavailableDateSpan,
-			DateTimeSpan availableDateSpan) {
-		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
-		if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
-				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
-			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getEndDate(),
-					availableDateSpan.getEndDate());
-			cottage.getAvailableReservationDateSpan().add(newDateSpan);
-		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
-				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
-			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(),
-					unavailableDateSpan.getStartDate());
-
-			cottage.getAvailableReservationDateSpan().add(newDateSpan);
-		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
-				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
-			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(),
-					unavailableDateSpan.getStartDate());
-			DateTimeSpan newDateSpan2 = new DateTimeSpan(unavailableDateSpan.getEndDate(),
-					availableDateSpan.getEndDate());
-
-			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
-			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
-		}
-		cottageRepository.save(cottage);
-	}
-
 	private void reserveUnavailableDateSpan(Cottage cottage, 
 			DateTimeSpan availableDateSpan, DateTimeSpan unavailableDateSpan) {
 		cottage.getUnavailableReservationDateSpan().remove(unavailableDateSpan);
@@ -232,6 +205,35 @@ public class CottageServiceImpl implements CottageService {
 
 		return CottageMapper.CottageToCottageDTO(cottageRepository.save(cottage));
 	}
+	
+
+	private void reserveAvailableDateSpan(Cottage cottage, DateTimeSpan unavailableDateSpan,
+			DateTimeSpan availableDateSpan) {
+		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
+		if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+
+			cottage.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+
+			cottage.getAvailableReservationDateSpan().add(newDateSpan1);
+			cottage.getAvailableReservationDateSpan().add(newDateSpan2);
+		}
+		cottageRepository.save(cottage);
+	}
+
 
 	@Transactional
 	@Override

@@ -25,6 +25,7 @@ export interface IBoat {
   boatReservation: IBoatReservation[];
   boatQuickReservation: IBoatQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
+  unavailableReservationDateSpan: IDateSpan[];
   boatOwner: IUser;
 }
 
@@ -34,8 +35,8 @@ export const initBoat: IBoat = {
   address: {
     city: '',
     country: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: 45.248007,
+    longitude: 19.842518,
     street: '',
   },
   description: '',
@@ -53,6 +54,7 @@ export const initBoat: IBoat = {
   boatReservation: [],
   boatQuickReservation: [],
   availableReservationDateSpan: [],
+  unavailableReservationDateSpan: [],
   boatOwner: {
     id: 0,
     username: '',

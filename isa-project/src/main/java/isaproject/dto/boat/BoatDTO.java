@@ -36,6 +36,7 @@ public class BoatDTO {
 	private Set<BoatImage> boatImage;
 	private BoatOwner boatOwner;
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
+	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	private Set<Customer> subscribers = new HashSet<>();
 
 	public long getId() {
@@ -148,6 +149,14 @@ public class BoatDTO {
 
 	public void setPricePerHour(Integer pricePerHour) {
 		this.pricePerHour = pricePerHour;
+	}
+
+	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
+		return unavailableReservationDateSpan;
+	}
+
+	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
+		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
 	public Set<BoatQuickReservation> getBoatQuickReservation() {

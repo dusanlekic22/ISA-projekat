@@ -36,8 +36,8 @@ export const initCottage: ICottage = {
   address: {
     city: '',
     country: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: 45.248007,
+    longitude: 19.842518,
     street: '',
   },
   grade:0,

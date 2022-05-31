@@ -118,9 +118,111 @@ public class BoatServiceImpl implements BoatService {
 		}
 		if (!overlapped)
 			boat.getAvailableReservationDateSpan().add(newDateSpan);
+		
+		for (DateTimeSpan dateTimeSpan : boat.getUnavailableReservationDateSpan()) {
+			if (newDateSpan.overlapsWith(dateTimeSpan)) {
+				reserveUnavailableDateSpan(boat, newDateSpan, dateTimeSpan);
+				break;
+			}
+		}
 
 		return BoatMapper.BoatToBoatDTO(boatRepository.save(boat));
 	}
+	
+	private void reserveUnavailableDateSpan(Boat boat, 
+			DateTimeSpan availableDateSpan, DateTimeSpan unavailableDateSpan) {
+		boat.getUnavailableReservationDateSpan().remove(unavailableDateSpan);
+		if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) <= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+			boat.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+
+			boat.getUnavailableReservationDateSpan().add(newDateSpan);
+		} else if (availableDateSpan.getStartDate().compareTo(unavailableDateSpan.getStartDate()) >= 0
+				&& availableDateSpan.getEndDate().compareTo(unavailableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(unavailableDateSpan.getStartDate(),
+					availableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(availableDateSpan.getEndDate(),
+					unavailableDateSpan.getEndDate());
+
+			boat.getUnavailableReservationDateSpan().add(newDateSpan1);
+			boat.getUnavailableReservationDateSpan().add(newDateSpan2);
+		}
+		boatRepository.save(boat);
+	}
+
+	@Transactional
+	@Override
+	public BoatDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan) {
+		Boat boat = boatRepository.findById(id).get();
+		for (BoatReservationDTO boatReservation : boatReservationService.findByBoatId(id)) {
+			if (newDateSpan.overlapsWith(boatReservation.getDuration()))
+				return null;
+		}
+		for (BoatQuickReservationDTO boatQuickReservation : boatQuickReservationService.findByBoatId(id)) {
+			if (newDateSpan.overlapsWith(boatQuickReservation.getDuration()))
+				return null;
+		}
+		boolean overlapped = false;
+		Set<DateTimeSpan> unavailableDateSpans = new HashSet<>(boat.getUnavailableReservationDateSpan());
+		for (DateTimeSpan reservationSpan : unavailableDateSpans) {
+			if (reservationSpan.overlapsWith(newDateSpan)) {
+				boat.getUnavailableReservationDateSpan().remove(reservationSpan);
+				if (newDateSpan.getStartDate().compareTo(reservationSpan.getStartDate()) <= 0) {
+					reservationSpan = new DateTimeSpan(newDateSpan.getStartDate(), reservationSpan.getEndDate());
+				}
+				if (newDateSpan.getEndDate().compareTo(reservationSpan.getEndDate()) >= 0) {
+					reservationSpan = new DateTimeSpan(reservationSpan.getStartDate(), newDateSpan.getEndDate());
+				}
+				overlapped = true;
+				boat.getUnavailableReservationDateSpan().add(reservationSpan);
+			}
+		}
+		if (!overlapped)
+			boat.getUnavailableReservationDateSpan().add(newDateSpan);
+
+		for (DateTimeSpan dateTimeSpan : boat.getAvailableReservationDateSpan()) {
+			if (newDateSpan.overlapsWith(dateTimeSpan)) {
+				reserveAvailableDateSpan(boat, newDateSpan, dateTimeSpan);
+				break;
+			}
+		}
+
+		return BoatMapper.BoatToBoatDTO(boatRepository.save(boat));
+	}
+	
+	private void reserveAvailableDateSpan(Boat boat, DateTimeSpan unavailableDateSpan,
+			DateTimeSpan availableDateSpan) {
+		boat.getAvailableReservationDateSpan().remove(availableDateSpan);
+		if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) <= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+			boat.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) >= 0) {
+			DateTimeSpan newDateSpan = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+
+			boat.getAvailableReservationDateSpan().add(newDateSpan);
+		} else if (unavailableDateSpan.getStartDate().compareTo(availableDateSpan.getStartDate()) >= 0
+				&& unavailableDateSpan.getEndDate().compareTo(availableDateSpan.getEndDate()) <= 0) {
+			DateTimeSpan newDateSpan1 = new DateTimeSpan(availableDateSpan.getStartDate(),
+					unavailableDateSpan.getStartDate());
+			DateTimeSpan newDateSpan2 = new DateTimeSpan(unavailableDateSpan.getEndDate(),
+					availableDateSpan.getEndDate());
+
+			boat.getAvailableReservationDateSpan().add(newDateSpan1);
+			boat.getAvailableReservationDateSpan().add(newDateSpan2);
+		}
+		boatRepository.save(boat);
+	}
+	
 
 	@Transactional
 	@Override

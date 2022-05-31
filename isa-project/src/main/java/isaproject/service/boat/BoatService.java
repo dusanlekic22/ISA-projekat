@@ -33,4 +33,6 @@ public interface BoatService {
 	ReservationCountDTO getBoatReservationCountMonthly(long id);
 
 	ReservationCountDTO getBoatReservationCountWeekly(long id);
+
+	BoatDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan);
 }

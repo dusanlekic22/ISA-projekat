@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div
+    class="row d-flex"
+    style="
+      margin-top: 50px;
+      margin-right: 100px;
+      margin-left: 100px;
+      margin-bottom: 200px;
+    "
+  >
+    <div class="form-group">
+      <label class="form-control-label" for="input-date"
+        >Duration span date</label
+      >
+      <div class="md-form mb-5">
+        <div class="mt-2 ml-2">
+          <label>Choose a starting date and time</label>
+          <div>
+            <input
+              #availableStartSelect
+              type="datetime-local"
+              placeholder="Start date"
+              [(ngModel)]="duration.startDate"
+              name="durationStart"
+              (ngModelChange)="dateChange()"
+            />
+          </div>
+        </div>
+
+        <div class="mt-2 ml-2">
+          <label>Choose an ending date and time</label>
+          <div>
+            <input
+              type="datetime-local"
+              placeholder="End date"
+              [(ngModel)]="duration.endDate"
+              name="durationEnd"
+              (ngModelChange)="dateChange()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="card mx-auto"
+      style="
+        width: 400px;
+        margin-top: 20px;
+        margin-right: 20px;
+        margin-left: 40px;
+        margin-bottom: 20px;
+      "
+    >
+      <canvas id="incChart"></canvas>
+      <div>
+        <button (click)="incomeChartYearly()" mat-button color="primary">
+          Yearly
+        </button>
+        <button (click)="incomeChartMonthly()" mat-button color="primary">
+          Monthly
+        </button>
+        <button (click)="incomeChartDaily()" mat-button color="primary">
+          Daily
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

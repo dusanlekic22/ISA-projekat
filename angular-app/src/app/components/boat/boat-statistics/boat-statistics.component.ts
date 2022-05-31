@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { monthsLabels, initialData } from './../../../model/reservationCount';
+import { monthsLabels, initialData, yearLabels } from './../../../model/reservationCount';
 import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { Chart, ChartItem, ChartType, registerables } from 'chart.js';
 import { Component, OnInit } from '@angular/core';
@@ -14,12 +14,7 @@ export class BoatStatisticsComponent implements OnInit {
   reservationChart!: Chart;
   currentTime: Date = new Date();
   reservationChartItem!: any;
-  yearLabels: string[] = [
-    (this.currentTime.getFullYear() - 2).toString(),
-    (this.currentTime.getFullYear() - 1).toString(),
-    this.currentTime.getFullYear().toString(),
-    (this.currentTime.getFullYear() + 1).toString(),
-  ];
+  yearLabels: string[] = yearLabels;
   monthsLabels: string[] = monthsLabels;
   weeksLabels: string[] = [];
   labels: string[] = [];

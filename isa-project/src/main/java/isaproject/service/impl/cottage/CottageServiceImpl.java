@@ -457,7 +457,7 @@ public class CottageServiceImpl implements CottageService {
 
 	@Override
 	public IncomeDTO getCottageIncomeYearly(DateTimeSpan duration, long id) {
-		long yearCount = duration.getYears()+1;
+		long yearCount = duration.getYears() + 1;
 		int[] incomeSum = new int[(int) yearCount];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
@@ -465,7 +465,7 @@ public class CottageServiceImpl implements CottageService {
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= yearCount; i++) {
 				incomeSum = statisticsService.yearlyIncome(reservation.getDuration(), reservation.getPrice(), i,
-						incomeSum,duration.getStartDate().getYear());
+						incomeSum, duration.getStartDate().getYear());
 			}
 
 		}
@@ -475,7 +475,7 @@ public class CottageServiceImpl implements CottageService {
 
 	@Override
 	public IncomeDTO getCottageIncomeMonthly(DateTimeSpan duration, long id) {
-		long yearCount = duration.getYears()+1;
+		long yearCount = duration.getYears() + 1;
 		int[][] incomeSum = new int[(int) yearCount][12];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
@@ -483,8 +483,10 @@ public class CottageServiceImpl implements CottageService {
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= yearCount; i++) {
 				for (int j = 1; j <= 12; j++) {
-					incomeSum = statisticsService.monthlyIncome(reservation.getDuration(), reservation.getPrice(), i, j,
-							incomeSum,duration.getStartDate().getYear());
+					if (duration.isBetween(reservation.getDuration().getEndDate())) {
+						incomeSum = statisticsService.monthlyIncome(reservation.getDuration(), reservation.getPrice(),
+								i, j, incomeSum, duration.getStartDate().getYear());
+					}
 				}
 			}
 
@@ -495,7 +497,7 @@ public class CottageServiceImpl implements CottageService {
 
 	@Override
 	public IncomeDTO getCottageIncomeDaily(DateTimeSpan duration, long id) {
-		long yearCount = duration.getYears()+1;
+		long yearCount = duration.getYears() + 1;
 		int[][][] incomeSum = new int[(int) yearCount][12][31];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
@@ -506,8 +508,10 @@ public class CottageServiceImpl implements CottageService {
 //					YearMonth yearMonthObject = YearMonth.of((int)(duration.getStartDate().getYear()+yearCount-1), j);
 //					int daysInMonth = yearMonthObject.lengthOfMonth();
 					for (int k = 1; k <= 31; k++) {
-						incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(), i,
-								j, k, incomeSum,duration.getStartDate().getYear());
+						if (duration.isBetween(reservation.getDuration().getEndDate())) {
+							incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(),
+									i, j, k, incomeSum, duration.getStartDate().getYear());
+						}
 					}
 				}
 			}

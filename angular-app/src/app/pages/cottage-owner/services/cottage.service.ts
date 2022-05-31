@@ -8,6 +8,7 @@ import { ICottage, ICottagePage } from 'src/app/model/cottage';
 import { ICottageImage } from 'src/app/model/cottageImage';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { IReservationCount } from 'src/app/model/reservationCount';
+import { IIncome } from 'src/app/model/income';
 
 @Injectable({
   providedIn: 'root',
@@ -162,6 +163,45 @@ export class CottageService {
     return this._http
       .get<IReservationCount>(
         environment.apiUrl + `/cottage/${cottageId}/weeklyCount`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+      }
+
+  getCottageIncomeYearlyById(
+    cottageId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/cottage/${cottageId}/yearlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getCottageIncomeMonthlyById(
+    cottageId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/cottage/${cottageId}/monthlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getCottageIncomeDailyById(
+    cottageId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/cottage/${cottageId}/dailyIncome`,duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),

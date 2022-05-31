@@ -98,7 +98,7 @@
       ></app-cottage-reservations>
       <app-add-reservation
         #reservationInput
-        (submitted)="reservationAdded();"
+        (submitted)="reservationAdded()"
         [minDate]="minDateString"
       ></app-add-reservation>
     </mat-tab>
@@ -110,7 +110,16 @@
     </mat-tab>
     <mat-tab label="Statistics">
       <ng-template matTabContent #cottageStatiscics>
-        <app-cottage-statistics></app-cottage-statistics>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <app-cottage-statistics></app-cottage-statistics>
+            </div>
+            <div class="col">
+              <app-cottage-income></app-cottage-income>
+            </div>
+          </div>
+        </div>
       </ng-template>
     </mat-tab>
   </mat-tab-group>

@@ -36,11 +36,12 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Autowired
 	public FishingCourseServiceImpl(FishingCourseRepository courseRepository, AddressRepository addressRepository,
-			FishingReservationService fishingReservationService) {
+			FishingReservationService fishingReservationService,StatisticsService statisticsService) {
 		super();
 		this.courseRepository = courseRepository;
 		this.addressRepository = addressRepository;
 		this.fishingReservationService = fishingReservationService;
+		this.statisticsService = statisticsService;
 	}
 
 	@Override
@@ -142,6 +143,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		ReservationCount reservationCount = new ReservationCount();
 		FishingCourse fishingCourse = courseRepository.findById(id).get();
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
+		System.out.println(reservations);
 		for (FishingReservation reservation : reservations) {
 			for (int i = 1; i <= 12; i++) {
 				count = statisticsService.countMonthly(reservation.getDuration(), i, count);

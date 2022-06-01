@@ -116,7 +116,7 @@ public class FishingCourseController {
 
 	@PostMapping("/{id}/dailyIncome")
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
-	public ResponseEntity<IncomeDTO> getIncomeWeeklyDaily(@PathVariable("id") Long id,
+	public ResponseEntity<IncomeDTO> getIncomeDaily(@PathVariable("id") Long id,
 			@RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeDaily(duration, id), HttpStatus.OK);
 	}

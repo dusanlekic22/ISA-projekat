@@ -13,4 +13,6 @@ public interface CottageQuickReservationRepository extends JpaRepository<Cottage
 	List<CottageQuickReservation> findByIsReservedFalseAndCottageId(Long id);
 	
 	List<CottageQuickReservation> findByIsReservedFalse();
+
+	List<CottageQuickReservation> findByCottage_CottageOwner_Id(Long id);
 }

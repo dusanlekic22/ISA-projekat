@@ -89,5 +89,10 @@ public class CottageQuickReservationController {
 		return new ResponseEntity<>(cottageQuickReservationDTO,HttpStatus.OK);
 	}
 	
+	@GetMapping("/cottageOwner/{id}")
+	public ResponseEntity<Set<CottageQuickReservationDTO>> getAllByCottageOwnerId(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(cottageQuickReservationService.findByCottageOwnerId(id),
+				HttpStatus.OK);
+	}
 
 }

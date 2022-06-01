@@ -22,6 +22,7 @@ import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageQuickReservation;
 import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
+import isaproject.repository.cottage.CottageOwnerRepository;
 import isaproject.repository.cottage.CottageQuickReservationRepository;
 import isaproject.repository.cottage.CottageRepository;
 import isaproject.repository.cottage.CottageReservationRepository;
@@ -36,17 +37,20 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	CottageRepository cottageRepository;
 	CustomerService customerService;
 	CustomerRepository customerRepository;
+	CottageOwnerRepository cottageOwnerRepository;
 
 	@Autowired
 	public CottageReservationServiceImpl(CottageReservationRepository cottageReservationRepository,
 			CottageQuickReservationRepository cottageQuickReservationRepository, CottageRepository cottageRepository,
-			CustomerService customerService, CustomerRepository customerRepository) {
+			CustomerService customerService, CustomerRepository customerRepository,
+			CottageOwnerRepository cottageOwnerRepository) {
 		super();
 		this.cottageReservationRepository = cottageReservationRepository;
 		this.cottageQuickReservationRepository = cottageQuickReservationRepository;
 		this.cottageRepository = cottageRepository;
 		this.customerService = customerService;
 		this.customerRepository = customerRepository;
+		this.cottageOwnerRepository = cottageOwnerRepository;
 	}
 
 	@Override
@@ -118,6 +122,12 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 		
 		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+				return null;
+			}
+		}
+		
+		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository.findById(cottageReservation.getCottage().getCottageOwner().getId()).get().getUnavailableReservationDateSpan()) {
 			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
 				return null;
 			}
@@ -199,6 +209,12 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 
 		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+				return null;
+			}
+		}
+		
+		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository.findById(cottageReservation.getCottage().getCottageOwner().getId()).get().getUnavailableReservationDateSpan()) {
 			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
 				return null;
 			}
@@ -336,5 +352,43 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
 	}
+
+	@Override
+	public Set<CottageReservationDTO> findByCottageCottageOwnerId(Long id) {
+		Set<CottageReservation> cottageReservations = new HashSet<>(cottageReservationRepository.findByCottage_CottageOwner_Id(id));
+		Set<CottageReservationDTO> dtos = new HashSet<>();
+		if (cottageReservations.size() != 0) {
+
+			CottageReservationDTO dto;
+			for (CottageReservation p : cottageReservations) {
+				dto = CottageReservationMapper.CottageReservationToCottageReservationDTO(p);
+				dtos.add(dto);
+			}
+		}
+		return dtos;
+	}
+
+	@Override
+	public Set<CottageReservationDTO> findAllActiveByCottageOwnerId(Long id) {
+		Set<CottageReservationDTO> dtos = new HashSet<>();
+		for (CottageReservationDTO cottageReservationDTO : findByCottageCottageOwnerId(id)) {
+			if (!cottageReservationDTO.getDuration().passed())
+				dtos.add(cottageReservationDTO);
+		}
+		return dtos;
+	}
+
+
+	@Override
+	public Set<CottageReservationDTO> findAllPastByCottageOwnerId(Long id) {
+		Set<CottageReservationDTO> dtos = new HashSet<>();
+		for (CottageReservationDTO cottageReservationDTO : findByCottageCottageOwnerId(id)) {
+			if (cottageReservationDTO.getDuration().passed())
+				dtos.add(cottageReservationDTO);
+		}
+		return dtos;
+	}
+
+
 
 }

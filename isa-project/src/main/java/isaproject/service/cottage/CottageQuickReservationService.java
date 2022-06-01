@@ -26,4 +26,6 @@ public interface CottageQuickReservationService {
 			throws UnsupportedEncodingException, MessagingException;
 
 	CottageReservationDTO appointQuickReservation(Long reservationId, Long userId);
+
+	Set<CottageQuickReservationDTO> findByCottageOwnerId(Long id);
 }

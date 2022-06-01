@@ -114,5 +114,15 @@ public class CottageReservationController {
 		CottageReservationDTO cottageReservationDTO = cottageReservationService.deleteById(id);
 		return new ResponseEntity<>(cottageReservationDTO, HttpStatus.OK);
 	}
+	
+	@GetMapping("/active/owner/{cottageId}")
+	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageOwnerIdId(@PathVariable("cottageId") Long id) {
+		return new ResponseEntity<>(cottageReservationService.findAllActiveByCottageOwnerId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/passed/owner/{cottageId}")
+	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageOwnerIdId(@PathVariable("cottageId") Long id) {
+		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageOwnerId(id), HttpStatus.OK);
+	}
 
 }

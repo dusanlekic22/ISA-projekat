@@ -72,6 +72,22 @@ export class CottageReservationService {
       );
   }
 
+  getActiveCottageReservationByCottageByCottageOwnerId(
+    id: number
+  ): Observable<ICottageReservation[]> {
+    return this._http
+      .get<ICottageReservation[]>(environment.apiUrl +`/cottageReservation/active/owner/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getPassedCottageReservationByCottageByCottageOwnerId(
+    id: number
+  ): Observable<ICottageReservation[]> {
+    return this._http
+      .get<ICottageReservation[]>(environment.apiUrl +`/cottageReservation/passed/owner/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

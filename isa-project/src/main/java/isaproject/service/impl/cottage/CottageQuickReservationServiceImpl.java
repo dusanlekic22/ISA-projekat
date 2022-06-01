@@ -21,6 +21,7 @@ import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageQuickReservation;
 import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
+import isaproject.repository.cottage.CottageOwnerRepository;
 import isaproject.repository.cottage.CottageQuickReservationRepository;
 import isaproject.repository.cottage.CottageRepository;
 import isaproject.repository.cottage.CottageReservationRepository;
@@ -35,17 +36,20 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	CottageRepository cottageRepository;
 	CustomerRepository customerRepository;
 	CustomerService customerService;
-	
+	CottageOwnerRepository cottageOwnerRepository;
+
 	@Autowired
 	public CottageQuickReservationServiceImpl(CottageQuickReservationRepository cottageQuickReservationRepository,
 			CottageReservationRepository cottageReservationRepository, CottageRepository cottageRepository,
-			CustomerRepository customerRepository, CustomerService customerService) {
+			CustomerRepository customerRepository, CustomerService customerService,
+			CottageOwnerRepository cottageOwnerRepository) {
 		super();
 		this.cottageQuickReservationRepository = cottageQuickReservationRepository;
 		this.cottageReservationRepository = cottageReservationRepository;
 		this.cottageRepository = cottageRepository;
 		this.customerRepository = customerRepository;
 		this.customerService = customerService;
+		this.cottageOwnerRepository = cottageOwnerRepository;
 	}
 
 	@Override
@@ -113,6 +117,12 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		for (CottageReservation q : cottageReservationRepository
 				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
+				return null;
+			}
+		}
+		
+		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository.findById(cottageQuickReservation.getCottage().getCottageOwner().getId()).get().getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
 		}
@@ -239,6 +249,23 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	public Set<CottageQuickReservationDTO> findByIsReservedFalse() {
 		Set<CottageQuickReservation> cottageQuickReservations = new HashSet<>(
 				cottageQuickReservationRepository.findByIsReservedFalse());
+		Set<CottageQuickReservationDTO> dtos = new HashSet<>();
+		if (cottageQuickReservations.size() != 0) {
+
+			CottageQuickReservationDTO dto;
+			for (CottageQuickReservation p : cottageQuickReservations) {
+				dto = CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(p);
+				dtos.add(dto);
+			}
+		}
+
+		return dtos;
+	}
+
+	@Override
+	public Set<CottageQuickReservationDTO> findByCottageOwnerId(Long id) {
+		Set<CottageQuickReservation> cottageQuickReservations = new HashSet<>(
+				cottageQuickReservationRepository.findByCottage_CottageOwner_Id(id));
 		Set<CottageQuickReservationDTO> dtos = new HashSet<>();
 		if (cottageQuickReservations.size() != 0) {
 

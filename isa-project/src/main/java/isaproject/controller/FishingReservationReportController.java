@@ -29,7 +29,7 @@ public class FishingReservationReportController {
 	}
 
 	@PostMapping()
-	@PreAuthorize("hasAnyRole('COTTAGE_OWNER', 'FISHING_TRAINER', 'BOAT_OWNER')")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<FishingReservationReportDTO> create(
 			@RequestBody FishingReservationReportDTO reservationReportDTO) {
 		FishingReservationReportDTO reservationReport = fishingReservationReportService.create(reservationReportDTO);
@@ -56,7 +56,7 @@ public class FishingReservationReportController {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Set<FishingReservationReportDTO>> getAllFishingReservationReports() {
+	public ResponseEntity<Set<FishingReservationReportDTO>> getAllReservationReports() {
 		Set<FishingReservationReportDTO> reservationReports = fishingReservationReportService
 				.getAllFishingReservationReports();
 		return new ResponseEntity<Set<FishingReservationReportDTO>>(reservationReports, HttpStatus.OK);

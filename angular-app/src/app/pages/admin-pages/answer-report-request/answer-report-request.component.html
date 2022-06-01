@@ -1,0 +1,95 @@
+<div
+  mdbModal
+  #frame="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="basicExample"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          Reservation report request
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="frame.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-2">
+          <label for="rId">Id</label>
+          <input
+            type="text"
+            id="rId"
+            class="form-control"
+            [(ngModel)]="request.id"
+            [disabled]="true"
+            mdbInput
+          />
+          <label for="explanation">Owner comment</label>
+          <textarea
+            type="text"
+            id="explanation"
+            class="form-control"
+            [(ngModel)]="request.comment"
+            [disabled]="true"
+            mdbInput
+          ></textarea>
+        </div>
+        <div class="md-form mb-2">
+          <label for="answer">Answer to owner</label>
+          <textarea
+            type="text"
+            id="answer"
+            class="form-control"
+            [(ngModel)]="request.answerOwner"
+            mdbInput
+          ></textarea>
+        </div>
+        <div class="md-form mb-2">
+          <label for="answer">Answer to customer</label>
+          <textarea
+            type="text"
+            id="answer"
+            class="form-control"
+            [(ngModel)]="request.answerCustomer"
+            mdbInput
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button
+          (click)="approve()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Accept
+        </button>
+        <button
+          (click)="decline()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,10 +10,8 @@ public interface FishingReservationReportService {
 
 	Set<FishingReservationReportDTO> getAllFishingReservationReports();
 
-	FishingReservationReportDTO approve(FishingReservationReportDTO fishingReservationReportDTO, String answerCutomer,
-			String answerOwner);
+	FishingReservationReportDTO approve(FishingReservationReportDTO fishingReservationReportDTO, String answerCutomer, String answerOwner);
 
-	FishingReservationReportDTO decline(FishingReservationReportDTO fishingReservationReportDTO, String answerCutomer,
-			String answerOwner);
+	FishingReservationReportDTO decline(FishingReservationReportDTO fishingReservationReportDTO, String answerCutomer, String answerOwner);
 
 }

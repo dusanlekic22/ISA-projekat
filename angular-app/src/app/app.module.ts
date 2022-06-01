@@ -101,6 +101,8 @@ import { CottageCalendarComponent } from './components/cottage/cottage-calendar/
 import { BoatCalendarComponent } from './components/boat/boat-calendar/boat-calendar.component';
 import { CottageOwnerCalendarComponent } from './components/cottage/cottage-owner-calendar/cottage-owner-calendar.component';
 import { BoatOwnerCalendarComponent } from './components/boat/boat-owner-calendar/boat-owner-calendar.component';
+import { ReportRequestsComponent } from './pages/admin-pages/report-requests/report-requests.component';
+import { AnswerReportRequestComponent } from './pages/admin-pages/answer-report-request/answer-report-request.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -175,6 +177,8 @@ FullCalendarModule.registerPlugins([
     BoatCalendarComponent,
     CottageOwnerCalendarComponent,
     BoatOwnerCalendarComponent,
+    ReportRequestsComponent,
+    AnswerReportRequestComponent,
   ],
   imports: [
     NgbModule,

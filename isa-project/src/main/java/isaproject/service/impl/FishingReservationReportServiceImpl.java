@@ -142,12 +142,12 @@ public class FishingReservationReportServiceImpl implements FishingReservationRe
 		User user = userRepository.findByEmail(email);
 		String subject = "Reservation report";
 		StringBuilder content = new StringBuilder("");
-		content.append("Hi ").append(user.getFirstName()).append(",<br><br>")
-				.append("You have been sent this email because your account was reported, but the report was declined.<br><br>")
+		content.append("Hi ").append(user.getFirstName()).append(",<br><br>").append(
+				"You have been sent this email because your account was reported, but the report was declined.<br><br>")
 				.append(answerCutomer).append("<br><br>Thank you!<br>Your company name.");
 
 		Mail mail = new Mail(email, subject, content.toString());
 		mailService.sendMailHTML(mail);
 	}
-	
+
 }

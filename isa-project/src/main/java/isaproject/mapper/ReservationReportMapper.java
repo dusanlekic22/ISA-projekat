@@ -5,7 +5,8 @@ import isaproject.model.FishingReservationReport;
 
 public class ReservationReportMapper {
 
-	public static FishingReservationReport DTOToFishingReservationReport(FishingReservationReportDTO fishingReservationReportDTO) {
+	public static FishingReservationReport DTOToFishingReservationReport(
+			FishingReservationReportDTO fishingReservationReportDTO) {
 		FishingReservationReport fishingReservationReport = new FishingReservationReport();
 		fishingReservationReport.setUserPenalized(fishingReservationReportDTO.getUserPenalized());
 		fishingReservationReport.setComment(fishingReservationReportDTO.getComment());
@@ -14,8 +15,9 @@ public class ReservationReportMapper {
 		fishingReservationReport.setReservationReportStatus(fishingReservationReportDTO.getReservationReportStatus());
 		return fishingReservationReport;
 	}
-	
-	public static FishingReservationReportDTO FishingReservationReportToDTO(FishingReservationReport fishingReservationReport) {
+
+	public static FishingReservationReportDTO FishingReservationReportToDTO(
+			FishingReservationReport fishingReservationReport) {
 		FishingReservationReportDTO fishingReservationReportDTO = new FishingReservationReportDTO();
 		fishingReservationReportDTO.setUserPenalized(fishingReservationReport.getUserPenalized());
 		fishingReservationReportDTO.setComment(fishingReservationReport.getComment());
@@ -24,4 +26,5 @@ public class ReservationReportMapper {
 		fishingReservationReportDTO.setReservationReportStatus(fishingReservationReport.getReservationReportStatus());
 		return fishingReservationReportDTO;
 	}
+
 }

@@ -67,6 +67,20 @@ public class AdditionalServiceController {
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByBoatId(id),HttpStatus.OK);
 	}
+	
+	@GetMapping("/boatReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByBoatReservationId(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/boatQuickReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatQuickReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByCottageQuickReservationId(id),HttpStatus.OK);
+	}
 
 	@GetMapping("/fishingCourse/{id}")
 	@ResponseBody

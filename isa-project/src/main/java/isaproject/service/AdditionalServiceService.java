@@ -12,6 +12,8 @@ public interface AdditionalServiceService {
 	Set<AdditionalServiceDTO> findByCottageId(Long id);
 	Set<AdditionalServiceDTO> findByCottageReservationId(Long id);
 	Set<AdditionalServiceDTO> findByCottageQuickReservationId(Long id);
+	Set<AdditionalServiceDTO> findByBoatReservationId(Long id);
+	Set<AdditionalServiceDTO> findByBoatQuickReservationId(Long id);
 	Set<AdditionalServiceDTO> findByBoatId(Long id);
 	Set<AdditionalServiceDTO> findByFishingCourseId(Long id);
 }

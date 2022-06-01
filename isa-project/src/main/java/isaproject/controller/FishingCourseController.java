@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 
 @RestController
@@ -98,6 +100,25 @@ public class FishingCourseController {
 	@PreAuthorize("hasRole('FISHING_TRAINER')")	
 	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountWeekly(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/yearlyIncome")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
+	public ResponseEntity<IncomeDTO> getIncomeYearly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeYearly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/monthlyIncome")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
+	public ResponseEntity<IncomeDTO> getIncomeMonthly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeMonthly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/dailyIncome")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
+	public ResponseEntity<IncomeDTO> getIncomeWeeklyDaily(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeDaily(duration, id), HttpStatus.OK);
 	}
 
 }

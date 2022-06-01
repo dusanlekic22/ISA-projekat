@@ -3,7 +3,9 @@ package isaproject.service;
 import java.util.Set;
 
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.model.DateTimeSpan;
 
 public interface FishingCourseService {
 
@@ -28,5 +30,11 @@ public interface FishingCourseService {
 	ReservationCountDTO getFishingCourseReservationCountMonthly(long id);
 
 	ReservationCountDTO getFishingCourseReservationCountWeekly(long id);
+
+	IncomeDTO getFishingCourseIncomeYearly(DateTimeSpan duration, long id);
+
+	IncomeDTO getFishingCourseIncomeDaily(DateTimeSpan duration, long id);
+
+	IncomeDTO getFishingCourseIncomeMonthly(DateTimeSpan duration, long id);
 
 }

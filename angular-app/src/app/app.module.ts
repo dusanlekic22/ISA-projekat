@@ -95,6 +95,7 @@ import { BoatUnavailableTermsComponent } from './components/boat/boat-unavailabl
 import { FishingCourseStatisticsComponent } from './pages/fishing-trainer-pages/fishing-course-statistics/fishing-course-statistics.component';
 import { CottageIncomeComponent } from './components/cottage/cottage-income/cottage-income.component';
 import { BoatIncomeComponent } from './components/boat/boat-income/boat-income.component';
+import { FishingCourseIncomeComponent } from './pages/fishing-trainer-pages/fishing-course-income/fishing-course-income.component';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ import { BoatIncomeComponent } from './components/boat/boat-income/boat-income.c
     BoatUnavailableTermsComponent,
     FishingCourseStatisticsComponent,
     CottageIncomeComponent,
-    BoatIncomeComponent
+    BoatIncomeComponent,
+    FishingCourseIncomeComponent
   ],
   imports: [
     NgbModule,

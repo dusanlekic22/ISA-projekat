@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { throwError, Observable } from 'rxjs';
 import { IFishingImage } from '../model/fishingImage';
 import { IReservationCount } from '../model/reservationCount';
+import { IDateSpan } from '../model/dateSpan';
+import { IIncome } from '../model/income';
 
 @Injectable({
   providedIn: 'root',
@@ -96,6 +98,45 @@ export class FishingCourseService {
     return this.http
       .get<IReservationCount>(
         environment.apiUrl + `/fishingCourse/${fishingCourseId}/weeklyCount`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getFishingCourseIncomeYearlyById(
+    fishingCourseId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this.http
+      .post<IIncome>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/yearlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getFishingCourseIncomeMonthlyById(
+    fishingCourseId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this.http
+      .post<IIncome>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/monthlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getFishingCourseIncomeDailyById(
+    fishingCourseId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this.http
+      .post<IIncome>(
+        environment.apiUrl + `/fishingCourse/${fishingCourseId}/dailyIncome`,duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),

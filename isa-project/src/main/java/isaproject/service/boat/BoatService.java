@@ -3,6 +3,7 @@ package isaproject.service.boat;
 import java.util.Set;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.model.DateTimeSpan;
@@ -35,4 +36,10 @@ public interface BoatService {
 	ReservationCountDTO getBoatReservationCountWeekly(long id);
 
 	BoatDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan);
+
+	IncomeDTO getBoatIncomeYearly(DateTimeSpan duration, long id);
+
+	IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id);
+
+	IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id);
 }

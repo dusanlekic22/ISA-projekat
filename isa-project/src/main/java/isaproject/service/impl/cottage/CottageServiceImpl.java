@@ -505,8 +505,6 @@ public class CottageServiceImpl implements CottageService {
 		for (CottageReservation reservation : reservations) {
 			for (int i = 1; i <= yearCount; i++) {
 				for (int j = 1; j <= 12; j++) {
-//					YearMonth yearMonthObject = YearMonth.of((int)(duration.getStartDate().getYear()+yearCount-1), j);
-//					int daysInMonth = yearMonthObject.lengthOfMonth();
 					for (int k = 1; k <= 31; k++) {
 						if (duration.isBetween(reservation.getDuration().getEndDate())) {
 							incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(),

@@ -147,19 +147,19 @@ public class CottageController {
 	}
 
 	@PostMapping("/{id}/yearlyIncome")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<IncomeDTO> getIncomeYearly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(cottageService.getCottageIncomeYearly(duration, id), HttpStatus.OK);
 	}
 
 	@PostMapping("/{id}/monthlyIncome")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<IncomeDTO> getIncomeMonthly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(cottageService.getCottageIncomeMonthly(duration, id), HttpStatus.OK);
 	}
 
 	@PostMapping("/{id}/dailyIncome")
-	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<IncomeDTO> getIncomeWeeklyDaily(@PathVariable("id") Long id,
 			@RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(cottageService.getCottageIncomeDaily(duration, id), HttpStatus.OK);

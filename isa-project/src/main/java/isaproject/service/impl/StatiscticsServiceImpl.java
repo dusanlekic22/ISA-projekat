@@ -12,16 +12,16 @@ import isaproject.service.StatisticsService;
 public class StatiscticsServiceImpl implements StatisticsService {
 
 	private boolean isCurrentYear(DateTimeSpan reservationSpan) {
-		return reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear();
+		return reservationSpan.getEndDate().getYear() == LocalDateTime.now().getYear();
 	}
 
 	private boolean isCurrentMonth(DateTimeSpan reservationSpan) {
-		return reservationSpan.getStartDate().getMonthValue() == LocalDateTime.now().getMonthValue();
+		return reservationSpan.getEndDate().getMonthValue() == LocalDateTime.now().getMonthValue();
 	}
 
 	@Override
 	public int[] countYearly(DateTimeSpan reservationSpan, int year, int[] count) {
-		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year - 3) {
+		if (reservationSpan.getEndDate().getYear() == LocalDateTime.now().getYear() + year - 3) {
 			count[year-1] += 1;
 		}
 		return count;
@@ -29,7 +29,7 @@ public class StatiscticsServiceImpl implements StatisticsService {
 
 	@Override
 	public int[] countMonthly(DateTimeSpan reservationSpan, int month, int count[]) {
-		if (isCurrentYear(reservationSpan) && reservationSpan.getStartDate().getMonthValue() == month) {
+		if (isCurrentYear(reservationSpan) && reservationSpan.getEndDate().getMonthValue() == month) {
 			count[month - 1] += 1;
 		}
 		return count;
@@ -38,7 +38,7 @@ public class StatiscticsServiceImpl implements StatisticsService {
 	@Override
 	public int[] countWeekly(DateTimeSpan reservationSpan, int week, int count[]) {
 		int monthLength = LocalDate.now().lengthOfMonth();
-		int dayOfMonth = reservationSpan.getStartDate().getDayOfMonth();
+		int dayOfMonth = reservationSpan.getEndDate().getDayOfMonth();
 		if (isCurrentYear(reservationSpan) && isCurrentMonth(reservationSpan)) {
 			if (dayOfMonth >= (week - 1) * 7 && dayOfMonth < week * 7) {
 				count[week - 1] += 1;
@@ -52,7 +52,7 @@ public class StatiscticsServiceImpl implements StatisticsService {
 	@Override
 	public int[] yearlyIncome(DateTimeSpan reservationSpan, int reservationPrice, int year, int income[],
 			int yearBackward) {
-		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year
+		if (reservationSpan.getEndDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)) {
 			income[year - 1] += reservationPrice;
 		}
@@ -64,7 +64,7 @@ public class StatiscticsServiceImpl implements StatisticsService {
 			int income[][], int yearBackward) {
 		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)
-				&& reservationSpan.getStartDate().getMonthValue() == month) {
+				&& reservationSpan.getEndDate().getMonthValue() == month) {
 			income[year - 1][month - 1] += reservationPrice;
 		}
 		return income;
@@ -75,9 +75,9 @@ public class StatiscticsServiceImpl implements StatisticsService {
 			int income[][][], int yearBackward) {
 		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)
-				&& reservationSpan.getStartDate().getMonthValue() == month
-				&& reservationSpan.getStartDate().getDayOfWeek().getValue() == day) {
-			income[year - 1][month - 1][day] += reservationPrice;
+				&& reservationSpan.getEndDate().getMonthValue() == month
+				&& reservationSpan.getEndDate().getDayOfMonth() == day) {
+			income[year - 1][month - 1][day-1] += reservationPrice;
 		}
 		return income;
 	}

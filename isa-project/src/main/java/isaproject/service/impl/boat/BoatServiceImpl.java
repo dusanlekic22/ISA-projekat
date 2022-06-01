@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
@@ -336,6 +339,70 @@ public class BoatServiceImpl implements BoatService {
         }
         reservationCount.setWeeklySum(count); 
         return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+	
+	@Override
+	public IncomeDTO getBoatIncomeYearly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[] incomeSum = new int[(int) yearCount];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				incomeSum = statisticsService.yearlyIncome(reservation.getDuration(), reservation.getPrice(), i,
+						incomeSum, duration.getStartDate().getYear());
+			}
+
+		}
+		income.setYearlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[][] incomeSum = new int[(int) yearCount][12];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+					if (duration.isBetween(reservation.getDuration().getEndDate())) {
+						incomeSum = statisticsService.monthlyIncome(reservation.getDuration(), reservation.getPrice(),
+								i, j, incomeSum, duration.getStartDate().getYear());
+					}
+				}
+			}
+
+		}
+		income.setMonthlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[][][] incomeSum = new int[(int) yearCount][12][31];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+					for (int k = 1; k <= 31; k++) {
+						if (duration.isBetween(reservation.getDuration().getEndDate())) {
+							incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(),
+									i, j, k, incomeSum, duration.getStartDate().getYear());
+						}
+					}
+				}
+			}
+
+		}
+		income.setDailySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
 	}
 
 }

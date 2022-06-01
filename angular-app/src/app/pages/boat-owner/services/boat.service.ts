@@ -8,6 +8,7 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatImage } from 'src/app/model/boat/boatImage';
 import { IReservationCount } from 'src/app/model/reservationCount';
+import { IIncome } from 'src/app/model/income';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +106,45 @@ export class BoatService {
       tap((data) => console.log('All: ', JSON.stringify(data))),
       catchError(this.handleError)
     );
+  }
+
+  getBoatIncomeYearlyById(
+    boatId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/boat/${boatId}/yearlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getBoatIncomeMonthlyById(
+    boatId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/boat/${boatId}/monthlyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getBoatIncomeDailyById(
+    boatId: number,duration:IDateSpan
+  ): Observable<IIncome> {
+    return this._http
+      .post<IIncome>(
+        environment.apiUrl + `/boat/${boatId}/dailyIncome`,duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

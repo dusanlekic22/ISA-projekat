@@ -2,19 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, registerables, ChartType, ChartItem } from 'chart.js';
 import { IDateSpan } from 'src/app/model/dateSpan';
-import { yearLabels, monthsLabels, initialData } from 'src/app/model/reservationCount';
-import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { chartOpened } from 'src/app/model/income';
-
+import { monthsLabels, yearLabels, initialData } from 'src/app/model/reservationCount';
+import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 
 @Component({
-  selector: 'app-cottage-income',
-  templateUrl: './cottage-income.component.html',
-  styleUrls: ['./cottage-income.component.css'],
+  selector: 'app-boat-income',
+  templateUrl: './boat-income.component.html',
+  styleUrls: ['./boat-income.component.css']
 })
-export class CottageIncomeComponent implements OnInit {
-  cottageId!: number;
+export class BoatIncomeComponent implements OnInit {
+
+  boatId!: number;
   incomeChart!: Chart;
   currentTime: Date = new Date();
   incomeChartItem!: any;
@@ -36,12 +35,12 @@ export class CottageIncomeComponent implements OnInit {
   data2: number[] = initialData;
 
   constructor(
-    private _cottageService: CottageService,
+    private _boatService: BoatService,
     private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this.boatId = +this._route.snapshot.paramMap.get('boatId')!;
     this.incomeChartItem = document.getElementById('incChart');
     Chart.register(...registerables);
     this.loadIncomeChart();
@@ -98,8 +97,8 @@ export class CottageIncomeComponent implements OnInit {
     this.chartOpened = chartOpened.year;
     this.yearLabels = this.addYearsLabels();
     this.incomeChart.data.labels = this.yearLabels;
-    this._cottageService
-      .getCottageIncomeYearlyById(this.cottageId,this.duration)
+    this._boatService
+      .getBoatIncomeYearlyById(this.boatId,this.duration)
       .subscribe((data) => {
         this.incomeChart.data.datasets[0].data = data.yearlySum;
         this.incomeChart.update();
@@ -113,8 +112,8 @@ export class CottageIncomeComponent implements OnInit {
     this.monthsLabels = this.addMonthsLabels();
     this.incomeChart.data.labels = this.monthsLabels;
     this.incomeChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageIncomeMonthlyById(this.cottageId,this.duration)
+    this._boatService
+      .getBoatIncomeMonthlyById(this.boatId,this.duration)
       .subscribe((data) => {
         let arr = [];
         for (let row of data.monthlySum) for (let e of row) arr.push(e);
@@ -130,8 +129,8 @@ export class CottageIncomeComponent implements OnInit {
     this.daysLabels = this.addDaysLabels();
     this.incomeChart.data.labels = this.daysLabels;
     this.incomeChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageIncomeDailyById(this.cottageId,this.duration)
+    this._boatService
+      .getBoatIncomeDailyById(this.boatId,this.duration)
       .subscribe((data) => {
         let arr = [];
         for (let table of data.dailySum) for (let row of table)  for (let e of row) arr.push(e);
@@ -199,7 +198,7 @@ export class CottageIncomeComponent implements OnInit {
         plugins: {
           datalabels: {
              display: function(context) {
-                return context.dataset.data[context.dataIndex] == 0; // or >= 1 or ...
+                return context.dataset.data[context.dataIndex] === 0; // or >= 1 or ...
              }
           }
         },
@@ -211,4 +210,5 @@ export class CottageIncomeComponent implements OnInit {
       },
     });
   }
+
 }

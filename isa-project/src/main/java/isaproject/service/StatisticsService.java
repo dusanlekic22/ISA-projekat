@@ -14,5 +14,5 @@ public interface StatisticsService {
 
 	 public int[][] monthlyIncome(DateTimeSpan reservationSpan, int reservationPrice, int year, int month, int income[][],int yearBackward);
 
-	 public int[][][] dailyIncome(DateTimeSpan reservationSpan, int reservationPrice,int year, int month, int week, int income[][][],int yearBackward);
+	 public int[][][] dailyIncome(DateTimeSpan reservationSpan, int reservationPrice,int year, int month, int day, int income[][][],int yearBackward);
 }

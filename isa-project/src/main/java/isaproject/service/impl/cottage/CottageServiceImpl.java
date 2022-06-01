@@ -359,7 +359,6 @@ public class CottageServiceImpl implements CottageService {
 				}
 				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
 					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
-					System.out.println(sortType.getField());
 				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
 					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
 				}
@@ -372,38 +371,52 @@ public class CottageServiceImpl implements CottageService {
 
 		if (cottageAvailability.getDateSpan() == null || cottageAvailability.getDateSpan().getStartDate() == null
 				|| cottageAvailability.getDateSpan().getEndDate() == null) {
-			Page<Cottage> pageCottage;
-			if(isLocationSortDisabled) {
-			pageCottage = cottageRepository.searchCottage(name, grade, bed, paging);
-			}else {
-			pageCottage = cottageRepository.searchCottageWithSortLocation(name, grade, bed, paging);
-			}
-			availableCottages = pageCottage.getContent();
-			return new PageImpl(availableCottages, paging, pageCottage.getTotalElements());
+			return searchCottage(name, grade, bed, isLocationSortDisabled, paging);
 		} else {
-			LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
-			LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
-			hours = (int) ChronoUnit.HOURS.between(start, end);
-			Page<Cottage> pageCottage;
-			if(isLocationSortDisabled) {
-			pageCottage = cottageRepository.getAvailability(start, end, name, grade, bed, paging);
-			}else {
-				pageCottage = cottageRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
-			}
-			availableCottages = pageCottage.getContent();
-			availableCottagesWithPrice = new ArrayList<CottageDTO>();
-			if (availableCottages.size() != 0) {
-				CottageDTO dto;
-				for (Cottage p : availableCottages) {
-					dto = CottageMapper.CottageToCottageDTOWithPrice(p, hours);
-					availableCottagesWithPrice.add(dto);
-				}
-			}
-		
-			Page<CottageDTO> pc = new PageImpl(availableCottagesWithPrice, paging, pageCottage.getTotalElements());
-			return pc;
+			return checkAvailabilty(cottageAvailability, name, grade, bed, isLocationSortDisabled, paging);
 		}
 
+	}
+
+	private Page<CottageDTO> checkAvailabilty(CottageAvailabilityDTO cottageAvailability, String name, Double grade,
+			int bed, Boolean isLocationSortDisabled, Pageable paging) {
+		int hours;
+		List<Cottage> availableCottages;
+		List<CottageDTO> availableCottagesWithPrice;
+		LocalDateTime start = cottageAvailability.getDateSpan().getStartDate();
+		LocalDateTime end = cottageAvailability.getDateSpan().getEndDate();
+		hours = (int) ChronoUnit.HOURS.between(start, end);
+		Page<Cottage> pageCottage;
+		if(isLocationSortDisabled) {
+		pageCottage = cottageRepository.getAvailability(start, end, name, grade, bed, paging);
+		}else {
+			pageCottage = cottageRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
+		}
+		availableCottages = pageCottage.getContent();
+		availableCottagesWithPrice = new ArrayList<CottageDTO>();
+		if (availableCottages.size() != 0) {
+			CottageDTO dto;
+			for (Cottage p : availableCottages) {
+				dto = CottageMapper.CottageToCottageDTOWithPrice(p, hours);
+				availableCottagesWithPrice.add(dto);
+			}
+		}
+
+		Page<CottageDTO> pc = new PageImpl(availableCottagesWithPrice, paging, pageCottage.getTotalElements());
+		return pc;
+	}
+
+	private Page<CottageDTO> searchCottage(String name, Double grade, int bed, Boolean isLocationSortDisabled,
+			Pageable paging) {
+		List<Cottage> availableCottages;
+		Page<Cottage> pageCottage;
+		if(isLocationSortDisabled) {
+		pageCottage = cottageRepository.searchCottage(name, grade, bed, paging);
+		}else {
+		pageCottage = cottageRepository.searchCottageWithSortLocation(name, grade, bed, paging);
+		}
+		availableCottages = pageCottage.getContent();
+		return new PageImpl(availableCottages, paging, pageCottage.getTotalElements());
 	}
 
 	@Override

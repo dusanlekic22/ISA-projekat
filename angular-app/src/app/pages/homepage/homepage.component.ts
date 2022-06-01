@@ -6,7 +6,10 @@ import {
   gradeSortType,
 } from './../../model/sortType';
 import { IDateSpan } from 'src/app/model/dateSpan';
-import { ICottageAvailability } from './../../model/cottageReservation';
+import {
+  ICottageAvailability,
+  emptyCottageAvailability,
+} from './../../model/cottageReservation';
 import { FormControl, Validators } from '@angular/forms';
 import { CottageService } from './../cottage-owner/services/cottage.service';
 
@@ -15,6 +18,8 @@ import { MatChip } from '@angular/material/chips';
 import { ReservationService } from 'src/app/service/reservation.service';
 import { ICottage, ICottagePage } from 'src/app/model/cottage';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { IBoat } from 'src/app/model/boat/boat';
+import { BoatService } from '../boat-owner/services/boat.service';
 
 @Component({
   selector: 'app-homepage',
@@ -49,41 +54,60 @@ export class HomepageComponent implements OnInit {
   gradeSortCottageType: ISortType = gradeSortType;
   cottagePage: number = 0;
   cottageTotalElements: number = 30;
-
   paginatorCottage!: MatPaginator;
-  reservationCottage: ICottageAvailability = {
-    name: '',
-    dateSpan: {
-      startDate: new Date(),
-      endDate: new Date(),
-    },
-    bedCapacity: 0,
-    price: 0,
-    grade: -1,
-    longitude: 0,
-    latitude: 0,
-    sortBy: [],
-    freeAdditionalServices: [],
-  };
+  reservationCottage: ICottageAvailability = emptyCottageAvailability;
+
+  searchBoatName!: string;
+  searchBoatBeds!: string;
+  boats!: IBoat[];
+  startBoatDate!: Date;
+  endBoatDate!: Date;
+  optionsBoats: string[] = ['dare', 'leka'];
+  bchips!: MatChip;
+  bsortChips!: MatChip;
+  boatChips: string[] = [];
+  boatSortChips: ISortType[] = [];
+  boatTimespan!: IDateSpan;
+  bminDateString: string = 'adasd';
+  startDateBoatString: string = '';
+  endDateBoatString: any = '';
+  openBoats: string = 'yes';
+  boatSearch: boolean = false;
+  boatBedCount: number = 0;
+  boatPersonCount!: number;
+  boatGrade!: number;
+  bbeds: number[] = Array.from(Array(5).keys()).map((i) => (i += 1));
+  sortListBoat: ISortType[] = sortTypes;
+  boatSortBy!: ISortType;
+  priceSortBoatType: ISortType = priceSortType;
+  gradeSortBoatType: ISortType = gradeSortType;
+  boatPage: number = 0;
+  boatTotalElements: number = 30;
+  paginatorBoat!: MatPaginator;
+  // reservationBoat: IBoatAvailability = emptyBoatAvailability;
 
   constructor(
     private _cottageService: CottageService,
+    private _boatService: BoatService,
     private _reservationService: ReservationService
   ) {}
 
   ngOnInit(): void {
     this.getCottages();
+    this.getBoats();
     this.minDateString = this.date(new Date());
     this.startDateCottageString = this.date(new Date());
+    this.bminDateString = this.date(new Date());
+    this.startDateBoatString = this.date(new Date());
   }
 
+  //cottage tab start
   getCottages() {
     this._cottageService
       .getCottagesPagination(this.cottagePage, this.cottageSortChips)
       .subscribe((data) => {
         this.cottages = data.content;
         this.cottageTotalElements = data.totalElements;
-        console.log('evo data', data);
       });
   }
 
@@ -101,7 +125,6 @@ export class HomepageComponent implements OnInit {
     } else {
       this.cottageSortChips = this.cottageSortChips.filter((e) => e !== option);
     }
-    console.log('chipssss', this.cottageSortChips);
     if (this.cottageSearch === true) {
       this.availableCottages(this.cottagePage);
     } else {
@@ -115,7 +138,6 @@ export class HomepageComponent implements OnInit {
       this.reservationCottage.sortBy.push(e)
     );
     this.reservationCottage.sortBy.push(this.cottageSortBy);
-    console.log('duzina', this.reservationCottage.sortBy.length);
     if (this.startCottageDate === this.endCottageDate) {
       this.reservationCottage.dateSpan.startDate = this.startCottageDate;
       this.reservationCottage.dateSpan.endDate = this.endCottageDate;
@@ -130,7 +152,6 @@ export class HomepageComponent implements OnInit {
     this._reservationService
       .getAvailableCottagesByTimeSpan(this.reservationCottage, page)
       .subscribe((data: any) => {
-        console.log('podaci', data.content);
         this.cottages = data.content;
         this.cottagePage = page;
         this.cottageTotalElements = data.totalElements;
@@ -159,6 +180,95 @@ export class HomepageComponent implements OnInit {
     }
   }
 
+  activateCottageEnd() {
+    this.endDateCottageString = this.startCottageDate;
+  }
+  //cottage tab end
+
+  //boat tab start
+  getBoats() {
+    this._boatService
+      .getBoatsPagination(this.boatPage, this.boatSortChips)
+      .subscribe((data) => {
+        this.boats = data.content;
+        this.boatTotalElements = data.totalElements;
+      });
+  }
+
+  toggleSelectionBoat(chip: MatChip, option: string) {
+    let x: string[] = [];
+    if (chip.toggleSelected()) {
+      this.boatChips.push(option);
+    } else {
+      this.boatChips = this.boatChips.filter((e) => e !== option);
+    }
+  }
+  toggleSelectionBoatSort(chip: MatChip, option: ISortType) {
+    if (chip.toggleSelected()) {
+      this.boatSortChips.push(option);
+    } else {
+      this.boatSortChips = this.boatSortChips.filter((e) => e !== option);
+    }
+    if (this.boatSearch === true) {
+      this.availableBoats(this.boatPage);
+    } else {
+      this.getBoats();
+    }
+  }
+
+  availableBoats(page: number) {
+    // this.reservationBoat.sortBy = [];
+    // this.boatSortChips.forEach((e) =>
+    //   this.reservationBoat.sortBy.push(e)
+    // );
+    this.reservationCottage.sortBy.push(this.cottageSortBy);
+    if (this.startCottageDate === this.endCottageDate) {
+      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
+      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+    } else {
+      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
+      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+    }
+
+    this.reservationCottage.name = this.searchCottageName;
+    this.reservationCottage.bedCapacity = this.cottageBedCount;
+    this.reservationCottage.grade = this.cottageGrade;
+    this._reservationService
+      .getAvailableCottagesByTimeSpan(this.reservationCottage, page)
+      .subscribe((data: any) => {
+        this.cottages = data.content;
+        this.cottagePage = page;
+        this.cottageTotalElements = data.totalElements;
+        if (
+          this.startCottageDate !== undefined ||
+          this.endCottageDate !== undefined ||
+          this.startCottageDate !== '' ||
+          this.endCottageDate !== ''
+        ) {
+          this.openCottages = 'no';
+        }
+      });
+  }
+
+  searchBoat() {
+    this.boatSearch = true;
+    this.availableBoats(0);
+  }
+
+  onChangeBoatPage(pe: PageEvent) {
+    this.boatPage = pe.pageIndex;
+    if (this.boatSearch === true) {
+      this.availableBoats(this.boatPage);
+    } else {
+      this.getBoats();
+    }
+  }
+
+  activateBoatEnd() {
+    this.endDateBoatString = this.startBoatDate;
+  }
+  //boat tab end
+
   date(min: Date): string {
     let month = '';
     let day = '';
@@ -174,11 +284,5 @@ export class HomepageComponent implements OnInit {
     }
     let x = min.getFullYear().toString() + '-' + month + '-' + day + 'T00:00';
     return x;
-  }
-
-  activateCottageEnd() {
-    let x = '';
-    x = this.startCottageDate.toString();
-    this.endDateCottageString = this.startCottageDate;
   }
 }

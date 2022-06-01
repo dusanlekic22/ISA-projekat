@@ -106,8 +106,10 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		cottageReservation.setConfirmed(true);
 		cottageReservation.setCustomer(customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get());
 		double reservationPrice = cottageReservation.getCottage().getPricePerHour()*cottageReservation.getDuration().getHours();
+		if(cottageReservation.getAdditionalService()!= null) {
 		for(AdditionalService additionalService: cottageReservation.getAdditionalService()) {
 			reservationPrice+= Double.parseDouble(additionalService.getPrice());
+		}
 		}
 		cottageReservation.setPrice((int) (long) reservationPrice);
 		if (!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
@@ -146,8 +148,9 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			}
 		}
 
-		if (!overlaps)
+		if (!overlaps) {
 			return null;
+			}
 
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));

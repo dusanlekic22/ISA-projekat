@@ -1,7 +1,14 @@
 package isaproject.mapper.boat;
 
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
 import isaproject.dto.boat.BoatDTO;
+import isaproject.dto.cottage.CottageDTO;
+import isaproject.mapper.CottageMapper;
 import isaproject.model.boat.Boat;
+import isaproject.model.cottage.Cottage;
 
 public class BoatMapper {
 	public static Boat BoatDTOToBoat(BoatDTO boatDTO) {
@@ -15,6 +22,7 @@ public class BoatMapper {
 		boat.setEngineNumber(boatDTO.getEngineNumber());
 		boat.setEnginePower(boatDTO.getEnginePower());
 		boat.setDescription(boatDTO.getDescription());
+		boat.setGrade(boatDTO.getGrade());
 		boat.setCapacity(boatDTO.getCapacity());
 		boat.setCancelCondition(boatDTO.getCancelCondition());
 		boat.setPricePerHour(boatDTO.getPricePerHour());
@@ -42,6 +50,7 @@ public class BoatMapper {
 		boatDTO.setEngineNumber(boat.getEngineNumber());
 		boatDTO.setEnginePower(boat.getEnginePower());
 		boatDTO.setDescription(boat.getDescription());
+		boatDTO.setGrade(boat.getGrade());
 		boatDTO.setCapacity(boat.getCapacity());
 		boatDTO.setCancelCondition(boat.getCancelCondition());
 		boatDTO.setPricePerHour(boat.getPricePerHour());
@@ -56,5 +65,17 @@ public class BoatMapper {
 		boatDTO.setBoatOwner(boat.getBoatOwner());
 		boatDTO.setSubscribers(boat.getSubscribers());
 		return boatDTO;
+	}
+	
+	
+	public static Page<BoatDTO> pageBoatToPageBoatDTO(Page<Boat> boatPages) {
+		Page<BoatDTO> boatDTOPages = boatPages.map(new Function<Boat, BoatDTO>() {
+			@Override
+			public BoatDTO apply(Boat entity) {
+				BoatDTO dto = BoatMapper.BoatToBoatDTO(entity);
+				return dto;
+			}
+		});
+		return boatDTOPages;
 	}
 }

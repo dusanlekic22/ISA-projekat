@@ -26,6 +26,9 @@ export class GradeStarComponent implements OnInit {
 
       if (this.grade % 1 >= 0.5) {
         this.fullStar = Math.abs(this.halfStar - Math.round(this.grade));
+      }
+      if (this.grade % 1 < 0.5 && this.halfStar === 1) {
+        this.fullStar = Math.abs(Math.round(this.grade) + 1 - this.halfStar);
       } else {
         this.fullStar = Math.abs(Math.round(this.grade) - this.halfStar);
       }

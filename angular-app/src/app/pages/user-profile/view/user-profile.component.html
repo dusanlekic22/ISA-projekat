@@ -1,5 +1,5 @@
 <div class="container con" *appHasRole="roles">
-  <div>
+  <div *ngIf="user">
     <div class="profile-header">
       <div class="profile-img">
         <img
@@ -25,11 +25,19 @@
       ></app-customer-profile>
       <app-owner-cottage-profile
         *appHasRole="['ROLE_COTTAGE_OWNER']"
+        [user]="user"
+        [userId]="userId"
       ></app-owner-cottage-profile>
       <app-fishing-trainer-profile
         *appHasRole="['ROLE_FISHING_TRAINER']"
+        [user]="user"
+        [userId]="userId"
       ></app-fishing-trainer-profile>
-      <app-admin-profile *appHasRole="['ROLE_ADMIN']"></app-admin-profile>
+      <app-admin-profile
+        *appHasRole="['ROLE_ADMIN']"
+        [user]="user"
+        [userId]="userId"
+      ></app-admin-profile>
       <div class="right-side">
         <div class="profile-body">
           <div class="profile-posts">

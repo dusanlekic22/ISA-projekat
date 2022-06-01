@@ -28,7 +28,7 @@ public class AdditionalServiceController {
 	private AdditionalServiceService additionalServiceService;
 
 	@PostMapping
-    @PreAuthorize("hasAnyRole('COTTAGE_OWNER','BOAT_OWNER','FISHING_TRAINER')")
+    @PreAuthorize("hasAnyRole('COTTAGE_OWNER','BOAT_OWNER','FISHING_TRAINER','CUSTOMER')")
 	public ResponseEntity<AdditionalServiceDTO> save(@RequestBody AdditionalServiceDTO additionalServiceDTO) {
 		return new ResponseEntity<>(additionalServiceService.save(additionalServiceDTO),HttpStatus.CREATED);
 	}
@@ -42,14 +42,14 @@ public class AdditionalServiceController {
 	
 	@GetMapping("/cottage/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByCottageId(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/cottageReservation/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageReservationId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByCottageReservationId(id),HttpStatus.OK);
 	}

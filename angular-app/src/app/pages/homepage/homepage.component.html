@@ -201,7 +201,7 @@
           <div class="container">
             <form class="example-form">
               <div class="row pt-4 ml-5">
-                <div class="col-3">
+                <div class="col-3 input3">
                   <label for="date1">Start of reservation</label>
                   <input
                     id="date1"
@@ -209,24 +209,24 @@
                     class="p-3"
                     type="datetime-local"
                     placeholder="Start date"
-                    [(ngModel)]="startCottageDate"
-                    [min]="startDateCottageString"
-                    (change)="activateCottageEnd()"
+                    [(ngModel)]="startBoatDate"
+                    [min]="startDateBoatString"
+                    (change)="activateBoatEnd()"
                     id="session-date"
                     name="date1"
                   />
                   <div class="enddate">
-                    <label for="party" *ngIf="this.endDateCottageString !== ''"
+                    <label for="party" *ngIf="this.endDateBoatString !== ''"
                       >End of reservation</label
                     >
                     <input
                       matInput
                       class="p-3"
-                      *ngIf="this.endDateCottageString !== ''"
+                      *ngIf="this.endDateBoatString !== ''"
                       type="datetime-local"
                       placeholder="End date"
-                      [min]="endDateCottageString"
-                      [(ngModel)]="endCottageDate"
+                      [min]="endDateBoatString"
+                      [(ngModel)]="endBoatDate"
                       name="date2"
                     />
                   </div>
@@ -238,67 +238,136 @@
                       class="example-full-width"
                       appearance="fill"
                     >
-                      <mat-label>Search cottage by name</mat-label>
+                      <mat-label>Name</mat-label>
                       <textarea
                         matInput
-                        [(ngModel)]="searchCottageName"
-                        name="searchCottageName"
-                        placeholder="Ex. It makes me feel..."
+                        [(ngModel)]="searchBoatName"
+                        name="searchBoatName"
+                        placeholder="Enter boat name"
                       ></textarea>
                     </mat-form-field>
                     <mat-form-field
                       class="example-full-width"
                       appearance="fill"
                     >
-                      <mat-label>Search cottage by name</mat-label>
+                      <mat-label>Grade</mat-label>
                       <textarea
                         matInput
-                        [(ngModel)]="searchCottageName"
-                        name="searchCottageName"
-                        placeholder="Ex. It makes me feel..."
+                        [(ngModel)]="boatGrade"
+                        name="boatGrade"
+                        placeholder="Enter boat grade"
                       ></textarea>
                     </mat-form-field>
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <div class="col-4 chips">
-                    <mat-chip-list [(ngModel)]="chips" selectable multiple>
-                      <mat-chip
-                        #c="matChip"
-                        *ngFor="let option of optionsCottages"
-                        [value]="option"
-                        (click)="toggleSelectionCottage(c, option)"
+                  <div class="col-4 boxc">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Bed</mat-label>
+                      <mat-select
+                        name="boatBedCount"
+                        [(ngModel)]="boatBedCount"
                       >
-                        <mat-icon *ngIf="c.selected">check</mat-icon>
-                        {{ option }}
-                      </mat-chip>
-                    </mat-chip-list>
+                        <mat-option *ngFor="let bed of beds" [value]="bed">
+                          {{ bed }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Sort by</mat-label>
+                      <mat-select name="sortBy" [(ngModel)]="boatSortBy">
+                        <mat-option
+                          *ngFor="let sort of sortListBoat"
+                          [value]="sort"
+                        >
+                          {{ sort.text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <div class="col-4">
-                    <button class="btn btn-success" (click)="searchCottage()">
-                      Apply
-                    </button>
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col-7 offset-1 chips">
+                  <mat-chip-list [(ngModel)]="bchips" selectable multiple>
+                    <mat-chip
+                      #c="matChip"
+                      *ngFor="let option of optionsBoats"
+                      [value]="option"
+                      (click)="toggleSelectionBoat(c, option)"
+                    >
+                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      {{ option }}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+
+                <div class="col-4">
+                  <button class="btn btn-success" (click)="searchBoat()">
+                    Search
+                  </button>
                 </div>
               </div>
             </form>
 
-            <div class="container mt-3">
+            <div class="container mt-3 itemss">
               <div class="row d-flex p-2 text-white">
-                <div class="col-4 p-2" *ngFor="let cottage of cottages">
+                <div class="col-4 p-2" *ngFor="let boat of boats">
                   <app-base-cottage
-                    name="{{ cottage.name }}"
-                    id="{{ cottage.id }}"
-                    [address]="cottage.address"
-                    price="{{ '0$' }}"
+                    [type]="2"
+                    name="{{ boat.name }}"
+                    id="{{ boat.id }}"
+                    [address]="boat.address"
+                    promoDesc="{{ boat.description }}"
+                    [grade]="boat.grade"
+                    price="{{ boat.pricePerHour }}"
                     openForReservation="{{ openCottages }}"
                     [startDate]="startCottageDate"
                     [endDate]="endCottageDate"
                   >
                   </app-base-cottage>
+                </div>
+              </div>
+              <div class="row d-flex text-success bg-dark rounded">
+                <div class="col-6">
+                  <mat-paginator
+                    (page)="onChangeBoatPage($event)"
+                    class="bg-dark text-white"
+                    [length]="boatTotalElements"
+                    [pageIndex]="boatPage"
+                    [pageSize]="6"
+                    aria-label="<class ='btn-success'>Select page"
+                  >
+                  </mat-paginator>
+                </div>
+                <div class="col-3 text-right pt-2">
+                  <h2 class="text-white">Sort by :</h2>
+                </div>
+                <div class="col-3 pt-2 sortbtn">
+                  <mat-chip-list [(ngModel)]="bsortChips" selectable multiple>
+                    <mat-chip
+                      *ngIf="openBoats === 'no'"
+                      value="Price Ascending"
+                      #c="matChip"
+                      (click)="toggleSelectionBoatSort(c, priceSortBoatType)"
+                    >
+                      Price
+                    </mat-chip>
+                    <mat-chip
+                      value="Grade Ascending"
+                      #c2="matChip"
+                      (click)="toggleSelectionBoatSort(c2, gradeSortBoatType)"
+                    >
+                      Grade
+                    </mat-chip>
+                  </mat-chip-list>
                 </div>
               </div>
             </div>

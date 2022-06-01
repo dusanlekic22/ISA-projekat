@@ -1,4 +1,5 @@
 import { initCottage } from './../../../../model/cottage';
+import { emptyCottageReservation } from './../../../../model/cottageReservation';
 import { IAdditionalService } from './../../../../model/additionalService';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CottageReservationService } from 'src/app/pages/cottage-owner/services/cottage-reservation.service';
@@ -29,38 +30,7 @@ export class AddReservationComponent implements OnInit {
   cottageServices: IAdditionalService[] = [];
   reservationServices: IAdditionalService[] = [];
 
-  cottageReservation: ICottageReservation = {
-    id: 0,
-    duration: {
-      startDate: new Date(),
-      endDate: new Date(),
-    },
-    cottage: initCottage,
-    guestCapacity: 0,
-    price: 0,
-    customer: {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      username: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-      enabled: true,
-      verificationCode: '',
-      points: '',
-      loyalityProgram: '',
-    },
-    confirmed: false,
-  };
+  cottageReservation: ICottageReservation = emptyCottageReservation;
 
   constructor(
     private _cottageReservationService: CottageReservationService,

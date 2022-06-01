@@ -52,6 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
 	public CustomerDTO getCustomer(long customerId) {
 		return CustomerMapper.customertoCustomerDTO(customerRepo.getById(customerId));
 	}
+	public CustomerDTO getCustomerByUsername(String username) {
+		return CustomerMapper.customertoCustomerDTO(customerRepo.findByUsername(username));
+	}
 
 	public void register(CustomerDTO customerDTO, String siteURL)
 			throws UnsupportedEncodingException, MessagingException {

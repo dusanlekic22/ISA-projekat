@@ -17,6 +17,8 @@ public interface CustomerService {
 
 	public CustomerDTO getCustomer(long customerId);
 
+	public CustomerDTO getCustomerByUsername(String username);
+	
 	public void register(CustomerDTO customerDTO, String siteURL)
 			throws UnsupportedEncodingException, MessagingException;
 

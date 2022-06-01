@@ -54,6 +54,7 @@ public class Boat implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Address address;
 	private String description;
+	private Double grade;
 	private Integer capacity;
 	private String boatRules;
 	@Enumerated(EnumType.STRING)
@@ -167,6 +168,16 @@ public class Boat implements Serializable {
 
 	public void setDescription(String param) {
 		this.description = param;
+	}
+	
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Integer getCapacity() {

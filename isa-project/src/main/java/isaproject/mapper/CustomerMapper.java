@@ -17,6 +17,7 @@ public class CustomerMapper {
 		customer.setAddress(customerDTO.getAddress());
 		customer.setPoints(customerDTO.getPoints());
 		customer.setLoyalityProgram(customerDTO.getLoyalityProgram());
+		customer.setPenalties(customerDTO.getPenalties());
 		return customer;
 	}
 
@@ -33,6 +34,7 @@ public class CustomerMapper {
 		customerDTO.setAddress(customer.getAddress());
 		customerDTO.setPoints(customer.getPoints());
 		customerDTO.setLoyalityProgram(customer.getLoyalityProgram());
+		customerDTO.setPenalties(customer.getPenalties());
 		return customerDTO;
 	}
 }

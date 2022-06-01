@@ -10,6 +10,8 @@ public class FishingReservationReportDTO {
 	private String comment;
 	private ReservationReportStatus reservationReportStatus;
 	private FishingReservation fishingReservation;
+	private String answerCustomer;
+	private String answerOwner;
 
 	public FishingReservationReportDTO() {
 	}
@@ -52,6 +54,22 @@ public class FishingReservationReportDTO {
 
 	public void setFishingReservation(FishingReservation fishingReservation) {
 		this.fishingReservation = fishingReservation;
+	}
+
+	public String getAnswerCustomer() {
+		return answerCustomer;
+	}
+
+	public void setAnswerCustomer(String answerCustomer) {
+		this.answerCustomer = answerCustomer;
+	}
+
+	public String getAnswerOwner() {
+		return answerOwner;
+	}
+
+	public void setAnswerOwner(String answerOwner) {
+		this.answerOwner = answerOwner;
 	}
 
 }

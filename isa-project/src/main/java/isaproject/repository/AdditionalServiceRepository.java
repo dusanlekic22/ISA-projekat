@@ -18,5 +18,9 @@ public interface AdditionalServiceRepository extends JpaRepository<AdditionalSer
 
 	List<AdditionalService> findByBoatId(Long id);
 
+	List<AdditionalService> findByBoatReservationId(Long id);
+
+	List<AdditionalService> findByBoatQuickReservationId(Long id);
+
 	List<AdditionalService> findByFishingCourseId(Long id);
 }

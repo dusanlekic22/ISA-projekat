@@ -97,5 +97,19 @@
         [customers]="eligibleCustomers"
       ></app-fishing-reservations>
     </mat-tab>
+    <mat-tab label="Statistics">
+      <ng-template matTabContent #fishingCourseStatiscics>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <app-fishing-course-statistics></app-fishing-course-statistics>
+            </div>
+            <div class="col">
+              <app-fishing-course-income></app-fishing-course-income>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

@@ -37,7 +37,7 @@ public class FishingReservation implements Serializable {
 	private Integer capacity;
 
 	@Column(nullable = false)
-	private Double price = 0.0;
+	private Double price;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "id")

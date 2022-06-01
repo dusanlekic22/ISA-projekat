@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
@@ -23,17 +24,19 @@ import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
-import isaproject.service.ReservationCountService;
+import isaproject.service.StatisticsService;
 import isaproject.service.boat.BoatQuickReservationService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.service.boat.BoatService;
@@ -44,18 +47,18 @@ public class BoatServiceImpl implements BoatService {
 	private BoatRepository boatRepository;
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
-	private ReservationCountService reservationCountService;
+	private StatisticsService statisticsService;
 
 	@Autowired
 	public BoatServiceImpl(BoatRepository boatRepository, AddressRepository addressRepository,
 			BoatReservationService boatReservationService,
 			BoatQuickReservationService boatQuickReservationService,
-			ReservationCountService reservationCountService) {
+			StatisticsService statisticsService) {
 		super();
 		this.boatRepository = boatRepository;
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
-		this.reservationCountService = reservationCountService;
+		this.statisticsService = statisticsService;
 	}
 
 	public BoatDTO findById(Long id) {
@@ -328,7 +331,7 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countYearly(reservation.getDuration(), i, count);
+                count = statisticsService.countYearly(reservation.getDuration(), i, count);
             }
            
         }
@@ -345,7 +348,7 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 12; i++) {
-                count = reservationCountService.countMonthly(reservation.getDuration(), i, count);
+                count = statisticsService.countMonthly(reservation.getDuration(), i, count);
             }
            
         }
@@ -362,12 +365,76 @@ public class BoatServiceImpl implements BoatService {
         for (BoatReservation reservation : reservations)
         {
             for (int i = 1; i <= 4; i++) {
-                count = reservationCountService.countWeekly(reservation.getDuration(), i, count);
+                count = statisticsService.countWeekly(reservation.getDuration(), i, count);
             }
            
         }
         reservationCount.setWeeklySum(count); 
         return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+	
+	@Override
+	public IncomeDTO getBoatIncomeYearly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[] incomeSum = new int[(int) yearCount];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				incomeSum = statisticsService.yearlyIncome(reservation.getDuration(), reservation.getPrice(), i,
+						incomeSum, duration.getStartDate().getYear());
+			}
+
+		}
+		income.setYearlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[][] incomeSum = new int[(int) yearCount][12];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+					if (duration.isBetween(reservation.getDuration().getEndDate())) {
+						incomeSum = statisticsService.monthlyIncome(reservation.getDuration(), reservation.getPrice(),
+								i, j, incomeSum, duration.getStartDate().getYear());
+					}
+				}
+			}
+
+		}
+		income.setMonthlySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id) {
+		long yearCount = duration.getYears() + 1;
+		int[][][] incomeSum = new int[(int) yearCount][12][31];
+		Income income = new Income();
+		Boat boat = boatRepository.findById(id).get();
+		Set<BoatReservation> reservations = boat.getBoatReservation();
+		for (BoatReservation reservation : reservations) {
+			for (int i = 1; i <= yearCount; i++) {
+				for (int j = 1; j <= 12; j++) {
+					for (int k = 1; k <= 31; k++) {
+						if (duration.isBetween(reservation.getDuration().getEndDate())) {
+							incomeSum = statisticsService.dailyIncome(reservation.getDuration(), reservation.getPrice(),
+									i, j, k, incomeSum, duration.getStartDate().getYear());
+						}
+					}
+				}
+			}
+
+		}
+		income.setDailySum(incomeSum);
+		return IncomeMapper.IncomeToIncomeDTO(income);
 	}
 
 }

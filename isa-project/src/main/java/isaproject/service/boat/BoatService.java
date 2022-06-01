@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
@@ -43,4 +44,10 @@ public interface BoatService {
 	ReservationCountDTO getBoatReservationCountWeekly(long id);
 
 	BoatDTO updateUnavailableTerms(Long id, DateTimeSpan newDateSpan);
+
+	IncomeDTO getBoatIncomeYearly(DateTimeSpan duration, long id);
+
+	IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id);
+
+	IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id);
 }

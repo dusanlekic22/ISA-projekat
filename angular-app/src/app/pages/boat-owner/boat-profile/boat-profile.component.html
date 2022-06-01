@@ -113,7 +113,16 @@
     </mat-tab>
     <mat-tab label="Statistics">
       <ng-template matTabContent #boatStatiscics>
-        <app-boat-statistics></app-boat-statistics>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <app-boat-statistics></app-boat-statistics>
+            </div>
+            <div class="col">
+              <app-boat-income></app-boat-income>
+            </div>
+          </div>
+        </div>
       </ng-template>
     </mat-tab>
   </mat-tab-group>

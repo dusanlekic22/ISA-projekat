@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
@@ -141,6 +142,25 @@ public class BoatController {
 	@PreAuthorize("hasRole('BOAT_OWNER')")	
 	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(boatService.getBoatReservationCountWeekly(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/yearlyIncome")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeYearly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(boatService.getBoatIncomeYearly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/monthlyIncome")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeMonthly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(boatService.getBoatIncomeMonthly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/dailyIncome")
+	@PreAuthorize("hasRole('BOAT_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeWeeklyDaily(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(boatService.getBoatIncomeDaily(duration, id), HttpStatus.OK);
 	}
 	
 }

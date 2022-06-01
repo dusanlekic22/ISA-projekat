@@ -71,6 +71,18 @@ public class DateTimeSpan {
 	public boolean passed() {
 		return endDate.compareTo(LocalDateTime.now()) <= 0 ;
 	}
+	
+	public long getDays() {
+		return ChronoUnit.DAYS.between(startDate, endDate);
+	}
+	
+	public long getMonths() {
+		return ChronoUnit.MONTHS.between(startDate, endDate);
+	}
+	
+	public long getYears() {
+		return ChronoUnit.YEARS.between(startDate, endDate);
+	}
 
 	@Override
 	public int hashCode() {
@@ -93,8 +105,8 @@ public class DateTimeSpan {
 		return hours;
 	}
 
-	public Long getDays() {
-		return days;
-	}
+//	public Long getDays() {
+//		return days;
+//	}
 
 }

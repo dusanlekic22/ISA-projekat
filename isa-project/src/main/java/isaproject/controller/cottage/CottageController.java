@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CottageAvailabilityDTO;
+import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageDTO;
@@ -43,18 +44,17 @@ public class CottageController {
 	public Set<CottageDTO> getAll() {
 		return cottageService.findAll();
 	}
-	
+
 	@PostMapping("/pagination")
 	@ResponseBody
 	public Page<CottageDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "6") int size,
-			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
 		Pageable paging = PageRequest.of(page, size);
-		return cottageService.findAllPagination(sortTypeDTOList,paging);
+		return cottageService.findAllPagination(sortTypeDTOList, paging);
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")	
+	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
 	public CottageDTO loadById(@PathVariable("id") Long id) {
 		return cottageService.findById(id);
 	}
@@ -62,7 +62,7 @@ public class CottageController {
 	@PutMapping
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> update(@RequestBody CottageDTO cottageDTO) {
-		return new ResponseEntity<>(cottageService.update(cottageDTO),HttpStatus.CREATED);
+		return new ResponseEntity<>(cottageService.update(cottageDTO), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/info")
@@ -76,26 +76,28 @@ public class CottageController {
 
 	@PutMapping("/availableTerms/{id}")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<CottageDTO> updateAvailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
-		CottageDTO cottageReturnDTO =  cottageService.updateAvailableTerms(id, dateTimeSpan);
-		if(cottageReturnDTO==null)
-			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
+	public ResponseEntity<CottageDTO> updateAvailableTerms(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan dateTimeSpan) {
+		CottageDTO cottageReturnDTO = cottageService.updateAvailableTerms(id, dateTimeSpan);
+		if (cottageReturnDTO == null)
+			return new ResponseEntity<>(cottageReturnDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReturnDTO, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/unavailableTerms/{id}")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<CottageDTO> updateUnavailableTerms(@PathVariable("id")Long id, @RequestBody DateTimeSpan dateTimeSpan) {
-		CottageDTO cottageReturnDTO =  cottageService.updateUnavailableTerms(id, dateTimeSpan);
-		if(cottageReturnDTO==null)
-			return new ResponseEntity<>(cottageReturnDTO,HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(cottageReturnDTO,HttpStatus.OK);
+	public ResponseEntity<CottageDTO> updateUnavailableTerms(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan dateTimeSpan) {
+		CottageDTO cottageReturnDTO = cottageService.updateUnavailableTerms(id, dateTimeSpan);
+		if (cottageReturnDTO == null)
+			return new ResponseEntity<>(cottageReturnDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReturnDTO, HttpStatus.OK);
 	}
 
 	@PostMapping
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageDTO> save(@RequestBody CottageDTO cottageDTO) {
-		return new ResponseEntity<>(cottageService.save(cottageDTO),HttpStatus.CREATED);
+		return new ResponseEntity<>(cottageService.save(cottageDTO), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/search")
@@ -106,43 +108,61 @@ public class CottageController {
 
 	@GetMapping("/owner/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public Set<CottageDTO> getByCottageOwnerId(@PathVariable("id") Long id) {
 		return cottageService.findByCottageOwnerId(id);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public CottageDTO deleteById(@PathVariable("id") Long id) {
 		return cottageService.deleteById(id);
 	}
 
 	@PostMapping("/availability")
 	@ResponseBody
-	public Page<CottageDTO> search(@RequestBody CottageAvailabilityDTO cottageAvailability,	
-			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "6") int size) {
+	public Page<CottageDTO> search(@RequestBody CottageAvailabilityDTO cottageAvailability,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
 		Pageable paging = PageRequest.of(page, size);
-		return cottageService.findByAvailability(cottageAvailability,paging);
+		return cottageService.findByAvailability(cottageAvailability, paging);
 	}
-	
+
 	@GetMapping("/{id}/yearlyCount")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(cottageService.getCottageReservationCountYearly(id),HttpStatus.OK);
+		return new ResponseEntity<>(cottageService.getCottageReservationCountYearly(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/monthlyCount")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountMonthly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(cottageService.getCottageReservationCountMonthly(id),HttpStatus.OK);
+		return new ResponseEntity<>(cottageService.getCottageReservationCountMonthly(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/weeklyCount")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")	
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(cottageService.getCottageReservationCountWeekly(id),HttpStatus.OK);
+		return new ResponseEntity<>(cottageService.getCottageReservationCountWeekly(id), HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/{id}/yearlyIncome")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeYearly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(cottageService.getCottageIncomeYearly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/monthlyIncome")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeMonthly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(cottageService.getCottageIncomeMonthly(duration, id), HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}/dailyIncome")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<IncomeDTO> getIncomeWeeklyDaily(@PathVariable("id") Long id,
+			@RequestBody DateTimeSpan duration) {
+		return new ResponseEntity<>(cottageService.getCottageIncomeDaily(duration, id), HttpStatus.OK);
+	}
+
 }

@@ -1,20 +1,26 @@
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { monthsLabels, initialData, yearLabels } from './../../../model/reservationCount';
-import { CottageService } from 'src/app/pages/cottage-owner/services/cottage.service';
-import { Chart, ChartItem, ChartType, registerables } from 'chart.js';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Chart, registerables, ChartType, ChartItem } from 'chart.js';
+import { monthsLabels, initialData } from 'src/app/model/reservationCount';
+import { FishingCourseService } from 'src/app/service/fishingCourse.service';
 
 @Component({
-  selector: 'app-cottage-statistics',
-  templateUrl: './cottage-statistics.component.html',
-  styleUrls: ['./cottage-statistics.component.css'],
+  selector: 'app-fishing-course-statistics',
+  templateUrl: './fishing-course-statistics.component.html',
+  styleUrls: ['./fishing-course-statistics.component.css']
 })
-export class CottageStatisticsComponent implements OnInit {
-  cottageId!: number;
+export class FishingCourseStatisticsComponent implements OnInit {
+
+  fishingCourseId!: number;
   reservationChart!: Chart;
   currentTime: Date = new Date();
   reservationChartItem!: any;
-  yearLabels: string[] = yearLabels;
+  yearLabels: string[] = [
+    (this.currentTime.getFullYear() - 2).toString(),
+    (this.currentTime.getFullYear() - 1).toString(),
+    this.currentTime.getFullYear().toString(),
+    (this.currentTime.getFullYear() + 1).toString(),
+  ];
   monthsLabels: string[] = monthsLabels;
   weeksLabels: string[] = [];
   labels: string[] = [];
@@ -27,11 +33,11 @@ export class CottageStatisticsComponent implements OnInit {
   data1: number[] = initialData;
   data2: number[] = initialData;
 
-  constructor(private _cottageService: CottageService,
+  constructor(private _fishingCourseService: FishingCourseService,
     private _route:ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
+    this.fishingCourseId = +this._route.snapshot.paramMap.get('id')!;
     this.reservationChartItem = document.getElementById('resChart');
     Chart.register(...registerables);
     this.loadReservationChart();
@@ -48,10 +54,11 @@ export class CottageStatisticsComponent implements OnInit {
   addWeeksLabels(): string[] {
     let labelsWeeks: string[] = [];
     var month = this.currentTime.getMonth();
-    var d = new Date(this.currentTime.getFullYear(), month+1, 0);
+    var d = new Date(this.currentTime.getFullYear(), month, 0);
     var lastDay = d.getDate();
     for (let i = 1; i <= 3; i++) {
       labelsWeeks.push(String(i * 7));
+      console.log(i);
     }
     labelsWeeks.push(String(lastDay));
     return labelsWeeks;
@@ -59,8 +66,8 @@ export class CottageStatisticsComponent implements OnInit {
 
   reservationChartYearly() {
     this.reservationChart.data.labels = this.yearLabels;
-    this._cottageService
-      .getCottageReservationYearlyById(this.cottageId)
+    this._fishingCourseService
+      .getFishingCourseReservationYearlyById(this.fishingCourseId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.yearlySum;
         this.reservationChart.update();
@@ -72,8 +79,8 @@ export class CottageStatisticsComponent implements OnInit {
   reservationChartMonthly() {
     this.reservationChart.data.labels = this.monthsLabels;
     this.reservationChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageReservationMonthlyById(this.cottageId)
+    this._fishingCourseService
+      .getFishingCourseReservationMonthlyById(this.fishingCourseId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.monthlySum;
         this.reservationChart.update();
@@ -84,8 +91,8 @@ export class CottageStatisticsComponent implements OnInit {
   reservationChartWeekly() {
     this.reservationChart.data.labels = this.weeksLabels;
     this.reservationChart.config.type = 'pie' as ChartType;
-    this._cottageService
-      .getCottageReservationWeeklyById(this.cottageId)
+    this._fishingCourseService
+      .getFishingCourseReservationWeeklyById(this.fishingCourseId)
       .subscribe((data) => {
         this.reservationChart.data.datasets[0].data = data.weeklySum;
         this.reservationChart.update();

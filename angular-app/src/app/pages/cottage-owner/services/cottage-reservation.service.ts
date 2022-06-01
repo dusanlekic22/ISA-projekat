@@ -35,6 +35,29 @@ export class CottageReservationService {
       );
   }
 
+  addCottageReservationCustomer(
+    cottageReservation: ICottageReservation,
+    cottage: ICottage
+  ): Observable<ICottageReservation> {
+    return this._http
+      .post<ICottageReservation>(
+        environment.apiUrl + '/cottageReservation/customer',
+        {
+          id: cottageReservation.id,
+          duration: cottageReservation.duration,
+          guestCapacity: cottageReservation.guestCapacity,
+          price: cottageReservation.price,
+          customer: cottageReservation.customer,
+          confirmed: cottageReservation.confirmed,
+          cottage: cottage,
+        }
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   getPassedCottageReservationByCottageId(
     id: number
   ): Observable<ICottageReservation[]> {

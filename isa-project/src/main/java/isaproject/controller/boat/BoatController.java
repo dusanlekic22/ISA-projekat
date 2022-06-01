@@ -1,8 +1,12 @@
 package isaproject.controller.boat;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.boat.BoatService;
 
@@ -37,6 +43,15 @@ public class BoatController {
 	@ResponseBody
 	public Set<BoatDTO> getAll(){
 		return boatService.findAll();
+	}
+	
+	@PostMapping("/pagination")
+	@ResponseBody
+	public Page<BoatDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size,
+			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatService.findAllPagination(sortTypeDTOList,paging);
 	}
 	
 	@GetMapping("/{id}")

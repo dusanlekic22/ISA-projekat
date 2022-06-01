@@ -1,6 +1,7 @@
 package isaproject.mapper;
 
 import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.model.DateTimeSpan;
 import isaproject.model.cottage.CottageReservation;
 
 public class CottageReservationMapper {
@@ -8,7 +9,7 @@ public class CottageReservationMapper {
 	public static CottageReservation CottageReservationDTOToCottageReservation(CottageReservationDTO cottageReservationDTO) {
 		CottageReservation cottageReservation = new CottageReservation();
 		cottageReservation.setId(cottageReservationDTO.getId());
-		cottageReservation.setDuration(cottageReservationDTO.getDuration());
+		cottageReservation.setDuration(new DateTimeSpan(cottageReservationDTO.getDuration()));
 		cottageReservation.setGuestCapacity(cottageReservationDTO.getGuestCapacity());
 		cottageReservation.setPrice(cottageReservationDTO.getPrice());
 		cottageReservation.setAdditionalService(cottageReservationDTO.getAdditionalService());
@@ -21,7 +22,7 @@ public class CottageReservationMapper {
 	public static CottageReservationDTO CottageReservationToCottageReservationDTO(CottageReservation cottageReservation) {
 		CottageReservationDTO cottageReservationDTO = new CottageReservationDTO();
 		cottageReservationDTO.setId(cottageReservation.getId());
-		cottageReservationDTO.setDuration(cottageReservation.getDuration());
+		cottageReservationDTO.setDuration(new DateTimeSpan(cottageReservation.getDuration()));
 		cottageReservationDTO.setGuestCapacity(cottageReservation.getGuestCapacity());
 		cottageReservationDTO.setPrice(cottageReservation.getPrice());
 		cottageReservationDTO.setAdditionalService(cottageReservation.getAdditionalService());

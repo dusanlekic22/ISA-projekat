@@ -38,6 +38,17 @@ public class CustomerController {
 	@Autowired
 	private UserService userService;
 
+	
+	@GetMapping()
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	public ResponseEntity<CustomerDTO> getLoggedInCustomer(Principal user,
+			HttpServletRequest request) {
+
+		CustomerDTO customer = this.customerService.getCustomerByUsername(user.getName());
+		
+		return new ResponseEntity<>(customer, HttpStatus.CREATED);
+	}
+	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable(value = "id") Long customerId,Principal user,

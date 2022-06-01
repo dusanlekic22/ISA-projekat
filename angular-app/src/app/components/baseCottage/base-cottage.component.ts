@@ -16,6 +16,7 @@ export class BaseCottageComponent implements OnInit {
   @Input() endDate!: Date;
   @Input() promoDesc!: string;
   @Input() grade!: number;
+  @Input() type!: number;
   constructor(public router: Router) {}
 
   ngOnInit(): void {}

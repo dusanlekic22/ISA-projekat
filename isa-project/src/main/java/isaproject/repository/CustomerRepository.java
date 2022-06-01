@@ -9,4 +9,6 @@ import isaproject.model.User;
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     public User findByVerificationCode(String code);
+    
+    public Customer findByUsername(String username);
 }

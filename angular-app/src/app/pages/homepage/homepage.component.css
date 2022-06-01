@@ -63,10 +63,10 @@ input {
 }
 
 .grad2 {
-  background: url("../../../assets/img/david-kovalenko-9-qFzV9a2Zc-unsplash.jpg")
+  background: url("../../../assets/img/taylor-daugherty-tJ69p8gBSBM-unsplash.jpg")
     no-repeat;
   background-size: cover;
-  background-position-x: center;
+  background-position-x: -200px;
   min-height: 1200px;
 }
 

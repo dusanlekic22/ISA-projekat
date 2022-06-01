@@ -1,22 +1,34 @@
 package isaproject.service.impl.boat;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.dto.cottage.CottageDTO;
+import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.ReservationCountMapper;
+import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.ReservationCount;
+import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
 import isaproject.repository.AddressRepository;
@@ -63,6 +75,26 @@ public class BoatServiceImpl implements BoatService {
 		}
 		return dtos;
 	}
+	
+	public Page<BoatDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if(sortTypes !=null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAll(paging));
+		}else {
+			return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAll(pageable));
+		}
+		}
 
 	@Transactional
 	@Override

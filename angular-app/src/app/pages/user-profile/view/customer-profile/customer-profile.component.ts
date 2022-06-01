@@ -1,3 +1,4 @@
+import { UserService } from './../../../../service/user.service';
 import { IUser } from 'src/app/pages/registration/registration/user';
 import { ICustomer } from 'src/app/model/customer';
 import { CustomerService } from './../../../customer.service';
@@ -12,11 +13,18 @@ export class CustomerProfileComponent implements OnInit {
   @Input() userId!: number;
   @Input() user!: IUser;
   customer!: ICustomer;
-  constructor(private _customerService: CustomerService) {}
+  constructor(
+    private _customerService: CustomerService,
+    private _userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this._customerService
       .getCustomerById(this.userId)
       .subscribe((data) => (this.customer = data));
   }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }
+  createDeleteUserRequest() {}
 }

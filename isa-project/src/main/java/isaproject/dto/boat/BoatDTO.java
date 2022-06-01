@@ -24,6 +24,7 @@ public class BoatDTO {
 	private Integer enginePower;
 	private Address address;
 	private String description;
+	private Double grade;
 	private Integer capacity;
 	private String boatRules;
 	private CancelConditionEnum cancelCondition;
@@ -108,6 +109,16 @@ public class BoatDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Integer getCapacity() {

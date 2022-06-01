@@ -27,6 +27,8 @@ public class DateTimeSpan {
 	public DateTimeSpan(DateTimeSpan dateTimeSpan){
 		this.startDate = dateTimeSpan.startDate;
 		this.endDate = dateTimeSpan.endDate;
+		hours = ChronoUnit.HOURS.between(startDate, endDate);
+		days = ChronoUnit.DAYS.between(startDate, endDate);
 		validate();
 	}
 

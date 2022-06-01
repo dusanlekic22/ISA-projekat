@@ -72,6 +72,22 @@ export class BoatReservationService {
       );
   }
 
+  getActiveBoatReservationByBoatByBoatOwnerId(
+    id: number
+  ): Observable<IBoatReservation[]> {
+    return this._http
+      .get<IBoatReservation[]>(environment.apiUrl +`/boatReservation/active/owner/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getPassedBoatReservationByBoatByBoatOwnerId(
+    id: number
+  ): Observable<IBoatReservation[]> {
+    return this._http
+      .get<IBoatReservation[]>(environment.apiUrl +`/boatReservation/passed/owner/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

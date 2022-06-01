@@ -1,8 +1,6 @@
 package isaproject.mapper;
 
-import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 
 public class SortTypeMapper {

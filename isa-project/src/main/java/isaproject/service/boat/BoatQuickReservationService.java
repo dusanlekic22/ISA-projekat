@@ -27,4 +27,6 @@ public interface BoatQuickReservationService {
 			throws UnsupportedEncodingException, MessagingException;
 
 	BoatReservationDTO appointQuickReservation(Long reservationId, Long userId);
+
+	Set<BoatQuickReservationDTO> findByBoatOwnerId(Long id);
 }

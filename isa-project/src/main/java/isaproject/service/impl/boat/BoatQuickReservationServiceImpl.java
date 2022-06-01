@@ -21,6 +21,7 @@ import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
 import isaproject.repository.CustomerRepository;
+import isaproject.repository.boat.BoatOwnerRepository;
 import isaproject.repository.boat.BoatQuickReservationRepository;
 import isaproject.repository.boat.BoatRepository;
 import isaproject.repository.boat.BoatReservationRepository;
@@ -35,24 +36,26 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	BoatRepository boatRepository;
 	CustomerRepository customerRepository;
 	CustomerService customerService;
-	
+	BoatOwnerRepository boatOwnerRepository;
+
 	@Autowired
 	public BoatQuickReservationServiceImpl(BoatQuickReservationRepository boatQuickReservationRepository,
 			BoatReservationRepository boatReservationRepository, BoatRepository boatRepository,
-			CustomerRepository customerRepository, CustomerService customerService) {
+			CustomerRepository customerRepository, CustomerService customerService,
+			BoatOwnerRepository boatOwnerRepository) {
 		super();
 		this.boatQuickReservationRepository = boatQuickReservationRepository;
 		this.boatReservationRepository = boatReservationRepository;
 		this.boatRepository = boatRepository;
 		this.customerRepository = customerRepository;
 		this.customerService = customerService;
+		this.boatOwnerRepository = boatOwnerRepository;
 	}
 
 	@Override
 	public BoatQuickReservationDTO findById(Long id) {
 		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(id).orElse(null);
-		return BoatQuickReservationMapper
-				.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservation);
+		return BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservation);
 	}
 
 	@Override
@@ -116,8 +119,15 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 			}
 		}
 
-		for (BoatReservation q : boatReservationRepository
-				.findByBoatId(boatQuickReservation.getBoat().getId())) {
+		for (DateTimeSpan dateTimeSpan : boatOwnerRepository
+				.findById(boatQuickReservation.getBoat().getBoatOwner().getId()).get()
+				.getUnavailableReservationDateSpan()) {
+			if (dateTimeSpan.overlapsWith(boatQuickReservation.getDuration())) {
+				return null;
+			}
+		}
+
+		for (BoatReservation q : boatReservationRepository.findByBoatId(boatQuickReservation.getBoat().getId())) {
 			if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
 				return null;
 			}
@@ -129,15 +139,13 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 				break;
 			}
 		}
-		BoatQuickReservation boatQuickReservationReturn = boatQuickReservationRepository
-				.save(boatQuickReservation);
+		BoatQuickReservation boatQuickReservationReturn = boatQuickReservationRepository.save(boatQuickReservation);
 		for (Customer customer : boatQuickReservation.getBoat().getSubscribers()) {
 			System.out.println(customer.getFirstName());
 			customerService.sendNewQuickReservationEmail(customer, siteUrl, boatQuickReservationReturn);
 		}
 
-		return BoatQuickReservationMapper
-				.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservationReturn);
+		return BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservationReturn);
 	}
 
 	@Override
@@ -163,8 +171,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(id).get();
 		freeReservedSpan(boatQuickReservation);
 		boatQuickReservationRepository.deleteById(id);
-		return BoatQuickReservationMapper
-				.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservation);
+		return BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservation);
 	}
 
 	private void freeReservedSpan(BoatQuickReservation boatQuickReservation) {
@@ -179,7 +186,8 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 				boat.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (endChanged) {
 					boat.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), newAvailableDateSpan.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(),
+							newAvailableDateSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), duration.getEndDate());
 					startChanged = true;
@@ -190,7 +198,8 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 				boat.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (startChanged) {
 					boat.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(), dateTimeSpan.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(),
+							dateTimeSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(duration.getStartDate(), dateTimeSpan.getEndDate());
 					endChanged = true;
@@ -205,8 +214,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	@Transactional
 	@Override
 	public BoatReservationDTO appointQuickReservation(Long reservationId, Long userId) {
-		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(reservationId)
-				.get();
+		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(reservationId).get();
 		if (!boatQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
@@ -240,6 +248,23 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	public Set<BoatQuickReservationDTO> findByIsReservedFalse() {
 		Set<BoatQuickReservation> boatQuickReservations = new HashSet<>(
 				boatQuickReservationRepository.findByIsReservedFalse());
+		Set<BoatQuickReservationDTO> dtos = new HashSet<>();
+		if (boatQuickReservations.size() != 0) {
+
+			BoatQuickReservationDTO dto;
+			for (BoatQuickReservation p : boatQuickReservations) {
+				dto = BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(p);
+				dtos.add(dto);
+			}
+		}
+
+		return dtos;
+	}
+
+	@Override
+	public Set<BoatQuickReservationDTO> findByBoatOwnerId(Long id) {
+		Set<BoatQuickReservation> boatQuickReservations = new HashSet<>(
+				boatQuickReservationRepository.findByBoat_BoatOwner_Id(id));
 		Set<BoatQuickReservationDTO> dtos = new HashSet<>();
 		if (boatQuickReservations.size() != 0) {
 

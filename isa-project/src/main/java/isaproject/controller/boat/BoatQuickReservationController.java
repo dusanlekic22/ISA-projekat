@@ -89,5 +89,10 @@ public class BoatQuickReservationController {
 		return new ResponseEntity<>(boatQuickReservationDTO,HttpStatus.OK);
 	}
 	
-
+	@GetMapping("/boatOwner/{id}")
+	public ResponseEntity<Set<BoatQuickReservationDTO>> getAllByBoatOwnerId(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(boatQuickReservationService.findByBoatOwnerId(id),
+				HttpStatus.OK);
+	}
+	
 }

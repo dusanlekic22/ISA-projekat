@@ -7,6 +7,7 @@ import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
+import isaproject.dto.boat.BoatOwnerDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.model.Admin;
 import isaproject.model.FishingTrainer;
@@ -135,6 +136,22 @@ public class UserMapper {
 		cottageOwnerDTO.setCottage(cottageOwner.getCottage());
 		cottageOwnerDTO.setUnavailableReservationDateSpan(cottageOwner.getUnavailableReservationDateSpan());
 		return cottageOwnerDTO;
+	}
+	
+	public static BoatOwnerDTO BoatOwnerToDTO(BoatOwner boatOwner) {
+		BoatOwnerDTO boatOwnerDTO = new BoatOwnerDTO();
+		boatOwnerDTO.setId(boatOwner.getId());
+		boatOwnerDTO.setUsername(boatOwner.getUsername());
+		boatOwnerDTO.setPassword(boatOwner.getPassword());
+		boatOwnerDTO.setFirstName(boatOwner.getFirstName());
+		boatOwnerDTO.setLastName(boatOwner.getLastName());
+		boatOwnerDTO.setEmail(boatOwner.getEmail());
+		boatOwnerDTO.setRoles(SetRoleToDTO(boatOwner.getRoles()));
+		boatOwnerDTO.setPhoneNumber(boatOwner.getPhoneNumber());
+		boatOwnerDTO.setAddress(boatOwner.getAddress());
+		boatOwnerDTO.setBoat(boatOwner.getBoat());
+		boatOwnerDTO.setUnavailableReservationDateSpan(boatOwner.getUnavailableReservationDateSpan());
+		return boatOwnerDTO;
 	}
 	
 }

@@ -13,4 +13,7 @@ public interface BoatQuickReservationRepository extends JpaRepository<BoatQuickR
 	List<BoatQuickReservation> findByIsReservedFalseAndBoatId(Long id);
 	
 	List<BoatQuickReservation> findByIsReservedFalse();
+
+	List<BoatQuickReservation> findByBoat_BoatOwner_Id(Long id);
+
 }

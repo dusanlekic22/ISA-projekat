@@ -35,4 +35,10 @@ public interface BoatReservationService {
 	BoatReservationDTO confirmReservation(Long id);
 
 	Set<CustomerDTO> findCustomersHasCurrentReservation();
+
+	Set<BoatReservationDTO> findByBoatBoatOwnerId(Long id);
+
+	Set<BoatReservationDTO> findAllActiveByBoatOwnerId(Long id);
+
+	Set<BoatReservationDTO> findAllPastByBoatOwnerId(Long id);
 }

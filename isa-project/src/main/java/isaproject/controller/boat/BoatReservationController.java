@@ -32,27 +32,27 @@ import isaproject.util.ProjectUtil;
 public class BoatReservationController {
 
 	@Autowired
-	BoatReservationService BoatReservationService;
+	BoatReservationService boatReservationService;
 
 	@GetMapping
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAll() {
-		return new ResponseEntity<>(BoatReservationService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/customerHasReservationNow")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
-		return new ResponseEntity<>(BoatReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassed() {
-		return new ResponseEntity<>(BoatReservationService.findAllPast(), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findAllPast(), HttpStatus.OK);
 	}
 
 
@@ -60,28 +60,28 @@ public class BoatReservationController {
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllActive() {
-		return new ResponseEntity<>(BoatReservationService.findAllActive(), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findAllActive(), HttpStatus.OK);
 	}
 
 	@GetMapping("/active/{boatId}")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllActiveByBoatId(@PathVariable("boatId") Long id) {
-		return new ResponseEntity<>(BoatReservationService.findAllActiveByBoatId(id), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findAllActiveByBoatId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed/{boatId}")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassedByBoatId(@PathVariable("boatId") Long id) {
-		return new ResponseEntity<>(BoatReservationService.findAllPastByBoatId(id), HttpStatus.OK);
+		return new ResponseEntity<>(boatReservationService.findAllPastByBoatId(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/owner")
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatReservationDTO> reserveOwner(@RequestBody BoatReservationDTO BoatReservationDTO,
 			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
-		BoatReservationDTO BoatReservationReturnDTO = BoatReservationService
+		BoatReservationDTO BoatReservationReturnDTO = boatReservationService
 				.reserveBoatOwner(BoatReservationDTO, ProjectUtil.getSiteURL(request));
 		if (BoatReservationReturnDTO == null)
 			return new ResponseEntity<>(BoatReservationReturnDTO, HttpStatus.BAD_REQUEST);
@@ -92,7 +92,7 @@ public class BoatReservationController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<BoatReservationDTO> reserveCustomer(
 			@RequestBody BoatReservationDTO BoatReservationDTO) {
-		BoatReservationDTO BoatReservationReturnDTO = BoatReservationService
+		BoatReservationDTO BoatReservationReturnDTO = boatReservationService
 				.reserveCustomer(BoatReservationDTO);
 		if (BoatReservationReturnDTO == null)
 			return new ResponseEntity<>(BoatReservationReturnDTO, HttpStatus.BAD_REQUEST);
@@ -101,7 +101,7 @@ public class BoatReservationController {
 
 	@GetMapping("/confirm/{id}")
 	public ResponseEntity<BoatReservationDTO> confirmReservation(@PathVariable("id") Long id) {
-		BoatReservationDTO BoatReservationDTO = BoatReservationService.confirmReservation(id);
+		BoatReservationDTO BoatReservationDTO = boatReservationService.confirmReservation(id);
 		if (BoatReservationDTO == null)
 			return new ResponseEntity<>(BoatReservationDTO, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(BoatReservationDTO, HttpStatus.CREATED);
@@ -110,8 +110,17 @@ public class BoatReservationController {
 	@DeleteMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<BoatReservationDTO> deleteById(@PathVariable("id") Long id) {
-		BoatReservationDTO BoatReservationDTO = BoatReservationService.deleteById(id);
+		BoatReservationDTO BoatReservationDTO = boatReservationService.deleteById(id);
 		return new ResponseEntity<>(BoatReservationDTO, HttpStatus.OK);
 	}
 
+	@GetMapping("/active/owner/{boatId}")
+	public ResponseEntity<Set<BoatReservationDTO>> getAllActiveByBoatOwnerIdId(@PathVariable("boatId") Long id) {
+		return new ResponseEntity<>(boatReservationService.findAllActiveByBoatOwnerId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/passed/owner/{boatId}")
+	public ResponseEntity<Set<BoatReservationDTO>> getAllPassedByBoatOwnerIdId(@PathVariable("boatId") Long id) {
+		return new ResponseEntity<>(boatReservationService.findAllPastByBoatOwnerId(id), HttpStatus.OK);
+	}
 }

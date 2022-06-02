@@ -1,6 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FullCalendarComponent, EventApi, CalendarOptions, EventInput, DateSelectArg, EventClickArg } from '@fullcalendar/angular';
+import {
+  FullCalendarComponent,
+  EventApi,
+  CalendarOptions,
+  EventInput,
+  DateSelectArg,
+  EventClickArg,
+} from '@fullcalendar/angular';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { ToastrService } from 'ngx-toastr';
 import { createEventId } from 'src/app/event-utils';
@@ -12,11 +19,12 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 import { BoatQuickReservationService } from 'src/app/pages/boat-owner/services/boat-quick-reservation.service';
 import { BoatReservationService } from 'src/app/pages/boat-owner/services/boat-reservation.service';
 import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
 
 @Component({
   selector: 'app-boat-calendar',
   templateUrl: './boat-calendar.component.html',
-  styleUrls: ['./boat-calendar.component.css']
+  styleUrls: ['./boat-calendar.component.css'],
 })
 export class BoatCalendarComponent implements OnInit {
   @ViewChild('modal') addModal!: ModalDirective;
@@ -43,6 +51,8 @@ export class BoatCalendarComponent implements OnInit {
       return event.display === 'background';
     },
   };
+
+  showReport: boolean = false;
 
   activeReservations!: IBoatReservation[];
   passedReservations!: IBoatReservation[];
@@ -80,7 +90,8 @@ export class BoatCalendarComponent implements OnInit {
     private boatReservationService: BoatReservationService,
     private boatQuickReservationService: BoatQuickReservationService,
     private boatService: BoatService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private reservationReportService: ReservationReportService
   ) {}
 
   ngOnInit(): void {
@@ -156,9 +167,7 @@ export class BoatCalendarComponent implements OnInit {
     };
   }
 
-  createQuickReservationsEvent(
-    reservation: IBoatQuickReservation
-  ): EventInput {
+  createQuickReservationsEvent(reservation: IBoatQuickReservation): EventInput {
     return {
       id: createEventId(),
       title: `Action - ${reservation.boat.name}`,
@@ -231,16 +240,17 @@ export class BoatCalendarComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (clickInfo.event.extendedProps.type === 'activeReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'passedReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'quickReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
+    this.reservation = clickInfo.event.extendedProps.reservation;
+    if (clickInfo.event.extendedProps.type === 'passedReservation') {
+      this.reservationReportService
+        .isReportedByBoatOwner(this.reservation.id)
+        .subscribe((reported) => {
+          this.showReport = !reported;
+        });
+    } else {
+      this.showReport = false;
     }
+    this.showInfoModal();
   }
 
   handleEvents(events: EventApi[]) {

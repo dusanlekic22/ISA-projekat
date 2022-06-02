@@ -108,6 +108,9 @@ import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { OwnerBoatProfileComponent } from './pages/user-profile/view/owner-boat-profile/owner-boat-profile.component';
+import { ReportRequestsComponent } from './pages/admin-pages/report-requests/report-requests.component';
+import { AnswerReportRequestComponent } from './pages/admin-pages/answer-report-request/answer-report-request.component';
+import { OwnerReservationReportComponent } from './components/owner-reservation-report/owner-reservation-report.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -187,6 +190,9 @@ FullCalendarModule.registerPlugins([
     CustomerFishingTrainerProfileComponent,
     DeleteDialogComponent,
     OwnerBoatProfileComponent,
+    ReportRequestsComponent,
+    AnswerReportRequestComponent,
+    OwnerReservationReportComponent,
   ],
   imports: [
     NgbModule,

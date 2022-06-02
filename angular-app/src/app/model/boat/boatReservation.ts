@@ -1,3 +1,5 @@
+import { emptyCustomer } from 'src/app/model/customer';
+import { initBoat } from 'src/app/model/boat/boat';
 import { IBoat } from './boat';
 import { ICustomer } from '../customer';
 import { IDateSpan } from '../dateSpan';
@@ -25,7 +27,20 @@ export interface IBoatAvailability {
   freeAdditionalServices: string[];
 }
 
-export const emptyBoatAvailability = {
+export const emptyBoatReservation: IBoatReservation = {
+  id: 0,
+  duration: {
+    startDate: new Date(),
+    endDate: new Date(),
+  },
+  guestCapacity: 0,
+  price: 0,
+  customer: emptyCustomer,
+  confirmed: false,
+  boat: initBoat,
+};
+
+export const emptyBoatAvailability: IBoatAvailability = {
   name: '',
   dateSpan: {
     startDate: new Date(),
@@ -39,3 +54,4 @@ export const emptyBoatAvailability = {
   sortBy: [],
   freeAdditionalServices: [],
 };
+

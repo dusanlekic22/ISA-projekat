@@ -19,6 +19,7 @@ import { IFishingTrainer } from 'src/app/model/fishingTrainer';
 import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
 import { FishingReservationService } from 'src/app/service/fishingReservation.service';
 import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
 
 @Component({
   selector: 'app-fishing-trainer-calendar',
@@ -82,11 +83,14 @@ export class FishingTrainerCalendarComponent implements OnInit {
     customer: emptyCustomer,
   };
 
+  showReport: boolean = false;
+
   constructor(
     private fishingReservationService: FishingReservationService,
     private fishingQuickReservationService: FishingQuickReservationService,
     private fishingTrainerService: FishingTrainerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private reservationReportService: ReservationReportService
   ) {}
 
   ngOnInit(): void {
@@ -242,16 +246,17 @@ export class FishingTrainerCalendarComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (clickInfo.event.extendedProps.type === 'activeReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'passedReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'quickReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
+    this.reservation = clickInfo.event.extendedProps.reservation;
+    if (clickInfo.event.extendedProps.type === 'passedReservation') {
+      this.reservationReportService
+        .isReportedByFishingTrainer(this.reservation.id)
+        .subscribe((reported) => {
+          this.showReport = !reported;
+        });
+    } else {
+      this.showReport = false;
     }
+    this.showInfoModal();
   }
 
   handleEvents(events: EventApi[]) {
@@ -276,19 +281,19 @@ export class FishingTrainerCalendarComponent implements OnInit {
         );
     } else {
       this.fishingTrainerService
-      .editUnavailableTerms(this.fishingTrainer.id, this.availableDateSpan)
-      .subscribe(
-        () => {
-          this.loadCalendar();
-          this.hideAddModal();
-        },
-        (err) => {
-          this.toastr.error(
-            'Theres already an active reservation in this date span.',
-            'Try a different date!'
-          );
-        }
-      );
+        .editUnavailableTerms(this.fishingTrainer.id, this.availableDateSpan)
+        .subscribe(
+          () => {
+            this.loadCalendar();
+            this.hideAddModal();
+          },
+          (err) => {
+            this.toastr.error(
+              'Theres already an active reservation in this date span.',
+              'Try a different date!'
+            );
+          }
+        );
     }
   }
 

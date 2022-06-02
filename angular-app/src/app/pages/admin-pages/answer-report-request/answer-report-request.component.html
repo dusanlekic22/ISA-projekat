@@ -1,9 +1,9 @@
 <div
   mdbModal
-  #reg="mdbModal"
+  #report="mdbModal"
   class="modal fade left"
   style="overflow-y: auto"
-  id="basicExample"
+  id="reportModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="myModalLabel"
@@ -12,54 +12,57 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Registration request</h4>
+        <h4 class="modal-title w-100 font-weight-bold">
+          Reservation report request
+        </h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
-          (click)="reg.hide()"
+          (click)="report.hide()"
         >
           <span aria-hidden="true">X</span>
         </button>
       </div>
       <div class="modal-body mx-3">
         <div class="md-form mb-2">
-          <label for="id">Id</label>
+          <label for="reId">Id</label>
           <input
             type="text"
-            id="id"
+            id="reId"
             class="form-control"
             [(ngModel)]="request.id"
             [disabled]="true"
             mdbInput
           />
-          <label for="userEmail">User Email</label>
-          <input
-            type="text"
-            id="userEmail"
-            class="form-control"
-            [(ngModel)]="request.userEmail"
-            [disabled]="true"
-            mdbInput
-          />
-          <label for="explanation">Registration explanation</label>
+          <label for="explanation">Owner comment</label>
           <textarea
             type="text"
             id="explanation"
             class="form-control"
-            [(ngModel)]="request.registrationExplanation"
+            [(ngModel)]="request.comment"
             [disabled]="true"
             mdbInput
           ></textarea>
         </div>
         <div class="md-form mb-2">
-          <label for="declineReason">Decline reason</label>
+          <label for="answer">Answer to owner</label>
           <textarea
             type="text"
-            id="declineReason"
+            id="answer"
             class="form-control"
-            [(ngModel)]="request.declineReason"
+            [(ngModel)]="request.answerOwner"
+            mdbInput
+          ></textarea>
+        </div>
+        <div class="md-form mb-2">
+          <label for="answer">Answer to customer</label>
+          <textarea
+            type="text"
+            id="answer"
+            class="form-control"
+            [(ngModel)]="request.answerCustomer"
             mdbInput
           ></textarea>
         </div>
@@ -67,7 +70,7 @@
 
       <div class="modal-footer d-flex justify-content-center">
         <button
-          (click)="accept()"
+          (click)="approve()"
           mdbBtn
           color="default"
           class="waves-light"

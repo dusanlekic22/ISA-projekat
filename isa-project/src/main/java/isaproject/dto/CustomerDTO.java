@@ -8,6 +8,7 @@ public class CustomerDTO extends UserDTO {
 
 	private String points;
 	private String loyalityProgram;
+	private Integer penalties;
 
 	public CustomerDTO() {
 	}
@@ -34,6 +35,14 @@ public class CustomerDTO extends UserDTO {
 
 	public void setLoyalityProgram(String loyalityProgram) {
 		this.loyalityProgram = loyalityProgram;
+	}
+
+	public Integer getPenalties() {
+		return penalties;
+	}
+
+	public void setPenalties(Integer penalties) {
+		this.penalties = penalties;
 	}
 
 }

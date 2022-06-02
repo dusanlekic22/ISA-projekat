@@ -19,6 +19,7 @@ import { emptyCustomer } from 'src/app/model/customer';
 import { IDateSpan } from 'src/app/model/dateSpan';
 import { CottageQuickReservationService } from 'src/app/pages/cottage-owner/services/cottage-quick-reservation.service';
 import { CottageReservationService } from 'src/app/pages/cottage-owner/services/cottage-reservation.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
 
 @Component({
   selector: 'app-cottage-owner-calendar',
@@ -81,11 +82,14 @@ export class CottageOwnerCalendarComponent implements OnInit {
     customer: emptyCustomer,
   };
 
+  showReport: boolean = false;
+
   constructor(
     private cottageReservationService: CottageReservationService,
     private cottageQuickReservationService: CottageQuickReservationService,
     private cottageOwnerService: CottageOwnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private reservationReportService: ReservationReportService
   ) {}
 
   ngOnInit(): void {
@@ -219,16 +223,17 @@ export class CottageOwnerCalendarComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (clickInfo.event.extendedProps.type === 'activeReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'passedReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'quickReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
+    this.reservation = clickInfo.event.extendedProps.reservation;
+    if (clickInfo.event.extendedProps.type === 'passedReservation') {
+      this.reservationReportService
+        .isReportedByCottageOwner(this.reservation.id)
+        .subscribe((reported) => {
+          this.showReport = !reported;
+        });
+    } else {
+      this.showReport = false;
     }
+    this.showInfoModal();
   }
 
   handleEvents(events: EventApi[]) {

@@ -39,6 +39,7 @@ public class Customer extends User {
 	@ManyToMany(mappedBy = "subscribers", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Boat> subscribedBoats = new HashSet<Boat>();
+	private Integer penalties;
 
 	public Customer() {
 	}
@@ -97,5 +98,13 @@ public class Customer extends User {
 
 	public void setSubscribedBoats(Set<Boat> subscribedBoats) {
 		this.subscribedBoats = subscribedBoats;
+	}
+
+	public Integer getPenalties() {
+		return penalties;
+	}
+
+	public void setPenalties(Integer penalties) {
+		this.penalties = penalties;
 	}
 }

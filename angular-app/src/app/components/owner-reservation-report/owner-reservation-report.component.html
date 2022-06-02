@@ -1,0 +1,39 @@
+<div class="md-form mb-2">
+  <label for="select">Report type</label>
+  <select
+    id="select"
+    class="form-control"
+    mdbInput
+    [(ngModel)]="report.reservationReportStatus"
+    *ngIf="reportTypeKeys"
+  >
+    <option
+      *ngFor="let reportTypeKey of reportTypeKeys"
+      [value]="reportTypeKey"
+    >
+      {{ reportTypes[reportTypeKey] }}
+    </option>
+  </select>
+</div>
+<div class="md-form mb-2">
+  <label for="comment">Report comment</label>
+  <textarea
+    type="text"
+    id="comment"
+    class="form-control"
+    [(ngModel)]="report.comment"
+    mdbInput
+  ></textarea>
+</div>
+<div class="d-flex justify-content-center">
+  <button
+    (click)="submit()"
+    mdbBtn
+    color="default"
+    class="waves-light"
+    mdbWavesEffect
+    data-dismiss="modal"
+  >
+    Report
+  </button>
+</div>

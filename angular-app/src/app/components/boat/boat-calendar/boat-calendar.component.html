@@ -1,8 +1,5 @@
 <div>
-  <full-calendar
-    #calendar
-    [options]="calendarOptions"
-  ></full-calendar>
+  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
 </div>
 <div
   mdbModal
@@ -100,12 +97,10 @@
   aria-labelledby="myModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" role="document" [ngClass]="{ 'mw-px': showReport }">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">
-          Reservation Info
-        </h4>
+        <h4 class="modal-title w-100 font-weight-bold">Reservation Info</h4>
         <button
           type="button"
           class="close"
@@ -116,74 +111,88 @@
           <span aria-hidden="true">X</span>
         </button>
       </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-3">
-          <label for="nameInfo">Boat name</label>
-          <input
-            type="text"
-            id="nameInfo"
-            [ngModel]="reservation.boat.name"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
+      <div class="row">
+        <div class="col">
+          <div class="modal-body mx-3">
+            <div class="md-form mb-3">
+              <label for="nameInfo">Boat name</label>
+              <input
+                type="text"
+                id="nameInfo"
+                [ngModel]="reservation.boat.name"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+            <div class="md-form mb-3">
+              <label for="strDateInfo">Start date</label>
+              <input
+                type="datetime"
+                id="strDateInfo"
+                [(ngModel)]="reservation.duration.startDate"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+            <div class="md-form mb-3">
+              <label for="endDateInfo">End date</label>
+              <input
+                type="datetime"
+                id="endDateInfo"
+                [(ngModel)]="reservation.duration.endDate"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+            <div class="md-form mb-3">
+              <label for="capacityInfo">Guest capacity</label>
+              <input
+                type="number"
+                id="capacityInfo"
+                [(ngModel)]="reservation.guestCapacity"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+            <div class="md-form mb-3">
+              <label for="priceInfo">Price</label>
+              <input
+                type="number"
+                id="priceInfo"
+                [(ngModel)]="reservation.price"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+            <div class="md-form mb-3" *ngIf="reservation.customer">
+              <label for="customerInfo">Customer</label>
+              <input
+                type="text"
+                id="customerInfo"
+                [ngModel]="getCustomer(reservation)"
+                [disabled]="true"
+                class="form-control"
+                mdbInput
+              />
+            </div>
+          </div>
         </div>
-        <div class="md-form mb-3">
-          <label for="strDateInfo">Start date</label>
-          <input
-            type="datetime"
-            id="strDateInfo"
-            [(ngModel)]="reservation.duration.startDate"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
+        <div class="col" *ngIf="showReport">
+          <div class="modal-body mx-3">
+            <div class="text-center">
+              <h4 class="modal-title w-100">Reservation report</h4>
+            </div>
+            <app-owner-reservation-report
+              [reservation]="reservation"
+            ></app-owner-reservation-report>
+          </div>
         </div>
-        <div class="md-form mb-3">
-          <label for="endDateInfo">End date</label>
-          <input
-            type="datetime"
-            id="endDateInfo"
-            [(ngModel)]="reservation.duration.endDate"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
-        </div>
-        <div class="md-form mb-3">
-          <label for="capacityInfo">Guest capacity</label>
-          <input
-            type="number"
-            id="capacityInfo"
-            [(ngModel)]="reservation.guestCapacity"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
-        </div>
-        <div class="md-form mb-3">
-          <label for="priceInfo">Price</label>
-          <input
-            type="number"
-            id="priceInfo"
-            [(ngModel)]="reservation.price"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
-        </div>
-        <div class="md-form mb-3" *ngIf="reservation.customer">
-          <label for="customerInfo">Customer</label>
-          <input
-            type="text"
-            id="customerInfo"
-            [ngModel]="getCustomer(reservation)"
-            [disabled]="true"
-            class="form-control"
-            mdbInput
-          />
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
+        <div class="modal-footer d-flex justify-content-center w-100">
           <button
             mdbBtn
             (click)="hideInfoModal()"

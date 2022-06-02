@@ -21,7 +21,7 @@
               <th scope="col">End Date</th>
               <th scope="col">Guest Capacity</th>
               <th scope="col">Price(in €)</th>
-              <th *ngIf="services" scope="col">
+              <th *ngIf="services.length!==0" scope="col">
                 Additional services
               </th>
               <th scope="col"></th>
@@ -47,7 +47,7 @@
               <td>
                 {{ quickReservation.price }}
               </td>
-              <td>
+              <td *ngIf="services.length!==0">
                 <span *ngFor="let service of services">
                   {{ service.name }}({{ service.price }}€) 
                 </span>

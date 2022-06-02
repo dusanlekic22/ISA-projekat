@@ -1,70 +1,79 @@
 <div class="row" style="margin-top: 20px">
-    <div class="col">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Available reservations</h3>
-            </div>
-            <div class="col-4 text-right">
-              <button class="btn btn-info" (click)="openQuickReservationForm()">
-                Add quick reservation
-              </button>
-            </div>
+  <div class="col">
+    <div class="card shadow">
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">Available reservations</h3>
+          </div>
+          <div class="col-4 text-right">
+            <button class="btn btn-info" (click)="openQuickReservationForm()">
+              Add quick reservation
+            </button>
           </div>
         </div>
-        <div class="table-responsive" style="overflow: visible">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Guest Capacity</th>
-                <th scope="col">Price(in €)</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let quickReservation of boat.boatQuickReservation"
-              >
-                <td>
-                  {{ quickReservation.duration.startDate | date:'dd/MM/YYYY HH:mm' }}
-                </td>
-                <td>
-                  {{ quickReservation.duration.endDate | date:'dd/MM/YYYY HH:mm' }}
-                </td>
-                <td>
-                  {{ quickReservation.guestCapacity }}
-                </td>
-                <td>
-                  {{ quickReservation.price }}
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
+      </div>
+      <div class="table-responsive" style="overflow: visible">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Guest Capacity</th>
+              <th scope="col">Price(in €)</th>
+              <th *ngIf="services.length !== 0" scope="col">
+                Additional services
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let quickReservation of boat.boatQuickReservation">
+              <td>
+                {{
+                  quickReservation.duration.startDate | date: "dd/MM/YYYY HH:mm"
+                }}
+              </td>
+              <td>
+                {{
+                  quickReservation.duration.endDate | date: "dd/MM/YYYY HH:mm"
+                }}
+              </td>
+              <td>
+                {{ quickReservation.guestCapacity }}
+              </td>
+              <td>
+                {{ quickReservation.price }}
+              </td>
+              <td *ngIf="services.length !== 0">
+                <span *ngFor="let service of services">
+                  {{ service.name }}({{ service.price }}€)
+                </span>
+              </td>
+              <td class="text-right">
+                <div ngbDropdown placement="bottom-right">
+                  <a
+                    class="btn btn-sm btn-icon-only text-light"
+                    ngbDropdownToggle
+                  >
+                    <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right dropdown-menu-arrow"
+                  >
                     <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
+                      class="dropdown-item"
+                      (click)="deleteQuickReservation(quickReservation.id)"
+                      >Delete</a
                     >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a
-                        class="dropdown-item"
-                        (click)="deleteQuickReservation(quickReservation.id)"
-                        >Delete</a
-                      >
-                    </div>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
+</div>

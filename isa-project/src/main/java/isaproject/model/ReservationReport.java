@@ -1,15 +1,19 @@
 package isaproject.model;
 
+import static javax.persistence.FetchType.EAGER;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import static javax.persistence.FetchType.EAGER;
+
+import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.CottageReservation;
 
 @Entity
-public class FishingReservationReport {
+public class ReservationReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +29,15 @@ public class FishingReservationReport {
 	@JoinColumn(name = "fishingReservation_id", referencedColumnName = "id")
 	private FishingReservation fishingReservation;
 
-	public FishingReservationReport() {
+	@OneToOne(fetch = EAGER)
+	@JoinColumn(name = "cottageReservation_id", referencedColumnName = "id")
+	private CottageReservation cottageReservation;
+
+	@OneToOne(fetch = EAGER)
+	@JoinColumn(name = "boatReservation_id", referencedColumnName = "id")
+	private BoatReservation boatReservation;
+
+	public ReservationReport() {
 	}
 
 	public Long getId() {
@@ -66,6 +78,22 @@ public class FishingReservationReport {
 
 	public void setFishingReservation(FishingReservation fishingReservation) {
 		this.fishingReservation = fishingReservation;
+	}
+
+	public CottageReservation getCottageReservation() {
+		return cottageReservation;
+	}
+
+	public void setCottageReservation(CottageReservation cottageReservation) {
+		this.cottageReservation = cottageReservation;
+	}
+
+	public BoatReservation getBoatReservation() {
+		return boatReservation;
+	}
+
+	public void setBoatReservation(BoatReservation boatReservation) {
+		this.boatReservation = boatReservation;
 	}
 
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ModalDirective } from "angular-bootstrap-md";
-import { IFishingReservationReport, ReservationReportStatus } from "src/app/model/fishingReservationReport";
-import { FishingReservationReportService } from "src/app/service/fishing-reservation-report.service";
+import { emptyBoatReservation } from "src/app/model/boat/boatReservation";
+import { IReservationReport, ReservationReportStatus } from "src/app/model/reservationReport";
+import { ReservationReportService } from "src/app/service/reservationReport.service";
+import { emptyCottageReservation } from "./../../../model/cottageReservation";
+import { emptyFishingReservation } from "./../../../model/fishingReservation";
 
 @Component({
   selector: 'app-answer-report-request',
@@ -10,11 +13,14 @@ import { FishingReservationReportService } from "src/app/service/fishing-reserva
 })
 export class AnswerReportRequestComponent implements OnInit {
   @ViewChild('frame') addModal!: ModalDirective;
-  request: IFishingReservationReport = {
+  request: IReservationReport = {
     id: 0,
     userPenalized: false,
     comment: '',
     reservationReportStatus: ReservationReportStatus.Positive,
+    fishingReservation: emptyFishingReservation,
+    cottageReservation: emptyCottageReservation,
+    boatReservation: emptyBoatReservation,
     answerCustomer: '',
     answerOwner: '',
   };
@@ -29,7 +35,7 @@ export class AnswerReportRequestComponent implements OnInit {
   //   .filter((f) => !isNaN(Number(f)))
   //   .map(Number);
 
-  constructor(private reservationReportService: FishingReservationReportService) {
+  constructor(private reservationReportService: ReservationReportService) {
     reservationReportService.submitedDialogReport$.subscribe((report) => {
       if (report != undefined) {
         this.request = report;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { IFishingReservationReport, ReservationReportStatus } from "src/app/model/fishingReservationReport";
-import { FishingReservationReportService } from "src/app/service/fishing-reservation-report.service";
+import { IReservationReport, ReservationReportStatus } from "src/app/model/reservationReport";
+import { ReservationReportService } from "src/app/service/reservationReport.service";
 
 @Component({
   selector: 'app-report-requests',
@@ -8,9 +8,9 @@ import { FishingReservationReportService } from "src/app/service/fishing-reserva
   styleUrls: ['./report-requests.component.css'],
 })
 export class ReportRequestsComponent implements OnInit {
-  requests: IFishingReservationReport[] = [];
+  requests: IReservationReport[] = [];
 
-  constructor(private reportReservationService: FishingReservationReportService) {
+  constructor(private reportReservationService: ReservationReportService) {
     this.reportReservationService.submitedDialogReport$.subscribe(() => {
       this.getRequests();
     });
@@ -22,19 +22,19 @@ export class ReportRequestsComponent implements OnInit {
 
   getRequests() {
     this.reportReservationService
-      .getAllFishingReservationReports()
-      .subscribe((request: IFishingReservationReport[]) => {
-        this.requests.push(...request);
+      .getAllReservationReports()
+      .subscribe((request: IReservationReport[]) => {
+        this.requests = request;
       });
   }
 
-  getStatus(request: IFishingReservationReport): string {
+  getStatus(request: IReservationReport): string {
     if (request.userPenalized == null) return 'Waitting';
     else if (request.userPenalized) return 'Accepted';
     return 'Declined';
   }
 
-  getReportStatus(request: IFishingReservationReport): string {
+  getReportStatus(request: IReservationReport): string {
     if (request.reservationReportStatus == ReservationReportStatus.Negative)
       return 'Negative';
     else if (
@@ -44,7 +44,7 @@ export class ReportRequestsComponent implements OnInit {
     return "Didn't show up";
   }
 
-  answer(report: IFishingReservationReport) {
+  answer(report: IReservationReport) {
     this.reportReservationService.openDialogReport(report);
   }
 }

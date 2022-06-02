@@ -2,22 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IFishingReservationReport } from '../model/fishingReservationReport';
+import { IReservationReport } from '../model/reservationReport';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FishingReservationReportService {
-  private fishingReservationReportRequestsUrl = `${environment.apiUrl}/fishingReservationReport`;
-  public openDialogReport$: EventEmitter<IFishingReservationReport>;
-  public submitedDialogReport$: EventEmitter<IFishingReservationReport>;
+export class ReservationReportService {
+  private reservationReportRequestsUrl = `${environment.apiUrl}/reservationReport`;
+  public openDialogReport$: EventEmitter<IReservationReport>;
+  public submitedDialogReport$: EventEmitter<IReservationReport>;
 
   constructor(private http: HttpClient) {
     this.openDialogReport$ = new EventEmitter();
     this.submitedDialogReport$ = new EventEmitter();
   }
 
-  openDialogReport(report: IFishingReservationReport) {
+  openDialogReport(report: IReservationReport) {
     this.openDialogReport$.emit(report);
   }
 
@@ -26,39 +26,36 @@ export class FishingReservationReportService {
   }
 
   createReservationReportRequest(
-    request: IFishingReservationReport
-  ): Observable<IFishingReservationReport> {
+    request: IReservationReport
+  ): Observable<IReservationReport> {
     return this.http
-      .post<IFishingReservationReport>(
-        `${this.fishingReservationReportRequestsUrl}`,
-        request
-      )
+      .post<IReservationReport>(`${this.reservationReportRequestsUrl}`, request)
       .pipe(catchError(this.handleError));
   }
 
-  getAllFishingReservationReports(): Observable<IFishingReservationReport[]> {
+  getAllReservationReports(): Observable<IReservationReport[]> {
     return this.http
-      .get<IFishingReservationReport[]>(`${this.fishingReservationReportRequestsUrl}`)
+      .get<IReservationReport[]>(`${this.reservationReportRequestsUrl}`)
       .pipe(catchError(this.handleError));
   }
 
   approveReservationReportRequest(
-    request: IFishingReservationReport
-  ): Observable<IFishingReservationReport> {
+    request: IReservationReport
+  ): Observable<IReservationReport> {
     return this.http
-      .post<IFishingReservationReport>(
-        `${this.fishingReservationReportRequestsUrl}/approve`,
+      .post<IReservationReport>(
+        `${this.reservationReportRequestsUrl}/approve`,
         request
       )
       .pipe(catchError(this.handleError));
   }
 
   declineReservationReportRequest(
-    request: IFishingReservationReport
-  ): Observable<IFishingReservationReport> {
+    request: IReservationReport
+  ): Observable<IReservationReport> {
     return this.http
-      .post<IFishingReservationReport>(
-        `${this.fishingReservationReportRequestsUrl}/decline`,
+      .post<IReservationReport>(
+        `${this.reservationReportRequestsUrl}/decline`,
         request
       )
       .pipe(catchError(this.handleError));

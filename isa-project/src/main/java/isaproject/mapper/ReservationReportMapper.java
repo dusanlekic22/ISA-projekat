@@ -1,30 +1,32 @@
 package isaproject.mapper;
 
-import isaproject.dto.FishingReservationReportDTO;
-import isaproject.model.FishingReservationReport;
+import isaproject.dto.ReservationReportDTO;
+import isaproject.model.ReservationReport;
 
 public class ReservationReportMapper {
 
-	public static FishingReservationReport DTOToFishingReservationReport(
-			FishingReservationReportDTO fishingReservationReportDTO) {
-		FishingReservationReport fishingReservationReport = new FishingReservationReport();
-		fishingReservationReport.setUserPenalized(fishingReservationReportDTO.getUserPenalized());
-		fishingReservationReport.setComment(fishingReservationReportDTO.getComment());
-		fishingReservationReport.setFishingReservation(fishingReservationReportDTO.getFishingReservation());
-		fishingReservationReport.setId(fishingReservationReportDTO.getId());
-		fishingReservationReport.setReservationReportStatus(fishingReservationReportDTO.getReservationReportStatus());
-		return fishingReservationReport;
+	public static ReservationReport DTOToReservationReport(ReservationReportDTO reservationReportDTO) {
+		ReservationReport reservationReport = new ReservationReport();
+		reservationReport.setUserPenalized(reservationReportDTO.getUserPenalized());
+		reservationReport.setComment(reservationReportDTO.getComment());
+		reservationReport.setFishingReservation(reservationReportDTO.getFishingReservation());
+		reservationReport.setCottageReservation(reservationReportDTO.getCottageReservation());
+		reservationReport.setBoatReservation(reservationReportDTO.getBoatReservation());
+		reservationReport.setId(reservationReportDTO.getId());
+		reservationReport.setReservationReportStatus(reservationReportDTO.getReservationReportStatus());
+		return reservationReport;
 	}
 
-	public static FishingReservationReportDTO FishingReservationReportToDTO(
-			FishingReservationReport fishingReservationReport) {
-		FishingReservationReportDTO fishingReservationReportDTO = new FishingReservationReportDTO();
-		fishingReservationReportDTO.setUserPenalized(fishingReservationReport.getUserPenalized());
-		fishingReservationReportDTO.setComment(fishingReservationReport.getComment());
-		fishingReservationReportDTO.setFishingReservation(fishingReservationReport.getFishingReservation());
-		fishingReservationReportDTO.setId(fishingReservationReport.getId());
-		fishingReservationReportDTO.setReservationReportStatus(fishingReservationReport.getReservationReportStatus());
-		return fishingReservationReportDTO;
+	public static ReservationReportDTO ReservationReportToDTO(ReservationReport reservationReport) {
+		ReservationReportDTO reservationReportDTO = new ReservationReportDTO();
+		reservationReportDTO.setUserPenalized(reservationReport.getUserPenalized());
+		reservationReportDTO.setComment(reservationReport.getComment());
+		reservationReportDTO.setFishingReservation(reservationReport.getFishingReservation());
+		reservationReportDTO.setCottageReservation(reservationReport.getCottageReservation());
+		reservationReportDTO.setBoatReservation(reservationReport.getBoatReservation());
+		reservationReportDTO.setId(reservationReport.getId());
+		reservationReportDTO.setReservationReportStatus(reservationReport.getReservationReportStatus());
+		return reservationReportDTO;
 	}
 
 }

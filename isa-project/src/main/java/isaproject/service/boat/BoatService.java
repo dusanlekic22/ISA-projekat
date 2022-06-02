@@ -6,11 +6,12 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import isaproject.dto.BoatAvailabilityDTO;
+import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 
 public interface BoatService {
@@ -24,6 +25,8 @@ public interface BoatService {
 	
 	Page<BoatDTO> findAllPagination(List<SortTypeDTO> sortTypeDTO,Pageable paging );
 
+	Page<BoatDTO> findByAvailability(BoatAvailabilityDTO boatAvailability, Pageable pageable);
+	
 	BoatDTO save(BoatDTO Boat);
 
 	BoatDTO update(BoatDTO Boat);

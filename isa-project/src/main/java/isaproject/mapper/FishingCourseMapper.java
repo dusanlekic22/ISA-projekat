@@ -1,5 +1,9 @@
 package isaproject.mapper;
 
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
 import isaproject.dto.FishingCourseDTO;
 import isaproject.model.FishingCourse;
 
@@ -11,6 +15,7 @@ public class FishingCourseMapper {
 		fishingCourse.setName(fishingCourseDTO.getName());
 		fishingCourse.setAddress(fishingCourseDTO.getAddress());
 		fishingCourse.setPromoDescription(fishingCourseDTO.getPromoDescription());
+		fishingCourse.setGrade(fishingCourseDTO.getGrade());
 		fishingCourse.setFishingImage(fishingCourseDTO.getFishingImage());
 		fishingCourse.setCapacity(fishingCourseDTO.getCapacity());
 		fishingCourse.setFishingQuickReservation(fishingCourseDTO.getFishingQuickReservation());
@@ -30,6 +35,7 @@ public class FishingCourseMapper {
 		fishingCourseDTO.setName(fishingCourse.getName());
 		fishingCourseDTO.setAddress(fishingCourse.getAddress());
 		fishingCourseDTO.setPromoDescription(fishingCourse.getPromoDescription());
+		fishingCourseDTO.setGrade(fishingCourse.getGrade());
 		fishingCourseDTO.setFishingImage(fishingCourse.getFishingImage());
 		fishingCourseDTO.setCapacity(fishingCourse.getCapacity());
 		fishingCourseDTO.setFishingQuickReservation(fishingCourse.getFishingQuickReservation());
@@ -41,5 +47,22 @@ public class FishingCourseMapper {
 		fishingCourseDTO.setCancellationPercentageKeep(fishingCourse.getCancellationPercentageKeep());
 		fishingCourseDTO.setFishingTrainer(fishingCourse.getFishingTrainer());
 		return fishingCourseDTO;
+	}
+	
+	public static FishingCourseDTO FishingCourseToFishingCourseDTOWithPrice(FishingCourse fishingCourse, int hours) {
+		fishingCourse.setPrice(fishingCourse.getPrice()*hours);
+		FishingCourseDTO fishingCourseDTO = FishingCourseToDTO(fishingCourse);
+		return fishingCourseDTO;
+	}
+	
+	public static Page<FishingCourseDTO> pageFishingCourseToPageFishingCourseDTO(Page<FishingCourse> fishingCoursePages) {
+		Page<FishingCourseDTO> fishingCourseDTOPages = fishingCoursePages.map(new Function<FishingCourse, FishingCourseDTO>() {
+			@Override
+			public FishingCourseDTO apply(FishingCourse entity) {
+				FishingCourseDTO dto = FishingCourseMapper.FishingCourseToDTO(entity);
+				return dto;
+			}
+		});
+		return fishingCourseDTOPages;
 	}
 }

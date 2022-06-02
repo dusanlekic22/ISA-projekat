@@ -1,4 +1,8 @@
 import {
+  emptyBoatAvailability,
+  IBoatAvailability,
+} from './../../model/boat/boatReservation';
+import {
   ISortType,
   sortTypes,
   emptySortType,
@@ -20,6 +24,18 @@ import { ICottage, ICottagePage } from 'src/app/model/cottage';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IBoat } from 'src/app/model/boat/boat';
 import { BoatService } from '../boat-owner/services/boat.service';
+import {
+  emptyFishingCourseAvailability,
+  IFishingCourse,
+  IFishingCourseAvailability,
+} from 'src/app/model/fishingCourse';
+import { FishingCourseService } from 'src/app/service/fishingCourse.service';
+import {
+  emptyFishingTrainerAvailability,
+  IFishingTrainer,
+  IFishingTrainerAvailability,
+} from 'src/app/model/fishingTrainer';
+import { FishingTrainerService } from 'src/app/service/fishingTrainer.service';
 
 @Component({
   selector: 'app-homepage',
@@ -84,17 +100,76 @@ export class HomepageComponent implements OnInit {
   boatPage: number = 0;
   boatTotalElements: number = 30;
   paginatorBoat!: MatPaginator;
-  // reservationBoat: IBoatAvailability = emptyBoatAvailability;
+  reservationBoat: IBoatAvailability = emptyBoatAvailability;
+
+  searchFishingCourseName!: string;
+  searchFishingCourseCapacity!: string;
+  fishingCourses!: IFishingCourse[];
+  startFishingCourseDate!: Date;
+  endFishingCourseDate!: Date;
+  optionsFishingCourses: string[] = ['dare', 'leka'];
+  fchips!: MatChip;
+  fsortChips!: MatChip;
+  fishingCourseChips: string[] = [];
+  fishingCourseSortChips: ISortType[] = [];
+  fishingCourseTimespan!: IDateSpan;
+  fminDateString: string = 'adasd';
+  startDateFishingCourseString: string = '';
+  endDateFishingCourseString: any = '';
+  openFishingCourses: string = 'yes';
+  fishingCourseSearch: boolean = false;
+  fishingCourseBedCount: number = 0;
+  fishingCoursePersonCount!: number;
+  fishingCourseGrade!: number;
+  fbeds: number[] = Array.from(Array(5).keys()).map((i) => (i += 1));
+  sortListFishingCourse: ISortType[] = sortTypes;
+  fishingCourseSortBy!: ISortType;
+  priceSortFishingCourseType: ISortType = priceSortType;
+  gradeSortFishingCourseType: ISortType = gradeSortType;
+  fishingCoursePage: number = 0;
+  fishingCourseTotalElements: number = 30;
+  paginatorFishingCourse!: MatPaginator;
+  reservationFishingCourse: IFishingCourseAvailability =
+    emptyFishingCourseAvailability;
+
+  searchFishingTrainerName!: string;
+  fishingTrainers!: IFishingTrainer[];
+  startFishingTrainerDate!: Date;
+  endFishingTrainerDate!: Date;
+  // optionsFishingTrainer: string[] = ['dare', 'leka'];
+  tchips!: MatChip;
+  tsortChips!: MatChip;
+  fishingTrainerChips: string[] = [];
+  fishingTrainerSortChips: ISortType[] = [];
+  fishingTrainerTimespan!: IDateSpan;
+  tminDateString: string = 'adasd';
+  startDateFishingTrainerString: string = '';
+  endDateFishingTrainerString: any = '';
+  openFishingTrainers: string = 'yes';
+  fishingTrainerSearch: boolean = false;
+  fishingTrainerGrade!: number;
+  sortListFishingTraner: ISortType[] = sortTypes;
+  fishingTrainerSortBy!: ISortType;
+  gradeSortFishingTrainerType: ISortType = gradeSortType;
+  fishingTrainerPage: number = 0;
+  fishingTrainerTotalElements: number = 30;
+  paginatorFishingTrainer!: MatPaginator;
+  reservationFishingTrainer: IFishingTrainerAvailability =
+    emptyFishingTrainerAvailability;
 
   constructor(
     private _cottageService: CottageService,
     private _boatService: BoatService,
+    private _fishingCourseService: FishingCourseService,
+    private _fishingTrainerService: FishingTrainerService,
     private _reservationService: ReservationService
   ) {}
 
   ngOnInit(): void {
     this.getCottages();
     this.getBoats();
+    this.getFishingCourses();
+    this.getFishingTrainers();
     this.minDateString = this.date(new Date());
     this.startDateCottageString = this.date(new Date());
     this.bminDateString = this.date(new Date());
@@ -217,35 +292,32 @@ export class HomepageComponent implements OnInit {
   }
 
   availableBoats(page: number) {
-    // this.reservationBoat.sortBy = [];
-    // this.boatSortChips.forEach((e) =>
-    //   this.reservationBoat.sortBy.push(e)
-    // );
-    this.reservationCottage.sortBy.push(this.cottageSortBy);
-    if (this.startCottageDate === this.endCottageDate) {
-      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
-      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+    this.reservationBoat.sortBy = [];
+    this.boatSortChips.forEach((e) => this.reservationBoat.sortBy.push(e));
+    this.reservationBoat.sortBy.push(this.boatSortBy);
+    if (this.startBoatDate === this.endBoatDate) {
+      this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+      this.reservationBoat.dateSpan.endDate = this.endBoatDate;
     } else {
-      this.reservationCottage.dateSpan.startDate = this.startCottageDate;
-      this.reservationCottage.dateSpan.endDate = this.endCottageDate;
+      this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+      this.reservationBoat.dateSpan.endDate = this.endBoatDate;
     }
-
-    this.reservationCottage.name = this.searchCottageName;
-    this.reservationCottage.bedCapacity = this.cottageBedCount;
-    this.reservationCottage.grade = this.cottageGrade;
+    this.reservationBoat.name = this.searchBoatName;
+    this.reservationBoat.bedCapacity = this.boatBedCount;
+    this.reservationBoat.grade = this.cottageGrade;
     this._reservationService
-      .getAvailableCottagesByTimeSpan(this.reservationCottage, page)
+      .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
       .subscribe((data: any) => {
-        this.cottages = data.content;
-        this.cottagePage = page;
-        this.cottageTotalElements = data.totalElements;
+        this.boats = data.content;
+        this.boatPage = page;
+        this.boatTotalElements = data.totalElements;
         if (
-          this.startCottageDate !== undefined ||
-          this.endCottageDate !== undefined ||
-          this.startCottageDate !== '' ||
-          this.endCottageDate !== ''
+          this.startBoatDate !== undefined ||
+          this.endBoatDate !== undefined ||
+          this.startBoatDate !== '' ||
+          this.endBoatDate !== ''
         ) {
-          this.openCottages = 'no';
+          this.openBoats = 'no';
         }
       });
   }
@@ -268,6 +340,182 @@ export class HomepageComponent implements OnInit {
     this.endDateBoatString = this.startBoatDate;
   }
   //boat tab end
+
+  //fishing course tab start
+  getFishingCourses() {
+    this._fishingCourseService
+      .getFishingCoursesPagination(
+        this.fishingCoursePage,
+        this.fishingCourseSortChips
+      )
+      .subscribe((data) => {
+        this.fishingCourses = data.content;
+        this.fishingCourseTotalElements = data.totalElements;
+      });
+  }
+
+  toggleSelectionFishingCourse(chip: MatChip, option: string) {
+    let x: string[] = [];
+    if (chip.toggleSelected()) {
+      this.fishingCourseChips.push(option);
+    } else {
+      this.fishingCourseChips = this.fishingCourseChips.filter(
+        (e) => e !== option
+      );
+    }
+  }
+  toggleSelectionFishingCourseSort(chip: MatChip, option: ISortType) {
+    if (chip.toggleSelected()) {
+      this.fishingCourseSortChips.push(option);
+    } else {
+      this.fishingCourseSortChips = this.fishingCourseSortChips.filter(
+        (e) => e !== option
+      );
+    }
+    if (this.fishingCourseSearch === true) {
+      this.availableFishingCourses(this.fishingCoursePage);
+    } else {
+      this.getFishingCourses();
+    }
+  }
+
+  availableFishingCourses(page: number) {
+    //   this.reservationBoat.sortBy = [];
+    //   this.boatSortChips.forEach((e) => this.reservationBoat.sortBy.push(e));
+    //   this.reservationBoat.sortBy.push(this.boatSortBy);
+    //   if (this.startBoatDate === this.endBoatDate) {
+    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
+    //   } else {
+    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
+    //   }
+    //   this.reservationBoat.name = this.searchBoatName;
+    //   this.reservationBoat.bedCapacity = this.boatBedCount;
+    //   this.reservationBoat.grade = this.cottageGrade;
+    //   this._reservationService
+    //     .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
+    //     .subscribe((data: any) => {
+    //       this.boats = data.content;
+    //       this.boatPage = page;
+    //       this.boatTotalElements = data.totalElements;
+    //       if (
+    //         this.startBoatDate !== undefined ||
+    //         this.endBoatDate !== undefined ||
+    //         this.startBoatDate !== '' ||
+    //         this.endBoatDate !== ''
+    //       ) {
+    //         this.openBoats = 'no';
+    //       }
+    //     });
+  }
+
+  searchFishingCourse() {
+    this.fishingCourseSearch = true;
+    this.availableFishingCourses(0);
+  }
+
+  onChangeFishingCoursePage(pe: PageEvent) {
+    this.fishingCoursePage = pe.pageIndex;
+    if (this.fishingCourseSearch === true) {
+      this.availableFishingCourses(this.fishingCoursePage);
+    } else {
+      this.getFishingCourses();
+    }
+  }
+
+  activateFishingCourseEnd() {
+    this.endDateFishingCourseString = this.startFishingCourseDate;
+  }
+  //fishing course tab end
+
+  //fishing trainer tab start
+  getFishingTrainers() {
+    this._fishingTrainerService
+      .getFishingTrainersPagination(
+        this.fishingTrainerPage,
+        this.fishingTrainerSortChips
+      )
+      .subscribe((data) => {
+        this.fishingTrainers = data.content;
+        this.fishingTrainerTotalElements = data.totalElements;
+      });
+  }
+
+  toggleSelectionFishingTrainer(chip: MatChip, option: string) {
+    let x: string[] = [];
+    if (chip.toggleSelected()) {
+      this.fishingTrainerChips.push(option);
+    } else {
+      this.fishingTrainerChips = this.fishingTrainerChips.filter(
+        (e) => e !== option
+      );
+    }
+  }
+  toggleSelectionFishingTrainerSort(chip: MatChip, option: ISortType) {
+    if (chip.toggleSelected()) {
+      this.fishingTrainerSortChips.push(option);
+    } else {
+      this.fishingTrainerSortChips = this.fishingTrainerSortChips.filter(
+        (e) => e !== option
+      );
+    }
+    if (this.fishingTrainerSearch === true) {
+      this.availableFishingTrainers(this.fishingTrainerPage);
+    } else {
+      this.getFishingTrainers();
+    }
+  }
+
+  availableFishingTrainers(page: number) {
+    //   this.reservationBoat.sortBy = [];
+    //   this.boatSortChips.forEach((e) => this.reservationBoat.sortBy.push(e));
+    //   this.reservationBoat.sortBy.push(this.boatSortBy);
+    //   if (this.startBoatDate === this.endBoatDate) {
+    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
+    //   } else {
+    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
+    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
+    //   }
+    //   this.reservationBoat.name = this.searchBoatName;
+    //   this.reservationBoat.bedCapacity = this.boatBedCount;
+    //   this.reservationBoat.grade = this.cottageGrade;
+    //   this._reservationService
+    //     .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
+    //     .subscribe((data: any) => {
+    //       this.boats = data.content;
+    //       this.boatPage = page;
+    //       this.boatTotalElements = data.totalElements;
+    //       if (
+    //         this.startBoatDate !== undefined ||
+    //         this.endBoatDate !== undefined ||
+    //         this.startBoatDate !== '' ||
+    //         this.endBoatDate !== ''
+    //       ) {
+    //         this.openBoats = 'no';
+    //       }
+    //     });
+  }
+
+  searchFishingTrainer() {
+    this.fishingCourseSearch = true;
+    this.availableFishingCourses(0);
+  }
+
+  onChangeFishingTrainerPage(pe: PageEvent) {
+    this.fishingTrainerPage = pe.pageIndex;
+    if (this.fishingTrainerSearch === true) {
+      this.availableFishingTrainers(this.fishingTrainerPage);
+    } else {
+      this.getFishingTrainers();
+    }
+  }
+
+  activateFishingTrainerEnd() {
+    this.endDateFishingTrainerString = this.startFishingTrainerDate;
+  }
+  //fishing trainer tab end
 
   date(min: Date): string {
     let month = '';

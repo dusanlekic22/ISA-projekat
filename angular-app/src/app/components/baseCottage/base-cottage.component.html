@@ -8,8 +8,27 @@
         alt="Product"
       />
       <div
+        *ngIf="type === undefined"
         class="cardOverlay"
         (click)="this.router.navigate(['/cottage/', this.id])"
+      >
+        Pogledaj <br />
+        {{ name }} <br />
+        ponudu
+      </div>
+      <div
+        *ngIf="type === 2"
+        class="cardOverlay"
+        (click)="this.router.navigate(['/boat/', this.id])"
+      >
+        Pogledaj <br />
+        {{ name }} <br />
+        ponudu
+      </div>
+      <div
+        *ngIf="type === 3"
+        class="cardOverlay"
+        (click)="this.router.navigate(['/fishingTrainer/', this.id])"
       >
         Pogledaj <br />
         {{ name }} <br />
@@ -85,6 +104,20 @@
         *appHasRole="['ROLE_CUSTOMER']"
         class="btn btn-success reservationbtn"
         [routerLink]="['/boat/' + this.id + '/' + startDate + '/' + endDate]"
+      >
+        Book
+      </button>
+    </div>
+    <div
+      class="reserv-btn"
+      *ngIf="openForReservation !== 'yes' && type && type === 3"
+    >
+      <button
+        *appHasRole="['ROLE_CUSTOMER']"
+        class="btn btn-success reservationbtn"
+        [routerLink]="[
+          '/fishingCourse' + this.id + '/' + startDate + '/' + endDate
+        ]"
       >
         Book
       </button>

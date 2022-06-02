@@ -1,17 +1,29 @@
 package isaproject.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.exception.ReservedServiceException;
 import isaproject.mapper.FishingCourseMapper;
+import isaproject.mapper.SortTypeMapper;
+import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.FishingCourse;
+import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.FishingCourseRepository;
 import isaproject.service.FishingCourseService;
@@ -108,6 +120,32 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 			courseDTOs.add(FishingCourseMapper.FishingCourseToDTO(fishingCourse));
 		}
 		return courseDTOs;
+	}
+	
+	@Override
+	public Page<FishingCourseDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO,Pageable pageable ){
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if(sortTypes !=null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		
+		return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAll(paging));
+		}else {
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAll(pageable));
+		}
+	}
+
+	@Override
+	public Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable){
+		return null;
 	}
 
 }

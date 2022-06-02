@@ -101,12 +101,14 @@ import { CottageCalendarComponent } from './components/cottage/cottage-calendar/
 import { BoatCalendarComponent } from './components/boat/boat-calendar/boat-calendar.component';
 import { CottageOwnerCalendarComponent } from './components/cottage/cottage-owner-calendar/cottage-owner-calendar.component';
 import { BoatOwnerCalendarComponent } from './components/boat/boat-owner-calendar/boat-owner-calendar.component';
+import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
+import { CustomerFishingTrainerProfileComponent } from './pages/fishing-trainer-profile/customer-fishing-trainer-profile/customer-fishing-trainer-profile.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
-  interactionPlugin
-])
+  interactionPlugin,
+]);
 
 @NgModule({
   declarations: [
@@ -175,6 +177,8 @@ FullCalendarModule.registerPlugins([
     BoatCalendarComponent,
     CottageOwnerCalendarComponent,
     BoatOwnerCalendarComponent,
+    CustomerBoatProfileComponent,
+    CustomerFishingTrainerProfileComponent,
   ],
   imports: [
     NgbModule,

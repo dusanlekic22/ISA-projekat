@@ -24,3 +24,18 @@ export interface IBoatAvailability {
   sortBy: ISortType[];
   freeAdditionalServices: string[];
 }
+
+export const emptyBoatAvailability = {
+  name: '',
+  dateSpan: {
+    startDate: new Date(),
+    endDate: new Date(),
+  },
+  bedCapacity: 0,
+  price: 0,
+  grade: -1,
+  longitude: 0,
+  latitude: 0,
+  sortBy: [],
+  freeAdditionalServices: [],
+};

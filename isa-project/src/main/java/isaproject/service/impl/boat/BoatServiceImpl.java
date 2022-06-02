@@ -1,5 +1,7 @@
 package isaproject.service.impl.boat;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,20 +10,20 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import isaproject.dto.BoatAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.dto.cottage.CottageDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
@@ -368,6 +370,101 @@ public class BoatServiceImpl implements BoatService {
         }
         reservationCount.setWeeklySum(count); 
         return ReservationCountMapper.ReservationCountToReservationCountDTO(reservationCount);
+	}
+	
+	@Override
+	public Page<BoatDTO> findByAvailability(BoatAvailabilityDTO boatAvailability, Pageable pageable) {
+
+		int hours = 0;
+
+		String name = "%";
+		Double grade = -1.0;
+		int bed = 0;
+		if (boatAvailability.getName() != null) {
+			name = name + boatAvailability.getName().toLowerCase().concat("%");
+		}
+		if (boatAvailability.getGrade() != null) {
+			grade = boatAvailability.getGrade();
+		}
+		if (boatAvailability.getBedCapacity() != 0) {
+			bed = boatAvailability.getBedCapacity();
+		}
+		Boolean isLocationSortDisabled = true;
+		
+		List<Sort.Order> sorts = new ArrayList<>();
+		if (boatAvailability.getSortBy() != null && boatAvailability.getSortBy().size() != 0) {
+
+			BoatDTO dto;
+			for (SortType sortType : boatAvailability.getSortBy()) {
+				if(sortType != null && sortType.getField().equals("latitude") ) {
+					isLocationSortDisabled = false;
+					sortType.setField("a."+sortType.getField());
+					if(sortType.getDirection().toLowerCase().contains("desc")){
+					sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));}
+					else {
+						sorts.add(new Sort.Order(Sort.Direction.ASC, "a.longitude"));
+					}
+				}
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+		}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		List<Boat> availableBoats;
+		List<BoatDTO> availableBoatsWithPrice;
+
+		if (boatAvailability.getDateSpan() == null || boatAvailability.getDateSpan().getStartDate() == null
+				|| boatAvailability.getDateSpan().getEndDate() == null) {
+			return searchBoat(name, grade, bed, isLocationSortDisabled, paging);
+		} else {
+			return checkAvailabilty(boatAvailability, name, grade, bed, isLocationSortDisabled, paging);
+		}
+
+	}
+
+	private Page<BoatDTO> checkAvailabilty(BoatAvailabilityDTO boatAvailability, String name, Double grade,
+			int bed, Boolean isLocationSortDisabled, Pageable paging) {
+		int hours;
+		List<Boat> availableBoats;
+		List<BoatDTO> availableBoatsWithPrice;
+		LocalDateTime start = boatAvailability.getDateSpan().getStartDate();
+		LocalDateTime end = boatAvailability.getDateSpan().getEndDate();
+		hours = (int) ChronoUnit.HOURS.between(start, end);
+		Page<Boat> pageBoat;
+		if(isLocationSortDisabled) {
+		pageBoat = boatRepository.getAvailability(start, end, name, grade, bed, paging);
+		}else {
+			pageBoat = boatRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
+		}
+		availableBoats = pageBoat.getContent();
+		availableBoatsWithPrice = new ArrayList<BoatDTO>();
+		if (availableBoats.size() != 0) {
+			BoatDTO dto;
+			for (Boat p : availableBoats) {
+				dto = BoatMapper.BoatToBoatDTOWithPrice(p, hours);
+				availableBoatsWithPrice.add(dto);
+			}
+		}
+
+		Page<BoatDTO> pc = new PageImpl(availableBoatsWithPrice, paging, pageBoat.getTotalElements());
+		return pc;
+	}
+
+	private Page<BoatDTO> searchBoat(String name, Double grade, int bed, Boolean isLocationSortDisabled,
+			Pageable paging) {
+		List<Boat> availableBoats;
+		Page<Boat> pageBoat;
+		if(isLocationSortDisabled) {
+		pageBoat = boatRepository.searchBoat(name, grade, bed, paging);
+		}else {
+		pageBoat = boatRepository.searchBoatWithSortLocation(name, grade, bed, paging);
+		}
+		availableBoats = pageBoat.getContent();
+		return new PageImpl(availableBoats, paging, pageBoat.getTotalElements());
 	}
 
 }

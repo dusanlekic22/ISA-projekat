@@ -3,11 +3,11 @@ import '../../../../assets/jquery/jquery.min';
 import '../../../../assets/owlcarousel/owl.carousel.js';
 
 @Component({
-  selector: 'app-customer-cottage-profile',
-  templateUrl: './customer-cottage-profile.component.html',
-  styleUrls: ['./customer-cottage-profile.component.css'],
+  selector: 'app-customer-boat-profile',
+  templateUrl: './customer-boat-profile.component.html',
+  styleUrls: ['./customer-boat-profile.component.css'],
 })
-export class CustomerCottageProfileComponent implements OnInit {
+export class CustomerBoatProfileComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {

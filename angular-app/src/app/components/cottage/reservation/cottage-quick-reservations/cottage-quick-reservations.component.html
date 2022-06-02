@@ -29,10 +29,10 @@
               *ngFor="let quickReservation of cottage.cottageQuickReservation"
             >
               <td>
-                {{ quickReservation.duration.startDate | dateCustom }}
+                {{ quickReservation.duration.startDate | date:'dd/MM/YYYY HH:mm' }}
               </td>
               <td>
-                {{ quickReservation.duration.endDate | dateCustom }}
+                {{ quickReservation.duration.endDate | date:'dd/MM/YYYY HH:mm' }}
               </td>
               <td>
                 {{ quickReservation.guestCapacity }}

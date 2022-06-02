@@ -14,7 +14,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
 import { FishingTrainerCoursesComponent } from './pages/fishing-trainer-pages/fishing-trainer-courses/fishing-trainer-courses.component';
 import { ChangePasswordComponent } from './pages/admin-pages/change-password/change-password.component';
-import { DatePipe } from './pages/cottage-owner/pipes/date.pipe';
 import { HasRoleDirective } from './directive/hasRole.directive';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -133,7 +132,6 @@ FullCalendarModule.registerPlugins([
     CustomerCottageProfileComponent,
     UserProfileComponent,
     ChangeUserInfoComponent,
-    DatePipe,
     CottageEditComponent,
     CottageQuickReservationsComponent,
     AddReservationComponent,

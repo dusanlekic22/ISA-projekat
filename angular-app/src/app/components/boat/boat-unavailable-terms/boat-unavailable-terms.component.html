@@ -23,10 +23,10 @@
       <tbody>
         <tr *ngFor="let dateSpan of boat.unavailableReservationDateSpan">
           <td>
-            {{ dateSpan.startDate | dateCustom }}
+            {{ dateSpan.startDate | date:'dd/MM/YYYY HH:mm' }}
           </td>
           <td>
-            {{ dateSpan.endDate | dateCustom }}
+            {{ dateSpan.endDate | date:'dd/MM/YYYY HH:mm' }}
           </td>
           <td class="text-right">
             <delete-icon (click)="removeTerm(dateSpan)"></delete-icon>

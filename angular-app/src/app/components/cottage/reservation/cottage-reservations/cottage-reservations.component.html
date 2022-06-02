@@ -27,10 +27,10 @@
           <tbody>
             <tr *ngFor="let reservation of reservations">
               <td>
-                {{ reservation.duration.startDate | dateCustom }}
+                {{ reservation.duration.startDate | date:'dd/MM/YYYY HH:mm' }}
               </td>
               <td>
-                {{ reservation.duration.endDate | dateCustom }}
+                {{ reservation.duration.endDate | date:'dd/MM/YYYY HH:mm' }}
               </td>
               <td>
                 {{ reservation.guestCapacity }}

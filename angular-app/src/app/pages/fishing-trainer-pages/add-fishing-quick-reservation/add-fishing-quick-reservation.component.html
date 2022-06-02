@@ -95,6 +95,7 @@
                       [(ngModel)]="fishingCourse"
                       id="input-fishingCourse"
                       name="fishingCourse"
+                      (selectionChange)="getChips(fishingCourse.id)"
                     >
                       <mat-option
                         *ngFor="let fishingCourse of fishingCourses"
@@ -104,6 +105,28 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="input-services"
+                  >Additional services</label
+                >
+                <div class="col-4 chips">
+                  <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                    <mat-chip
+                      #c="matChip"
+                      *ngFor="let option of fishingServices"
+                      [value]="option"
+                      (click)="toggleSelectionFishing(c, option)"
+                    >
+                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      {{ option.name }}({{ option.price }}€)
+                    </mat-chip>
+                  </mat-chip-list>
                 </div>
               </div>
             </div>

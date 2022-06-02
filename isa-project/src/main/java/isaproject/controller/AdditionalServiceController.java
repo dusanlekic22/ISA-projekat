@@ -56,35 +56,50 @@ public class AdditionalServiceController {
 	
 	@GetMapping("/cottageQuickReservation/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByCottageQuickReservationId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByCottageQuickReservationId(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/boat/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByBoatId(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/boatReservation/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatReservationId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByBoatReservationId(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/boatQuickReservation/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatQuickReservationId(@PathVariable("id") Long id){
-		return new ResponseEntity<>(additionalServiceService.findByCottageQuickReservationId(id),HttpStatus.OK);
+		return new ResponseEntity<>(additionalServiceService.findByBoatQuickReservationId(id),HttpStatus.OK);
 	}
 
 	@GetMapping("/fishingCourse/{id}")
 	@ResponseBody
+    @PreAuthorize("hasAnyRole('FISHING_TRAINER','CUSTOMER')")
 	public Set<AdditionalServiceDTO> getByFishingCourseId(@PathVariable("id") Long id){
 		return additionalServiceService.findByFishingCourseId(id);
+	}
+	
+	@GetMapping("/fishingReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasAnyRole('FISHING_TRAINER','CUSTOMER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByFishingReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByFishingReservationId(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/fishingQuickReservation/{id}")
+	@ResponseBody
+    @PreAuthorize("hasAnyRole('FISHING_TRAINER','CUSTOMER')")
+	public ResponseEntity<Set<AdditionalServiceDTO>> getByFishingQuickReservationId(@PathVariable("id") Long id){
+		return new ResponseEntity<>(additionalServiceService.findByFishingQuickReservationId(id),HttpStatus.OK);
 	}
 }

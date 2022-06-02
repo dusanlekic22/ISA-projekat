@@ -164,5 +164,37 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService {
 
         return dtos;
 	}
+	
+	@Override
+	public Set<AdditionalServiceDTO> findByFishingReservationId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByFishingReservationId(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+	}
+
+	@Override
+	public Set<AdditionalServiceDTO> findByFishingQuickReservationId(Long id) {
+		Set<AdditionalService> allAdditionalServices = new HashSet<>(additionalServiceRepository.findByFishingQuickReservationId(id));
+		Set<AdditionalServiceDTO> dtos = new HashSet<>();
+        if(allAdditionalServices.size()!=0){
+        	
+        	AdditionalServiceDTO dto = new AdditionalServiceDTO();;
+            for(AdditionalService p : allAdditionalServices){
+                dto = AdditionalServiceMapper.AdditionalServiceToAdditionalServiceDTO(p);
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+	}
 
 }

@@ -25,7 +25,7 @@ export class AddBoatQuickReservationComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
-    boat: initBoat
+    boat: initBoat,
   };
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
@@ -48,37 +48,37 @@ export class AddBoatQuickReservationComponent implements OnInit {
     this.minDate = this.date();
     let boatId = this._route.snapshot.paramMap.get('boatId');
     this._userService.currentUser.subscribe((user) => {
-      this._boatService
-        .getBoatsByBoatOwnerId(user.id)
-        .subscribe((boats) => {
-          this.boats = boats;
-          this.boat= this.boats.filter(c=>c.id==parseInt(boatId!))[0];
-        });
-    });
-    if(boatId!=undefined){
-      this._boatAdditionalService
-      .getAdditionalServicesByBoatId(parseInt(boatId))
-      .subscribe((tags) => {
-        tags.forEach((t) => {
-          this.boatServices.push(t);
-        });
+      this._boatService.getBoatsByBoatOwnerId(user.id).subscribe((boats) => {
+        this.boats = boats;
+        this.boat = this.boats.filter((c) => c.id == parseInt(boatId!))[0];
       });
+    });
+    if (boatId != undefined) {
+      this.getChips(parseInt(boatId));
     }
   }
 
-  getChips() {
+  getChips(id: number) {
     this._boatAdditionalService
-      .getAdditionalServicesByBoatId(this.boat.id)
+      .getAdditionalServicesByBoatId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          this.boatServices.push(t);
+          if (this.boatServices.length < 1) {
+            this.boatServices.push(t);
+          } else if (this.boatServices.some((e) => e.name !== t.name)) {
+            this.boatServices.push(t);
+          }
         });
       });
   }
 
   toggleSelectionBoat(chip: MatChip, option: IAdditionalService) {
     if (chip.toggleSelected()) {
-      this.reservationServices.push({id:0,name:option.name,price:option.price});
+      this.reservationServices.push({
+        id: 0,
+        name: option.name,
+        price: option.price,
+      });
     } else {
       this.reservationServices = this.reservationServices.filter(
         (e) => e !== option
@@ -95,7 +95,10 @@ export class AddBoatQuickReservationComponent implements OnInit {
           this._toastr.success('Reservation was successfully added.');
           this.reservationServices.forEach((tag) => {
             this._boatAdditionalService
-              .addAdditionalServiceForBoatQuickReservation(tag, quickReservation)
+              .addAdditionalServiceForBoatQuickReservation(
+                tag,
+                quickReservation
+              )
               .subscribe((service) => {});
           });
           this.submitted.emit();

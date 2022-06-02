@@ -1,3 +1,4 @@
+import { AdditionalServiceService } from 'src/app/pages/cottage-owner/services/additional-service.service';
 import { emptyFishingQuickReservation } from './../../../model/fishingQuickReservation';
 import { IFishingCourse } from 'src/app/model/fishingCourse';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -7,6 +8,8 @@ import { IFishingQuickReservation } from 'src/app/model/fishingQuickReservation'
 import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
 import { UserService } from 'src/app/service/user.service';
 import { FishingCourseService } from 'src/app/service/fishingCourse.service';
+import { MatChip } from '@angular/material/chips';
+import { IAdditionalService } from 'src/app/model/additionalService';
 
 @Component({
   selector: 'app-add-fishing-quick-reservation',
@@ -20,13 +23,18 @@ export class AddFishingQuickReservationComponent implements OnInit {
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
   fishingCourses!: IFishingCourse[];
+  chips!: MatChip;
+  fishingChips: string[] = [];
+  fishingServices: IAdditionalService[] = [];
+  reservationServices: IAdditionalService[] = [];
 
   constructor(
     private fishingQuickReservationService: FishingQuickReservationService,
     private toastr: ToastrService,
     private fishingService: FishingCourseService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private additionalServiceService: AdditionalServiceService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +54,9 @@ export class AddFishingQuickReservationComponent implements OnInit {
           });
       }
     });
+    if(fishingCourseId!=undefined){
+      this.getChips(parseInt(fishingCourseId));
+    }
   }
 
   addQuickReservation(): void {
@@ -55,6 +66,14 @@ export class AddFishingQuickReservationComponent implements OnInit {
         (quickReservation) => {
           //this.addReservationFormOpened = false;
           this.toastr.success('Reservation was successfully added.');
+          this.reservationServices.forEach((tag) => {
+            this.additionalServiceService
+              .addAdditionalServiceForFishingQuickReservation(
+                tag,
+                quickReservation
+              )
+              .subscribe((service) => {});
+          });
           this.submitted.emit();
         },
         (err) => {
@@ -64,6 +83,30 @@ export class AddFishingQuickReservationComponent implements OnInit {
           );
         }
       );
+    }
+  
+    getChips(id:number) {
+      this.additionalServiceService
+        .getAdditionalServicesByFishingCourseId(id)
+        .subscribe((tags) => {
+          tags.forEach((t) => {
+            if (this.fishingServices.length < 1) {
+              this.fishingServices.push(t);
+            } else if (this.fishingServices.some((e) => e.name !== t.name)) {
+              this.fishingServices.push(t);
+            }
+          });
+        });
+    }
+
+  toggleSelectionFishing(chip: MatChip, option: IAdditionalService) {
+    if (chip.toggleSelected()) {
+      this.reservationServices.push({id:0,name:option.name,price:option.price});
+    } else {
+      this.reservationServices = this.reservationServices.filter(
+        (e) => e !== option
+      );
+    }
   }
 
   date() {

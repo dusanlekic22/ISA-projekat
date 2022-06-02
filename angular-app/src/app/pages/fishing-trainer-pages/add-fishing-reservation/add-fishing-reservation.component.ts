@@ -8,6 +8,9 @@ import { IFishingReservation } from 'src/app/model/fishingReservation';
 import { FishingCourseService } from 'src/app/service/fishingCourse.service';
 import { UserService } from 'src/app/service/user.service';
 import { FishingReservationService } from 'src/app/service/fishingReservation.service';
+import { MatChip } from '@angular/material/chips';
+import { IAdditionalService } from 'src/app/model/additionalService';
+import { AdditionalServiceService } from '../../cottage-owner/services/additional-service.service';
 
 @Component({
   selector: 'app-add-fishing-reservation',
@@ -21,6 +24,10 @@ export class AddFishingReservationComponent implements OnInit {
   eligibleCustomers!: ICustomer[];
   @Input() customer!: ICustomer;
   fishingCourses!: IFishingCourse[];
+  chips!: MatChip;
+  fishingChips: string[] = [];
+  fishingServices: IAdditionalService[] = [];
+  reservationServices: IAdditionalService[] = [];
 
   fishingCourseReservation: IFishingReservation = emptyFishingReservation;
 
@@ -29,7 +36,8 @@ export class AddFishingReservationComponent implements OnInit {
     private toastr: ToastrService,
     private userService: UserService,
     private fishingCourseService: FishingCourseService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private additionalServiceService: AdditionalServiceService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +61,33 @@ export class AddFishingReservationComponent implements OnInit {
           });
       }
     });
+    if(fishingCourseId!=undefined){
+      this.getChips(parseInt(fishingCourseId));
+    }
+  }
+
+  getChips(id:number) {
+    this.additionalServiceService
+      .getAdditionalServicesByFishingCourseId(id)
+      .subscribe((tags) => {
+        tags.forEach((t) => {
+          if (this.fishingServices.length < 1) {
+            this.fishingServices.push(t);
+          } else if (this.fishingServices.some((e) => e.name !== t.name)) {
+            this.fishingServices.push(t);
+          }
+        });
+      });
+  }
+
+  toggleSelectionFishing(chip: MatChip, option: IAdditionalService) {
+    if (chip.toggleSelected()) {
+      this.reservationServices.push({id:0,name:option.name,price:option.price});
+    } else {
+      this.reservationServices = this.reservationServices.filter(
+        (e) => e !== option
+      );
+    }
   }
 
   setCustomer(id: number) {
@@ -66,7 +101,14 @@ export class AddFishingReservationComponent implements OnInit {
       .subscribe(
         (reservation) => {
           this.toastr.success('Reservation was successfully added.');
-
+          this.reservationServices.forEach((tag) => {
+            this.additionalServiceService
+              .addAdditionalServiceForFishingReservation(
+                tag,
+                reservation
+              )
+              .subscribe((service) => {});
+          });
           this.submitted.emit();
         },
         (err) => {

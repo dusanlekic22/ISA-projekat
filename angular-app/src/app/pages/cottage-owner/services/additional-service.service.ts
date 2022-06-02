@@ -1,12 +1,11 @@
-import { FishingCourseService } from './../../../service/fishingCourse.service';
 import { IFishingCourse } from './../../../model/fishingCourse';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { IBoat } from 'src/app/model/boat/boat';
-import { ICottage } from 'src/app/model/cottage';
 import { environment } from 'src/environments/environment';
 import { IAdditionalService } from '../../../model/additionalService';
+import { IFishingQuickReservation } from 'src/app/model/fishingQuickReservation';
+import { IFishingReservation } from 'src/app/model/fishingReservation';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +36,32 @@ export class AdditionalServiceService {
       );
   }
 
+  getAdditionalServicesByFishingReservationId(
+    id: number
+  ): Observable<IAdditionalService[]> {
+    return this._http
+      .get<IAdditionalService[]>(
+        environment.apiUrl + `/additionalService/fishingReservation/${id}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getAdditionalServicesByFishingQuickReservationId(
+    id: number
+  ): Observable<IAdditionalService[]> {
+    return this._http
+      .get<IAdditionalService[]>(
+        environment.apiUrl + `/additionalService/fishingQuickReservation/${id}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   addAdditionalServiceForFishingCourse(
     additionalService: IAdditionalService,
     fishingCourse: IFishingCourse
@@ -53,6 +78,21 @@ export class AdditionalServiceService {
         catchError(this.handleError)
       );
     }
+
+    
+  addAdditionalServiceForFishingReservation(additionalService:IAdditionalService,fishingReservation:IFishingReservation): Observable<IAdditionalService> {
+    return this._http.post<IAdditionalService>(environment.apiUrl + '/additionalService',{id:additionalService.id,name:additionalService.name,price:additionalService.price,fishingReservation:fishingReservation}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  addAdditionalServiceForFishingQuickReservation(additionalService:IAdditionalService,fishingQuickReservation:IFishingQuickReservation): Observable<IAdditionalService> {
+    return this._http.post<IAdditionalService>(environment.apiUrl + '/additionalService',{id:additionalService.id,name:additionalService.name,price:additionalService.price,fishingQuickReservation:fishingQuickReservation}).pipe(
+      tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);

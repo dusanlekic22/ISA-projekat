@@ -59,14 +59,8 @@ export class AddReservationComponent implements OnInit {
             )[0];
         });
     });
-    if (cottageId != undefined) {
-      this._cottageAdditionalService
-        .getAdditionalServicesByCottageId(parseInt(cottageId))
-        .subscribe((tags) => {
-          tags.forEach((t) => {
-            this.cottageServices.push(t);
-          });
-        });
+    if(cottageId!=undefined){
+      this.getChips(parseInt(cottageId));
     }
   }
 
@@ -74,12 +68,17 @@ export class AddReservationComponent implements OnInit {
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
   }
 
-  getChips() {
+  getChips(id:number) {
     this._cottageAdditionalService
-      .getAdditionalServicesByCottageId(this.cottage.id)
+      .getAdditionalServicesByCottageId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          this.cottageServices.push(t);
+          if (this.cottageServices.length < 1 ) {
+            this.cottageServices.push(t);
+          }
+          else if(this.cottageServices.some(e => e.name !== t.name)){
+            this.cottageServices.push(t);
+          }
         });
       });
   }

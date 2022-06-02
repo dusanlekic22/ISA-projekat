@@ -57,22 +57,21 @@ export class AddCottageQuickReservationComponent implements OnInit {
         });
     });
     if(cottageId!=undefined){
-      this._cottageAdditionalService
-      .getAdditionalServicesByCottageId(parseInt(cottageId))
-      .subscribe((tags) => {
-        tags.forEach((t) => {
-          this.cottageServices.push(t);
-        });
-      });
+      this.getChips(parseInt(cottageId));
     }
   }
 
-  getChips() {
+  getChips(id:number) {
     this._cottageAdditionalService
-      .getAdditionalServicesByCottageId(this.cottage.id)
+      .getAdditionalServicesByCottageId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          this.cottageServices.push(t);
+          if (this.cottageServices.length < 1 ) {
+            this.cottageServices.push(t);
+          }
+          else if(this.cottageServices.some(e => e.name !== t.name)){
+            this.cottageServices.push(t);
+          }
         });
       });
   }

@@ -84,18 +84,26 @@ export class AddBoatReservationComponent implements OnInit {
           this.boat = this.boats.filter((c) => c.id == parseInt(boatId!))[0];
       });
     });
+    if(boatId!=undefined){
+      this.getChips(parseInt(boatId));
+    }
   }
 
   setCustomer(id: number) {
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
   }
 
-  getChips() {
+  getChips(id:number) {
     this._boatAdditionalService
-      .getAdditionalServicesByBoatId(this.boat.id)
+      .getAdditionalServicesByBoatId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          this.boatServices.push(t);
+          if (this.boatServices.length < 1 ) {
+            this.boatServices.push(t);
+          }
+          else if(this.boatServices.some(e => e.name !== t.name)){
+            this.boatServices.push(t);
+          }
         });
       });
   }

@@ -1,9 +1,13 @@
-import { IFishingTrainer } from './../model/fishingTrainer';
-import { throwError, catchError, Observable } from 'rxjs';
+import {
+  IFishingTrainer,
+  IFishingTrainerPage,
+} from './../model/fishingTrainer';
+import { throwError, catchError, Observable, tap } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDateSpan } from '../model/dateSpan';
+import { ISortType } from '../model/sortType';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +21,21 @@ export class FishingTrainerService {
     return this.http
       .get<IFishingTrainer>(`${this.fishingTrainerUrl}`)
       .pipe(catchError(this.handleError));
+  }
+
+  getFishingTrainersPagination(
+    page: number,
+    sorts: ISortType[]
+  ): Observable<IFishingTrainerPage> {
+    return this.http
+      .post<IFishingTrainerPage>(
+        environment.apiUrl + `/fishingTrainer/pagination?page=` + page,
+        sorts
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   editAvailableTerms(

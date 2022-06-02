@@ -89,6 +89,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 								.antMatchers("/cottage/pagination").permitAll()
 								.antMatchers("/boat/availability").permitAll()
 								.antMatchers("/boat/pagination**").permitAll()
+								.antMatchers("/fishingCourse/availability**").permitAll()
+								.antMatchers("/fishingTrainer/availability**").permitAll()
+								.antMatchers("/fishingTrainer/pagination**").permitAll()
+								.antMatchers("/fishingCourse/pagination**").permitAll()
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin: 

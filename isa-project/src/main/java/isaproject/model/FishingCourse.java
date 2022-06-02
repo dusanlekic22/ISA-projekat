@@ -35,6 +35,8 @@ public class FishingCourse implements Serializable {
 	private String name;
 
 	private String promoDescription;
+	
+	private Double grade;
 
 	private Integer capacity;
 
@@ -100,6 +102,15 @@ public class FishingCourse implements Serializable {
 
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
+	}
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Integer getCapacity() {

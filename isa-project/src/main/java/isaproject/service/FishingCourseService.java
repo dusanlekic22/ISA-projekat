@@ -1,11 +1,17 @@
 package isaproject.service;
 
+import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.dto.SortTypeDTO;
 
 public interface FishingCourseService {
 
@@ -37,4 +43,7 @@ public interface FishingCourseService {
 
 	IncomeDTO getFishingCourseIncomeMonthly(DateTimeSpan duration, long id);
 
+	Page<FishingCourseDTO> findAllPagination(List<SortTypeDTO> sortTypeDTO,Pageable paging );
+
+	Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable);
 }

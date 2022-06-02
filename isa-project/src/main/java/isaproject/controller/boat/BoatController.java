@@ -23,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import isaproject.dto.DateSpanDTO;
+import isaproject.dto.BoatAvailabilityDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.boat.BoatService;
 
@@ -120,10 +119,19 @@ public class BoatController {
 		return boatService.deleteById(id);
 	}
 	
+//	@PostMapping("/availability")
+//	@ResponseBody
+//	public Set<BoatDTO> search(@RequestBody DateSpanDTO reservationDate) {
+//		return boatService.findByReservationDate(reservationDate);
+//	}
+	
 	@PostMapping("/availability")
 	@ResponseBody
-	public Set<BoatDTO> search(@RequestBody DateSpanDTO reservationDate) {
-		return boatService.findByReservationDate(reservationDate);
+	public Page<BoatDTO> search(@RequestBody BoatAvailabilityDTO boatAvailability,	
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatService.findByAvailability(boatAvailability,paging);
 	}
 	
 	@GetMapping("/{id}/yearlyCount")

@@ -101,17 +101,19 @@ import { CottageCalendarComponent } from './components/cottage/cottage-calendar/
 import { BoatCalendarComponent } from './components/boat/boat-calendar/boat-calendar.component';
 import { CottageOwnerCalendarComponent } from './components/cottage/cottage-owner-calendar/cottage-owner-calendar.component';
 import { BoatOwnerCalendarComponent } from './components/boat/boat-owner-calendar/boat-owner-calendar.component';
+import { CustomerFishingTrainerProfileComponent } from './pages/fishing-trainer-profile/customer-fishing-trainer-profile/customer-fishing-trainer-profile.component';
 
 import { FishingCourseStatisticsComponent } from './pages/fishing-trainer-pages/fishing-course-statistics/fishing-course-statistics.component';
 import { CottageIncomeComponent } from './components/cottage/cottage-income/cottage-income.component';
 import { BoatIncomeComponent } from './components/boat/boat-income/boat-income.component';
 import { FishingCourseIncomeComponent } from './pages/fishing-trainer-pages/fishing-course-income/fishing-course-income.component';
+import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
-  interactionPlugin
-])
+  interactionPlugin,
+]);
 @NgModule({
   declarations: [
     AppComponent,
@@ -182,7 +184,9 @@ FullCalendarModule.registerPlugins([
     FishingCourseStatisticsComponent,
     CottageIncomeComponent,
     BoatIncomeComponent,
-    FishingCourseIncomeComponent
+    FishingCourseIncomeComponent,
+    CustomerBoatProfileComponent,
+    CustomerFishingTrainerProfileComponent,
   ],
   imports: [
     NgbModule,

@@ -267,7 +267,7 @@
                       class="example-full-width"
                       appearance="fill"
                     >
-                      <mat-label>Bed</mat-label>
+                      <mat-label>Capacity</mat-label>
                       <mat-select
                         name="boatBedCount"
                         [(ngModel)]="boatBedCount"
@@ -328,7 +328,7 @@
                     promoDesc="{{ boat.description }}"
                     [grade]="boat.grade"
                     price="{{ boat.pricePerHour }}"
-                    openForReservation="{{ openCottages }}"
+                    openForReservation="{{ openBoats }}"
                     [startDate]="startCottageDate"
                     [endDate]="endCottageDate"
                   >
@@ -373,42 +373,338 @@
             </div>
           </div>
         </mat-tab>
-        <!--Adventures tab -->
+        <!--Adventures fishing course tab -->
         <mat-tab label="Adventures">
-          <form class="example-form">
-            <div class="row">
-              <div class="mb-3">
-                <div class="col-4">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Search cottage by name</mat-label>
-                    <textarea
+          <div class="container">
+            <form class="example-form">
+              <div class="row pt-4 ml-5">
+                <div class="col-3 input3">
+                  <label for="date1">Start of reservation</label>
+                  <input
+                    id="date1"
+                    matInput
+                    class="p-3"
+                    type="datetime-local"
+                    placeholder="Start date"
+                    [(ngModel)]="startFishingCourseDate"
+                    [min]="startDateFishingCourseString"
+                    (change)="activateFishingCourseEnd()"
+                    id="session-date"
+                    name="date1"
+                  />
+                  <div class="enddate">
+                    <label
+                      for="party"
+                      *ngIf="this.endDateFishingCourseString !== ''"
+                      >End of reservation</label
+                    >
+                    <input
                       matInput
-                      [(ngModel)]="searchCottageName"
-                      name="searchCottageName"
-                      placeholder="Ex. It makes me feel..."
-                    ></textarea>
-                  </mat-form-field>
+                      class="p-3"
+                      *ngIf="this.endDateFishingCourseString !== ''"
+                      type="datetime-local"
+                      placeholder="End date"
+                      [min]="endDateFishingCourseString"
+                      [(ngModel)]="endFishingCourseDate"
+                      name="date2"
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="col-4 boxc">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Name</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="searchFishingCourseName"
+                        name="searchFishingCourseName"
+                        placeholder="Enter fishing course name"
+                      ></textarea>
+                    </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Grade</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="fishingCourseGrade"
+                        name="fishingCourseGrade"
+                        placeholder="Enter fishing course grade"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="col-4 boxc">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Capacity</mat-label>
+                      <mat-select
+                        name="fishingCourseBedCount"
+                        [(ngModel)]="fishingCourseBedCount"
+                      >
+                        <mat-option *ngFor="let bed of beds" [value]="bed">
+                          {{ bed }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Sort by</mat-label>
+                      <mat-select
+                        name="sortBy"
+                        [(ngModel)]="fishingCourseSortBy"
+                      >
+                        <mat-option
+                          *ngFor="let sort of sortListFishingCourse"
+                          [value]="sort"
+                        >
+                          {{ sort.text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Search cottage by number of beds</mat-label>
-                <textarea
-                  matInput
-                  [(ngModel)]="searchCottageBeds"
-                  name="searchCottageBeds"
-                  placeholder="Ex. It makes me feel..."
-                ></textarea>
-              </mat-form-field>
+              <div class="row">
+                <div class="col-7 offset-1 chips">
+                  <mat-chip-list [(ngModel)]="fchips" selectable multiple>
+                    <mat-chip
+                      #c="matChip"
+                      *ngFor="let option of optionsFishingCourses"
+                      [value]="option"
+                      (click)="toggleSelectionFishingCourse(c, option)"
+                    >
+                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      {{ option }}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+
+                <div class="col-4">
+                  <button
+                    class="btn btn-success"
+                    (click)="searchFishingCourse()"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="container mt-3 itemss">
+              <div class="row d-flex p-2 text-white">
+                <div
+                  class="col-4 p-2"
+                  *ngFor="let fishingCourse of fishingCourses"
+                >
+                  <app-base-cottage
+                    [type]="3"
+                    name="{{ fishingCourse.name }}"
+                    id="{{ fishingCourse.fishingTrainer.id }}"
+                    [address]="fishingCourse.address"
+                    promoDesc="{{ fishingCourse.promoDescription }}"
+                    [grade]="fishingCourse.grade"
+                    price="{{ fishingCourse.price }}"
+                    openForReservation="{{ openFishingCourses }}"
+                    [startDate]="startFishingCourseDate"
+                    [endDate]="endFishingCourseDate"
+                  >
+                  </app-base-cottage>
+                </div>
+              </div>
+              <div class="row d-flex text-success bg-dark rounded">
+                <div class="col-6">
+                  <mat-paginator
+                    (page)="onChangeFishingCoursePage($event)"
+                    class="bg-dark text-white"
+                    [length]="fishingCourseTotalElements"
+                    [pageIndex]="fishingCoursePage"
+                    [pageSize]="6"
+                    aria-label="<class ='btn-success'>Select page"
+                  >
+                  </mat-paginator>
+                </div>
+                <div class="col-3 text-right pt-2">
+                  <h2 class="text-white">Sort by :</h2>
+                </div>
+                <div class="col-3 pt-2 sortbtn">
+                  <mat-chip-list [(ngModel)]="bsortChips" selectable multiple>
+                    <mat-chip
+                      *ngIf="openFishingCourses === 'no'"
+                      value="Price Ascending"
+                      #c="matChip"
+                      (click)="
+                        toggleSelectionFishingCourseSort(
+                          c,
+                          priceSortFishingCourseType
+                        )
+                      "
+                    >
+                      Price
+                    </mat-chip>
+                    <mat-chip
+                      value="Grade Ascending"
+                      #c2="matChip"
+                      (click)="
+                        toggleSelectionFishingCourseSort(
+                          c2,
+                          gradeSortFishingCourseType
+                        )
+                      "
+                    >
+                      Grade
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
             </div>
-          </form>
-          <div class="container py-5">
-            <div class="d-flex bd-highlight mb-3">
-              <app-base-cottage> </app-base-cottage>
-              <app-base-cottage> </app-base-cottage>
-              <app-base-cottage> </app-base-cottage>
+          </div>
+          <!--Fishing trainer tab start-->
+        </mat-tab>
+        <mat-tab label="Fishing Trainers">
+          <div class="container">
+            <form class="example-form">
+              <div class="row pt-4 ml-5">
+                <div class="col-3 input3">
+                  <label for="date1">Start of reservation</label>
+                  <input
+                    id="date1"
+                    matInput
+                    class="p-3"
+                    type="datetime-local"
+                    placeholder="Start date"
+                    [(ngModel)]="startFishingTrainerDate"
+                    [min]="startDateFishingTrainerString"
+                    (change)="activateFishingTrainerEnd()"
+                    id="session-date"
+                    name="date1"
+                  />
+                  <div class="enddate">
+                    <label
+                      for="party"
+                      *ngIf="this.endDateFishingTrainerString !== ''"
+                      >End of reservation</label
+                    >
+                    <input
+                      matInput
+                      class="p-3"
+                      *ngIf="this.endDateFishingTrainerString !== ''"
+                      type="datetime-local"
+                      placeholder="End date"
+                      [min]="endDateFishingTrainerString"
+                      [(ngModel)]="endFishingTrainerDate"
+                      name="date2"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-7 offset-1 chips">
+                  <mat-chip-list [(ngModel)]="fchips" selectable multiple>
+                    <mat-chip
+                      #c="matChip"
+                      *ngFor="let option of optionsFishingCourses"
+                      [value]="option"
+                      (click)="toggleSelectionFishingCourse(c, option)"
+                    >
+                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      {{ option }}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+
+                <div class="col-4">
+                  <button
+                    class="btn btn-success"
+                    (click)="searchFishingTrainer()"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="container mt-3 itemss">
+              <div class="row d-flex p-2 text-white">
+                <div
+                  class="col-4 p-2"
+                  *ngFor="let fishingTrainer of fishingTrainers"
+                >
+                  <app-base-cottage
+                    [type]="3"
+                    name="{{ fishingTrainer.firstName }}, {{
+                      fishingTrainer.lastName
+                    }}"
+                    id="{{ fishingTrainer.id }}"
+                    [address]="fishingTrainer.address"
+                    [grade]="fishingTrainer.grade"
+                    openForReservation="{{ openFishingTrainers }}"
+                    [startDate]="startFishingCourseDate"
+                    [endDate]="endFishingCourseDate"
+                  >
+                  </app-base-cottage>
+                </div>
+              </div>
+              <div class="row d-flex text-success bg-dark rounded">
+                <div class="col-6">
+                  <mat-paginator
+                    (page)="onChangeFishingCoursePage($event)"
+                    class="bg-dark text-white"
+                    [length]="fishingCourseTotalElements"
+                    [pageIndex]="fishingCoursePage"
+                    [pageSize]="6"
+                    aria-label="<class ='btn-success'>Select page"
+                  >
+                  </mat-paginator>
+                </div>
+                <div class="col-3 text-right pt-2">
+                  <h2 class="text-white">Sort by :</h2>
+                </div>
+                <div class="col-3 pt-2 sortbtn">
+                  <mat-chip-list [(ngModel)]="bsortChips" selectable multiple>
+                    <mat-chip
+                      *ngIf="openFishingCourses === 'no'"
+                      value="Price Ascending"
+                      #c="matChip"
+                      (click)="
+                        toggleSelectionFishingCourseSort(
+                          c,
+                          priceSortFishingCourseType
+                        )
+                      "
+                    >
+                      Price
+                    </mat-chip>
+                    <mat-chip
+                      value="Grade Ascending"
+                      #c2="matChip"
+                      (click)="
+                        toggleSelectionFishingCourseSort(
+                          c2,
+                          gradeSortFishingCourseType
+                        )
+                      "
+                    >
+                      Grade
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
             </div>
           </div>
         </mat-tab>
+        <!--Fishing trainer tab end-->
       </mat-tab-group>
     </div>
     <div class="col-2 grad2"></div>

@@ -67,6 +67,11 @@ public class BoatMapper {
 		return boatDTO;
 	}
 	
+	public static BoatDTO BoatToBoatDTOWithPrice(Boat boat, int hours) {
+		boat.setPricePerHour(boat.getPricePerHour()*hours);
+		BoatDTO boatDTO = BoatToBoatDTO(boat);
+		return boatDTO;
+	}
 	
 	public static Page<BoatDTO> pageBoatToPageBoatDTO(Page<Boat> boatPages) {
 		Page<BoatDTO> boatDTOPages = boatPages.map(new Function<Boat, BoatDTO>() {

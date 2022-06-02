@@ -1,9 +1,16 @@
 package isaproject.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +19,15 @@ import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
 import isaproject.dto.FishingTrainerDTO;
+import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatDTO;
+import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.UserMapper;
+import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingTrainer;
+import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.FishingTrainerRepository;
@@ -50,6 +62,27 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		this.fishingReservationService = fishingReservationService;
 		this.fishingQuickReservationService = fishingQuickReservationService;
 	}
+	
+	
+	public Page<FishingTrainerDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if(sortTypes !=null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		
+		return UserMapper.pageFishingTrainerToPageDTO(fishingTrainerRepository.findAll(paging));
+		}else {
+			return UserMapper.pageFishingTrainerToPageDTO(fishingTrainerRepository.findAll(pageable));
+		}
+		}
 
 	@Override
 	public FishingTrainer registerFishingTrainer(BusinessOwnerDTO businessOwnerDTO) {

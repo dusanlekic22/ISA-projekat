@@ -14,6 +14,7 @@ public class FishingCourseDTO {
 	private Long id;
 	private String name;
 	private String promoDescription;
+	private Double grade;
 	private Integer capacity;
 	private String fishingRules;
 	private String fishingEquipment;
@@ -52,6 +53,16 @@ public class FishingCourseDTO {
 
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
+	}
+	
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Integer getCapacity() {

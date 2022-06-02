@@ -1,7 +1,11 @@
 package isaproject.controller;
 
 import java.security.Principal;
+import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.FishingTrainerDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.UserDTO;
 import isaproject.exception.ResourceConflictException;
 import isaproject.mapper.UserMapper;
@@ -37,6 +45,17 @@ public class FishingTrainerController {
 		this.fishingTrainerService = fishingTrainerService;
 		this.userService = userService;
 	}
+	
+	
+	@PostMapping("/pagination")
+	@ResponseBody
+	public Page<FishingTrainerDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size,
+			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingTrainerService.findAllPagination(sortTypeDTOList,paging);
+	}
+	
 
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> addUser(@RequestBody BusinessOwnerDTO businessOwnerDTO) {

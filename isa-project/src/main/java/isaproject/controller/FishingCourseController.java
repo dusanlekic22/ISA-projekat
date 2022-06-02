@@ -25,9 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.cottage.CottageDTO;
+import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 
 @RestController

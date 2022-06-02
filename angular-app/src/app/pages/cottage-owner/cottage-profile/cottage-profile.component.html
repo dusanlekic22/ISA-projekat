@@ -80,6 +80,7 @@
     <mat-tab label="Quick Reservations">
       <!-- TABELA -->
       <app-cottage-quick-reservations
+      *ngIf="cottage.id!==0"
         [cottage]="cottage"
         [imageObject]="imageObject"
       >
@@ -93,6 +94,7 @@
     <mat-tab label="Reservations">
       <!-- TABELA -->
       <app-cottage-reservations
+      *ngIf="cottage.id!==0"
         [reservations]="activeReservations"
         [customers]="eligibleCustomers"
         (customerEmit)="

@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IAdditionalService } from 'src/app/model/additionalService';
 import { ICustomer } from 'src/app/model/customer';
 import { IFishingReservation } from 'src/app/model/fishingReservation';
+import { AdditionalServiceService } from '../../cottage-owner/services/additional-service.service';
 
 @Component({
   selector: 'app-fishing-reservations',
@@ -12,9 +14,20 @@ export class FishingReservationsComponent implements OnInit {
   @Input() reservations!: IFishingReservation[];
   @Input() customers! : ICustomer[];
   @Output() customerEmit = new EventEmitter<number>();
-  constructor(private router: Router) {}
+  services!: IAdditionalService[];
 
-  ngOnInit(): void {}
+  constructor(private router: Router,
+    private additionalService: AdditionalServiceService,
+    private route: ActivatedRoute,) {}
+
+  ngOnInit(): void {
+    let fishingId = this.route.snapshot.paramMap.get('id')!;
+    this.additionalService
+      .getAdditionalServicesByFishingReservationId(parseInt(fishingId))
+      .subscribe((services) => {
+        this.services = services;
+      });
+  }
 
   newReservation(customer: ICustomer) {
     this.customerEmit.emit(customer.id);

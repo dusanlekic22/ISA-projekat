@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICustomer } from 'src/app/model/customer';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ICottageReservation } from 'src/app/model/cottageReservation';
+import { CottageAdditionalServicesService } from 'src/app/pages/cottage-owner/services/cottage-additional-services.service';
+import { IAdditionalService } from 'src/app/model/additionalService';
 
 @Component({
   selector: 'app-cottage-reservations',
@@ -10,11 +12,24 @@ import { ICottageReservation } from 'src/app/model/cottageReservation';
 })
 export class CottageReservationsComponent implements OnInit {
   @Input() reservations!: ICottageReservation[];
-  @Input() customers! : ICustomer[];
+  @Input() customers!: ICustomer[];
   @Output() customerEmit = new EventEmitter<number>();
-  constructor(private _router: Router) {}
+  services!: IAdditionalService[];
 
-  ngOnInit(): void {}
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _additionalCottageService: CottageAdditionalServicesService
+  ) {}
+
+  ngOnInit(): void {
+    let cottageId = this._route.snapshot.paramMap.get('cottageId')!;
+    this._additionalCottageService
+      .getAdditionalServicesByCottageQuickReservationId(parseInt(cottageId))
+      .subscribe((services) => {
+        this.services = services;
+      });
+  }
 
   newReservation(customer: ICustomer) {
     this.customerEmit.emit(customer.id);
@@ -27,7 +42,7 @@ export class CottageReservationsComponent implements OnInit {
   }
 
   isCustomerEligible(customer: ICustomer) {
-    return this.customers.some(c => c.id === customer.id);
+    return this.customers.some((c) => c.id === customer.id);
   }
 
   openQuickReservationForm() {

@@ -21,6 +21,9 @@
               <th scope="col">End Date</th>
               <th scope="col">Guest Capacity</th>
               <th scope="col">Price(in €)</th>
+              <th *ngIf="services" scope="col">
+                Additional services
+              </th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -37,6 +40,11 @@
               </td>
               <td>
                 {{ reservation.price }}
+              </td>
+              <td>
+                <span *ngFor="let service of services">
+                  {{ service.name }}({{ service.price }}€) 
+                </span>
               </td>
               <td class="text-right">
                 <div ngbDropdown placement="bottom-right">

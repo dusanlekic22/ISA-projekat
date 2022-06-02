@@ -1,7 +1,5 @@
 package isaproject.model;
 
-import static javax.persistence.FetchType.LAZY;
-
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;

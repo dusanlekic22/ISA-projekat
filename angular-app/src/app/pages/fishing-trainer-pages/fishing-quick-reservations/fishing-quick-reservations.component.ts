@@ -3,6 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FishingQuickReservationService } from 'src/app/service/fishingQuickReservation.service';
 import { FishingCourseService } from 'src/app/service/fishingCourse.service';
+import { ActivatedRoute } from '@angular/router';
+import { IAdditionalService } from 'src/app/model/additionalService';
+import { AdditionalServiceService } from '../../cottage-owner/services/additional-service.service';
 
 @Component({
   selector: 'app-fishing-quick-reservations',
@@ -12,14 +15,23 @@ import { FishingCourseService } from 'src/app/service/fishingCourse.service';
 export class FishingQuickReservationsComponent implements OnInit {
   @Input() fishingCourse!: IFishingCourse;
   @Input() imageObject!: Array<object>;
+  services!: IAdditionalService[];
 
   constructor(
     private fishingCourseQuickReservationService: FishingQuickReservationService,
     private toastr: ToastrService,
     private fishingCourseService: FishingCourseService,
+    private additionalService: AdditionalServiceService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
+    let fishingId = this.route.snapshot.paramMap.get('fishingId')!;
+    this.additionalService
+      .getAdditionalServicesByFishingQuickReservationId(parseInt(fishingId))
+      .subscribe((services) => {
+        this.services = services;
+      });
   }
 
   deleteQuickReservation(id: number): void {

@@ -22,18 +22,25 @@
               <th scope="col">Guest Capacity</th>
               <th scope="col">Price(in €)</th>
               <th scope="col">Location</th>
+              <th *ngIf="services" scope="col">Additional services</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <tr
-              *ngFor="let quickReservation of fishingCourse.fishingQuickReservation"
+              *ngFor="
+                let quickReservation of fishingCourse.fishingQuickReservation
+              "
             >
               <td>
-                {{ quickReservation.duration.startDate | date:'dd/MM/YYYY HH:mm' }}
+                {{
+                  quickReservation.duration.startDate | date: "dd/MM/YYYY HH:mm"
+                }}
               </td>
               <td>
-                {{ quickReservation.duration.endDate | date:'dd/MM/YYYY HH:mm' }}
+                {{
+                  quickReservation.duration.endDate | date: "dd/MM/YYYY HH:mm"
+                }}
               </td>
               <td>
                 {{ quickReservation.capacity }}
@@ -42,7 +49,16 @@
                 {{ quickReservation.price }}
               </td>
               <td>
-                {{ quickReservation.location.country + ", " + quickReservation.location.city }}
+                {{
+                  quickReservation.location.country +
+                    ", " +
+                    quickReservation.location.city
+                }}
+              </td>
+              <td>
+                <span *ngFor="let service of services">
+                  {{ service.name }}({{ service.price }}€) 
+                </span>
               </td>
               <td class="text-right">
                 <div ngbDropdown placement="bottom-right">

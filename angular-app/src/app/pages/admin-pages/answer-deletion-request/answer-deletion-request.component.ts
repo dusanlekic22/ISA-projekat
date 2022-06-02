@@ -39,14 +39,14 @@ export class AnswerDeletionRequestComponent implements OnInit {
 
   accept() {
     this.requestsService.acceptDeletionRequest(this.request).subscribe((request) => {
-      this.requestsService.submitedRegistrationRequest();
+      this.requestsService.submitedDeletionRequest();
       this.close();
     });
   }
 
   decline() {
     this.requestsService.declineDeletionRequest(this.request).subscribe((request) => {
-      this.requestsService.submitedRegistrationRequest();
+      this.requestsService.submitedDeletionRequest();
       this.close();
     });
   }

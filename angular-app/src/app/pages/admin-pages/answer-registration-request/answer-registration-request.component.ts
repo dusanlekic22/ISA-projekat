@@ -9,7 +9,7 @@ import { RequestsService } from 'src/app/service/requests.service';
   styleUrls: ['./answer-registration-request.component.css'],
 })
 export class AnswerRegistrationRequestComponent implements OnInit {
-  @ViewChild('registrationModal') addModal!: ModalDirective;
+  @ViewChild('reg') addModal!: ModalDirective;
   request: IBusinessOwnerRegistrationRequest = {
     id: 0,
     accepted: false,

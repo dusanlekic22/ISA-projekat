@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ModalDirective } from "angular-bootstrap-md";
-import { emptyBoatReservation } from "src/app/model/boat/boatReservation";
-import { IReservationReport, ReservationReportStatus } from "src/app/model/reservationReport";
-import { ReservationReportService } from "src/app/service/reservationReport.service";
-import { emptyCottageReservation } from "./../../../model/cottageReservation";
-import { emptyFishingReservation } from "./../../../model/fishingReservation";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalDirective } from 'angular-bootstrap-md';
+import { emptyBoatReservation } from 'src/app/model/boat/boatReservation';
+import {
+  IReservationReport,
+  ReservationReportStatus,
+} from 'src/app/model/reservationReport';
+import { RequestsService } from 'src/app/service/requests.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
+import { emptyCottageReservation } from './../../../model/cottageReservation';
+import { emptyFishingReservation } from './../../../model/fishingReservation';
 
 @Component({
   selector: 'app-answer-report-request',
@@ -12,7 +16,7 @@ import { emptyFishingReservation } from "./../../../model/fishingReservation";
   styleUrls: ['./answer-report-request.component.css'],
 })
 export class AnswerReportRequestComponent implements OnInit {
-  @ViewChild('frame') addModal!: ModalDirective;
+  @ViewChild('report') reportModal!: ModalDirective;
   request: IReservationReport = {
     id: 0,
     userPenalized: false,
@@ -25,18 +29,11 @@ export class AnswerReportRequestComponent implements OnInit {
     answerOwner: '',
   };
 
-  // Treba ce!!!!!!!!
-  // reportTypeKeys!: number[];
-  // reportTypes = ReservationReportStatus;
-  // <select class="form-select" [(ngModel)]="request.reservationReportStatus" *ngIf="reportTypeKeys">
-  //   <option *ngFor="let reportTypeKey of reportTypeKeys" [value]="reportTypeKey">{{ reportTypes[reportTypeKey] }}</option>
-  // </select>
-  // this.reportTypeKeys = Object.keys(this.reportTypes)
-  //   .filter((f) => !isNaN(Number(f)))
-  //   .map(Number);
-
-  constructor(private reservationReportService: ReservationReportService) {
-    reservationReportService.submitedDialogReport$.subscribe((report) => {
+  constructor(
+    private reservationReportService: ReservationReportService,
+    private requestsService: RequestsService
+  ) {
+    requestsService.openDialogReport$.subscribe((report) => {
       if (report != undefined) {
         this.request = report;
         this.show();
@@ -47,11 +44,11 @@ export class AnswerReportRequestComponent implements OnInit {
   ngOnInit() {}
 
   show() {
-    this.addModal.show();
+    this.reportModal.show();
   }
 
   close() {
-    this.addModal.hide();
+    this.reportModal.hide();
   }
 
   approve() {
@@ -59,7 +56,7 @@ export class AnswerReportRequestComponent implements OnInit {
       .approveReservationReportRequest(this.request)
       .subscribe(() => {
         this.close();
-        this.reservationReportService.submitedReportRequest();
+        this.requestsService.submitedReportRequest();
       });
   }
 
@@ -68,7 +65,7 @@ export class AnswerReportRequestComponent implements OnInit {
       .declineReservationReportRequest(this.request)
       .subscribe(() => {
         this.close();
-        this.reservationReportService.submitedReportRequest();
+        this.requestsService.submitedReportRequest();
       });
   }
 }

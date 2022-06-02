@@ -42,6 +42,7 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 	@Override
 	public ReservationReportDTO create(ReservationReportDTO reservationReportDTO) {
 		ReservationReport reservationReport = ReservationReportMapper.DTOToReservationReport(reservationReportDTO);
+		if (isReported(reservationReport)) return null; 
 		if (reservationReport.getReservationReportStatus() == ReservationReportStatus.Positive) {
 			reservationReport.setUserPenalized(false);
 		} else if (reservationReport.getReservationReportStatus() == ReservationReportStatus.NoCustomer) {
@@ -51,6 +52,13 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 			reservationReport.setUserPenalized(null);
 		}
 		return ReservationReportMapper.ReservationReportToDTO(reservationReportRepository.save(reservationReport));
+	}
+
+	private boolean isReported(ReservationReport reservationReport) {
+		if (reservationReport.getFishingReservation() != null) return isReportedByFishingTrainer(reservationReport.getFishingReservation().getId());
+		if (reservationReport.getCottageReservation() != null) return isReportedByCottageOwner(reservationReport.getCottageReservation().getId());
+		if (reservationReport.getBoatReservation() != null) return isReportedByBoatOwner(reservationReport.getBoatReservation().getId());
+		return false;
 	}
 
 	private void penalizedCustomer(ReservationReport reservationReport) {
@@ -166,5 +174,20 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 			user = userRepository.findById(report.getBoatReservation().getBoat().getBoatOwner().getId()).get();
 		}
 		return user;
+	}
+
+	@Override
+	public Boolean isReportedByFishingTrainer(Long reservationId) {
+		return reservationReportRepository.existsByFishingReservationId(reservationId);
+	}
+	
+	@Override
+	public Boolean isReportedByCottageOwner(Long reservationId) {
+		return reservationReportRepository.existsByCottageReservationId(reservationId);
+	}
+	
+	@Override
+	public Boolean isReportedByBoatOwner(Long reservationId) {
+		return reservationReportRepository.existsByBoatReservationId(reservationId);
 	}
 }

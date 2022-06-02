@@ -14,4 +14,10 @@ public interface ReservationReportService {
 
 	ReservationReportDTO decline(ReservationReportDTO fishingReservationReportDTO, String answerCutomer, String answerOwner);
 
+	Boolean isReportedByFishingTrainer(Long reservationId);
+
+	Boolean isReportedByCottageOwner(Long reservationId);
+
+	Boolean isReportedByBoatOwner(Long reservationId);
+
 }

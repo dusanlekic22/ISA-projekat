@@ -1,9 +1,9 @@
 <div
   mdbModal
-  #frame="mdbModal"
+  #report="mdbModal"
   class="modal fade left"
   style="overflow-y: auto"
-  id="basicExample"
+  id="reportModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="myModalLabel"
@@ -20,17 +20,17 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
-          (click)="frame.hide()"
+          (click)="report.hide()"
         >
           <span aria-hidden="true">X</span>
         </button>
       </div>
       <div class="modal-body mx-3">
         <div class="md-form mb-2">
-          <label for="rId">Id</label>
+          <label for="reId">Id</label>
           <input
             type="text"
-            id="rId"
+            id="reId"
             class="form-control"
             [(ngModel)]="request.id"
             [disabled]="true"

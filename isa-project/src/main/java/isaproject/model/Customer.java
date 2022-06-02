@@ -39,7 +39,7 @@ public class Customer extends User {
 	@ManyToMany(mappedBy = "subscribers", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Boat> subscribedBoats = new HashSet<Boat>();
-	private Integer penalties = 0;
+	private Integer penalties;
 
 	public Customer() {
 	}

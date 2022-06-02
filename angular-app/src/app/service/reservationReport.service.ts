@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IReservationReport } from '../model/reservationReport';
@@ -9,21 +9,8 @@ import { IReservationReport } from '../model/reservationReport';
 })
 export class ReservationReportService {
   private reservationReportRequestsUrl = `${environment.apiUrl}/reservationReport`;
-  public openDialogReport$: EventEmitter<IReservationReport>;
-  public submitedDialogReport$: EventEmitter<IReservationReport>;
 
-  constructor(private http: HttpClient) {
-    this.openDialogReport$ = new EventEmitter();
-    this.submitedDialogReport$ = new EventEmitter();
-  }
-
-  openDialogReport(report: IReservationReport) {
-    this.openDialogReport$.emit(report);
-  }
-
-  submitedReportRequest() {
-    this.submitedDialogReport$.emit();
-  }
+  constructor(private http: HttpClient) {}
 
   createReservationReportRequest(
     request: IReservationReport
@@ -57,6 +44,30 @@ export class ReservationReportService {
       .post<IReservationReport>(
         `${this.reservationReportRequestsUrl}/decline`,
         request
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  isReportedByFishingTrainer(id: number): Observable<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this.reservationReportRequestsUrl}/fishingReservation/${id}`
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  isReportedByCottageOwner(id: number): Observable<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this.reservationReportRequestsUrl}/cottageReservation/${id}`
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  isReportedByBoatOwner(id: number): Observable<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this.reservationReportRequestsUrl}/boatReservation/${id}`
       )
       .pipe(catchError(this.handleError));
   }

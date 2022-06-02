@@ -1,5 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FullCalendarComponent, EventApi, CalendarOptions, EventInput, DateSelectArg, EventClickArg } from '@fullcalendar/angular';
+import {
+  FullCalendarComponent,
+  EventApi,
+  CalendarOptions,
+  EventInput,
+  DateSelectArg,
+  EventClickArg,
+} from '@fullcalendar/angular';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { ToastrService } from 'ngx-toastr';
 import { createEventId } from 'src/app/event-utils';
@@ -12,11 +19,12 @@ import { IDateSpan } from 'src/app/model/dateSpan';
 import { BoatOwnerService } from 'src/app/pages/boat-owner/services/boat-owner.service';
 import { BoatQuickReservationService } from 'src/app/pages/boat-owner/services/boat-quick-reservation.service';
 import { BoatReservationService } from 'src/app/pages/boat-owner/services/boat-reservation.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
 
 @Component({
   selector: 'app-boat-owner-calendar',
   templateUrl: './boat-owner-calendar.component.html',
-  styleUrls: ['./boat-owner-calendar.component.css']
+  styleUrls: ['./boat-owner-calendar.component.css'],
 })
 export class BoatOwnerCalendarComponent implements OnInit {
   @ViewChild('modal') addModal!: ModalDirective;
@@ -74,11 +82,14 @@ export class BoatOwnerCalendarComponent implements OnInit {
     customer: emptyCustomer,
   };
 
+  showReport: boolean = false;
+
   constructor(
     private boatReservationService: BoatReservationService,
     private boatQuickReservationService: BoatQuickReservationService,
     private boatOwnerService: BoatOwnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private reservationReportService: ReservationReportService
   ) {}
 
   ngOnInit(): void {
@@ -97,9 +108,7 @@ export class BoatOwnerCalendarComponent implements OnInit {
           calendarApi.addEvent(this.createUnavailableReservationEvent(r))
         );
         this.boatReservationService
-          .getActiveBoatReservationByBoatByBoatOwnerId(
-            this.boatOwner.id
-          )
+          .getActiveBoatReservationByBoatByBoatOwnerId(this.boatOwner.id)
           .subscribe((reservations) => {
             this.activeReservations = reservations;
             this.activeReservations.forEach((r) =>
@@ -107,9 +116,7 @@ export class BoatOwnerCalendarComponent implements OnInit {
             );
           });
         this.boatReservationService
-          .getPassedBoatReservationByBoatByBoatOwnerId(
-            this.boatOwner.id
-          )
+          .getPassedBoatReservationByBoatByBoatOwnerId(this.boatOwner.id)
           .subscribe((reservations) => {
             this.passedReservations = reservations;
             this.passedReservations.forEach((r) =>
@@ -117,9 +124,7 @@ export class BoatOwnerCalendarComponent implements OnInit {
             );
           });
         this.boatQuickReservationService
-          .getAllByBoatOwnerId(
-            this.boatOwner.id
-          )
+          .getAllByBoatOwnerId(this.boatOwner.id)
           .subscribe((reservations) => {
             this.quickReservations = reservations;
             this.quickReservations.forEach((r) =>
@@ -154,9 +159,7 @@ export class BoatOwnerCalendarComponent implements OnInit {
     };
   }
 
-  createQuickReservationsEvent(
-    reservation: IBoatQuickReservation
-  ): EventInput {
+  createQuickReservationsEvent(reservation: IBoatQuickReservation): EventInput {
     return {
       id: createEventId(),
       title: `Action - ${reservation.boat.name}`,
@@ -212,16 +215,17 @@ export class BoatOwnerCalendarComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (clickInfo.event.extendedProps.type === 'activeReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'passedReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
-    } else if (clickInfo.event.extendedProps.type === 'quickReservation') {
-      this.reservation = clickInfo.event.extendedProps.reservation;
-      this.showInfoModal();
+    this.reservation = clickInfo.event.extendedProps.reservation;
+    if (clickInfo.event.extendedProps.type === 'passedReservation') {
+      this.reservationReportService
+        .isReportedByBoatOwner(this.reservation.id)
+        .subscribe((reported) => {
+          this.showReport = !reported;
+        });
+    } else {
+      this.showReport = false;
     }
+    this.showInfoModal();
   }
 
   handleEvents(events: EventApi[]) {

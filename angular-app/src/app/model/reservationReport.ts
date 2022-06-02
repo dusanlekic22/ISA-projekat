@@ -4,12 +4,12 @@ import { IFishingReservation } from 'src/app/model/fishingReservation';
 
 export interface IReservationReport {
   id: number;
-  userPenalized: boolean;
+  userPenalized: boolean| null;
   comment: string;
   reservationReportStatus: ReservationReportStatus;
-  fishingReservation: IFishingReservation;
-  cottageReservation: ICottageReservation;
-  boatReservation: IBoatReservation;
+  fishingReservation: IFishingReservation| null;
+  cottageReservation: ICottageReservation| null;
+  boatReservation: IBoatReservation| null;
   answerOwner: string;
   answerCustomer: string;
 }

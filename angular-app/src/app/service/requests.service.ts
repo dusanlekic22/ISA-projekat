@@ -4,6 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IBusinessOwnerRegistrationRequest } from '../model/businessOwnerRegistrationRequest';
+import { IReservationReport } from '../model/reservationReport';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +14,20 @@ export class RequestsService {
   private userDeletionRequestsUrl = `${environment.apiUrl}/userDeletion`;
   public openDialogRegistration$: EventEmitter<IBusinessOwnerRegistrationRequest>;
   public submitedRegistrationRequest$: EventEmitter<IBusinessOwnerRegistrationRequest>;
+
   public openDialogDeletion$: EventEmitter<IUserDeletionRequest>;
   public submitedDeletionRequest$: EventEmitter<IUserDeletionRequest>;
+
+  public openDialogReport$: EventEmitter<IReservationReport>;
+  public submitedDialogReport$: EventEmitter<IReservationReport>;
 
   constructor(private http: HttpClient) {
     this.openDialogRegistration$ = new EventEmitter();
     this.submitedRegistrationRequest$ = new EventEmitter();
     this.openDialogDeletion$ = new EventEmitter();
     this.submitedDeletionRequest$ = new EventEmitter();
+    this.openDialogReport$ = new EventEmitter();
+    this.submitedDialogReport$ = new EventEmitter();
   }
 
   openDialogRegistration(request: IBusinessOwnerRegistrationRequest) {
@@ -37,6 +44,14 @@ export class RequestsService {
 
   submitedDeletionRequest() {
     this.submitedDeletionRequest$.emit();
+  }
+
+  openDialogReport(report: IReservationReport) {
+    this.openDialogReport$.emit(report);
+  }
+
+  submitedReportRequest() {
+    this.submitedDialogReport$.emit();
   }
 
   getBusinessOwnerRegistrationRequests(): Observable<

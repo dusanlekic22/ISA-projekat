@@ -1,6 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { IReservationReport, ReservationReportStatus } from "src/app/model/reservationReport";
-import { ReservationReportService } from "src/app/service/reservationReport.service";
+import { Component, OnInit } from '@angular/core';
+import {
+  IReservationReport,
+  ReservationReportStatus,
+} from 'src/app/model/reservationReport';
+import { RequestsService } from 'src/app/service/requests.service';
+import { ReservationReportService } from 'src/app/service/reservationReport.service';
 
 @Component({
   selector: 'app-report-requests',
@@ -10,8 +14,11 @@ import { ReservationReportService } from "src/app/service/reservationReport.serv
 export class ReportRequestsComponent implements OnInit {
   requests: IReservationReport[] = [];
 
-  constructor(private reportReservationService: ReservationReportService) {
-    this.reportReservationService.submitedDialogReport$.subscribe(() => {
+  constructor(
+    private reportReservationService: ReservationReportService,
+    private requestsService: RequestsService
+  ) {
+    this.requestsService.submitedDialogReport$.subscribe(() => {
       this.getRequests();
     });
   }
@@ -35,16 +42,14 @@ export class ReportRequestsComponent implements OnInit {
   }
 
   getReportStatus(request: IReservationReport): string {
-    if (request.reservationReportStatus == ReservationReportStatus.Negative)
+    if (String(request.reservationReportStatus) == 'Negative')
       return 'Negative';
-    else if (
-      request.reservationReportStatus == ReservationReportStatus.Positive
-    )
+    else if (String(request.reservationReportStatus) == 'Positive')
       return 'Positive';
     return "Didn't show up";
   }
 
   answer(report: IReservationReport) {
-    this.reportReservationService.openDialogReport(report);
+    this.requestsService.openDialogReport(report);
   }
 }

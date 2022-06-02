@@ -103,6 +103,7 @@ import { CottageOwnerCalendarComponent } from './components/cottage/cottage-owne
 import { BoatOwnerCalendarComponent } from './components/boat/boat-owner-calendar/boat-owner-calendar.component';
 import { ReportRequestsComponent } from './pages/admin-pages/report-requests/report-requests.component';
 import { AnswerReportRequestComponent } from './pages/admin-pages/answer-report-request/answer-report-request.component';
+import { OwnerReservationReportComponent } from './components/owner-reservation-report/owner-reservation-report.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -179,6 +180,7 @@ FullCalendarModule.registerPlugins([
     BoatOwnerCalendarComponent,
     ReportRequestsComponent,
     AnswerReportRequestComponent,
+    OwnerReservationReportComponent,
   ],
   imports: [
     NgbModule,

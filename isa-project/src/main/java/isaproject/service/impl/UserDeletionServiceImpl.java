@@ -97,7 +97,7 @@ public class UserDeletionServiceImpl implements UserDeletionService {
 	public UserDeletionRequest create(CreateUserDeletionRequestDTO deletionRequestDTO) {
 		UserDeletionRequest deletionRequest = new UserDeletionRequest();
 		deletionRequest.setAccepted(null);
-		deletionRequest.setDeletionExplanation(deletionRequest.getDeletionExplanation());
+		deletionRequest.setDeletionExplanation(deletionRequestDTO.getDeletionExplanation());
 		deletionRequest.setUserEmail(deletionRequestDTO.getUserEmail());
 		return requestRepository.save(deletionRequest);
 	}

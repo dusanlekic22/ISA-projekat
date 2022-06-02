@@ -1,8 +1,8 @@
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
+import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../pages/registration/registration/user';
 
@@ -31,6 +31,13 @@ export class UserService {
     }
   }
 
+  createDeleteRequest(explanation:string, email:string): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/userDeletion`,{deletionExplanation:explanation,userEmail:email})
+    .pipe(tap((data) => console.log('All: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
   getCurrentUser(): Observable<IUser> {
     return this.http.get<any>(`${environment.apiUrl}/user`).pipe(
       map((user: IUser) => {
@@ -55,5 +62,10 @@ export class UserService {
       id: user.id,
       password: password,
     });
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    console.log(err.message);
+    return throwError(() => new Error('Error'));
   }
 }

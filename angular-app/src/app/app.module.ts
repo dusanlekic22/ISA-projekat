@@ -58,8 +58,6 @@ import { CustomerCottageProfileComponent } from './pages/cottage-profile/view/cu
 import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CottageProfileComponent } from './pages/cottage-owner/cottage-profile/cottage-profile.component';
-import { CottageOwnerProfileComponent } from './pages/cottage-owner/cottage-owner-profile/cottage-owner-profile.component';
-
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { CottageEditComponent } from './components/cottage/cottage-edit/cottage-edit.component';
@@ -107,6 +105,9 @@ import { CottageIncomeComponent } from './components/cottage/cottage-income/cott
 import { BoatIncomeComponent } from './components/boat/boat-income/boat-income.component';
 import { FishingCourseIncomeComponent } from './pages/fishing-trainer-pages/fishing-course-income/fishing-course-income.component';
 import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { OwnerBoatProfileComponent } from './pages/user-profile/view/owner-boat-profile/owner-boat-profile.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -121,7 +122,6 @@ FullCalendarModule.registerPlugins([
     FooterComponent,
     CottageProfileComponent,
     RegistrationComponent,
-    CottageOwnerProfileComponent,
     BaseCottageComponent,
     BusinessOwnerRegitrationComponent,
     ChooseRegistrationComponent,
@@ -185,6 +185,8 @@ FullCalendarModule.registerPlugins([
     FishingCourseIncomeComponent,
     CustomerBoatProfileComponent,
     CustomerFishingTrainerProfileComponent,
+    DeleteDialogComponent,
+    OwnerBoatProfileComponent,
   ],
   imports: [
     NgbModule,
@@ -216,6 +218,7 @@ FullCalendarModule.registerPlugins([
     MatCheckboxModule,
     MatChipsModule,
     MatPaginatorModule,
+    MatDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -3,6 +3,8 @@ import { IUser } from 'src/app/pages/registration/registration/user';
 import { ICustomer } from 'src/app/model/customer';
 import { CustomerService } from './../../../customer.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-customer-profile',
@@ -15,7 +17,7 @@ export class CustomerProfileComponent implements OnInit {
   customer!: ICustomer;
   constructor(
     private _customerService: CustomerService,
-    private _userService: UserService
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -26,5 +28,14 @@ export class CustomerProfileComponent implements OnInit {
   scroll(el: HTMLElement) {
     el.scrollIntoView();
   }
-  createDeleteUserRequest() {}
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      data: {email: this.user.email},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }

@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <p>Why do you want to delete your account?</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Explanation</mat-label>
+    <input matInput [(ngModel)]="data.explanation">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button (click)="createDeleteUserRequest()" cdkFocusInitial>Send a delete request</button>
+</div>

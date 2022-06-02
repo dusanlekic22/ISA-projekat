@@ -1,14 +1,15 @@
-import { IUser } from './../../../registration/registration/user';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { IUser } from 'src/app/pages/registration/registration/user';
 
 @Component({
-  selector: 'app-admin-profile',
-  templateUrl: './admin-profile.component.html',
-  styleUrls: ['../user-profile.component.css'],
+  selector: 'app-owner-boat-profile',
+  templateUrl: './owner-boat-profile.component.html',
+  styleUrls: ['./owner-boat-profile.component.css']
 })
-export class AdminProfileComponent implements OnInit {
+export class OwnerBoatProfileComponent implements OnInit {
+
   @Input() userId!: number;
   @Input() user!: IUser;
 
@@ -19,11 +20,12 @@ export class AdminProfileComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px',
-      data: { email: this.user.email },
+      data: {email: this.user.email},
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
+
 }

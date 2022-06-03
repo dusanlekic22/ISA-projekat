@@ -15,8 +15,7 @@ public class CustomerMapper {
 		customer.setEmail(customerDTO.getEmail());
 		customer.setPhoneNumber(customerDTO.getPhoneNumber());
 		customer.setAddress(customerDTO.getAddress());
-		customer.setPoints(customerDTO.getPoints());
-		customer.setLoyalityProgram(customerDTO.getLoyalityProgram());
+		customer.setLoyaltyProgram(customerDTO.getLoyaltyProgram());
 		customer.setPenalties(customerDTO.getPenalties());
 		return customer;
 	}
@@ -32,8 +31,7 @@ public class CustomerMapper {
 		customerDTO.setRoles(UserMapper.SetRoleToDTO(customer.getRoles()));
 		customerDTO.setPhoneNumber(customer.getPhoneNumber());
 		customerDTO.setAddress(customer.getAddress());
-		customerDTO.setPoints(customer.getPoints());
-		customerDTO.setLoyalityProgram(customer.getLoyalityProgram());
+		customerDTO.setLoyaltyProgram(customer.getLoyaltyProgram());
 		customerDTO.setPenalties(customer.getPenalties());
 		return customerDTO;
 	}

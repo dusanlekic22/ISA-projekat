@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -23,8 +24,6 @@ import isaproject.model.cottage.CottageReservation;
 public class Customer extends User {
 
 	private static final long serialVersionUID = 1L;
-	private String points;
-	private String loyalityProgram;
 	@JsonManagedReference("boatReservationCustomer")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	private Set<BoatReservation> boatReservation;
@@ -40,24 +39,10 @@ public class Customer extends User {
 	@JsonIgnore
 	private Set<Boat> subscribedBoats = new HashSet<Boat>();
 	private Integer penalties;
+	@Embedded
+	private LoyaltyProgram loyaltyProgram;
 
 	public Customer() {
-	}
-
-	public String getPoints() {
-		return points;
-	}
-
-	public void setPoints(String param) {
-		this.points = param;
-	}
-
-	public String getLoyalityProgram() {
-		return loyalityProgram;
-	}
-
-	public void setLoyalityProgram(String param) {
-		this.loyalityProgram = param;
 	}
 
 	public Set<BoatReservation> getBoatReservation() {
@@ -107,4 +92,13 @@ public class Customer extends User {
 	public void setPenalties(Integer penalties) {
 		this.penalties = penalties;
 	}
+
+	public LoyaltyProgram getLoyaltyProgram() {
+		return loyaltyProgram;
+	}
+
+	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+		this.loyaltyProgram = loyaltyProgram;
+	}
+
 }

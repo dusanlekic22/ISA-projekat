@@ -34,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Admin registerAdmin(UserDTO userDTO) {
-//		addressRepository.save(userDTO.getAddress());
+		addressRepository.save(userDTO.getAddress());
 		Admin admin = UserMapper.DTOToAdmin(userDTO);
 		admin.setRoles(roleService.findByName("ROLE_ADMIN"));
 		admin.setPassword(passwordEncoder.encode(userDTO.getPassword()));

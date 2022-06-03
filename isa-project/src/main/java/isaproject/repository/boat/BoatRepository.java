@@ -10,9 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import isaproject.dto.boat.BoatDTO;
 import isaproject.model.boat.Boat;
-import isaproject.model.cottage.Cottage;
 
 public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	

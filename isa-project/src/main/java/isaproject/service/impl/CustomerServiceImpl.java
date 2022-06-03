@@ -14,6 +14,8 @@ import isaproject.mapper.CustomerMapper;
 import isaproject.model.Customer;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.model.Mail;
 import isaproject.model.User;
 import isaproject.model.boat.BoatQuickReservation;
@@ -60,11 +62,13 @@ public class CustomerServiceImpl implements CustomerService {
 			throws UnsupportedEncodingException, MessagingException {
 		Customer customer = CustomerMapper.customerDTOtoCustomer(customerDTO);
 		customer.setRoles(roleService.findByName("ROLE_CUSTOMER"));
-		customer.setLoyalityProgram("Basic");
+		LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+		loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		loyaltyProgram.setPoints(0);
+		customer.setLoyaltyProgram(loyaltyProgram);
 		customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 		customer.setVerificationCode(RandomString.make(64));
 		customer.setEnabled(false);
-		customer.setPoints("0");
 
 		repo.save(customer);
 

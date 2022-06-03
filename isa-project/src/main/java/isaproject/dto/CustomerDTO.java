@@ -3,38 +3,29 @@ package isaproject.dto;
 import java.util.Set;
 
 import isaproject.model.Address;
+import isaproject.model.LoyaltyProgram;
 
 public class CustomerDTO extends UserDTO {
 
-	private String points;
-	private String loyalityProgram;
+	private LoyaltyProgram loyaltyProgram;
 	private Integer penalties;
 
 	public CustomerDTO() {
 	}
 
 	public CustomerDTO(Long id, String username, String password, String firstName, String lastName, String email,
-			Set<RoleDTO> roles, String phoneNumber, Address address,String points, String loyalityProgram) {
+			Set<RoleDTO> roles, String phoneNumber, Address address, LoyaltyProgram loyaltyProgram) {
 		super(id, username, password, firstName, lastName, email, roles, phoneNumber,
 				address);
-		this.points = points;
-		this.loyalityProgram = loyalityProgram;
+		this.loyaltyProgram = loyaltyProgram;
 	}
 
-	public String getPoints() {
-		return points;
+	public LoyaltyProgram getLoyaltyProgram() {
+		return loyaltyProgram;
 	}
 
-	public void setPoints(String points) {
-		this.points = points;
-	}
-
-	public String getLoyalityProgram() {
-		return loyalityProgram;
-	}
-
-	public void setLoyalityProgram(String loyalityProgram) {
-		this.loyalityProgram = loyalityProgram;
+	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+		this.loyaltyProgram = loyaltyProgram;
 	}
 
 	public Integer getPenalties() {

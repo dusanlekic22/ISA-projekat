@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -38,6 +39,9 @@ public class FishingTrainer extends User {
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
 	private Double averageGrade = 0.0;
+
+	@Embedded
+	private LoyaltyProgram loyalityProgram;
 
 	public FishingTrainer() {
 	}
@@ -109,6 +113,14 @@ public class FishingTrainer extends User {
 		} else {
 			averageGrade = sum;
 		}
+	}
+	
+	public LoyaltyProgram getLoyalityProgram() {
+		return loyalityProgram;
+	}
+
+	public void setLoyalityProgram(LoyaltyProgram loyalityProgram) {
+		this.loyalityProgram = loyalityProgram;
 	}
 
 }

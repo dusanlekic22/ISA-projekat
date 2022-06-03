@@ -103,7 +103,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				.CottageQuickReservationDTOToCottageQuickReservation(cottageQuickReservationDTO);
 		cottageQuickReservation.setReserved(false);
 
-		if (!cottageQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!cottageQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -216,7 +216,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	public CottageReservationDTO appointQuickReservation(Long reservationId, Long userId) {
 		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository.findById(reservationId)
 				.get();
-		if (!cottageQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!cottageQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 		cottageQuickReservation.setReserved(true);

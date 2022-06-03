@@ -105,7 +105,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
 		long reservationPrice = boatReservation.getBoat().getPricePerHour() * boatReservation.getDuration().getHours();
 		boatReservation.setPrice((int) (long) reservationPrice);
-		if (!boatReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -179,7 +179,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		boatReservation.setConfirmed(false);
 		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
-		if (!boatReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 

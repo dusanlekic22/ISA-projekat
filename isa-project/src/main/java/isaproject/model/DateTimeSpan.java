@@ -53,10 +53,11 @@ public class DateTimeSpan {
 		return startDate.compareTo(reservationDate.getStartDate()) <= 0 && endDate.compareTo(reservationDate.getEndDate()) >= 0;
 	}
 	
-	public boolean isDaysAfter(LocalDateTime date,int days) {
-		// (StartA >= Date + 1day) 
-		return startDate.compareTo(date.plusDays(days)) >= 0;
+	public boolean isHoursBefore(LocalDateTime date,int hours) {
+		// (StartA <= Date + 1hours) 
+		return startDate.compareTo(date.minusHours(hours)) <= 0;
 	}
+
 
 	public DateTimeSpan extend(LocalDateTime extend) {
 		return new DateTimeSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));

@@ -112,7 +112,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 		}
 		cottageReservation.setPrice((int) (long) reservationPrice);
-		if (!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -194,7 +194,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		cottageReservation.setConfirmed(false);
 		cottageReservation.setCustomer(customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get());
-		if (!cottageReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 

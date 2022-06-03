@@ -96,7 +96,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 				.DTOToFishingQuickReservation(fishingCourseQuickReservationDTO);
 		fishingCourseQuickReservation.setReserved(false);
 
-		if (!fishingCourseQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!fishingCourseQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -202,7 +202,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 	public FishingReservationDTO appointQuickReservation(Long reservationId, Long userId) {
 		FishingQuickReservation fishingCourseQuickReservation = fishingQuickReservationRepository
 				.findById(reservationId).get();
-		if (!fishingCourseQuickReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!fishingCourseQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 		fishingCourseQuickReservation.setReserved(true);

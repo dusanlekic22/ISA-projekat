@@ -89,7 +89,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		fishingeReservation.setConfirmed(true);
 		fishingeReservation
 				.setCustomer(customerRepository.findById(fishingeReservationDTO.getCustomer().getId()).get());
-		if (!fishingeReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -185,7 +185,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		fishingeReservation.setConfirmed(false);
 		fishingeReservation
 				.setCustomer(customerRepository.findById(fishingeReservationDTO.getCustomer().getId()).get());
-		if (!fishingeReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
+		if (!fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 

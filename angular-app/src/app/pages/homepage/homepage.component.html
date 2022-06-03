@@ -473,6 +473,23 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Fishing Trainer</mat-label>
+                      <mat-select
+                        name="fishingTrainerCount"
+                        [(ngModel)]="fishingTrainerId"
+                      >
+                        <mat-option
+                          *ngFor="let trainer of fishingTrainers"
+                          [value]="trainer.id"
+                        >
+                          {{ trainer.firstName }},{{ trainer.lastName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </div>

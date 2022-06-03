@@ -18,7 +18,7 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 	@Query(value =
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.fishing_trainer_available_date_spans  "
 				+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
-				+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
+				+ "  and (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
 				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
 				countQuery  = " SELECT count(*)  FROM public.fishing_trainer as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
@@ -34,7 +34,7 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 	@Query(value =
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a natural join public.fishing_trainer_available_date_spans  "
 				+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
-				+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
+				+ "  and (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
 				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
 				countQuery  = " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a natural join public.fishing_trainer_available_date_spans  "
 						+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "

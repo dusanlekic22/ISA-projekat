@@ -166,6 +166,8 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		String name = "%";
 		Double grade = -1.0;
 		int bed = 0;
+		Long fishingTrainerId = 0L;
+		
 		if (fishingCourseAvailability.getName() != null) {
 			name = name + fishingCourseAvailability.getName().toLowerCase().concat("%");
 		}
@@ -174,6 +176,9 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		}
 		if (fishingCourseAvailability.getBedCapacity() != 0) {
 			bed = fishingCourseAvailability.getBedCapacity();
+		}
+		if (fishingCourseAvailability.getFishingTrainer() != 0) {
+			fishingTrainerId = fishingCourseAvailability.getFishingTrainer();
 		}
 		Boolean isLocationSortDisabled = true;
 
@@ -208,15 +213,15 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 		if (fishingCourseAvailability.getDateSpan() == null || fishingCourseAvailability.getDateSpan().getStartDate() == null
 				|| fishingCourseAvailability.getDateSpan().getEndDate() == null) {
-			return searchFishingCourse(name, grade, bed, isLocationSortDisabled, paging);
+			return searchFishingCourse(name, grade, bed,fishingTrainerId, isLocationSortDisabled, paging);
 		} else {
-			return checkAvailabilty(fishingCourseAvailability, name, grade, bed, isLocationSortDisabled, paging);
+			return checkAvailabilty(fishingCourseAvailability, name, grade, bed,fishingTrainerId, isLocationSortDisabled, paging);
 		}
 
 	}
 
 	private Page<FishingCourseDTO> checkAvailabilty(FishingCourseAvailabilityDTO fishingCourseAvailability, String name, Double grade,
-			int bed, Boolean isLocationSortDisabled, Pageable paging) {
+			int bed,Long fishingTrainerId, Boolean isLocationSortDisabled, Pageable paging) {
 		int hours;
 		List<FishingCourse> availableFishingCourses;
 		List<FishingCourseDTO> availableFishingCoursesWithPrice;
@@ -225,9 +230,9 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		hours = (int) ChronoUnit.HOURS.between(start, end);
 		Page<FishingCourse> pageFishingCourse;
 		if(isLocationSortDisabled) {
-		pageFishingCourse = courseRepository.getAvailability(start, end, name, grade, bed, paging);
+		pageFishingCourse = courseRepository.getAvailability(start, end, name, grade, bed,fishingTrainerId, paging);
 		}else {
-			pageFishingCourse = courseRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
+			pageFishingCourse = courseRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed,fishingTrainerId, paging);
 		}
 		availableFishingCourses = pageFishingCourse.getContent();
 		availableFishingCoursesWithPrice = new ArrayList<FishingCourseDTO>();
@@ -243,14 +248,14 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		return pc;
 	}
 
-	private Page<FishingCourseDTO> searchFishingCourse(String name, Double grade, int bed, Boolean isLocationSortDisabled,
+	private Page<FishingCourseDTO> searchFishingCourse(String name, Double grade, int bed,Long fishingTrainerId, Boolean isLocationSortDisabled,
 			Pageable paging) {
 		List<FishingCourse> availableFishingCourses;
 		Page<FishingCourse> pageFishingCourse;
 		if(isLocationSortDisabled) {
-		pageFishingCourse = courseRepository.searchFishingCourse(name, grade, bed, paging);
+		pageFishingCourse = courseRepository.searchFishingCourse(name, grade, bed,fishingTrainerId, paging);
 		}else {
-		pageFishingCourse = courseRepository.searchFishingCourseWithSortLocation(name, grade, bed, paging);
+		pageFishingCourse = courseRepository.searchFishingCourseWithSortLocation(name, grade, bed,fishingTrainerId, paging);
 		}
 		availableFishingCourses = pageFishingCourse.getContent();
 		return new PageImpl(availableFishingCourses, paging, pageFishingCourse.getTotalElements());

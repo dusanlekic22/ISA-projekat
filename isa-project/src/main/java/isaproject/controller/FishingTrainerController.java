@@ -48,7 +48,7 @@ public class FishingTrainerController {
 	}
 	
 	
-	@PostMapping("/all")
+	@GetMapping("/all")
 	@ResponseBody
 	public Set<FishingTrainerDTO> getAll() {
 		return fishingTrainerService.getAll();

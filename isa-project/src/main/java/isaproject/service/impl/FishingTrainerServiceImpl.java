@@ -256,8 +256,6 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		@Override
 		public Page<FishingTrainerDTO> findByAvailability(FishingTrainerAvailabilityDTO fishingTrainerAvailability,Pageable pageable){
 
-			int hours = 0;
-
 			String name = "%";
 			Double grade = -1.0;
 		
@@ -306,12 +304,9 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 
 		private Page<FishingTrainerDTO> checkAvailabilty(FishingTrainerAvailabilityDTO fishingTrainerAvailability, String name, Double grade,
 				Boolean isLocationSortDisabled, Pageable paging) {
-			int hours;
 			List<FishingTrainer> availableFishingTrainers;
-			List<FishingTrainerDTO> availableFishingTrainersWithPrice;
 			LocalDateTime start = fishingTrainerAvailability.getDateSpan().getStartDate();
 			LocalDateTime end = fishingTrainerAvailability.getDateSpan().getEndDate();
-			hours = (int) ChronoUnit.HOURS.between(start, end);
 			Page<FishingTrainer> pageFishingTrainer;
 			if(isLocationSortDisabled) {
 			pageFishingTrainer = fishingTrainerRepository.getAvailability(start, end, name, grade, paging);

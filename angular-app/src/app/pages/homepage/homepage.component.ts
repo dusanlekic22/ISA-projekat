@@ -156,6 +156,8 @@ export class HomepageComponent implements OnInit {
   paginatorFishingTrainer!: MatPaginator;
   reservationFishingTrainer: IFishingTrainerAvailability =
     emptyFishingTrainerAvailability;
+  allFishingTrainers: IFishingTrainer[] = [];
+  fishingTrainerId: number = 0;
 
   constructor(
     private _cottageService: CottageService,
@@ -168,12 +170,21 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
     this.getCottages();
     this.getBoats();
+    this.getAllFishingTrainers();
     this.getFishingCourses();
     this.getFishingTrainers();
     this.minDateString = this.date(new Date());
     this.startDateCottageString = this.date(new Date());
     this.bminDateString = this.date(new Date());
     this.startDateBoatString = this.date(new Date());
+  }
+
+  getAllFishingTrainers() {
+    this._fishingTrainerService
+      .getAllFishingTrainers()
+      .subscribe(
+        (allFishingTrainers) => (this.allFishingTrainers = allFishingTrainers)
+      );
   }
 
   //cottage tab start

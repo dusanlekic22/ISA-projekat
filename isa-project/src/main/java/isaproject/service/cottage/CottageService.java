@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
@@ -53,5 +54,7 @@ public interface CottageService {
 	IncomeDTO getCottageIncomeMonthly(DateTimeSpan duration, long id);
 
 	IncomeDTO getCottageIncomeDaily(DateTimeSpan duration, long id);
+
+	CottageDTO addGrade(GradeDTO gradeDTO, long cottageId);
 
 }

@@ -5,9 +5,9 @@ import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
-import isaproject.model.CottageGrade;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.cottage.CottageImage;
 import isaproject.model.cottage.CottageOwner;
 import isaproject.model.cottage.CottageQuickReservation;
@@ -35,7 +35,7 @@ public class CottageDTO {
 
 	private CottageOwner cottageOwner;
 	
-	private Set<CottageGrade> cottageGrades = new HashSet<CottageGrade>();
+	private Set<Grade> grades = new HashSet<Grade>();
 	private Double averageGrade;
 
 	public CottageDTO() {
@@ -171,12 +171,12 @@ public class CottageDTO {
 		this.pricePerHour = pricePerHour;
 	}
 
-	public Set<CottageGrade> getCottageGrades() {
-		return cottageGrades;
+	public Set<Grade> getGrades() {
+		return grades;
 	}
 
-	public void setCottageGrades(Set<CottageGrade> cottageGrades) {
-		this.cottageGrades = cottageGrades;
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 	public Double getAverageGrade() {

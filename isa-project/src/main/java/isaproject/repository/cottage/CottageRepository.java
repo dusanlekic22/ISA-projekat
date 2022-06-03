@@ -22,69 +22,69 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 			  " SELECT *  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 				+ " WHERE ((c.id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(c.name) like :name OR :name is null)  " 
-				+ " and ( c.grade = :grade OR :grade = -1.0)  "
+				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 				countQuery  = " SELECT count(*)  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(c.name) like :name OR :name is null)  " 
-						+ " and ( c.grade = :grade OR :grade = -1.0)  "
+						+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 						+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 					nativeQuery = true)
 	Page<Cottage> getAvailability(
 			@Param("start") LocalDateTime start,
 			@Param("end") LocalDateTime end,
-			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
 
 	
 	@Query(value =
 			  " SELECT *  FROM  public.cottage as c natural join public.address as a natural join public.cottage_available_date_spans  "
 				+ " WHERE ((c.id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(c.name) like :name OR :name is null)  " 
-				+ " and ( c.grade = :grade OR :grade = -1.0)  "
+				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 				countQuery  = " SELECT count(*)  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(c.name) like :name OR :name is null)  " 
-						+ " and ( c.grade = :grade OR :grade = -1.0)  "
+						+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 						+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 					nativeQuery = true)
 	Page<Cottage> getAvailabilityWithSortLocation(
 			@Param("start") LocalDateTime start,
 			@Param("end") LocalDateTime end,
-			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
 
 	
 	@Query(value =
 			  " SELECT *  FROM public.cottage as c "
 			    + " WHERE "
 				+ " (lower(c.name) like :name OR :name is null)  " 
-				+ " and ( c.grade = :grade OR :grade = -1.0)  "
+				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.cottage as c "
 					+ " WHERE "
 					+ " (lower(c.name) like :name OR :name is null)  " 
-					+ " and ( c.grade = :grade OR :grade = -1.0)  "
+					+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 					+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 					nativeQuery = true)
 	Page<Cottage> searchCottage(
-			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
 
 	@Query(value =
 			  " SELECT *  FROM public.cottage as c natural join public.address as a "
 			    + " WHERE "
 				+ "  (lower(c.name) like :name OR :name is null)  " 
-				+ " and ( c.grade = :grade OR :grade = -1.0)  "
+				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.cottage as c "
 					+ " WHERE "
 					+ " (lower(c.name) like :name OR :name is null)  " 
-					+ " and ( c.grade = :grade OR :grade = -1.0)  "
+					+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
 					+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
 					nativeQuery = true)
 	Page<Cottage> searchCottageWithSortLocation(
-			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
 
 	
 	

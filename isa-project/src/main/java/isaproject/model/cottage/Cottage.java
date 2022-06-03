@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
-import isaproject.model.CottageGrade;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 
 @Entity(name ="cottage")
 public class Cottage implements Serializable {
@@ -75,7 +75,7 @@ public class Cottage implements Serializable {
 	private Set<Customer> subscribers = new HashSet<>();
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_grades", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "grades_cottage"))
-	private Set<CottageGrade> cottageGrades = new HashSet<CottageGrade>();
+	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
 	private Double averageGrade;
 	
@@ -213,33 +213,33 @@ public class Cottage implements Serializable {
 		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
 	}
 
-	public Set<CottageGrade> getCottageGrades() {
-		return cottageGrades;
+	public Set<Grade> getGrades() {
+		return grades;
 	}
 	
-	public void addCottageGrade(CottageGrade cottageGrade) {
-		cottageGrades.add(cottageGrade);
+	public void addGrade(Grade grade) {
+		grades.add(grade);
 		setAverageGrade();
 	}
 
-	public void setCottageGrades(Set<CottageGrade> cottageGrades) {
-		this.cottageGrades = cottageGrades;
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 	public Double getAverageGrade() {
 		Double sum = 0.0;
-		for(CottageGrade cottageGrade:cottageGrades) {
-			sum+=cottageGrade.getValue();
+		for(Grade grade:grades) {
+			sum+=grade.getValue();
 		}
-		return sum/cottageGrades.size();
+		return sum/grades.size();
 	}
 
 	public void setAverageGrade() {
 		Double sum = 0.0;
-		for(CottageGrade cottageGrade:cottageGrades) {
-			sum+=cottageGrade.getValue();
+		for(Grade grade:grades) {
+			sum+=grade.getValue();
 		}
-		averageGrade = sum/cottageGrades.size();
+		averageGrade = sum/grades.size();
 	}
 
 }

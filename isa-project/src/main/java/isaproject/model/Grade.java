@@ -1,21 +1,20 @@
 package isaproject.model;
 
 import javax.persistence.Embeddable;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 @Embeddable
-@MappedSuperclass
 public class Grade {
 
 	private Double value;
-
+	
+	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
 
 	private Boolean isAccepted;
 
 	public Grade() {
-		super();
-		validate();
 	}
 
 	public Grade(Double value, User user, Boolean isAccepted) {
@@ -46,7 +45,7 @@ public class Grade {
 		return user;
 	}
 
-	public Boolean isAccepted() {
+	public Boolean getIsAccepted() {
 		return isAccepted;
 	}
 

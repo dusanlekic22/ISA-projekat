@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
@@ -27,10 +28,12 @@ import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
@@ -46,7 +49,6 @@ import isaproject.service.cottage.CottageService;
 public class CottageServiceImpl implements CottageService {
 
 	private CottageRepository cottageRepository;
-
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 	private StatisticsService statisticsService;
@@ -530,6 +532,20 @@ public class CottageServiceImpl implements CottageService {
 		}
 		income.setDailySum(incomeSum);
 		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+
+	@Override
+	public CottageDTO addGrade(GradeDTO gradeDTO,long cottageId) {
+		Cottage cottage = cottageRepository.findById(cottageId).get();
+		for(Grade grade: cottage.getGrades()) {
+			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {
+				cottage.getGrades().remove(grade);
+				break;
+			}
+		}
+		cottage.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
+		cottageRepository.save(cottage);
+		return CottageMapper.CottageToCottageDTO(cottage);
 	}
 
 }

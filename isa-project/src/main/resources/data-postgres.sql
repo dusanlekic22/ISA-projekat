@@ -6,6 +6,18 @@ insert into role (name) values ('ROLE_CUSTOMER');
 insert into role (name) values ('ROLE_COTTAGE_OWNER');
 insert into role (name) values ('ROLE_BOAT_OWNER');
 
+
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
+insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
+
+
 -- username:admin password:123
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Darko', 'Vrbaski', 'semestar2021+1@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (1, 1);
@@ -31,23 +43,14 @@ insert into app_user (username, password, first_name, last_name, email, enabled,
 insert into app_user_roles (user_id, role_id) values (6, 3);
 insert into customer (id) values (6);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date,address_id) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00',1);
 insert into app_user_roles (user_id, role_id) values (7, 2);
-insert into fishing_trainer (id, biography) values (7, 'Skroz lagan lik :)');
+insert into fishing_trainer (id, biography,grade) values (7, 'Skroz lagan lik :)',5);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('tresnja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Tresnja', 'Sljivic', 'semestar2021+8@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (8, 5);
 insert into boat_owner (id) values (8);
 
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Novi Sad', 'Srbija', '24', '88','Strazilovska');
-insert into address (city, country, latitude, longitude,street) values ('Zrenjanin', 'Srbija', '24', '88','Strazilovska');
 
 
 insert into cottage (name, promo_description,grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca',2.5, 3, 15, 1,'Nema',2,4);
@@ -72,8 +75,8 @@ insert into cottage_available_date_spans (start_date, end_date, cottage_id) valu
 insert into cottage_unavailable_date_spans (start_date, end_date, cottage_id) values ('2022-07-03', '2022-07-15',4);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
-insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
-insert into fishing_course (name, promo_description, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace', 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
+insert into fishing_course (name, promo_description,grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace',4.2, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
+insert into fishing_course (name, promo_description,grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace',4.8, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
 --insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,1,5);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,5);
 

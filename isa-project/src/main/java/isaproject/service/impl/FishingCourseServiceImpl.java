@@ -1,5 +1,7 @@
 package isaproject.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +12,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,18 +22,17 @@ import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
+import isaproject.dto.SortTypeDTO;
+import isaproject.exception.ReservedServiceException;
+import isaproject.mapper.FishingCourseMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
+import isaproject.mapper.SortTypeMapper;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingReservation;
 import isaproject.model.Income;
 import isaproject.model.ReservationCount;
-import isaproject.dto.SortTypeDTO;
-import isaproject.exception.ReservedServiceException;
-import isaproject.mapper.FishingCourseMapper;
-import isaproject.mapper.SortTypeMapper;
-import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.FishingCourseRepository;
@@ -139,6 +141,9 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
 		if(sortTypes !=null) {
 			for (SortType sortType : sortTypes) {
+				if(sortType !=null && sortType.getField().equals("price_per_hour")) {
+					sortType.setField("price");
+				}
 				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
 					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
 				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
@@ -156,7 +161,99 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable){
-		return null;
+		int hours = 0;
+
+		String name = "%";
+		Double grade = -1.0;
+		int bed = 0;
+		if (fishingCourseAvailability.getName() != null) {
+			name = name + fishingCourseAvailability.getName().toLowerCase().concat("%");
+		}
+		if (fishingCourseAvailability.getGrade() != null) {
+			grade = fishingCourseAvailability.getGrade();
+		}
+		if (fishingCourseAvailability.getBedCapacity() != 0) {
+			bed = fishingCourseAvailability.getBedCapacity();
+		}
+		Boolean isLocationSortDisabled = true;
+
+		List<Sort.Order> sorts = new ArrayList<>();
+		if (fishingCourseAvailability.getSortBy() != null && fishingCourseAvailability.getSortBy().size() != 0) {
+
+			FishingCourseDTO dto;
+			for (SortType sortType : fishingCourseAvailability.getSortBy()) {
+				if(sortType !=null && sortType.getField().equals("price_per_hour")) {
+					sortType.setField("price");
+				}
+				if (sortType != null && sortType.getField().equals("latitude")) {
+					isLocationSortDisabled = false;
+					sortType.setField("a." + sortType.getField());
+					if (sortType.getDirection().toLowerCase().contains("desc")) {
+						sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));
+					} else {
+						sorts.add(new Sort.Order(Sort.Direction.ASC, "a.longitude"));
+					}
+				}
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+		}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		List<FishingCourse> availableFishingCourses;
+		List<FishingCourseDTO> availableFishingCoursesWithPrice;
+
+		if (fishingCourseAvailability.getDateSpan() == null || fishingCourseAvailability.getDateSpan().getStartDate() == null
+				|| fishingCourseAvailability.getDateSpan().getEndDate() == null) {
+			return searchFishingCourse(name, grade, bed, isLocationSortDisabled, paging);
+		} else {
+			return checkAvailabilty(fishingCourseAvailability, name, grade, bed, isLocationSortDisabled, paging);
+		}
+
+	}
+
+	private Page<FishingCourseDTO> checkAvailabilty(FishingCourseAvailabilityDTO fishingCourseAvailability, String name, Double grade,
+			int bed, Boolean isLocationSortDisabled, Pageable paging) {
+		int hours;
+		List<FishingCourse> availableFishingCourses;
+		List<FishingCourseDTO> availableFishingCoursesWithPrice;
+		LocalDateTime start = fishingCourseAvailability.getDateSpan().getStartDate();
+		LocalDateTime end = fishingCourseAvailability.getDateSpan().getEndDate();
+		hours = (int) ChronoUnit.HOURS.between(start, end);
+		Page<FishingCourse> pageFishingCourse;
+		if(isLocationSortDisabled) {
+		pageFishingCourse = courseRepository.getAvailability(start, end, name, grade, bed, paging);
+		}else {
+			pageFishingCourse = courseRepository.getAvailabilityWithSortLocation(start, end, name, grade, bed, paging);
+		}
+		availableFishingCourses = pageFishingCourse.getContent();
+		availableFishingCoursesWithPrice = new ArrayList<FishingCourseDTO>();
+		if (availableFishingCourses.size() != 0) {
+			FishingCourseDTO dto;
+			for (FishingCourse p : availableFishingCourses) {
+				dto = FishingCourseMapper.FishingCourseToFishingCourseDTOWithPrice(p, hours);
+				availableFishingCoursesWithPrice.add(dto);
+			}
+		}
+
+		Page<FishingCourseDTO> pc = new PageImpl(availableFishingCoursesWithPrice, paging, pageFishingCourse.getTotalElements());
+		return pc;
+	}
+
+	private Page<FishingCourseDTO> searchFishingCourse(String name, Double grade, int bed, Boolean isLocationSortDisabled,
+			Pageable paging) {
+		List<FishingCourse> availableFishingCourses;
+		Page<FishingCourse> pageFishingCourse;
+		if(isLocationSortDisabled) {
+		pageFishingCourse = courseRepository.searchFishingCourse(name, grade, bed, paging);
+		}else {
+		pageFishingCourse = courseRepository.searchFishingCourseWithSortLocation(name, grade, bed, paging);
+		}
+		availableFishingCourses = pageFishingCourse.getContent();
+		return new PageImpl(availableFishingCourses, paging, pageFishingCourse.getTotalElements());
 	}
 
 	@Override

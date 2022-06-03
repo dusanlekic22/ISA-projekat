@@ -278,6 +278,7 @@ export class HomepageComponent implements OnInit {
       this.boatChips = this.boatChips.filter((e) => e !== option);
     }
   }
+
   toggleSelectionBoatSort(chip: MatChip, option: ISortType) {
     if (chip.toggleSelected()) {
       this.boatSortChips.push(option);
@@ -304,7 +305,7 @@ export class HomepageComponent implements OnInit {
     }
     this.reservationBoat.name = this.searchBoatName;
     this.reservationBoat.bedCapacity = this.boatBedCount;
-    this.reservationBoat.grade = this.cottageGrade;
+    this.reservationBoat.grade = this.boatGrade;
     this._reservationService
       .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
       .subscribe((data: any) => {
@@ -380,34 +381,40 @@ export class HomepageComponent implements OnInit {
   }
 
   availableFishingCourses(page: number) {
-    //   this.reservationBoat.sortBy = [];
-    //   this.boatSortChips.forEach((e) => this.reservationBoat.sortBy.push(e));
-    //   this.reservationBoat.sortBy.push(this.boatSortBy);
-    //   if (this.startBoatDate === this.endBoatDate) {
-    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
-    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
-    //   } else {
-    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
-    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
-    //   }
-    //   this.reservationBoat.name = this.searchBoatName;
-    //   this.reservationBoat.bedCapacity = this.boatBedCount;
-    //   this.reservationBoat.grade = this.cottageGrade;
-    //   this._reservationService
-    //     .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
-    //     .subscribe((data: any) => {
-    //       this.boats = data.content;
-    //       this.boatPage = page;
-    //       this.boatTotalElements = data.totalElements;
-    //       if (
-    //         this.startBoatDate !== undefined ||
-    //         this.endBoatDate !== undefined ||
-    //         this.startBoatDate !== '' ||
-    //         this.endBoatDate !== ''
-    //       ) {
-    //         this.openBoats = 'no';
-    //       }
-    //     });
+    this.reservationFishingCourse.sortBy = [];
+    this.fishingCourseSortChips.forEach((e) =>
+      this.reservationFishingCourse.sortBy.push(e)
+    );
+    this.reservationFishingCourse.sortBy.push(this.fishingCourseSortBy);
+    if (this.startFishingCourseDate === this.endFishingCourseDate) {
+      this.reservationFishingCourse.dateSpan.startDate =
+        this.startFishingCourseDate;
+      this.reservationFishingCourse.dateSpan.endDate =
+        this.endFishingCourseDate;
+    } else {
+      this.reservationFishingCourse.dateSpan.startDate =
+        this.startFishingCourseDate;
+      this.reservationFishingCourse.dateSpan.endDate =
+        this.endFishingCourseDate;
+    }
+    this.reservationFishingCourse.name = this.searchFishingCourseName;
+    this.reservationFishingCourse.bedCapacity = this.fishingCourseBedCount;
+    this.reservationFishingCourse.grade = this.fishingCourseGrade;
+    this._reservationService
+      .getAvailableFishingCoursesByTimeSpan(this.reservationFishingCourse, page)
+      .subscribe((data: any) => {
+        this.fishingCourses = data.content;
+        this.fishingCoursePage = page;
+        this.fishingCourseTotalElements = data.totalElements;
+        if (
+          this.startFishingCourseDate !== undefined ||
+          this.endFishingCourseDate !== undefined ||
+          this.startFishingCourseDate !== '' ||
+          this.endFishingCourseDate !== ''
+        ) {
+          this.openFishingCourses = 'no';
+        }
+      });
   }
 
   searchFishingCourse() {
@@ -468,39 +475,47 @@ export class HomepageComponent implements OnInit {
   }
 
   availableFishingTrainers(page: number) {
-    //   this.reservationBoat.sortBy = [];
-    //   this.boatSortChips.forEach((e) => this.reservationBoat.sortBy.push(e));
-    //   this.reservationBoat.sortBy.push(this.boatSortBy);
-    //   if (this.startBoatDate === this.endBoatDate) {
-    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
-    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
-    //   } else {
-    //     this.reservationBoat.dateSpan.startDate = this.startBoatDate;
-    //     this.reservationBoat.dateSpan.endDate = this.endBoatDate;
-    //   }
-    //   this.reservationBoat.name = this.searchBoatName;
-    //   this.reservationBoat.bedCapacity = this.boatBedCount;
-    //   this.reservationBoat.grade = this.cottageGrade;
-    //   this._reservationService
-    //     .getAvailableBoatsByTimeSpan(this.reservationBoat, page)
-    //     .subscribe((data: any) => {
-    //       this.boats = data.content;
-    //       this.boatPage = page;
-    //       this.boatTotalElements = data.totalElements;
-    //       if (
-    //         this.startBoatDate !== undefined ||
-    //         this.endBoatDate !== undefined ||
-    //         this.startBoatDate !== '' ||
-    //         this.endBoatDate !== ''
-    //       ) {
-    //         this.openBoats = 'no';
-    //       }
-    //     });
+    this.reservationFishingTrainer.sortBy = [];
+    this.fishingTrainerSortChips.forEach((e) =>
+      this.reservationFishingTrainer.sortBy.push(e)
+    );
+    this.reservationFishingTrainer.sortBy.push(this.fishingTrainerSortBy);
+    if (this.startFishingTrainerDate === this.endFishingTrainerDate) {
+      this.reservationFishingTrainer.dateSpan.startDate =
+        this.startFishingTrainerDate;
+      this.reservationFishingTrainer.dateSpan.endDate =
+        this.endFishingTrainerDate;
+    } else {
+      this.reservationFishingTrainer.dateSpan.startDate =
+        this.startFishingTrainerDate;
+      this.reservationFishingTrainer.dateSpan.endDate =
+        this.endFishingTrainerDate;
+    }
+    this.reservationFishingTrainer.name = this.searchFishingTrainerName;
+    this.reservationFishingTrainer.grade = this.fishingTrainerGrade;
+    this._reservationService
+      .getAvailableFishingTrainersByTimeSpan(
+        this.reservationFishingTrainer,
+        page
+      )
+      .subscribe((data: any) => {
+        this.fishingTrainers = data.content;
+        this.fishingTrainerPage = page;
+        this.fishingTrainerTotalElements = data.totalElements;
+        if (
+          this.startFishingTrainerDate !== undefined ||
+          this.endFishingTrainerDate !== undefined ||
+          this.startFishingTrainerDate !== '' ||
+          this.endFishingTrainerDate !== ''
+        ) {
+          this.openFishingTrainers = 'no';
+        }
+      });
   }
 
   searchFishingTrainer() {
     this.fishingCourseSearch = true;
-    this.availableFishingCourses(0);
+    this.availableFishingTrainers(0);
   }
 
   onChangeFishingTrainerPage(pe: PageEvent) {

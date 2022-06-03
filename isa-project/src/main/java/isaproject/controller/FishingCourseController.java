@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.cottage.CottageDTO;
+import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 
 @RestController
@@ -135,6 +135,14 @@ public class FishingCourseController {
 	public ResponseEntity<IncomeDTO> getIncomeDaily(@PathVariable("id") Long id,
 			@RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeDaily(duration, id), HttpStatus.OK);
+	}
+	
+	@PostMapping("/availability")
+	@ResponseBody
+	public Page<FishingCourseDTO> search(@RequestBody FishingCourseAvailabilityDTO fishingCourseAvailability,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingCourseService.findByAvailability(fishingCourseAvailability, paging);
 	}
 
 }

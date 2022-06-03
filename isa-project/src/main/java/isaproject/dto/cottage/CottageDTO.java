@@ -34,8 +34,6 @@ public class CottageDTO {
 	private Set<Customer> subscribers;
 
 	private CottageOwner cottageOwner;
-	
-	private Set<Grade> grades = new HashSet<Grade>();
 	private Double averageGrade;
 
 	public CottageDTO() {
@@ -169,14 +167,6 @@ public class CottageDTO {
 
 	public void setPricePerHour(Integer pricePerHour) {
 		this.pricePerHour = pricePerHour;
-	}
-
-	public Set<Grade> getGrades() {
-		return grades;
-	}
-
-	public void setGrades(Set<Grade> grades) {
-		this.grades = grades;
 	}
 
 	public Double getAverageGrade() {

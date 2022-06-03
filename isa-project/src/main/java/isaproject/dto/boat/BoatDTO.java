@@ -40,7 +40,6 @@ public class BoatDTO {
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	private Set<Customer> subscribers = new HashSet<>();
-	private Set<Grade> grades = new HashSet<Grade>();
 	private Double averageGrade;
 
 	public long getId() {
@@ -233,14 +232,6 @@ public class BoatDTO {
 
 	public void setSubscribers(Set<Customer> subscribers) {
 		this.subscribers = subscribers;
-	}
-
-	public Set<Grade> getGrades() {
-		return grades;
-	}
-
-	public void setGrades(Set<Grade> grades) {
-		this.grades = grades;
 	}
 
 	public Double getAverageGrade() {

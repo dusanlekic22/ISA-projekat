@@ -28,7 +28,6 @@ public class CottageMapper {
 		cottage.setUnavailableReservationDateSpan(cottageDTO.getUnavailableReservationDateSpan());
 		cottage.setCottageOwner(cottageDTO.getCottageOwner());
 		cottage.setSubscribers(cottageDTO.getSubscribers());
-		cottage.setGrades(cottageDTO.getGrades());
 		cottage.setAverageGrade();
 		return cottage;
 	}
@@ -52,7 +51,6 @@ public class CottageMapper {
 		cottageDTO.setUnavailableReservationDateSpan(cottage.getUnavailableReservationDateSpan());
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());
 		cottageDTO.setSubscribers(cottage.getSubscribers());
-		cottageDTO.setGrades(cottage.getGrades());
 		cottageDTO.setAverageGrade(cottage.getAverageGrade());
 		return cottageDTO;
 	}

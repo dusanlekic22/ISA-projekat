@@ -23,7 +23,6 @@ export interface IFishingCourse {
   price: number;
   cancellationPercentageKeep: number;
   fishingTrainer: IFishingTrainer;
-  grades:IGrade[];
   averageGrade:number;
 }
 export interface IFishingCoursePage {
@@ -57,7 +56,6 @@ export const emptyFishingCourse: IFishingCourse = {
     street: '',
   },
   promoDescription: '',
-  grades:[],
   averageGrade:0,
   fishingImage: [],
   capacity: 0,

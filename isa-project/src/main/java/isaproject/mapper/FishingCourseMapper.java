@@ -25,7 +25,6 @@ public class FishingCourseMapper {
 		fishingCourse.setPrice(fishingCourseDTO.getPrice());
 		fishingCourse.setCancellationPercentageKeep(fishingCourseDTO.getCancellationPercentageKeep());
 		fishingCourse.setFishingTrainer(fishingCourseDTO.getFishingTrainer());
-		fishingCourse.setGrades(fishingCourseDTO.getGrades());
 		fishingCourse.setAverageGrade();
 		return fishingCourse;
 	}
@@ -46,7 +45,6 @@ public class FishingCourseMapper {
 		fishingCourseDTO.setPrice(fishingCourse.getPrice());
 		fishingCourseDTO.setCancellationPercentageKeep(fishingCourse.getCancellationPercentageKeep());
 		fishingCourseDTO.setFishingTrainer(fishingCourse.getFishingTrainer());
-		fishingCourseDTO.setGrades(fishingCourse.getGrades());
 		fishingCourseDTO.setAverageGrade(fishingCourse.getAverageGrade());
 		return fishingCourseDTO;
 	}

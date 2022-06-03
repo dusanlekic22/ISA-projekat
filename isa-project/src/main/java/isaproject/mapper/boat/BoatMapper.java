@@ -32,7 +32,6 @@ public class BoatMapper {
 		boat.setUnavailableReservationDateSpan(boatDTO.getUnavailableReservationDateSpan());
 		boat.setBoatOwner(boatDTO.getBoatOwner());
 		boat.setSubscribers(boatDTO.getSubscribers());
-		boat.setGrades(boatDTO.getGrades());
 		boat.setAverageGrade();
 		return boat;
 	}
@@ -61,7 +60,6 @@ public class BoatMapper {
 		boatDTO.setUnavailableReservationDateSpan(boat.getUnavailableReservationDateSpan());
 		boatDTO.setBoatOwner(boat.getBoatOwner());
 		boatDTO.setSubscribers(boat.getSubscribers());
-		boatDTO.setGrades(boat.getGrades());
 		boatDTO.setAverageGrade(boat.getAverageGrade());
 		return boatDTO;
 	}

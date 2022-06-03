@@ -28,7 +28,6 @@ export interface IBoat {
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
   boatOwner: IUser;
-  grades:IGrade[];
   averageGrade:number;
 }
 
@@ -50,7 +49,6 @@ export const initBoat: IBoat = {
     longitude: 19.842518,
     street: '',
   },
-  grades:[],
   averageGrade:0,
   description: '',
   grade: 0,

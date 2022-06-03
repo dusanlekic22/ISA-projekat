@@ -28,7 +28,6 @@ public class FishingCourseDTO {
 	private Set<AdditionalService> additionalService;
 	private Set<FishingReservation> fishingReservation;
 	private FishingTrainer fishingTrainer;
-	private Set<Grade> grades = new HashSet<Grade>();
 	private Double averageGrade;
 
 	public FishingCourseDTO() {
@@ -154,15 +153,6 @@ public class FishingCourseDTO {
 	public void setFishingTrainer(FishingTrainer fishingTrainer) {
 		this.fishingTrainer = fishingTrainer;
 	}
-
-	public Set<Grade> getGrades() {
-		return grades;
-	}
-
-	public void setGrades(Set<Grade> grades) {
-		this.grades = grades;
-	}
-
 	public Double getAverageGrade() {
 		return averageGrade;
 	}

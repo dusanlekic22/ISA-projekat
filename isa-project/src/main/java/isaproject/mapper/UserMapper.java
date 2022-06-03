@@ -11,14 +11,12 @@ import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.dto.boat.BoatOwnerDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.model.Admin;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Role;
 import isaproject.model.User;
 import isaproject.model.boat.BoatOwner;
-import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageOwner;
 
 public class UserMapper {
@@ -121,7 +119,7 @@ public class UserMapper {
 		fishingTrainerDTO.setPhoneNumber(fishingTrainer.getPhoneNumber());
 		fishingTrainerDTO.setAddress(fishingTrainer.getAddress());
 		fishingTrainerDTO.setBiography(fishingTrainer.getBiography());
-		fishingTrainerDTO.setGrade(fishingTrainer.getGrade());
+		fishingTrainerDTO.setAverageGrade(fishingTrainer.getAverageGrade());
 		fishingTrainerDTO.setFishingCourse(fishingTrainer.getFishingCourse());
 		fishingTrainerDTO.setAvailableReservationDateSpan(fishingTrainer.getAvailableReservationDateSpan());
 		fishingTrainerDTO.setUnavailableReservationDateSpan(fishingTrainer.getUnavailableReservationDateSpan());

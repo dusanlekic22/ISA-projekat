@@ -25,19 +25,19 @@ public class FishingTrainer extends User {
 	private Set<FishingCourse> fishingCourse = new HashSet<FishingCourse>();
 
 	private String biography = "";
-	private Double grade;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "fishing_trainer_available_date_spans",
-					 joinColumns = @JoinColumn(name = "fishing_trainer_id"),
-					 foreignKey = @ForeignKey(name = "date_spans_fishing_trainer"))
+	@CollectionTable(name = "fishing_trainer_available_date_spans", joinColumns = @JoinColumn(name = "fishing_trainer_id"), foreignKey = @ForeignKey(name = "date_spans_fishing_trainer"))
 	private Set<DateTimeSpan> availableReservationDateSpan = new HashSet<DateTimeSpan>();
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "fishing_trainer_unavailable_date_spans",
-					 joinColumns = @JoinColumn(name = "fishing_trainer_id"),
-					 foreignKey = @ForeignKey(name = "no_date_spans_fishing_trainer"))
+	@CollectionTable(name = "fishing_trainer_unavailable_date_spans", joinColumns = @JoinColumn(name = "fishing_trainer_id"), foreignKey = @ForeignKey(name = "no_date_spans_fishing_trainer"))
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "trainer_grades", joinColumns = @JoinColumn(name = "fishingTrainer_id"), foreignKey = @ForeignKey(name = "grades_fishing"))
+	private Set<Grade> grades = new HashSet<Grade>();
+	@SuppressWarnings("unused")
+	private Double averageGrade = 0.0;
 
 	public FishingTrainer() {
 	}
@@ -57,15 +57,6 @@ public class FishingTrainer extends User {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
-	
-
-	public Double getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Double grade) {
-		this.grade = grade;
-	}
 
 	public Set<DateTimeSpan> getAvailableReservationDateSpan() {
 		return availableReservationDateSpan;
@@ -81,6 +72,43 @@ public class FishingTrainer extends User {
 
 	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
 		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void addGrade(Grade grade) {
+		grades.add(grade);
+		setAverageGrade();
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
+	}
+
+	public Double getAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			return sum / grades.size();
+		} else {
+			return sum;
+		}
+	}
+
+	public void setAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			averageGrade = sum / grades.size();
+		} else {
+			averageGrade = sum;
+		}
 	}
 
 }

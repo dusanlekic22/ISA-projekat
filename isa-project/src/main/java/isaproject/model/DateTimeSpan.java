@@ -58,7 +58,6 @@ public class DateTimeSpan {
 		return startDate.compareTo(date.plusHours(hours)) <= 0;
 	}
 
-
 	public DateTimeSpan extend(LocalDateTime extend) {
 		return new DateTimeSpan(startDate, endDate.plusDays(extend.getDayOfMonth()));
 	}

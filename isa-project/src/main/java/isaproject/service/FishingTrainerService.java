@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingTrainer;
@@ -28,5 +29,7 @@ public interface FishingTrainerService {
 	FishingTrainerDTO updateUnavailableTerms(Long id, DateTimeSpan dateTimeSpan);
 	
 	Page<FishingTrainerDTO> findByAvailability(FishingTrainerAvailabilityDTO fishingTrainerAvailability,Pageable pageable);
+
+	FishingTrainerDTO addGrade(GradeDTO gradeDTO, long fishingId);
 
 }

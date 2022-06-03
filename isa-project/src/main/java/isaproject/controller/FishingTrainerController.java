@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.UserDTO;
 import isaproject.exception.ResourceConflictException;
@@ -46,7 +47,6 @@ public class FishingTrainerController {
 		this.fishingTrainerService = fishingTrainerService;
 		this.userService = userService;
 	}
-	
 	
 	@GetMapping("/all")
 	@ResponseBody
@@ -111,6 +111,13 @@ public class FishingTrainerController {
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
 		Pageable paging = PageRequest.of(page, size);
 		return fishingTrainerService.findByAvailability(fishingTrainerAvailability, paging);
+	}
+	
+	@PostMapping("/{id}/grade")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<FishingTrainerDTO> addGrade(@PathVariable("id") Long id,
+			@RequestBody GradeDTO gradeDTO) {
+		return new ResponseEntity<>(fishingTrainerService.addGrade(gradeDTO, id), HttpStatus.OK);
 	}
 
 }

@@ -11,7 +11,7 @@ public class FishingTrainerDTO extends UserDTO {
 	private String biography;
 	private Set<DateTimeSpan> availableReservationDateSpan;
 	private Set<DateTimeSpan> unavailableReservationDateSpan;
-	private Double grade;
+	private Double averageGrade;
 	
 	public FishingTrainerDTO() {
 	}
@@ -31,13 +31,13 @@ public class FishingTrainerDTO extends UserDTO {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
-	
-	public Double getGrade() {
-		return grade;
+
+	public Double getAverageGrade() {
+		return averageGrade;
 	}
 
-	public void setGrade(Double grade) {
-		this.grade = grade;
+	public void setAverageGrade(Double averageGrade) {
+		this.averageGrade = averageGrade;
 	}
 
 	public Set<DateTimeSpan> getAvailableReservationDateSpan() {

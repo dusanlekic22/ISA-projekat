@@ -45,13 +45,11 @@ insert into customer (id) values (6);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date,address_id) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00',1);
 insert into app_user_roles (user_id, role_id) values (7, 2);
-insert into fishing_trainer (id, biography,grade) values (7, 'Skroz lagan lik :)',5);
+insert into fishing_trainer (id, biography, average_grade) values (7, 'Skroz lagan lik :)',0.0);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('tresnja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Tresnja', 'Sljivic', 'semestar2021+8@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (8, 5);
 insert into boat_owner (id) values (8);
-
-
 
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',2,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',3,4);

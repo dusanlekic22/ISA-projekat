@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
-import isaproject.dto.CustomerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.mapper.RequestMapper;
@@ -49,7 +48,6 @@ public class UserController {
 		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
 	}
 	
-	
 	@GetMapping("/credentials/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public UserDTO checkUser(@PathVariable(value = "id") Long userId,Principal loggedInUser) {
@@ -59,8 +57,6 @@ public class UserController {
 		}
 		return user;
 	}
-	
-	
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")

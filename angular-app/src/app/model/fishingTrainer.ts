@@ -9,6 +9,7 @@ export interface IFishingTrainer extends IUser {
   fishingCourse: IFishingCourse[];
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
+  averageGrade: number;
 }
 
 export interface IFishingTrainerAvailability {
@@ -49,6 +50,7 @@ export const emptyFishingTrainer: IFishingTrainer = {
     longitude: 0,
   },
   biography: '',
+  averageGrade: 0,
   fishingCourse: [],
   availableReservationDateSpan: [],
   unavailableReservationDateSpan: [],

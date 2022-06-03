@@ -73,6 +73,7 @@ export const emptyFishingCourse: IFishingCourse = {
     password: '',
     firstName: '',
     lastName: '',
+    averageGrade:0,
     email: '',
     phoneNumber: '',
     address: {

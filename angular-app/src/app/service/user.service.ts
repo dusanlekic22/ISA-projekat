@@ -1,8 +1,14 @@
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  tap,
+  throwError,
+} from 'rxjs';
+import { catchError, distinctUntilChanged, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../pages/registration/registration/user';
 
@@ -40,6 +46,15 @@ export class UserService {
     );
   }
 
+  checkUser(id: number): Observable<IUser> {
+    return this.http
+      .get<any>(`${environment.apiUrl}/user/credentials/${id}`)
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   updateUser(user: IUser): Observable<IUser> {
     return this.http.put<any>(`${environment.apiUrl}/user/${user.id}`, user);
   }
@@ -50,10 +65,24 @@ export class UserService {
 
   changePassword(password: string): Observable<any> {
     let user: IUser = this.currentUserSubject.value;
-    console.log(user.id)
+    console.log(user.id);
     return this.http.put<any>(`${environment.apiUrl}/admin/changePassword`, {
       id: user.id,
       password: password,
+    });
+  }
+
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(() => {
+      return errorMessage;
     });
   }
 }

@@ -63,7 +63,7 @@ public class AdditionalServiceController {
 	
 	@GetMapping("/boat/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")
 	public ResponseEntity<Set<AdditionalServiceDTO>> getByBoatId(@PathVariable("id") Long id){
 		return new ResponseEntity<>(additionalServiceService.findByBoatId(id),HttpStatus.OK);
 	}

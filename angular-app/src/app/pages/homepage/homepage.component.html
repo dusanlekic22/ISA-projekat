@@ -329,8 +329,8 @@
                     [grade]="boat.grade"
                     price="{{ boat.pricePerHour }}"
                     openForReservation="{{ openBoats }}"
-                    [startDate]="startCottageDate"
-                    [endDate]="endCottageDate"
+                    [startDate]="startBoatDate"
+                    [endDate]="endBoatDate"
                   >
                   </app-base-cottage>
                 </div>
@@ -688,7 +688,7 @@
                   *ngFor="let fishingTrainer of fishingTrainers"
                 >
                   <app-base-cottage
-                    [type]="3"
+                    [type]="4"
                     name="{{ fishingTrainer.firstName }}, {{
                       fishingTrainer.lastName
                     }}"

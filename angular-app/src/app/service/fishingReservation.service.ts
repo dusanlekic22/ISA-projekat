@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ICustomer } from '../model/customer';
 import { IFishingReservation } from '../model/fishingReservation';
+import { IFishingCourse } from '../model/fishingCourse';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,20 @@ export class FishingReservationService {
         fishingReservation
       )
       .pipe(catchError(this.handleError));
+  }
+
+  addFishingReservationCustomer(
+    fishingCourseReservation: IFishingReservation
+  ): Observable<IFishingReservation> {
+    return this.http
+      .post<IFishingReservation>(
+        `${this.fishingReservationUrl}/customer`,
+        fishingCourseReservation
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   getPassedFishingReservationByFishingCourseId(
@@ -44,7 +59,9 @@ export class FishingReservationService {
     id: number
   ): Observable<IFishingReservation[]> {
     return this.http
-      .get<IFishingReservation[]>(`${this.fishingReservationUrl}/passed/trainer/${id}`)
+      .get<IFishingReservation[]>(
+        `${this.fishingReservationUrl}/passed/trainer/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 
@@ -52,7 +69,9 @@ export class FishingReservationService {
     id: number
   ): Observable<IFishingReservation[]> {
     return this.http
-      .get<IFishingReservation[]>(`${this.fishingReservationUrl}/active/trainer/${id}`)
+      .get<IFishingReservation[]>(
+        `${this.fishingReservationUrl}/active/trainer/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 

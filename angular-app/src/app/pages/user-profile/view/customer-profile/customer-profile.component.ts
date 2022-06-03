@@ -23,8 +23,6 @@ export class CustomerProfileComponent implements OnInit {
       .getCustomerById(this.userId)
       .subscribe((data) => (this.customer = data));
   }
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
+
   createDeleteUserRequest() {}
 }

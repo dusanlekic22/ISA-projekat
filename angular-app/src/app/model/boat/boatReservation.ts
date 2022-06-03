@@ -1,4 +1,4 @@
-import { IBoat } from './boat';
+import { IBoat, initBoat } from './boat';
 import { ICustomer } from '../customer';
 import { IDateSpan } from '../dateSpan';
 import { ISortType } from '../sortType';
@@ -38,4 +38,37 @@ export const emptyBoatAvailability = {
   latitude: 0,
   sortBy: [],
   freeAdditionalServices: [],
+};
+
+export const emptyBoatReservation = {
+  id: 0,
+  duration: {
+    startDate: new Date(),
+    endDate: new Date(),
+  },
+  guestCapacity: 0,
+  price: 0,
+  customer: {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    email: '',
+    phoneNumber: '',
+    roles: [],
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    enabled: true,
+    verificationCode: '',
+    points: '',
+    loyalityProgram: '',
+  },
+  confirmed: false,
+  boat: initBoat,
 };

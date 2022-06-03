@@ -15,6 +15,7 @@ import isaproject.dto.CustomerDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.boat.BoatReservationMapper;
+import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.boat.Boat;
@@ -104,7 +105,14 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		boatReservation.setConfirmed(true);
 		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
 		long reservationPrice = boatReservation.getBoat().getPricePerHour() * boatReservation.getDuration().getHours();
+		if(boatReservation.getAdditionalService()!= null) {
+			for(AdditionalService additionalService: boatReservation.getAdditionalService()) {
+				reservationPrice+= Double.parseDouble(additionalService.getPrice());
+			}
+			}
 		boatReservation.setPrice((int) (long) reservationPrice);
+		
+		
 		if (!boatReservation.getDuration().isDaysAfter(LocalDateTime.now(), 1)) {
 			return null;
 		}
@@ -135,9 +143,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			}
 		}
 
-		if (!overlaps)
-			return null;
-
+		if (!overlaps) {
+			return null;}
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
 	}

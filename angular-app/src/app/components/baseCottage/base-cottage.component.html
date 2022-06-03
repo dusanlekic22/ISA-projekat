@@ -57,7 +57,7 @@
           Grad :<strong *ngIf="address">{{ "   " + address.city }}</strong>
         </div>
         <div
-          *ngIf="openForReservation !== 'yes'"
+          *ngIf="openForReservation !== 'yes' && type !== 4"
           class="col-5 text-dark text-left"
         >
           <strong>Price: </strong>{{ "  " + price + " $" }}
@@ -86,7 +86,13 @@
     </div>
     <div
       class="reserv-btn"
-      *ngIf="openForReservation !== 'yes' && type === undefined && type !== 2"
+      *ngIf="
+        openForReservation !== 'yes' &&
+        type === undefined &&
+        type !== 2 &&
+        type !== 3 &&
+        type !== 4
+      "
     >
       <button
         *appHasRole="['ROLE_CUSTOMER']"
@@ -117,6 +123,20 @@
         class="btn btn-success reservationbtn"
         [routerLink]="[
           '/fishingCourse' + this.id + '/' + startDate + '/' + endDate
+        ]"
+      >
+        Book
+      </button>
+    </div>
+    <div
+      class="reserv-btn"
+      *ngIf="openForReservation !== 'yes' && type && type === 4"
+    >
+      <button
+        *appHasRole="['ROLE_CUSTOMER']"
+        class="btn btn-success reservationbtn"
+        [routerLink]="[
+          '/fishingCourseSearch' + this.id + '/' + startDate + '/' + endDate
         ]"
       >
         Book

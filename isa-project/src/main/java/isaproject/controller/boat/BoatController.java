@@ -55,7 +55,7 @@ public class BoatController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('BOAT_OWNER')")	
+	@PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")	
 	public BoatDTO loadById(@PathVariable("id") Long id) {
 		return boatService.findById(id);
 	}

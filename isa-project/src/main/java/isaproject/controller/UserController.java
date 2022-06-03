@@ -1,5 +1,6 @@
 package isaproject.controller;
 
+import java.security.InvalidParameterException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerRegistrationRequestDTO;
+import isaproject.dto.CustomerDTO;
 import isaproject.dto.RoleDTO;
 import isaproject.dto.UserDTO;
 import isaproject.mapper.RequestMapper;
@@ -46,6 +48,19 @@ public class UserController {
 	public UserDTO user(Principal user) {
 		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
 	}
+	
+	
+	@GetMapping("/credentials/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
+	public UserDTO checkUser(@PathVariable(value = "id") Long userId,Principal loggedInUser) {
+		UserDTO user = UserMapper.UserToDTO( this.userService.findById(userId));
+		if(!loggedInUser.getName().equals(user.getUsername())) {
+			throw new InvalidParameterException();
+		}
+		return user;
+	}
+	
+	
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")

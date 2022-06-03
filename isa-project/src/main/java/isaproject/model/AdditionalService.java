@@ -35,34 +35,35 @@ public class AdditionalService implements Serializable {
 	private String price;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "boat")
-	private Boat boat;
+    @JsonBackReference(value = "boat")
+    private Boat boat;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "cottage")
-	private Cottage cottage;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "cottage")
+    private Cottage cottage;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JsonBackReference(value = "fishingCourse")
-	private FishingCourse fishingCourse;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JsonBackReference(value = "fishingCourse")
+    private FishingCourse fishingCourse;
 
-	@ManyToOne(fetch = LAZY)
-	private FishingReservation fishingReservation;
-	@ManyToOne(fetch = LAZY)
-	private FishingQuickReservation fishingQuickReservation;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "cottageReservationService")
-	private CottageReservation cottageReservation;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "cottageQuickReservationService")
-	private CottageQuickReservation cottageQuickReservation;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "boatReservationService")
-	private BoatReservation boatReservation;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "boatQuickReservationService")
-	private BoatQuickReservation boatQuickReservation;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "fishingReservationService")
+    private FishingReservation fishingReservation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "fishingQuickReservationService")
+    private FishingQuickReservation fishingQuickReservation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "cottageReservationService")
+    private CottageReservation cottageReservation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "cottageQuickReservationService")
+    private CottageQuickReservation cottageQuickReservation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "boatReservationService")
+    private BoatReservation boatReservation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "boatQuickReservationService")
+    private BoatQuickReservation boatQuickReservation;
 	public AdditionalService() {
 	}
 

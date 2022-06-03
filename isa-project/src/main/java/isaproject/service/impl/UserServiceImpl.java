@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
 		this.mailService = mailService;
 		this.passwordEncoder = passwordEncoder;
 	}
+	
+	@Override
+	public User findById(Long userId) {
+		return userRepository.findById(userId).get();
+	}
 
 	@Override
 	@Transactional

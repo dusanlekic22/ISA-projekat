@@ -17,8 +17,28 @@ export class BoatReservationService {
     boat: IBoat
   ): Observable<IBoatReservation> {
     return this._http
+      .post<IBoatReservation>(environment.apiUrl + '/boatReservation/owner', {
+        id: boatReservation.id,
+        duration: boatReservation.duration,
+        guestCapacity: boatReservation.guestCapacity,
+        price: boatReservation.price,
+        customer: boatReservation.customer,
+        confirmed: boatReservation.confirmed,
+        boat: boat,
+      })
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  addBoatReservationCustomer(
+    boatReservation: IBoatReservation,
+    boat: IBoat
+  ): Observable<IBoatReservation> {
+    return this._http
       .post<IBoatReservation>(
-        environment.apiUrl + '/boatReservation/owner',
+        environment.apiUrl + '/boatReservation/customer',
         {
           id: boatReservation.id,
           duration: boatReservation.duration,
@@ -35,9 +55,7 @@ export class BoatReservationService {
       );
   }
 
-  getPassedBoatReservationByBoatId(
-    id: number
-  ): Observable<IBoatReservation[]> {
+  getPassedBoatReservationByBoatId(id: number): Observable<IBoatReservation[]> {
     return this._http
       .get<IBoatReservation[]>(
         environment.apiUrl + `/boatReservation/passed/${id}`
@@ -48,9 +66,7 @@ export class BoatReservationService {
       );
   }
 
-  getActiveBoatReservationByBoatId(
-    id: number
-  ): Observable<IBoatReservation[]> {
+  getActiveBoatReservationByBoatId(id: number): Observable<IBoatReservation[]> {
     return this._http
       .get<IBoatReservation[]>(
         environment.apiUrl + `/boatReservation/active/${id}`
@@ -76,7 +92,9 @@ export class BoatReservationService {
     id: number
   ): Observable<IBoatReservation[]> {
     return this._http
-      .get<IBoatReservation[]>(environment.apiUrl +`/boatReservation/active/owner/${id}`)
+      .get<IBoatReservation[]>(
+        environment.apiUrl + `/boatReservation/active/owner/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 
@@ -84,7 +102,9 @@ export class BoatReservationService {
     id: number
   ): Observable<IBoatReservation[]> {
     return this._http
-      .get<IBoatReservation[]>(environment.apiUrl +`/boatReservation/passed/owner/${id}`)
+      .get<IBoatReservation[]>(
+        environment.apiUrl + `/boatReservation/passed/owner/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 

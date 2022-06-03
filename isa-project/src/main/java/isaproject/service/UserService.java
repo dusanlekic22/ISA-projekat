@@ -13,7 +13,8 @@ import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.User;
 
 public interface UserService extends UserDetailsService {
-
+	
+	User findById(Long userId);
 	User findByUsername(String username);
 	UserDTO updateUser(Long id, UserDTO user,Principal loggedInUser);
 	BusinessOwnerRegistrationRequest activateUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO);

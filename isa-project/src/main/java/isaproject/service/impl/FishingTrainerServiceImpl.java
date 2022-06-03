@@ -1,5 +1,7 @@
 package isaproject.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,12 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import isaproject.dto.BusinessOwnerDTO;
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.UserMapper;
-import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingTrainer;
@@ -63,6 +65,9 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		this.fishingQuickReservationService = fishingQuickReservationService;
 	}
 	
+	public Set<FishingTrainerDTO> getAll(){
+		return fishingTrainerRepository.findAll().stream().map((fishingTrainer -> UserMapper.FishingTrainerToDTO(fishingTrainer))).collect(Collectors.toSet());
+	}
 	
 	public Page<FishingTrainerDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
 		List<Sort.Order> sorts = new ArrayList<>();
@@ -247,4 +252,84 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainerRepository.save(fishingTrainer);
 	}
 
+	
+		@Override
+		public Page<FishingTrainerDTO> findByAvailability(FishingTrainerAvailabilityDTO fishingTrainerAvailability,Pageable pageable){
+
+			String name = "%";
+			Double grade = -1.0;
+		
+			if (fishingTrainerAvailability.getName() != null) {
+				name = name + fishingTrainerAvailability.getName().toLowerCase().concat("%");
+			}
+			if (fishingTrainerAvailability.getGrade() != null) {
+				grade = fishingTrainerAvailability.getGrade();
+			}
+			Boolean isLocationSortDisabled = true;
+
+			List<Sort.Order> sorts = new ArrayList<>();
+			if (fishingTrainerAvailability.getSortBy() != null && fishingTrainerAvailability.getSortBy().size() != 0) {
+
+				FishingTrainerDTO dto;
+				for (SortType sortType : fishingTrainerAvailability.getSortBy()) {
+					if (sortType != null && sortType.getField().equals("latitude")) {
+						isLocationSortDisabled = false;
+						sortType.setField("a." + sortType.getField());
+						if (sortType.getDirection().toLowerCase().contains("desc")) {
+							sorts.add(new Sort.Order(Sort.Direction.DESC, "a.longitude"));
+						} else {
+							sorts.add(new Sort.Order(Sort.Direction.ASC, "a.longitude"));
+						}
+					}
+					if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+						sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+					} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+						sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+					}
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+			List<FishingTrainer> availableFishingTrainers;
+			List<FishingTrainerDTO> availableFishingTrainersWithPrice;
+
+			if (fishingTrainerAvailability.getDateSpan() == null || fishingTrainerAvailability.getDateSpan().getStartDate() == null
+					|| fishingTrainerAvailability.getDateSpan().getEndDate() == null) {
+				return searchFishingTrainer(name, grade, isLocationSortDisabled, paging);
+			} else {
+				return checkAvailabilty(fishingTrainerAvailability, name, grade, isLocationSortDisabled, paging);
+			}
+
+		}
+
+		private Page<FishingTrainerDTO> checkAvailabilty(FishingTrainerAvailabilityDTO fishingTrainerAvailability, String name, Double grade,
+				Boolean isLocationSortDisabled, Pageable paging) {
+			List<FishingTrainer> availableFishingTrainers;
+			LocalDateTime start = fishingTrainerAvailability.getDateSpan().getStartDate();
+			LocalDateTime end = fishingTrainerAvailability.getDateSpan().getEndDate();
+			Page<FishingTrainer> pageFishingTrainer;
+			if(isLocationSortDisabled) {
+			pageFishingTrainer = fishingTrainerRepository.getAvailability(start, end, name, grade, paging);
+			}else {
+				pageFishingTrainer = fishingTrainerRepository.getAvailabilityWithSortLocation(start, end, name, grade, paging);
+			}
+			availableFishingTrainers = pageFishingTrainer.getContent();
+		
+
+			Page<FishingTrainerDTO> pc = new PageImpl(availableFishingTrainers, paging, pageFishingTrainer.getTotalElements());
+			return pc;
+		}
+
+		private Page<FishingTrainerDTO> searchFishingTrainer(String name, Double grade,Boolean isLocationSortDisabled,
+				Pageable paging) {
+			List<FishingTrainer> availableFishingTrainers;
+			Page<FishingTrainer> pageFishingTrainer;
+			if(isLocationSortDisabled) {
+			pageFishingTrainer = fishingTrainerRepository.searchFishingTrainer(name, grade ,paging);
+			}else {
+			pageFishingTrainer = fishingTrainerRepository.searchFishingTrainerWithSortLocation(name, grade,paging);
+			}
+			availableFishingTrainers = pageFishingTrainer.getContent();
+			return new PageImpl(availableFishingTrainers, paging, pageFishingTrainer.getTotalElements());
+		}
 }

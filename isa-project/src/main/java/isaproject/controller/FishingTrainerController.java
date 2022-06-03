@@ -2,6 +2,7 @@ package isaproject.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerDTO;
-import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.UserDTO;
@@ -46,6 +47,12 @@ public class FishingTrainerController {
 		this.userService = userService;
 	}
 	
+	
+	@GetMapping("/all")
+	@ResponseBody
+	public Set<FishingTrainerDTO> getAll() {
+		return fishingTrainerService.getAll();
+	}
 	
 	@PostMapping("/pagination")
 	@ResponseBody
@@ -77,6 +84,7 @@ public class FishingTrainerController {
 		return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.OK);
 	}
 
+
 	@PutMapping("/availableTerms/{id}")
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<FishingTrainerDTO> updateAvailableTerms(@PathVariable("id") Long id,
@@ -95,6 +103,14 @@ public class FishingTrainerController {
 		if (fishingTrainerDTO == null)
 			return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(fishingTrainerDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("/availability")
+	@ResponseBody
+	public Page<FishingTrainerDTO> search(@RequestBody FishingTrainerAvailabilityDTO fishingTrainerAvailability,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingTrainerService.findByAvailability(fishingTrainerAvailability, paging);
 	}
 
 }

@@ -106,11 +106,14 @@ import { BoatIncomeComponent } from './components/boat/boat-income/boat-income.c
 import { FishingCourseIncomeComponent } from './pages/fishing-trainer-pages/fishing-course-income/fishing-course-income.component';
 import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { OwnerBoatProfileComponent } from './pages/user-profile/view/owner-boat-profile/owner-boat-profile.component';
 import { ReportRequestsComponent } from './pages/admin-pages/report-requests/report-requests.component';
 import { AnswerReportRequestComponent } from './pages/admin-pages/answer-report-request/answer-report-request.component';
 import { OwnerReservationReportComponent } from './components/owner-reservation-report/owner-reservation-report.component';
+import { BaseBoatReservationComponent } from './components/base-boat-reservation/base-boat-reservation.component';
+import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
+import { BaseFishingCourseReservationComponent } from './components/base-fishing-course-reservation/base-fishing-course-reservation.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -193,6 +196,9 @@ FullCalendarModule.registerPlugins([
     ReportRequestsComponent,
     AnswerReportRequestComponent,
     OwnerReservationReportComponent,
+    BaseBoatReservationComponent,
+    BoatReservationComponent,
+    BaseFishingCourseReservationComponent,
   ],
   imports: [
     NgbModule,
@@ -224,7 +230,7 @@ FullCalendarModule.registerPlugins([
     MatCheckboxModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

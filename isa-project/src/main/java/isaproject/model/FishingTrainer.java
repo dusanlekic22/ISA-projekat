@@ -25,6 +25,7 @@ public class FishingTrainer extends User {
 	private Set<FishingCourse> fishingCourse = new HashSet<FishingCourse>();
 
 	private String biography = "";
+	private Double grade;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "fishing_trainer_available_date_spans",
@@ -55,6 +56,15 @@ public class FishingTrainer extends User {
 
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+	
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 
 	public Set<DateTimeSpan> getAvailableReservationDateSpan() {

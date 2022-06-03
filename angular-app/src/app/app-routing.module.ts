@@ -23,6 +23,7 @@ import { AddCottageComponent } from './components/cottage/add-cottage/add-cottag
 import { AddBoatComponent } from './components/boat/add-boat/add-boat.component';
 import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
 import { CustomerFishingTrainerProfileComponent } from './pages/fishing-trainer-profile/customer-fishing-trainer-profile/customer-fishing-trainer-profile.component';
+import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
 
 const routes: Routes = [
   {
@@ -104,6 +105,10 @@ const routes: Routes = [
   {
     path: 'cottage/:id/:startDate/:endDate',
     component: CottageReservationComponent,
+  },
+  {
+    path: 'boat/:id/:startDate/:endDate',
+    component: BoatReservationComponent,
   },
   { path: 'fishingTrainerCourses', component: FishingTrainerCoursesComponent },
   {

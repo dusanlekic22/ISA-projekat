@@ -31,11 +31,13 @@ export class CustomerProfileComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px',
-      data: {email: this.user.email},
+      data: { email: this.user.email },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
   }
+
+  createDeleteUserRequest() {}
 }

@@ -174,9 +174,9 @@
                     <mat-chip
                       *ngIf="openCottages === 'no'"
                       value="Price Ascending"
-                      #c="matChip"
+                      #c33="matChip"
                       (click)="
-                        toggleSelectionCottageSort(c, priceSortCottageType)
+                        toggleSelectionCottageSort(c33, priceSortCottageType)
                       "
                     >
                       Price
@@ -298,12 +298,12 @@
                 <div class="col-7 offset-1 chips">
                   <mat-chip-list [(ngModel)]="bchips" selectable multiple>
                     <mat-chip
-                      #c="matChip"
+                      #c9="matChip"
                       *ngFor="let option of optionsBoats"
                       [value]="option"
-                      (click)="toggleSelectionBoat(c, option)"
+                      (click)="toggleSelectionBoat(c9, option)"
                     >
-                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      <mat-icon *ngIf="c9.selected">check</mat-icon>
                       {{ option }}
                     </mat-chip>
                   </mat-chip-list>
@@ -329,8 +329,8 @@
                     [grade]="boat.grade"
                     price="{{ boat.pricePerHour }}"
                     openForReservation="{{ openBoats }}"
-                    [startDate]="startCottageDate"
-                    [endDate]="endCottageDate"
+                    [startDate]="startBoatDate"
+                    [endDate]="endBoatDate"
                   >
                   </app-base-cottage>
                 </div>
@@ -355,15 +355,15 @@
                     <mat-chip
                       *ngIf="openBoats === 'no'"
                       value="Price Ascending"
-                      #c="matChip"
-                      (click)="toggleSelectionBoatSort(c, priceSortBoatType)"
+                      #c998="matChip"
+                      (click)="toggleSelectionBoatSort(c998, priceSortBoatType)"
                     >
                       Price
                     </mat-chip>
                     <mat-chip
                       value="Grade Ascending"
-                      #c2="matChip"
-                      (click)="toggleSelectionBoatSort(c2, gradeSortBoatType)"
+                      #c999="matChip"
+                      (click)="toggleSelectionBoatSort(c999, gradeSortBoatType)"
                     >
                       Grade
                     </mat-chip>
@@ -473,6 +473,23 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Fishing Trainer</mat-label>
+                      <mat-select
+                        name="fishingTrainerCount"
+                        [(ngModel)]="fishingTrainerId"
+                      >
+                        <mat-option
+                          *ngFor="let trainer of fishingTrainers"
+                          [value]="trainer.id"
+                        >
+                          {{ trainer.firstName }},{{ trainer.lastName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </div>
@@ -480,12 +497,12 @@
                 <div class="col-7 offset-1 chips">
                   <mat-chip-list [(ngModel)]="fchips" selectable multiple>
                     <mat-chip
-                      #c="matChip"
+                      #cf="matChip"
                       *ngFor="let option of optionsFishingCourses"
                       [value]="option"
-                      (click)="toggleSelectionFishingCourse(c, option)"
+                      (click)="toggleSelectionFishingCourse(cf, option)"
                     >
-                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      <mat-icon *ngIf="cf.selected">check</mat-icon>
                       {{ option }}
                     </mat-chip>
                   </mat-chip-list>
@@ -543,10 +560,10 @@
                     <mat-chip
                       *ngIf="openFishingCourses === 'no'"
                       value="Price Ascending"
-                      #c="matChip"
+                      #cf9="matChip"
                       (click)="
                         toggleSelectionFishingCourseSort(
-                          c,
+                          cf9,
                           priceSortFishingCourseType
                         )
                       "
@@ -555,10 +572,10 @@
                     </mat-chip>
                     <mat-chip
                       value="Grade Ascending"
-                      #c2="matChip"
+                      #cf92="matChip"
                       (click)="
                         toggleSelectionFishingCourseSort(
-                          c2,
+                          cf92,
                           gradeSortFishingCourseType
                         )
                       "
@@ -585,7 +602,7 @@
                     type="datetime-local"
                     placeholder="Start date"
                     [(ngModel)]="startFishingTrainerDate"
-                    [min]="startDateFishingTrainerString"
+                    [min]="minDateString"
                     (change)="activateFishingTrainerEnd()"
                     id="session-date"
                     name="date1"
@@ -608,17 +625,46 @@
                     />
                   </div>
                 </div>
+                <div class="mb-3">
+                  <div class="col-4 boxc">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Name</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="searchFishingTrainerName"
+                        name="searchFishingCourseName"
+                        placeholder="Enter fishing course name"
+                      ></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Grade</mat-label>
+                      <textarea
+                        matInput
+                        [(ngModel)]="fishingTrainerGrade"
+                        name="fishingCourseGrade"
+                        placeholder="Enter fishing course grade"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-7 offset-1 chips">
                   <mat-chip-list [(ngModel)]="fchips" selectable multiple>
                     <mat-chip
-                      #c="matChip"
+                      #cft="matChip"
                       *ngFor="let option of optionsFishingCourses"
                       [value]="option"
-                      (click)="toggleSelectionFishingCourse(c, option)"
+                      (click)="toggleSelectionFishingCourse(cft, option)"
                     >
-                      <mat-icon *ngIf="c.selected">check</mat-icon>
+                      <mat-icon *ngIf="cft.selected">check</mat-icon>
                       {{ option }}
                     </mat-chip>
                   </mat-chip-list>
@@ -642,10 +688,11 @@
                   *ngFor="let fishingTrainer of fishingTrainers"
                 >
                   <app-base-cottage
-                    [type]="3"
+                    [type]="4"
                     name="{{ fishingTrainer.firstName }}, {{
                       fishingTrainer.lastName
                     }}"
+                    [promoDesc]="fishingTrainer.biography"
                     id="{{ fishingTrainer.id }}"
                     [address]="fishingTrainer.address"
                     [grade]="fishingTrainer.grade"
@@ -676,10 +723,10 @@
                     <mat-chip
                       *ngIf="openFishingCourses === 'no'"
                       value="Price Ascending"
-                      #c="matChip"
+                      #cft91="matChip"
                       (click)="
                         toggleSelectionFishingCourseSort(
-                          c,
+                          cft91,
                           priceSortFishingCourseType
                         )
                       "
@@ -688,10 +735,10 @@
                     </mat-chip>
                     <mat-chip
                       value="Grade Ascending"
-                      #c2="matChip"
+                      #cft92="matChip"
                       (click)="
                         toggleSelectionFishingCourseSort(
-                          c2,
+                          cft92,
                           gradeSortFishingCourseType
                         )
                       "

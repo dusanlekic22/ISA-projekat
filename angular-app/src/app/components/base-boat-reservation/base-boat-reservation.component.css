@@ -1,0 +1,29 @@
+.test {
+  position: absolute;
+  height: 300px;
+  width: 400px;
+  background: white;
+  z-index: 20;
+}
+
+input {
+  font-size: 20px;
+  min-width: 260px;
+  width: 270px;
+  border: 0px;
+}
+input:focus {
+  border: 2px solid green !important;
+}
+
+.enddate {
+  height: 80px;
+}
+
+.boxc {
+  width: 250px;
+}
+
+.labela {
+  min-width: 100px;
+}

@@ -8,6 +8,14 @@ import { catchError, tap } from 'rxjs/operators';
 import { ICottagePage } from '../model/cottage';
 import { IBoatAvailability } from '../model/boat/boatReservation';
 import { IBoatPage } from '../model/boat/boat';
+import {
+  IFishingTrainerAvailability,
+  IFishingTrainerPage,
+} from '../model/fishingTrainer';
+import {
+  IFishingCourseAvailability,
+  IFishingCoursePage,
+} from '../model/fishingCourse';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +45,36 @@ export class ReservationService {
     return this.http
       .post<any>(
         `${environment.apiUrl}/boat/availability?page=` + page,
+        reservationTimespan
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getAvailableFishingCoursesByTimeSpan(
+    reservationTimespan: IFishingCourseAvailability,
+    page: number
+  ): Observable<IFishingCoursePage[]> {
+    return this.http
+      .post<any>(
+        `${environment.apiUrl}/fishingCourse/availability?page=` + page,
+        reservationTimespan
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getAvailableFishingTrainersByTimeSpan(
+    reservationTimespan: IFishingTrainerAvailability,
+    page: number
+  ): Observable<IFishingTrainerPage[]> {
+    return this.http
+      .post<any>(
+        `${environment.apiUrl}/fishingTrainer/availability?page=` + page,
         reservationTimespan
       )
       .pipe(

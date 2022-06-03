@@ -17,6 +17,12 @@ export class FishingTrainerService {
 
   constructor(private http: HttpClient) {}
 
+  getAllFishingTrainers(): Observable<IFishingTrainer[]> {
+    return this.http
+      .get<IFishingTrainer[]>(`${this.fishingTrainerUrl}/all`)
+      .pipe(catchError(this.handleError));
+  }
+
   getFishingTrainer(): Observable<IFishingTrainer> {
     return this.http
       .get<IFishingTrainer>(`${this.fishingTrainerUrl}`)

@@ -4,18 +4,16 @@ import java.util.List;
 
 import isaproject.model.SortType;
 
-public class FishingCourseAvailabilityDTO {
-	public FishingCourseAvailabilityDTO() {
+public class FishingTrainerAvailabilityDTO {
+	public FishingTrainerAvailabilityDTO() {
 	}
 
 	private String name;
-	private int bedCapacity;
 	private DateSpanDTO dateSpan;
 	private float price;
 	private Double grade;
 	private Double longitude;
-	private Double latitude;
-	private long fishingTrainer;
+	private Double latitude;	
 	private List<SortType> sortBy;
 	private List<String> freeAdditionalServices;
 
@@ -25,14 +23,6 @@ public class FishingCourseAvailabilityDTO {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getBedCapacity() {
-		return bedCapacity;
-	}
-
-	public void setBedCapacity(int bedCapacity) {
-		this.bedCapacity = bedCapacity;
 	}
 
 	public float getPrice() {
@@ -67,15 +57,6 @@ public class FishingCourseAvailabilityDTO {
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	
-
-	public long getFishingTrainer() {
-		return fishingTrainer;
-	}
-
-	public void setFishingTrainer(long fishingTrainer) {
-		this.fishingTrainer = fishingTrainer;
-	}
 
 	public List<SortType> getSortBy() {
 		return sortBy;
@@ -100,5 +81,4 @@ public class FishingCourseAvailabilityDTO {
 	public void setDateSpan(DateSpanDTO dateSpan) {
 		this.dateSpan = dateSpan;
 	}
-	
 }

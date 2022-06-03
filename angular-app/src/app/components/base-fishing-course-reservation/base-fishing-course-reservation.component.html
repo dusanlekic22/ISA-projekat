@@ -1,0 +1,87 @@
+<div class="container-fluid pt-7">
+  <div class="row">
+    <div #target class="col-8 offset-1">
+      <h2 class="text-left">
+        Name of cottage:
+        <strong> {{ cottage.name }} </strong>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8 offset-1">
+      <h2 class="text-left">
+        Location:
+        <strong>
+          {{ cottage.address.street }}, {{ cottage.address.city }},
+          {{ cottage.address.country }}
+        </strong>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-10 p-2 offset-1">
+      <label for="date1" class="col-3 labela">Start of reservation</label>
+      <input
+        id="date1"
+        matInput
+        class="p-3 offset-1"
+        type="datetime-local"
+        placeholder="Start date"
+        [(ngModel)]="cottageReservation.duration.startDate"
+        [min]="startDateCottageString"
+        (change)="activateCottageEnd()"
+        id="session-date"
+        name="date3"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-10 p-2 offset-1">
+      <label
+        class="col-3 labela"
+        for="party"
+        *ngIf="
+          this.endDateCottageString !== '' ||
+          this.endDateCottageString !== undefined
+        "
+        >End of reservation</label
+      >
+      <input
+        matInput
+        class="p-3 offset-1"
+        *ngIf="this.endDateCottageString !== ''"
+        type="datetime-local"
+        placeholder="End date"
+        [min]="endDateCottageString"
+        [(ngModel)]="cottageReservation.duration.endDate"
+        name="date4"
+      />
+    </div>
+  </div>
+
+  <div class="row bg-secondary">
+    <div class="form-group p-3 ml-5">
+      <label class="form-control-label" for="input-customer"
+        ><h2>Additional services</h2>
+      </label>
+      <div class="col-12 chips">
+        <mat-chip-list [(ngModel)]="chips" selectable multiple>
+          <mat-chip
+            #c="matChip"
+            *ngFor="let option of cottageServices"
+            [value]="option"
+            (click)="toggleSelectionCottage(c, option)"
+          >
+            <mat-icon *ngIf="c.selected">check</mat-icon>
+            {{ option.name }}({{ option.price }}€)
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <button class="btn btn-success" (click)="addReservation()">Book</button>
+    </div>
+  </div>
+</div>

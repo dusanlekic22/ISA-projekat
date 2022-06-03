@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
         this._route.params.subscribe((data) => {
           this.userId = data.id;
           this._userService
-            .getCurrentUser()
+            .checkUser(this.userId)
             .subscribe((data) => (this.user = data));
         });
       });

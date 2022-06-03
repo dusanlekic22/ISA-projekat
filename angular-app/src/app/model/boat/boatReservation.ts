@@ -1,6 +1,5 @@
 import { emptyCustomer } from 'src/app/model/customer';
-import { initBoat } from 'src/app/model/boat/boat';
-import { IBoat } from './boat';
+import { IBoat, initBoat } from './boat';
 import { ICustomer } from '../customer';
 import { IDateSpan } from '../dateSpan';
 import { ISortType } from '../sortType';
@@ -27,18 +26,18 @@ export interface IBoatAvailability {
   freeAdditionalServices: string[];
 }
 
-export const emptyBoatReservation: IBoatReservation = {
-  id: 0,
-  duration: {
-    startDate: new Date(),
-    endDate: new Date(),
-  },
-  guestCapacity: 0,
-  price: 0,
-  customer: emptyCustomer,
-  confirmed: false,
-  boat: initBoat,
-};
+// export const emptyBoatReservation: IBoatReservation = {
+//   id: 0,
+//   duration: {
+//     startDate: new Date(),
+//     endDate: new Date(),
+//   },
+//   guestCapacity: 0,
+//   price: 0,
+//   customer: emptyCustomer,
+//   confirmed: false,
+//   boat: initBoat,
+// };
 
 export const emptyBoatAvailability: IBoatAvailability = {
   name: '',
@@ -55,3 +54,35 @@ export const emptyBoatAvailability: IBoatAvailability = {
   freeAdditionalServices: [],
 };
 
+export const emptyBoatReservation: IBoatReservation = {
+  id: 0,
+  duration: {
+    startDate: new Date(),
+    endDate: new Date(),
+  },
+  guestCapacity: 0,
+  price: 0,
+  customer: {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    email: '',
+    phoneNumber: '',
+    roles: [],
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    enabled: true,
+    verificationCode: '',
+    points: '',
+    loyalityProgram: '',
+  },
+  confirmed: false,
+  boat: initBoat,
+};

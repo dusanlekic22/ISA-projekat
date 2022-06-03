@@ -41,6 +41,7 @@ export interface IFishingCourseAvailability {
   grade: number;
   longitude: number;
   latitude: number;
+  fishingTrainerId: number;
   sortBy: ISortType[];
   freeAdditionalServices: string[];
 }
@@ -101,6 +102,7 @@ export const emptyFishingCourseAvailability: IFishingCourseAvailability = {
   grade: -1,
   longitude: 0,
   latitude: 0,
+  fishingTrainerId: 0,
   sortBy: [],
   freeAdditionalServices: [],
 };

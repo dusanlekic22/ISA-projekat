@@ -535,6 +535,7 @@ public class CottageServiceImpl implements CottageService {
 	}
 
 	@Override
+	@Transactional
 	public CottageDTO addGrade(GradeDTO gradeDTO,long cottageId) {
 		Cottage cottage = cottageRepository.findById(cottageId).get();
 		for(Grade grade: cottage.getGrades()) {

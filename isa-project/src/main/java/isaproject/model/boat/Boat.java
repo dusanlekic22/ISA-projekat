@@ -31,6 +31,7 @@ import isaproject.model.Address;
 import isaproject.model.CancelConditionEnum;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.NavigationEquipment;
 
 @Entity
@@ -51,10 +52,9 @@ public class Boat implements Serializable {
 	private Integer engineNumber;
 	private Integer topSpeed;
 	private Integer enginePower;
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Address address;
 	private String description;
-	private Double grade;
 	private Integer capacity;
 	private String boatRules;
 	@Enumerated(EnumType.STRING)
@@ -89,6 +89,11 @@ public class Boat implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "boat_subscribers", joinColumns = @JoinColumn(name = "boat_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "boat_grades", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "grades_boat"))
+	private Set<Grade> grades = new HashSet<Grade>();
+	@SuppressWarnings("unused")
+	private Double averageGrade;
 
 	public long getId() {
 		return id;
@@ -168,16 +173,6 @@ public class Boat implements Serializable {
 
 	public void setDescription(String param) {
 		this.description = param;
-	}
-	
-	
-
-	public Double getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Double grade) {
-		this.grade = grade;
 	}
 
 	public Integer getCapacity() {
@@ -282,6 +277,45 @@ public class Boat implements Serializable {
 
 	public void setBoatReservation(Set<BoatReservation> boatReservation) {
 		this.boatReservation = boatReservation;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void addGrade(Grade grade) {
+		grades.add(grade);
+		setAverageGrade();
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
+	}
+
+	public Double getAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			return sum / grades.size();
+		}
+		else {
+			return sum;
+		}
+	}
+
+	public void setAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			averageGrade = sum / grades.size();
+		}
+		else {
+			averageGrade = sum;
+		}
 	}
 
 }

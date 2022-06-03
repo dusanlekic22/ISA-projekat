@@ -1,5 +1,6 @@
 package isaproject.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import isaproject.model.AdditionalService;
@@ -8,6 +9,7 @@ import isaproject.model.FishingImage;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
 import isaproject.model.FishingTrainer;
+import isaproject.model.Grade;
 
 public class FishingCourseDTO {
 
@@ -26,6 +28,8 @@ public class FishingCourseDTO {
 	private Set<AdditionalService> additionalService;
 	private Set<FishingReservation> fishingReservation;
 	private FishingTrainer fishingTrainer;
+	private Set<Grade> grades = new HashSet<Grade>();
+	private Double averageGrade;
 
 	public FishingCourseDTO() {
 		super();
@@ -54,8 +58,6 @@ public class FishingCourseDTO {
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
 	}
-	
-	
 
 	public Double getGrade() {
 		return grade;
@@ -151,6 +153,22 @@ public class FishingCourseDTO {
 
 	public void setFishingTrainer(FishingTrainer fishingTrainer) {
 		this.fishingTrainer = fishingTrainer;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
+	}
+
+	public Double getAverageGrade() {
+		return averageGrade;
+	}
+
+	public void setAverageGrade(Double averageGrade) {
+		this.averageGrade = averageGrade;
 	}
 
 }

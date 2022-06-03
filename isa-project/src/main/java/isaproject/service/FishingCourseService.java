@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.model.DateTimeSpan;
@@ -46,4 +47,6 @@ public interface FishingCourseService {
 	Page<FishingCourseDTO> findAllPagination(List<SortTypeDTO> sortTypeDTO,Pageable paging );
 
 	Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable);
+
+	FishingCourseDTO addGrade(GradeDTO gradeDTO, long fishingId);
 }

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BoatAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
@@ -26,11 +27,13 @@ import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.DateSpanMapper;
+import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
@@ -531,6 +534,20 @@ public class BoatServiceImpl implements BoatService {
 		}
 		availableBoats = pageBoat.getContent();
 		return new PageImpl(availableBoats, paging, pageBoat.getTotalElements());
+	}
+	
+	@Override
+	public BoatDTO addGrade(GradeDTO gradeDTO,long boatId) {
+		Boat boat = boatRepository.findById(boatId).get();
+		for(Grade grade: boat.getGrades()) {
+			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {
+				boat.getGrades().remove(grade);
+				break;
+			}
+		}
+		boat.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
+		boatRepository.save(boat);
+		return BoatMapper.BoatToBoatDTO(boat);
 	}
 
 }

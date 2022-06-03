@@ -17,20 +17,22 @@ import org.springframework.stereotype.Service;
 
 import isaproject.dto.FishingCourseAvailabilityDTO;
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
-import isaproject.mapper.IncomeMapper;
-import isaproject.mapper.ReservationCountMapper;
-import isaproject.model.DateTimeSpan;
-import isaproject.model.FishingCourse;
-import isaproject.model.FishingReservation;
-import isaproject.model.Income;
-import isaproject.model.ReservationCount;
 import isaproject.dto.SortTypeDTO;
 import isaproject.exception.ReservedServiceException;
 import isaproject.mapper.FishingCourseMapper;
+import isaproject.mapper.GradeMapper;
+import isaproject.mapper.IncomeMapper;
+import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
-import isaproject.mapper.boat.BoatMapper;
+import isaproject.model.DateTimeSpan;
+import isaproject.model.FishingCourse;
+import isaproject.model.FishingReservation;
+import isaproject.model.Grade;
+import isaproject.model.Income;
+import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.FishingCourseRepository;
@@ -270,6 +272,21 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		}
 		income.setDailySum(incomeSum);
 		return IncomeMapper.IncomeToIncomeDTO(income);
+	}
+	
+	@Override
+	@Transactional
+	public FishingCourseDTO addGrade(GradeDTO gradeDTO,long fishingId) {
+		FishingCourse fishing = courseRepository.findById(fishingId).get();
+		for(Grade grade: fishing.getGrades()) {
+			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {
+				fishing.getGrades().remove(grade);
+				break;
+			}
+		}
+		fishing.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
+		courseRepository.save(fishing);
+		return FishingCourseMapper.FishingCourseToDTO(fishing);
 	}
 
 }

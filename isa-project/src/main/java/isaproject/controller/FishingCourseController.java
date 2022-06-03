@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.FishingCourseDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 
@@ -134,6 +136,13 @@ public class FishingCourseController {
 	public ResponseEntity<IncomeDTO> getIncomeDaily(@PathVariable("id") Long id,
 			@RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeDaily(duration, id), HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/grade")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<FishingCourseDTO> addGrade(@PathVariable("id") Long id,
+			@RequestBody GradeDTO gradeDTO) {
+		return new ResponseEntity<>(fishingCourseService.addGrade(gradeDTO, id), HttpStatus.OK);
 	}
 
 }

@@ -1,3 +1,4 @@
+import { IGrade } from './grade';
 import { IUser } from '../pages/registration/registration/user';
 import { IAddress } from './address';
 import { ICottageImage } from './cottageImage';
@@ -10,7 +11,6 @@ export interface ICottage {
   name: string;
   address: IAddress;
   promoDescription: string;
-  grade: number;
   bedCount: number;
   roomCount: number;
   cottageRules: string;
@@ -21,6 +21,8 @@ export interface ICottage {
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
+  grades:IGrade[];
+  averageGrade:number;
 }
 
 export interface ICottagePage {
@@ -40,7 +42,8 @@ export const initCottage: ICottage = {
     longitude: 19.842518,
     street: '',
   },
-  grade:0,
+  grades:[],
+  averageGrade:0,
   promoDescription: '',
   bedCount: 0,
   roomCount: 0,

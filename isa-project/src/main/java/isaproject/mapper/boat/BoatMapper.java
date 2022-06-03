@@ -5,10 +5,7 @@ import java.util.function.Function;
 import org.springframework.data.domain.Page;
 
 import isaproject.dto.boat.BoatDTO;
-import isaproject.dto.cottage.CottageDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.model.boat.Boat;
-import isaproject.model.cottage.Cottage;
 
 public class BoatMapper {
 	public static Boat BoatDTOToBoat(BoatDTO boatDTO) {
@@ -22,7 +19,6 @@ public class BoatMapper {
 		boat.setEngineNumber(boatDTO.getEngineNumber());
 		boat.setEnginePower(boatDTO.getEnginePower());
 		boat.setDescription(boatDTO.getDescription());
-		boat.setGrade(boatDTO.getGrade());
 		boat.setCapacity(boatDTO.getCapacity());
 		boat.setCancelCondition(boatDTO.getCancelCondition());
 		boat.setPricePerHour(boatDTO.getPricePerHour());
@@ -36,6 +32,8 @@ public class BoatMapper {
 		boat.setUnavailableReservationDateSpan(boatDTO.getUnavailableReservationDateSpan());
 		boat.setBoatOwner(boatDTO.getBoatOwner());
 		boat.setSubscribers(boatDTO.getSubscribers());
+		boat.setGrades(boatDTO.getGrades());
+		boat.setAverageGrade();
 		return boat;
 	}
 
@@ -50,7 +48,6 @@ public class BoatMapper {
 		boatDTO.setEngineNumber(boat.getEngineNumber());
 		boatDTO.setEnginePower(boat.getEnginePower());
 		boatDTO.setDescription(boat.getDescription());
-		boatDTO.setGrade(boat.getGrade());
 		boatDTO.setCapacity(boat.getCapacity());
 		boatDTO.setCancelCondition(boat.getCancelCondition());
 		boatDTO.setPricePerHour(boat.getPricePerHour());
@@ -64,6 +61,8 @@ public class BoatMapper {
 		boatDTO.setUnavailableReservationDateSpan(boat.getUnavailableReservationDateSpan());
 		boatDTO.setBoatOwner(boat.getBoatOwner());
 		boatDTO.setSubscribers(boat.getSubscribers());
+		boatDTO.setGrades(boat.getGrades());
+		boatDTO.setAverageGrade(boat.getAverageGrade());
 		return boatDTO;
 	}
 	

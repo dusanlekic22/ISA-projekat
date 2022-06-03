@@ -28,7 +28,7 @@ import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 
-@Entity(name ="cottage")
+@Entity(name = "cottage")
 public class Cottage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -68,17 +68,14 @@ public class Cottage implements Serializable {
 	@CollectionTable(name = "cottage_unavailable_date_spans", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "no_date_spans_cottage"))
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			  name = "cottage_subscribers", 
-			  joinColumns = @JoinColumn(name = "cottage_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	@JoinTable(name = "cottage_subscribers", joinColumns = @JoinColumn(name = "cottage_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "cottage_grades", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "grades_cottage"))
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
-	private Double averageGrade;
-	
+	private Double averageGrade = 0.0;
+
 	public long getId() {
 		return id;
 	}
@@ -123,8 +120,7 @@ public class Cottage implements Serializable {
 		return availableReservationDateSpan;
 	}
 
-	public void setAvailableReservationDateSpan(
-			Set<DateTimeSpan> availableReservationDateSpan) {
+	public void setAvailableReservationDateSpan(Set<DateTimeSpan> availableReservationDateSpan) {
 		this.availableReservationDateSpan = availableReservationDateSpan;
 	}
 
@@ -216,7 +212,7 @@ public class Cottage implements Serializable {
 	public Set<Grade> getGrades() {
 		return grades;
 	}
-	
+
 	public void addGrade(Grade grade) {
 		grades.add(grade);
 		setAverageGrade();
@@ -228,18 +224,28 @@ public class Cottage implements Serializable {
 
 	public Double getAverageGrade() {
 		Double sum = 0.0;
-		for(Grade grade:grades) {
-			sum+=grade.getValue();
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			return sum / grades.size();
 		}
-		return sum/grades.size();
+		else {
+			return sum;
+		}
 	}
 
 	public void setAverageGrade() {
 		Double sum = 0.0;
-		for(Grade grade:grades) {
-			sum+=grade.getValue();
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			averageGrade = sum / grades.size();
 		}
-		averageGrade = sum/grades.size();
+		else {
+			averageGrade = sum;
+		}
 	}
 
 }

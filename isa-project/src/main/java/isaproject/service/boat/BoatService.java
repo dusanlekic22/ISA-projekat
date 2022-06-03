@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.BoatAvailabilityDTO;
-import isaproject.dto.CottageAvailabilityDTO;
 import isaproject.dto.DateSpanDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
@@ -53,4 +53,6 @@ public interface BoatService {
 	IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id);
 
 	IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id);
+
+	BoatDTO addGrade(GradeDTO gradeDTO, long boatId);
 }

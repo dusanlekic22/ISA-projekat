@@ -9,8 +9,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,8 +38,6 @@ public class FishingCourse implements Serializable {
 	private String name;
 
 	private String promoDescription;
-	
-	private Double grade;
 
 	private Integer capacity;
 
@@ -72,10 +73,14 @@ public class FishingCourse implements Serializable {
 	private FishingTrainer fishingTrainer;
 
 	@ManyToMany(fetch = EAGER)
-	@JoinTable(name = "fishing_course_subscribers",
-			   joinColumns = @JoinColumn(name = "fishingCourse_id"),
-			   inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	@JoinTable(name = "fishing_course_subscribers", joinColumns = @JoinColumn(name = "fishingCourse_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "fishing_grades", joinColumns = @JoinColumn(name = "fishingCourse_id"), foreignKey = @ForeignKey(name = "grades_fishing"))
+	private Set<Grade> grades = new HashSet<Grade>();
+	@SuppressWarnings("unused")
+	private Double averageGrade;
 
 	public FishingCourse() {
 	}
@@ -102,15 +107,6 @@ public class FishingCourse implements Serializable {
 
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
-	}
-	
-
-	public Double getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Double grade) {
-		this.grade = grade;
 	}
 
 	public Integer getCapacity() {
@@ -207,6 +203,45 @@ public class FishingCourse implements Serializable {
 
 	public void setSubscribers(Set<Customer> subscribers) {
 		this.subscribers = subscribers;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void addGrade(Grade grade) {
+		grades.add(grade);
+		setAverageGrade();
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
+	}
+
+	public Double getAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			return sum / grades.size();
+		}
+		else {
+			return sum;
+		}
+	}
+
+	public void setAverageGrade() {
+		Double sum = 0.0;
+		if (grades.size() > 0) {
+			for (Grade grade : grades) {
+				sum += grade.getValue();
+			}
+			averageGrade = sum / grades.size();
+		}
+		else {
+			averageGrade = sum;
+		}
 	}
 
 }

@@ -10,8 +10,6 @@ import javax.persistence.Embeddable;
 public class DateTimeSpan {
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-	private Long hours;
-	private Long days;
 	
 	public DateTimeSpan() {
 	}
@@ -19,16 +17,12 @@ public class DateTimeSpan {
 	public DateTimeSpan(LocalDateTime startDate, LocalDateTime endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-		hours = ChronoUnit.HOURS.between(startDate, endDate);
-		days = ChronoUnit.DAYS.between(startDate, endDate);
 		validate();
 	}
 	
 	public DateTimeSpan(DateTimeSpan dateTimeSpan){
 		this.startDate = dateTimeSpan.startDate;
 		this.endDate = dateTimeSpan.endDate;
-		hours = ChronoUnit.HOURS.between(startDate, endDate);
-		days = ChronoUnit.DAYS.between(startDate, endDate);
 		validate();
 	}
 
@@ -72,6 +66,10 @@ public class DateTimeSpan {
 		return endDate.compareTo(LocalDateTime.now()) <= 0 ;
 	}
 	
+	public long getHours() {
+		return ChronoUnit.HOURS.between(startDate, endDate);
+	}
+	
 	public long getDays() {
 		return ChronoUnit.DAYS.between(startDate, endDate);
 	}
@@ -100,13 +98,5 @@ public class DateTimeSpan {
 		DateTimeSpan other = (DateTimeSpan) obj;
 		return Objects.equals(endDate, other.endDate) && Objects.equals(startDate, other.startDate);
 	}
-
-	public Long getHours() {
-		return hours;
-	}
-
-//	public Long getDays() {
-//		return days;
-//	}
 
 }

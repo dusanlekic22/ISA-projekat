@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
+import isaproject.model.CottageGrade;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 
@@ -43,7 +44,6 @@ public class Cottage implements Serializable {
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
-	private Double grade;
 	private Integer roomCount;
 	private String cottageRules;
 	private Integer pricePerHour;
@@ -73,6 +73,11 @@ public class Cottage implements Serializable {
 			  joinColumns = @JoinColumn(name = "cottage_id"), 
 			  inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "cottage_grades", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "grades_cottage"))
+	private Set<CottageGrade> cottageGrades = new HashSet<CottageGrade>();
+	@SuppressWarnings("unused")
+	private Double averageGrade;
 	
 	public long getId() {
 		return id;
@@ -105,13 +110,6 @@ public class Cottage implements Serializable {
 	public void setPromoDescription(String param) {
 		this.promoDescription = param;
 	}
-	public Double getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Double grade) {
-		this.grade = grade;
-	}
 
 	public String getCottageRules() {
 		return cottageRules;
@@ -120,8 +118,6 @@ public class Cottage implements Serializable {
 	public void setCottageRules(String param) {
 		this.cottageRules = param;
 	}
-
-
 
 	public Set<DateTimeSpan> getAvailableReservationDateSpan() {
 		return availableReservationDateSpan;
@@ -215,6 +211,35 @@ public class Cottage implements Serializable {
 
 	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
 		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
+	}
+
+	public Set<CottageGrade> getCottageGrades() {
+		return cottageGrades;
+	}
+	
+	public void addCottageGrade(CottageGrade cottageGrade) {
+		cottageGrades.add(cottageGrade);
+		setAverageGrade();
+	}
+
+	public void setCottageGrades(Set<CottageGrade> cottageGrades) {
+		this.cottageGrades = cottageGrades;
+	}
+
+	public Double getAverageGrade() {
+		Double sum = 0.0;
+		for(CottageGrade cottageGrade:cottageGrades) {
+			sum+=cottageGrade.getValue();
+		}
+		return sum/cottageGrades.size();
+	}
+
+	public void setAverageGrade() {
+		Double sum = 0.0;
+		for(CottageGrade cottageGrade:cottageGrades) {
+			sum+=cottageGrade.getValue();
+		}
+		averageGrade = sum/cottageGrades.size();
 	}
 
 }

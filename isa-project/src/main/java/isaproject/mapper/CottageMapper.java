@@ -15,7 +15,6 @@ public class CottageMapper {
 		cottage.setName(cottageDTO.getName());
 		cottage.setAddress(cottageDTO.getAddress());
 		cottage.setPromoDescription(cottageDTO.getPromoDescription());
-		cottage.setGrade(cottageDTO.getGrade());
 		cottage.setBedCount(cottageDTO.getBedCount());
 		cottage.setRoomCount(cottageDTO.getRoomCount());
 		cottage.setPricePerHour(cottageDTO.getPricePerHour());
@@ -29,6 +28,8 @@ public class CottageMapper {
 		cottage.setUnavailableReservationDateSpan(cottageDTO.getUnavailableReservationDateSpan());
 		cottage.setCottageOwner(cottageDTO.getCottageOwner());
 		cottage.setSubscribers(cottageDTO.getSubscribers());
+		cottage.setCottageGrades(cottageDTO.getCottageGrades());
+		cottage.setAverageGrade();
 		return cottage;
 	}
 	
@@ -38,7 +39,6 @@ public class CottageMapper {
 		cottageDTO.setName(cottage.getName());
 		cottageDTO.setAddress(cottage.getAddress());
 		cottageDTO.setPromoDescription(cottage.getPromoDescription());
-		cottageDTO.setGrade(cottage.getGrade());
 		cottageDTO.setBedCount(cottage.getBedCount());
 		cottageDTO.setRoomCount(cottage.getRoomCount());
 		cottageDTO.setPricePerHour(cottage.getPricePerHour());
@@ -52,6 +52,8 @@ public class CottageMapper {
 		cottageDTO.setUnavailableReservationDateSpan(cottage.getUnavailableReservationDateSpan());
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());
 		cottageDTO.setSubscribers(cottage.getSubscribers());
+		cottageDTO.setCottageGrades(cottage.getCottageGrades());
+		cottageDTO.setAverageGrade(cottage.getAverageGrade());
 		return cottageDTO;
 	}
 	

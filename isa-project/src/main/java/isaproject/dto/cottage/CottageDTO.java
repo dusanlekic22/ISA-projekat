@@ -1,9 +1,11 @@
 package isaproject.dto.cottage;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
+import isaproject.model.CottageGrade;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.cottage.CottageImage;
@@ -15,7 +17,6 @@ public class CottageDTO {
 
 	private long id;
 	private String name;
-	private Double grade;
 	private Address address;
 	private String promoDescription;
 	private Integer bedCount;
@@ -33,6 +34,9 @@ public class CottageDTO {
 	private Set<Customer> subscribers;
 
 	private CottageOwner cottageOwner;
+	
+	private Set<CottageGrade> cottageGrades = new HashSet<CottageGrade>();
+	private Double averageGrade;
 
 	public CottageDTO() {
 		super();
@@ -77,15 +81,6 @@ public class CottageDTO {
 
 	public void setPromoDescription(String promoDescription) {
 		this.promoDescription = promoDescription;
-	}
-	
-
-	public Double getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Double grade) {
-		this.grade = grade;
 	}
 
 	public Integer getBedCount() {
@@ -174,6 +169,22 @@ public class CottageDTO {
 
 	public void setPricePerHour(Integer pricePerHour) {
 		this.pricePerHour = pricePerHour;
+	}
+
+	public Set<CottageGrade> getCottageGrades() {
+		return cottageGrades;
+	}
+
+	public void setCottageGrades(Set<CottageGrade> cottageGrades) {
+		this.cottageGrades = cottageGrades;
+	}
+
+	public Double getAverageGrade() {
+		return averageGrade;
+	}
+
+	public void setAverageGrade(Double averageGrade) {
+		this.averageGrade = averageGrade;
 	}
 
 }

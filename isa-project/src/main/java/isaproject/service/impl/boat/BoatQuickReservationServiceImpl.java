@@ -108,7 +108,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 				.BoatQuickReservationDTOToBoatQuickReservation(boatQuickReservationDTO);
 		boatQuickReservation.setReserved(false);
 
-		if (!boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+		if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
@@ -215,7 +215,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	@Override
 	public BoatReservationDTO appointQuickReservation(Long reservationId, Long userId) {
 		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(reservationId).get();
-		if (!boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+		if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 		boatQuickReservation.setReserved(true);

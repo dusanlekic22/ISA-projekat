@@ -24,6 +24,7 @@ import { AddBoatComponent } from './components/boat/add-boat/add-boat.component'
 import { CustomerBoatProfileComponent } from './pages/boat-profile/customer-boat-profile/customer-boat-profile.component';
 import { CustomerFishingTrainerProfileComponent } from './pages/fishing-trainer-profile/customer-fishing-trainer-profile/customer-fishing-trainer-profile.component';
 import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
+import { FishingCourseReservationComponent } from './pages/reservation/fishing-course-reservation/fishing-course-reservation.component';
 
 const routes: Routes = [
   {
@@ -109,6 +110,10 @@ const routes: Routes = [
   {
     path: 'boat/:id/:startDate/:endDate',
     component: BoatReservationComponent,
+  },
+  {
+    path: 'fishingCourse/:id/:startDate/:endDate',
+    component: FishingCourseReservationComponent,
   },
   { path: 'fishingTrainerCourses', component: FishingTrainerCoursesComponent },
   {

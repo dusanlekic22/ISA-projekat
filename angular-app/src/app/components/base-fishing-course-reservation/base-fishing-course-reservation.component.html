@@ -2,8 +2,8 @@
   <div class="row">
     <div #target class="col-8 offset-1">
       <h2 class="text-left">
-        Name of cottage:
-        <strong> {{ cottage.name }} </strong>
+        Name of fishing course:
+        <strong> {{ fishingCourse.name }} </strong>
       </h2>
     </div>
   </div>
@@ -12,8 +12,8 @@
       <h2 class="text-left">
         Location:
         <strong>
-          {{ cottage.address.street }}, {{ cottage.address.city }},
-          {{ cottage.address.country }}
+          {{ fishingCourse.address.street }}, {{ fishingCourse.address.city }},
+          {{ fishingCourse.address.country }}
         </strong>
       </h2>
     </div>
@@ -27,9 +27,9 @@
         class="p-3 offset-1"
         type="datetime-local"
         placeholder="Start date"
-        [(ngModel)]="cottageReservation.duration.startDate"
-        [min]="startDateCottageString"
-        (change)="activateCottageEnd()"
+        [(ngModel)]="fishingCourseReservation.duration.startDate"
+        [min]="startDateFishingCourseString"
+        (change)="activateFishingCourseEnd()"
         id="session-date"
         name="date3"
       />
@@ -41,19 +41,19 @@
         class="col-3 labela"
         for="party"
         *ngIf="
-          this.endDateCottageString !== '' ||
-          this.endDateCottageString !== undefined
+          this.endDateFishingCourseString !== '' ||
+          this.endDateFishingCourseString !== undefined
         "
         >End of reservation</label
       >
       <input
         matInput
         class="p-3 offset-1"
-        *ngIf="this.endDateCottageString !== ''"
+        *ngIf="this.endDateFishingCourseString !== ''"
         type="datetime-local"
         placeholder="End date"
-        [min]="endDateCottageString"
-        [(ngModel)]="cottageReservation.duration.endDate"
+        [min]="endDateFishingCourseString"
+        [(ngModel)]="fishingCourseReservation.duration.endDate"
         name="date4"
       />
     </div>
@@ -68,9 +68,9 @@
         <mat-chip-list [(ngModel)]="chips" selectable multiple>
           <mat-chip
             #c="matChip"
-            *ngFor="let option of cottageServices"
+            *ngFor="let option of fishingCourseServices"
             [value]="option"
-            (click)="toggleSelectionCottage(c, option)"
+            (click)="toggleSelectionFishingCourse(c, option)"
           >
             <mat-icon *ngIf="c.selected">check</mat-icon>
             {{ option.name }}({{ option.price }}€)

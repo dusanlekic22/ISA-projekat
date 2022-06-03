@@ -89,13 +89,15 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		fishingeReservation.setConfirmed(true);
 		fishingeReservation
 				.setCustomer(customerRepository.findById(fishingeReservationDTO.getCustomer().getId()).get());
-		if (!fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+		if (fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+			System.out.println("p1");
 			return null;
 		}
 
 		for (FishingReservation q : fishingeReservationRepository
 				.findByFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingeReservation.getDuration())) {
+				System.out.println("p2");
 				return null;
 			}
 		}
@@ -105,14 +107,16 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 				.findByUsername(fishingeReservation.getFishingCourse().getFishingTrainer().getUsername());
 		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
 			if (fishingeReservation.getDuration().overlapsWith(dateTimeSpan)) {
+				System.out.println("p3");
 				overlaps = true;
 				reserveAvailableDateSpanForCustomer(fishingeReservation, dateTimeSpan);
 				break;
 			}
 		}
 
-		if (!overlaps)
-			return null;
+		if (!overlaps) {
+			System.out.println("p4");
+			return null;}
 
 		return FishingReservationMapper
 				.FishingReservationToDTO(fishingeReservationRepository.save(fishingeReservation));
@@ -185,7 +189,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		fishingeReservation.setConfirmed(false);
 		fishingeReservation
 				.setCustomer(customerRepository.findById(fishingeReservationDTO.getCustomer().getId()).get());
-		if (!fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+		if (fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 

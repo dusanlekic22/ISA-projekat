@@ -23,7 +23,7 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 			  "SELECT *  FROM public.fishing_course as fc natural join public.fishing_trainer_available_date_spans  "
 				+ " WHERE ((fc.fishing_trainer_id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(fc.name) like :name OR :name is null)  " 
-				+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+				+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 				+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 				+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 				countQuery  =  "SELECT count(*)  FROM public.fishing_course as fc natural join public.fishing_trainer_available_date_spans as  "
@@ -43,13 +43,13 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 			  " SELECT *  FROM public.fishing_course as fc natural join public.fishing_trainer_available_date_spans natural join public.address as a "
 				+ " WHERE ((fc.fishing_trainer_id = fishing_trainer_id)  and fc.address_id =  a.id and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(fc.name) like :name OR :name is null)  " 
-				+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+				+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 				+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 				+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 				countQuery  = " SELECT count(*)  FROM public.fishing_course as fc natural join public.fishing_trainer_available_date_spans natural join public.address as a "
 						+ " WHERE ((fc.fishing_trainer_id = fishing_trainer_id)  and (fc.address_id= a.id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(fc.name) like :name OR :name is null)  " 
-						+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+						+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 						+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 						+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 					nativeQuery = true)
@@ -63,14 +63,14 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 			  " SELECT *  FROM public.fishing_course as fc "
 			    + " WHERE "
 				+ " (lower(fc.name) like :name OR :name is null)  " 
-				+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+				+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 				+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 				+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.fishing_course as fc "
 					+ " WHERE "
 					+ " (lower(fc.name) like :name OR :name is null)  " 
-					+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+					+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 					+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 					+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 					nativeQuery = true)
@@ -81,14 +81,14 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 			  " SELECT *  FROM public.fishing_course as fc natural join public.address as a "
 			    + " WHERE "
 				+ "  (lower(fc.name) like :name OR :name is null)  " 
-				+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+				+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 				+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 				+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.fishing_course as fc "
 					+ " WHERE "
 					+ " (lower(fc.name) like :name OR :name is null)  " 
-					+ " and ( fc.grade = :grade OR :grade = -1.0)  "
+					+ " and ( fc.average_grade = :grade OR :grade = -1.0)  "
 					+ " and ( fc.capacity = :bed OR :bed = 0 ) "
 					+ " and ( fc.fishing_trainer_id = :fishingTrainerId OR :fishingTrainerId = 0 ) ",
 					nativeQuery = true)

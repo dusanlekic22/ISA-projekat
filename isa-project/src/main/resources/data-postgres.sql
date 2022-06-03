@@ -75,8 +75,8 @@ insert into cottage_available_date_spans (start_date, end_date, cottage_id) valu
 insert into cottage_unavailable_date_spans (start_date, end_date, cottage_id) values ('2022-07-03', '2022-07-15',4);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
-insert into fishing_course (name, promo_description,grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace',4.2, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
-insert into fishing_course (name, promo_description,grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace',4.8, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
+insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace',4.2, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
+insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace',4.8, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
 --insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,1,5);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,5);
 
@@ -99,5 +99,5 @@ insert into fishing_reservation (start_date, end_date, capacity, price, confirme
 insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id, customer_id, location_id) values ('2022-05-11', '2022-05-13', 6, 100, true,1,2,2);
 insert into fishing_quick_reservation (start_date, end_date, capacity, price, is_reserved, fishing_course_id, location_id) values ('2022-06-8T10:00:00', '2022-06-9T18:30:00', 6, 100, false,1,2);
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-05-16', '2022-05-22',7);
-insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-1', '2022-06-5',7);
+insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-1', '2022-06-7',7);
 insert into fishing_trainer_unavailable_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-6', '2022-06-7',7);

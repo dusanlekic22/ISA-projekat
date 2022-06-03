@@ -23,7 +23,7 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 				countQuery  = " SELECT count(*)  FROM public.fishing_trainer as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-						+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+						+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 					nativeQuery = true)
 	Page<FishingTrainer> getAvailability(
 			@Param("start") LocalDateTime start,

@@ -114,6 +114,7 @@ import { OwnerReservationReportComponent } from './components/owner-reservation-
 import { BaseBoatReservationComponent } from './components/base-boat-reservation/base-boat-reservation.component';
 import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
 import { BaseFishingCourseReservationComponent } from './components/base-fishing-course-reservation/base-fishing-course-reservation.component';
+import { FishingCourseReservationComponent } from './pages/reservation/fishing-course-reservation/fishing-course-reservation.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -199,6 +200,7 @@ FullCalendarModule.registerPlugins([
     BaseBoatReservationComponent,
     BoatReservationComponent,
     BaseFishingCourseReservationComponent,
+    FishingCourseReservationComponent,
   ],
   imports: [
     NgbModule,

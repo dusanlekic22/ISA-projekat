@@ -55,7 +55,7 @@ public class DateTimeSpan {
 	
 	public boolean isHoursBefore(LocalDateTime date,int hours) {
 		// (StartA <= Date + 1hours) 
-		return startDate.compareTo(date.minusHours(hours)) <= 0;
+		return startDate.compareTo(date.plusHours(hours)) <= 0;
 	}
 
 

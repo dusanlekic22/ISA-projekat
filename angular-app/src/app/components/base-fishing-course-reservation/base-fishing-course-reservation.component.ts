@@ -25,7 +25,7 @@ export class BaseFishingCourseReservationComponent implements OnInit {
   minDate: Date = new Date();
   minDateString: string = '';
   startDateFishingCourseString: string = '';
-  endDateString: any = '';
+  endDateFishingCourseString: any = '';
   fishingCourse!: IFishingCourse;
   fishingCourses!: IFishingCourse[];
   chips!: MatChip;
@@ -39,7 +39,7 @@ export class BaseFishingCourseReservationComponent implements OnInit {
     private _toastr: ToastrService,
     private _fishingCourseService: FishingCourseService,
     private _customerService: CustomerService,
-    private _fishingReservationService: FishingReservationService,
+    private _fishingCourseReservationService: FishingReservationService,
     private _fishingCourseAdditionalService: AdditionalServiceService
   ) {}
 
@@ -63,6 +63,7 @@ export class BaseFishingCourseReservationComponent implements OnInit {
         .getFishingCourseById(parseInt(this.id))
         .subscribe((data) => {
           this.fishingCourse = data;
+          this.fishingCourseReservation.fishingCourse = this.fishingCourse;
           console.log(data);
         });
       if (this.id != undefined) {
@@ -102,28 +103,26 @@ export class BaseFishingCourseReservationComponent implements OnInit {
     }
   }
 
-  // addReservation(): void {
-  //   // this.fishingCourseReservation.customer = this.customer;
-  //   this.fishingCourseReservationService
-  //     .addFishingReservation(this.fishingCourseReservation)
-  //     .subscribe(
-  //       (Reservation) => {
-  //         //this.addReservationFormOpened = false;
-  //         this._toastr.success('Reservation was successfully added.');
-  //         this.reservationServices.forEach((tag) => {
-  //           this._fishingCourseAdditionalService
-  //             .addAdditionalServiceForFishingCourse(tag, Reservation)
-  //             .subscribe((service) => {});
-  //         });
-  //       },
-  //       (err) => {
-  //         this._toastr.error(
-  //           'Reservation term overlaps with another.',
-  //           'Try a different date!'
-  //         );
-  //       }
-  //     );
-  // }
+  addReservation(): void {
+    this._fishingCourseReservationService
+      .addFishingReservationCustomer(this.fishingCourseReservation)
+      .subscribe(
+        (reservation) => {
+          this._toastr.success('Reservation was successfully added.');
+          this.reservationServices.forEach((tag) => {
+            this._fishingCourseAdditionalService
+              .addAdditionalServiceForFishingReservation(tag, reservation)
+              .subscribe((service) => {});
+          });
+        },
+        (err) => {
+          this._toastr.error(
+            'Reservation term overlaps with another.',
+            'Try a different date!'
+          );
+        }
+      );
+  }
 
   date(min: Date): string {
     let month = '';
@@ -143,8 +142,6 @@ export class BaseFishingCourseReservationComponent implements OnInit {
   }
 
   activateFishingCourseEnd() {
-    let x = '';
-    x = this.startFishingCourseDate.toString();
-    this.endFishingCourseDate = this.startFishingCourseDate;
+    this.endDateFishingCourseString = this.startFishingCourseDate;
   }
 }

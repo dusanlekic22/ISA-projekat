@@ -58,7 +58,7 @@ public class FishingCourseController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('FISHING_TRAINER', 'ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('FISHING_TRAINER', 'ADMIN','CUSTOMER')")
 	public FishingCourseDTO get(@PathVariable Long id) {
 		return fishingCourseService.findById(id);
 	}
@@ -143,6 +143,8 @@ public class FishingCourseController {
 	public ResponseEntity<FishingCourseDTO> addGrade(@PathVariable("id") Long id,
 			@RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(fishingCourseService.addGrade(gradeDTO, id), HttpStatus.OK);
+	}
+	
 	@PostMapping("/availability")
 	@ResponseBody
 	public Page<FishingCourseDTO> search(@RequestBody FishingCourseAvailabilityDTO fishingCourseAvailability,

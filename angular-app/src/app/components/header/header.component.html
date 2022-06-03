@@ -95,6 +95,14 @@
             >Reservations</a
           >
         </li>
+        <li class="nav-item" *appHasRole="['ROLE_ADMIN']">
+          <a
+            class="nav-link"
+            [routerLink]="['/loyaltySettings']"
+            routerLinkActive="router-link-active"
+            >Loyalty Settings</a
+          >
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/user/' + loggedInUser.id]">
             Profile

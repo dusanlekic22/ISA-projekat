@@ -1,4 +1,5 @@
 import { ReservationsComponent } from './pages/reservations/reservations.component';
+import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
 import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
 import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
@@ -128,6 +129,10 @@ const routes: Routes = [
   {
     path: 'requests',
     component: RequestsComponent,
+  },
+  {
+    path: 'loyaltySettings',
+    component: LoyaltySettingsComponent,
   },
   { path: '**', redirectTo: '' },
 ];

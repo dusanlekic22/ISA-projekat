@@ -25,11 +25,11 @@ insert into admin (id, first_time_logged_in) values (1, true);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('pape', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksa', 'Papovic', 'semestar2021+2@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (2, 3);
-insert into customer (loyality_program, points,id, penalties) values ('Basic',0,2,0);
+insert into customer (id, penalties) values (2,0);
  
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+3@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (3, 3);
-insert into customer (id) values (3);
+insert into customer (id, penalties) values (3,0);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('jagodica', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Dusan', 'Lekic', 'semestar2021+4@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (4, 4);
@@ -37,11 +37,11 @@ insert into cottage_owner (id) values (4);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('daco', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Danilo', 'Korac', 'semestar2021+5@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (5, 3);
-insert into customer (id) values (5);
+insert into customer (id, penalties) values (5,0);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+6@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
 insert into app_user_roles (user_id, role_id) values (6, 3);
-insert into customer (id) values (6);
+insert into customer (id, penalties) values (6,0);
 
 insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date,address_id) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00',1);
 insert into app_user_roles (user_id, role_id) values (7, 2);
@@ -102,3 +102,5 @@ insert into fishing_quick_reservation (start_date, end_date, capacity, price, is
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-05-16', '2022-05-22',7);
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-1', '2022-06-7',7);
 insert into fishing_trainer_unavailable_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-6', '2022-06-7',7);
+
+insert into loyalty_settings (id, customer_score, owner_score, min_score_regular, min_score_silver, min_score_gold, customer_regular_discount, onwer_regular_revenue, customer_silver_discount, onwer_silver_revenue, customer_gold_discount, onwer_gold_revenue, system_revenue) values (1, 50, 50, 0, 500, 1000, 0, 0, 0.05, 0.05, 0.1, 0.1, 0.05);

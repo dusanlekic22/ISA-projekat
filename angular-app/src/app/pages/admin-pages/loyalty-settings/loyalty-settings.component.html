@@ -1,0 +1,224 @@
+<div class="header bg-gradient-danger pb-8 pt-9">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1 class="text-white display-3">Loyalty settings</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--7 pb-5">
+  <div class="card bg-secondary shadow">
+    <div class="card-body" *ngIf="loyaltySettings">
+      <form>
+        <!-- Ovde -->
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-systemRevenue"
+                  >System revenue</label
+                >
+                <input
+                  type="number"
+                  name="systemRevenue"
+                  id="input-systemRevenue"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.systemRevenue"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-customerScore"
+                  >Customer Score</label
+                >
+                <input
+                  type="number"
+                  name="customerScore"
+                  id="input-customerScore"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.customerScore"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-ownerScore"
+                  >Owner Score</label
+                >
+                <input
+                  type="number"
+                  name="ownerScore"
+                  id="input-ownerScore"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.ownerScore"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-minScoreRegular"
+                  >Minimum Score Regular</label
+                >
+                <input
+                  type="number"
+                  name="minScoreRegular"
+                  id="input-minScoreRegular"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.minScoreRegular"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-minScoreSilver"
+                  >Minimum Score Silver</label
+                >
+                <input
+                  type="number"
+                  name="minScoreSilver"
+                  id="input-minScoreSilver"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.minScoreSilver"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-minScoreGold"
+                  >Minimum Score Gold</label
+                >
+                <input
+                  type="number"
+                  name="minScoreGold"
+                  id="input-minScoreGold"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.minScoreGold"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label
+                  class="form-control-label"
+                  for="input-customerRegularDiscount"
+                  >Customer Regular Discount</label
+                >
+                <input
+                  type="number"
+                  name="customerRegularDiscount"
+                  id="input-customerRegularDiscount"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.customerRegularDiscount"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label
+                  class="form-control-label"
+                  for="input-onwerRegularRevenue"
+                  >Owner Regular Revenue</label
+                >
+                <input
+                  type="number"
+                  name="onwerRegularRevenue"
+                  id="input-onwerRegularRevenue"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.onwerRegularRevenue"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label
+                  class="form-control-label"
+                  for="input-customerSilverDiscount"
+                  >Customer Silver Discount</label
+                >
+                <input
+                  type="number"
+                  name="customerSilverDiscount"
+                  id="input-customerSilverDiscount"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.customerSilverDiscount"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-onwerSilverRevenue"
+                  >Owner Silver Revenue</label
+                >
+                <input
+                  type="number"
+                  name="onwerSilverRevenue"
+                  id="input-onwerSilverRevenue"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.onwerSilverRevenue"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label
+                  class="form-control-label"
+                  for="input-customerGoldDiscount"
+                  >Customer Gold Discount</label
+                >
+                <input
+                  type="number"
+                  name="customerGoldDiscount"
+                  id="input-customerGoldDiscount"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.customerGoldDiscount"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-onwerGoldRevenue"
+                  >Owner Gold Revenue</label
+                >
+                <input
+                  type="number"
+                  name="onwerGoldRevenue"
+                  id="input-onwerGoldRevenue"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="loyaltySettings.onwerGoldRevenue"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button (click)="edit()" class="btn btn-info">Edit profile</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

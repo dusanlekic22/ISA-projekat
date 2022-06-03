@@ -1,15 +1,7 @@
-package isaproject.model;
+package isaproject.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class LoyaltySettingsDTO {
 
-@Entity
-public class LoyaltySettings {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer customerScore;
 	private Integer ownerScore;
@@ -24,7 +16,7 @@ public class LoyaltySettings {
 	private Double onwerGoldRevenue;
 	private Double systemRevenue;
 
-	public LoyaltySettings() {
+	public LoyaltySettingsDTO() {
 		super();
 	}
 

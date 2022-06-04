@@ -1,7 +1,8 @@
 package isaproject.dto;
 
 public class SortTypeDTO {
-private String  field;
+	
+	private String  field;
 	
 	private String direction;
 

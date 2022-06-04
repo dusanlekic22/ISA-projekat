@@ -1,3 +1,4 @@
+import { ISortType } from 'src/app/model/sortType';
 import { ICustomer } from './../../../model/customer';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -84,10 +85,44 @@ export class CottageReservationService {
       );
   }
 
-  getCustomerHasReservationNow(id:number): Observable<ICustomer[]> {
+  getAvailableCottagesReservation(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<ICottageReservation[]> {
+    return this._http
+      .post<ICottageReservation[]>(
+        environment.apiUrl +
+          `/cottageReservation/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+  getAvailableCottagesReservationIncoming(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<ICottageReservation[]> {
+    return this._http
+      .post<ICottageReservation[]>(
+        environment.apiUrl +
+          `/cottageReservation/incoming/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getCustomerHasReservationNow(id: number): Observable<ICustomer[]> {
     return this._http
       .get<ICustomer[]>(
-        environment.apiUrl + `/cottageReservation/customerHasReservationNow/cottage/${id}`
+        environment.apiUrl +
+          `/cottageReservation/customerHasReservationNow/cottage/${id}`
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -99,7 +134,9 @@ export class CottageReservationService {
     id: number
   ): Observable<ICottageReservation[]> {
     return this._http
-      .get<ICottageReservation[]>(environment.apiUrl +`/cottageReservation/active/owner/${id}`)
+      .get<ICottageReservation[]>(
+        environment.apiUrl + `/cottageReservation/active/owner/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 
@@ -107,7 +144,9 @@ export class CottageReservationService {
     id: number
   ): Observable<ICottageReservation[]> {
     return this._http
-      .get<ICottageReservation[]>(environment.apiUrl +`/cottageReservation/passed/owner/${id}`)
+      .get<ICottageReservation[]>(
+        environment.apiUrl + `/cottageReservation/passed/owner/${id}`
+      )
       .pipe(catchError(this.handleError));
   }
 

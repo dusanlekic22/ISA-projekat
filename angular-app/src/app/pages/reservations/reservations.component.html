@@ -1,0 +1,423 @@
+<div class="container-fluid" *appHasRole="['ROLE_CUSTOMER']">
+  <div class="row top">
+    <div class="col-12 firstSection">
+      <div class="col-7 offset-5 pt-9">
+        <div class="s1">
+          MEMORIES ARE <br />
+          <div class="s1 pt-4">PRICELESS</div>
+        </div>
+        <div class="s2 pt-4">Life is a journey</div>
+      </div>
+    </div>
+  </div>
+  <div class="row linija bottom"></div>
+
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy89" [(ngModel)]="cottageSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListCottage"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsCottage()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Cottage reservations history</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="reservationsCottage">
+            <div class="col-4 p-2" *ngFor="let cottage of reservationsCottage">
+              <app-base-history-reservation
+                id="{{ cottage.id }}"
+                [cottageReservation]="cottage"
+              >
+              </app-base-history-reservation>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsCottagePage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsCottageTotalElements"
+                [pageIndex]="reservationsCottagePage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- past cottage reservations end -->
+  <div class="row linija bottom1"></div>
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy89" [(ngModel)]="boatSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListBoat"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsBoat()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Boat reservations history</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="reservationsBoat">
+            <div class="col-4 p-2" *ngFor="let boat of reservationsBoat">
+              <app-base-history-boat-reservation
+                id="{{ boat.id }}"
+                [boatReservation]="boat"
+              >
+              </app-base-history-boat-reservation>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsBoatPage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsBoatTotalElements"
+                [pageIndex]="reservationsBoatPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- past boat reservations end -->
+  <div class="row linija bottom1"></div>
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy89" [(ngModel)]="fishingSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListFishing"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsFishing()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Fishing reservations history</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="reservationsFishing">
+            <div class="col-4 p-2" *ngFor="let fishing of reservationsFishing">
+              <app-base-history-fishing-reservation
+                id="{{ fishing.id }}"
+                [fishingReservation]="fishing"
+              >
+              </app-base-history-fishing-reservation>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsFishingPage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsFishingTotalElements"
+                [pageIndex]="reservationsFishingPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- past fishing reservations end -->
+
+  <div class="row linija bottom1"></div>
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy80" [(ngModel)]="cottageActiveSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListCottage"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsActiveCottage()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Incoming cottage reservations</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div
+            class="row d-flex p-2 text-white"
+            *ngIf="reservationsActiveCottage"
+          >
+            <div
+              class="col-4 p-2"
+              *ngFor="let cottage of reservationsActiveCottage"
+            >
+              <app-base-active-reservation-history
+                id="{{ cottage.id }}"
+                [cottageReservation]="cottage"
+              >
+              </app-base-active-reservation-history>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsActiveCottagePage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsActiveCottageTotalElements"
+                [pageIndex]="reservationsActiveCottagePage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- incoming cottage reservations end -->
+  <div class="row linija bottom1"></div>
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy80" [(ngModel)]="boatActiveSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListBoat"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsActiveBoat()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Incoming boat reservations</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="reservationsActiveBoat">
+            <div class="col-4 p-2" *ngFor="let boat of reservationsActiveBoat">
+              <app-base-active-boat-reservation
+                id="{{ boat.id }}"
+                [boatReservation]="boat"
+              >
+              </app-base-active-boat-reservation>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsActiveBoatPage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsActiveBoatTotalElements"
+                [pageIndex]="reservationsActiveBoatPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- incoming boat reservations end -->
+  <div class="row linija bottom1"></div>
+  <div class="row bottom">
+    <div class="col-2 grad"></div>
+    <div class="col-8 secondSection pt-6">
+      <div class="container">
+        <form class="example-form">
+          <div class="row pt-4 ml-5">
+            <div class="mb-3">
+              <div class="col-4 boxc">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Sort by</mat-label>
+                  <mat-select name="sortBy80" [(ngModel)]="fishingActiveSortBy">
+                    <mat-option
+                      *ngFor="let sort of sortListFishing"
+                      [value]="sort"
+                    >
+                      {{ sort.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-4">
+              <button
+                class="btn btn-success"
+                (click)="searchReservationsActiveFishing()"
+              >
+                Search
+              </button>
+            </div>
+            <div class="col-4">
+              <h2>Incoming fishing reservations</h2>
+            </div>
+          </div>
+        </form>
+
+        <div class="container mt-3 itemss">
+          <div
+            class="row d-flex p-2 text-white"
+            *ngIf="reservationsActiveFishing"
+          >
+            <div
+              class="col-4 p-2"
+              *ngFor="let fishing of reservationsActiveFishing"
+            >
+              <app-base-active-fishing-reservation
+                id="{{ fishing.id }}"
+                [fishingReservation]="fishing"
+              >
+              </app-base-active-fishing-reservation>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeReservationsActiveFishingPage($event)"
+                class="bg-dark text-white"
+                [length]="reservationsActiveFishingTotalElements"
+                [pageIndex]="reservationsActiveFishingPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 grad2"></div>
+  </div>
+  <!-- incoming fishing reservations end -->
+</div>

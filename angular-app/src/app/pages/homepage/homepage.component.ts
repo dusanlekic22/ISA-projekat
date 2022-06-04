@@ -177,6 +177,7 @@ export class HomepageComponent implements OnInit {
     this.startDateCottageString = this.date(new Date());
     this.bminDateString = this.date(new Date());
     this.startDateBoatString = this.date(new Date());
+    this.startDateFishingCourseString = this.date(new Date());
   }
 
   getAllFishingTrainers() {

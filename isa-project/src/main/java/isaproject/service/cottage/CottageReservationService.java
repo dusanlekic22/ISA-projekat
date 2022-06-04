@@ -1,11 +1,16 @@
 package isaproject.service.cottage;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 
 public interface CottageReservationService {
@@ -28,4 +33,6 @@ public interface CottageReservationService {
 	Set<CottageReservationDTO> findAllActiveByCottageOwnerId(Long id);
 	Set<CottageReservationDTO> findAllPastByCottageOwnerId(Long id);
 	Set<CustomerDTO> findCustomersHasCurrentReservation(long cottageId);
+	Page<CottageReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	Page<CottageReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 }

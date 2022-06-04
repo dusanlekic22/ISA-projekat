@@ -47,6 +47,12 @@ export const sortTypes: ISortType[] = [
   },
 ];
 
+export const initSortType: ISortType = {
+  text: '',
+  direction: '',
+  field: '',
+};
+
 export const emptySortType: ISortType = {
   text: '',
   field: 'name',
@@ -64,3 +70,36 @@ export const gradeSortType: ISortType = {
   field: 'grade',
   direction: 'desc',
 };
+
+export const sortReservationTypes: ISortType[] = [
+  {
+    text: 'Start date ascending',
+    field: 'start_date',
+    direction: 'asc',
+  },
+  {
+    text: 'Start date descending',
+    field: 'start_date',
+    direction: 'desc',
+  },
+  {
+    text: 'Price ascending',
+    field: 'price',
+    direction: 'asc',
+  },
+  {
+    text: 'Price descending',
+    field: 'price',
+    direction: 'desc',
+  },
+  {
+    text: 'Duration ascending',
+    field: 'duration',
+    direction: 'asc',
+  },
+  {
+    text: 'Duration descending',
+    field: 'duration',
+    direction: 'desc',
+  },
+];

@@ -1,0 +1,114 @@
+<div class="col-md-12 mb-1 cottageCard">
+  <div class="card h-100" *ngIf="boatReservation.boat">
+    <div class="d-flex justify-content-between position-absolute w-100"></div>
+    <div class="img-hover-zoom img-hover-zoom--xyz">
+      <img
+        src="https://picsum.photos/700/550"
+        class="card-img-top"
+        alt="Product"
+      />
+      <div class="cardOverlay" *ngIf="boatReservation.boat.name">
+        Pogledaj <br />
+        {{ boatReservation.boat.name }} <br />
+        ponudu
+      </div>
+    </div>
+    <div class="card-body px-2 pb-2 pt-1">
+      <div class="d-flex justify-content-between">
+        <div *ngIf="boatReservation.boat.name">
+          <p class="h4">{{ boatReservation.boat.name }}</p>
+        </div>
+        <div>
+          <a
+            href="#"
+            class="text-secondary lead"
+            data-toggle="tooltip"
+            data-placement="left"
+            title="Compare"
+          >
+            <app-grade-star
+              *ngIf="boatReservation.boat.averageGrade"
+              [grade]="boatReservation.boat.averageGrade"
+            ></app-grade-star>
+          </a>
+        </div>
+      </div>
+      <div class="row d-flex">
+        <div class="col-7 text-dark">
+          Grad :<strong *ngIf="boatReservation.boat.address">{{
+            "   " + boatReservation.boat.address.city
+          }}</strong>
+        </div>
+        <div
+          *ngIf="openForReservation !== 'yes' && type !== 4"
+          class="col-5 text-dark text-left"
+        >
+          <strong>Price: </strong>{{ "  " + boatReservation.price + " $" }}
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Ulica :
+          <strong *ngIf="boatReservation.boat.address">
+            {{ "   " + boatReservation.boat.address.street }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Drzava :<strong *ngIf="boatReservation.boat.address">
+            {{ "   " + boatReservation.boat.address.country }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Description</span>
+          <strong class="text-center" *ngIf="boatReservation.boat.description">
+            {{ ": " + boatReservation.boat.description }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Start date:</span>
+          <strong
+            class="text-center"
+            *ngIf="boatReservation.duration.startDate"
+          >
+            {{ ": " + boatReservation.duration.startDate }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>End date:</span>
+          <strong class="text-center" *ngIf="boatReservation.duration.endDate">
+            {{ ": " + boatReservation.duration.endDate }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-12 reserv-btn">
+          <button
+            *appHasRole="['ROLE_CUSTOMER']"
+            class="btn btn-success reservationbtn"
+          >
+            Review
+          </button>
+        </div>
+      </div>
+      <div class="row d-flex pt-2 mb-2">
+        <div class="col-12 reserv-btn">
+          <button
+            *appHasRole="['ROLE_CUSTOMER']"
+            class="btn btn-success reservationbtn"
+          >
+            Complaint
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
+  </div>
+</div>

@@ -1,7 +1,13 @@
 package isaproject.mapper;
 
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.model.FishingReservation;
+import isaproject.model.cottage.CottageReservation;
 
 public class FishingReservationMapper {
 
@@ -32,5 +38,18 @@ public class FishingReservationMapper {
 		fishingReservationDTO.setConfirmed(fishingReservation.isConfirmed());
 		return fishingReservationDTO;
 	}
+	
+	public static Page<FishingReservationDTO> pageFishingReservationToPageFishingReservationDTO(
+			Page<FishingReservation> fishingReservationPages) {
+			Page<FishingReservationDTO> fishingReservationDTOPages = fishingReservationPages.map(new Function<FishingReservation, FishingReservationDTO>() {
+				@Override
+				public FishingReservationDTO apply(FishingReservation entity) {
+					FishingReservationDTO dto = FishingReservationMapper.FishingReservationToDTO(entity);
+					return dto;
+				}
+			});
+			return fishingReservationDTOPages;
+	}
+	
 
 }

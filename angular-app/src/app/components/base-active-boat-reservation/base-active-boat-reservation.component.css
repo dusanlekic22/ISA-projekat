@@ -1,0 +1,65 @@
+#baseOnlineRestaurant {
+  margin: 15px;
+  position: relative;
+  width: 300px;
+  height: 400px;
+  background: #00000080;
+  float: left;
+}
+
+.card {
+  border: 0px;
+  -webkit-box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.5) !important;
+  overflow: hidden; /* Removing this will break the effects */
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 0%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s ease;
+  opacity: 0;
+  color: white;
+  font-size: 20px;
+  padding: 50px;
+  text-align: center;
+}
+.cardOverlay:hover {
+  opacity: 1;
+}
+
+.img-hover-zoom {
+  max-height: 150px;
+  overflow: hidden; /* Removing this will break the effects */
+}
+
+.img-hover-zoom img {
+  transform-origin: 65% 75%;
+  transition: transform 1s, filter 0.5s ease-out;
+}
+
+.img-hover-zoom:hover img {
+  transform: scale(1.15);
+}
+
+.reservationbtn {
+  width: 90%;
+  margin-left: 5%;
+}
+
+/* .cottageCard {
+  height: 550px;
+} */
+
+.reserv-btn {
+  height: 60px;
+}
+
+.price {
+  width: 100px;
+}

@@ -5,6 +5,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ICustomer } from '../model/customer';
 import { IFishingReservation } from '../model/fishingReservation';
 import { IFishingCourse } from '../model/fishingCourse';
+import { ISortType } from '../model/sortType';
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +82,39 @@ export class FishingReservationService {
         `${this.fishingReservationUrl}/customerHasReservationNow/fishingCourse/${id}`
       )
       .pipe(catchError(this.handleError));
+  }
+
+  getAvailableFishingsReservation(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<IFishingReservation[]> {
+    return this.http
+      .post<IFishingReservation[]>(
+        environment.apiUrl +
+          `/fishingReservation/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+  getAvailableFishingsReservationIncoming(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<IFishingReservation[]> {
+    return this.http
+      .post<IFishingReservation[]>(
+        environment.apiUrl +
+          `/fishingReservation/incoming/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   handleError(error: any) {

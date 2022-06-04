@@ -1,3 +1,4 @@
+import { ReservationsComponent } from './pages/reservations/reservations.component';
 import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
 import { FishingCourseProfileComponent } from './pages/fishing-trainer-pages/fishing-course-profile/fishing-course-profile.component';
@@ -119,6 +120,10 @@ const routes: Routes = [
   {
     path: 'fishingCourseProfile/:id',
     component: FishingCourseProfileComponent,
+  },
+  {
+    path: 'reservationHistory/:id',
+    component: ReservationsComponent,
   },
   {
     path: 'requests',

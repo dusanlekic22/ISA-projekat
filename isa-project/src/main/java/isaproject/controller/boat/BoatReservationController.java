@@ -1,12 +1,18 @@
 package isaproject.controller.boat;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
+import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +24,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.service.CustomerService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.util.ProjectUtil;
 
@@ -33,6 +43,9 @@ public class BoatReservationController {
 
 	@Autowired
 	BoatReservationService boatReservationService;
+	
+	@Autowired
+	CustomerService customerService;
 
 	@GetMapping
 	@ResponseBody
@@ -76,6 +89,32 @@ public class BoatReservationController {
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassedByBoatId(@PathVariable("boatId") Long id) {
 		return new ResponseEntity<>(boatReservationService.findAllPastByBoatId(id), HttpStatus.OK);
 	}
+	
+	@PostMapping("/customer/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public Page<BoatReservationDTO> getAllPastCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				Pageable paging = PageRequest.of(page, size);
+				return boatReservationService.findAllPagination(id,sortTypeDTO, paging);
+			}
+	
+	@PostMapping("/incoming/customer/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public Page<BoatReservationDTO> getAllIncomingCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				Pageable paging = PageRequest.of(page, size);
+				return boatReservationService.findAllIncomingPagination(id,sortTypeDTO, paging);
+			}
 
 	@PostMapping("/owner")
 	@PreAuthorize("hasRole('BOAT_OWNER')")

@@ -1,7 +1,13 @@
 package isaproject.mapper;
 
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageReservation;
 
 public class CottageReservationMapper {
@@ -30,6 +36,18 @@ public class CottageReservationMapper {
 		cottageReservationDTO.setCustomer(cottageReservation.getCustomer());
 		cottageReservationDTO.setConfirmed(cottageReservation.isConfirmed());
 		return cottageReservationDTO;
+	}
+
+	public static Page<CottageReservationDTO> pageCottageReservationToPageCottageReservationDTO(
+			Page<CottageReservation> cottageReservationPages) {
+			Page<CottageReservationDTO> cottageReservationDTOPages = cottageReservationPages.map(new Function<CottageReservation, CottageReservationDTO>() {
+				@Override
+				public CottageReservationDTO apply(CottageReservation entity) {
+					CottageReservationDTO dto = CottageReservationMapper.CottageReservationToCottageReservationDTO(entity);
+					return dto;
+				}
+			});
+			return cottageReservationDTOPages;
 	}
 
 }

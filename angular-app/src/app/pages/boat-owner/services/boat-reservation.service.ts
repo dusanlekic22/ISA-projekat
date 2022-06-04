@@ -5,6 +5,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
+import { ISortType } from 'src/app/model/sortType';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +107,39 @@ export class BoatReservationService {
         environment.apiUrl + `/boatReservation/passed/owner/${id}`
       )
       .pipe(catchError(this.handleError));
+  }
+
+  getAvailableBoatsReservation(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<IBoatReservation[]> {
+    return this._http
+      .post<IBoatReservation[]>(
+        environment.apiUrl +
+          `/boatReservation/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+  getAvailableBoatsReservationIncoming(
+    customerId: number,
+    sortBy: ISortType,
+    page: number
+  ): Observable<IBoatReservation[]> {
+    return this._http
+      .post<IBoatReservation[]>(
+        environment.apiUrl +
+          `/boatReservation/incoming/customer/${customerId}?page=${page}`,
+        sortBy
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

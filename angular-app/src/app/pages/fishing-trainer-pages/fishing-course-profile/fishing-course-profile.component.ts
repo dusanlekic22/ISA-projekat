@@ -84,7 +84,7 @@ export class FishingCourseProfileComponent implements OnInit {
         this.passedReservations = passedReservations;
       });
     this.fishingCourseReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(this.fishingCourseId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });

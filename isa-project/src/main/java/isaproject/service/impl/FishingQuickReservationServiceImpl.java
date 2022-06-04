@@ -107,7 +107,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 			}
 		}
 
-		for (FishingReservation q : fishingReservationRepository.findByFishingCourse_FishingTrainer_Id(
+		for (FishingReservation q : fishingReservationRepository.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(
 				fishingCourseQuickReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;

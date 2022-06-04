@@ -63,14 +63,14 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	}
 
 	@Override
-	public Set<CustomerDTO> findCustomersHasCurrentReservation() {
+	public Set<CustomerDTO> findCustomersHasCurrentReservation(long fishingCourseId) {
 		Set<Customer> customers = new HashSet<>(customerRepository.findAll());
 		Set<CustomerDTO> dtos = new HashSet<>();
 		if (customers.size() != 0) {
 			CustomerDTO dto;
 			for (Customer p : customers) {
 				for (FishingReservation fishingeReservation : p.getFishingReservation()) {
-					if (fishingeReservation.getDuration().isBetween(LocalDateTime.now())) {
+					if (fishingeReservation.getDuration().isBetween(LocalDateTime.now()) && fishingeReservation.getFishingCourse().getId() == fishingCourseId) {
 						dto = CustomerMapper.customertoCustomerDTO(p);
 						dtos.add(dto);
 						break;
@@ -95,7 +95,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 
 		for (FishingReservation q : fishingeReservationRepository
-				.findByFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
+				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingeReservation.getDuration())) {
 				System.out.println("p2");
 				return null;
@@ -195,7 +195,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 
 		boolean inAction = false;
 		for (FishingReservation q : fishingeReservationRepository
-				.findByFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
+				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
 
 			if (q.getDuration().overlapsWith(fishingeReservation.getDuration())) {
 				return null;
@@ -237,7 +237,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id) {
 		Set<FishingReservation> fishingeReservations = new HashSet<>(
-				fishingeReservationRepository.findByFishingCourse_FishingTrainer_Id(id));
+				fishingeReservationRepository.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(id));
 		Set<FishingReservationDTO> dtos = new HashSet<>();
 		for (FishingReservation p : fishingeReservations) {
 			dtos.add(FishingReservationMapper.FishingReservationToDTO(p));
@@ -337,7 +337,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseId(Long id) {
 		Set<FishingReservation> fishingeReservations = new HashSet<>(
-				fishingeReservationRepository.findByFishingCourseId(id));
+				fishingeReservationRepository.findByConfirmedIsTrueAndFishingCourseId(id));
 		Set<FishingReservationDTO> dtos = new HashSet<>();
 		for (FishingReservation p : fishingeReservations) {
 			dtos.add(FishingReservationMapper.FishingReservationToDTO(p));

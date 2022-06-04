@@ -95,6 +95,7 @@ insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2
 insert into boat_subscribers (boat_id,customer_id) values (4,5);
 
 insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id, customer_id, location_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 1,2,1);
+insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id, customer_id, location_id) values ('2022-06-04T13:22:11', '2022-06-13', 5, 70, true, 1,2,1);
 insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id, customer_id, location_id) values ('2022-05-25', '2022-05-30', 5, 70, true,2,2,1);
 insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id, customer_id, location_id) values ('2022-05-11', '2022-05-13', 6, 100, true,1,2,2);
 insert into fishing_quick_reservation (start_date, end_date, capacity, price, is_reserved, fishing_course_id, location_id) values ('2022-06-8T10:00:00', '2022-06-9T18:30:00', 6, 100, false,1,2);

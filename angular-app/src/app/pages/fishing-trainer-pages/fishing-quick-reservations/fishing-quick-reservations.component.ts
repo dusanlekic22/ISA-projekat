@@ -26,7 +26,7 @@ export class FishingQuickReservationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let fishingId = this.route.snapshot.paramMap.get('fishingId')!;
+    let fishingId = this.route.snapshot.paramMap.get('id')!;
     this.additionalService
       .getAdditionalServicesByFishingQuickReservationId(parseInt(fishingId))
       .subscribe((services) => {

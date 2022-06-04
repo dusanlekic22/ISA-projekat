@@ -25,9 +25,7 @@ public interface FishingReservationService {
 	FishingReservationDTO reserveFishingOwner(FishingReservationDTO cottageReservation, String siteUrl);
 
 	FishingReservationDTO confirmReservation(Long id);
-
-	Set<CustomerDTO> findCustomersHasCurrentReservation();
-
+	
 	Set<FishingReservationDTO> findAllActiveByFishingTrainerId(Long id);
 
 	Set<FishingReservationDTO> findAllPastByFishingTrainerId(Long id);
@@ -35,4 +33,6 @@ public interface FishingReservationService {
 	Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id);
 
 	Set<FishingReservationDTO> findByFishingCourseId(Long id);
+
+	Set<CustomerDTO> findCustomersHasCurrentReservation(long fishingCourseId);
 }

@@ -75,10 +75,10 @@ export class FishingReservationService {
       .pipe(catchError(this.handleError));
   }
 
-  getCustomerHasReservationNow(): Observable<ICustomer[]> {
+  getCustomerHasReservationNow(id:number): Observable<ICustomer[]> {
     return this.http
       .get<ICustomer[]>(
-        `${this.fishingReservationUrl}/customerHasReservationNow`
+        `${this.fishingReservationUrl}/customerHasReservationNow/fishingCourse/${id}`
       )
       .pipe(catchError(this.handleError));
   }

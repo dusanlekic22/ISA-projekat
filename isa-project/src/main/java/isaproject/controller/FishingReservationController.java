@@ -41,9 +41,9 @@ public class FishingReservationController {
 		return new ResponseEntity<>(fishingReservationService.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/customerHasReservationNow")
-	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
-		return new ResponseEntity<>(fishingReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
+	@GetMapping("/customerHasReservationNow/fishingCourse/{id}")
+	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(fishingReservationService.findCustomersHasCurrentReservation(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")

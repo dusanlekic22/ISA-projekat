@@ -41,12 +41,12 @@ export class AddFishingReservationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let fishingCourseId = +this.route.snapshot.paramMap.get('id')!;
     this.fishingCourseReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(fishingCourseId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });
-    let fishingCourseId = this.route.snapshot.paramMap.get('id');
     this.userService.currentUser.subscribe((user) => {
       if (user.id != undefined) {
         this.fishingCourseService
@@ -54,7 +54,7 @@ export class AddFishingReservationComponent implements OnInit {
           .subscribe((fishingCourses) => {
             this.fishingCourses = fishingCourses;
             this.fishingCourse = this.fishingCourses.filter(
-              (c) => c.id == parseInt(fishingCourseId!)
+              (c) => c.id == fishingCourseId
             )[0];
             this.fishingCourseReservation.fishingCourse = this.fishingCourse;
             this.fishingCourseReservation.location = this.fishingCourse.address;
@@ -62,7 +62,7 @@ export class AddFishingReservationComponent implements OnInit {
       }
     });
     if(fishingCourseId!=undefined){
-      this.getChips(parseInt(fishingCourseId));
+      this.getChips(fishingCourseId);
     }
   }
 
@@ -92,6 +92,11 @@ export class AddFishingReservationComponent implements OnInit {
 
   setCustomer(id: number) {
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
+    this.fishingCourseReservationService
+    .getCustomerHasReservationNow(id)
+    .subscribe((customers) => {
+      this.eligibleCustomers = customers;
+    });
   }
 
   addReservation(): void {

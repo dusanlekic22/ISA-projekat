@@ -95,7 +95,7 @@
                       [(ngModel)]="fishingCourse"
                       id="input-fishingCourse"
                       name="fishingCourse"
-                      (selectionChange)="getChips(fishingCourse.id)"
+                      (selectionChange)="getChips(fishingCourse.id); setCustomer(fishingCourse.id)"
                     >
                       <mat-option
                         *ngFor="let fishingCourse of fishingCourses"

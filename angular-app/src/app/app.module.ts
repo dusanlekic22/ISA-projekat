@@ -111,9 +111,11 @@ import { OwnerBoatProfileComponent } from './pages/user-profile/view/owner-boat-
 import { ReportRequestsComponent } from './pages/admin-pages/report-requests/report-requests.component';
 import { AnswerReportRequestComponent } from './pages/admin-pages/answer-report-request/answer-report-request.component';
 import { OwnerReservationReportComponent } from './components/owner-reservation-report/owner-reservation-report.component';
+import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
+import { LoyaltyProgramComponent } from './components/loyalty-program/loyalty-program.component';
 import { BaseBoatReservationComponent } from './components/base-boat-reservation/base-boat-reservation.component';
-import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
 import { BaseFishingCourseReservationComponent } from './components/base-fishing-course-reservation/base-fishing-course-reservation.component';
+import { BoatReservationComponent } from './pages/reservation/boat-reservation/boat-reservation.component';
 import { FishingCourseReservationComponent } from './pages/reservation/fishing-course-reservation/fishing-course-reservation.component';
 import { ReservationsComponent } from './pages/reservations/reservations.component';
 import { BaseHistoryReservationComponent } from './components/base-history-reservation/base-history-reservation.component';
@@ -122,8 +124,6 @@ import { BaseHistoryBoatReservationComponent } from './components/base-history-b
 import { BaseActiveBoatReservationComponent } from './components/base-active-boat-reservation/base-active-boat-reservation.component';
 import { BaseHistoryFishingReservationComponent } from './components/base-history-fishing-reservation/base-history-fishing-reservation.component';
 import { BaseActiveFishingReservationComponent } from './components/base-active-fishing-reservation/base-active-fishing-reservation.component';
-import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
-import { LoyaltyProgramComponent } from './components/loyalty-program/loyalty-program.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,

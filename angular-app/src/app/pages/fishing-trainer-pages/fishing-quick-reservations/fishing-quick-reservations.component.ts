@@ -15,7 +15,7 @@ import { AdditionalServiceService } from '../../cottage-owner/services/additiona
 export class FishingQuickReservationsComponent implements OnInit {
   @Input() fishingCourse!: IFishingCourse;
   @Input() imageObject!: Array<object>;
-  services!: IAdditionalService[];
+  services: IAdditionalService[] = [];
 
   constructor(
     private fishingCourseQuickReservationService: FishingQuickReservationService,

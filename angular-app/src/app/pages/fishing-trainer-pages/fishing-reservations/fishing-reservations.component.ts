@@ -14,7 +14,7 @@ export class FishingReservationsComponent implements OnInit {
   @Input() reservations!: IFishingReservation[];
   @Input() customers! : ICustomer[];
   @Output() customerEmit = new EventEmitter<number>();
-  services!: IAdditionalService[];
+  services: IAdditionalService[] = [];
 
   constructor(private router: Router,
     private additionalService: AdditionalServiceService,

@@ -34,7 +34,7 @@
           <input
             type="datetime"
             id="strDate"
-            [(ngModel)]="availableDateSpan.startDate"
+            [ngModel]="availableDateSpan.startDate | date: 'dd/MM/YYYY HH:mm':'UTC'"
             [disabled]="true"
             class="form-control"
             mdbInput
@@ -45,7 +45,7 @@
           <input
             type="datetime"
             id="endDate"
-            [(ngModel)]="availableDateSpan.endDate"
+            [ngModel]="availableDateSpan.endDate | date: 'dd/MM/YYYY HH:mm':'UTC'"
             [disabled]="true"
             class="form-control"
             mdbInput
@@ -130,7 +130,7 @@
               <input
                 type="datetime"
                 id="strDateInfo"
-                [(ngModel)]="reservation.duration.startDate"
+                [ngModel]="reservation.duration.startDate | date: 'dd/MM/YYYY HH:mm'"
                 [disabled]="true"
                 class="form-control"
                 mdbInput
@@ -141,7 +141,7 @@
               <input
                 type="datetime"
                 id="endDateInfo"
-                [(ngModel)]="reservation.duration.endDate"
+                [ngModel]="reservation.duration.endDate | date: 'dd/MM/YYYY HH:mm'"
                 [disabled]="true"
                 class="form-control"
                 mdbInput

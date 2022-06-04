@@ -27,6 +27,7 @@ export class LoyaltyProgramComponent implements OnInit {
   }
 
   getDiscount() {
+    if (!this.loyaltySettings) return 0
     if (this.userType == "customer") {
       if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Regular) return this.loyaltySettings.customerRegularDiscount * 100;
       if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Gold) return this.loyaltySettings.customerGoldDiscount * 100;

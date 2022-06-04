@@ -86,6 +86,15 @@
             >Requests</a
           >
         </li>
+        <li class="nav-item" *appHasRole="['ROLE_CUSTOMER']">
+          <a
+            *ngIf="isLoggedIn() && loggedInUser"
+            class="nav-link"
+            [routerLink]="['/reservationHistory/' + loggedInUser.id]"
+            routerLinkActive="router-link-active"
+            >Reservations</a
+          >
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/user/' + loggedInUser.id]">
             Profile

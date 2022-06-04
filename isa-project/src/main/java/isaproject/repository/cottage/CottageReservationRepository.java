@@ -18,12 +18,20 @@ public interface CottageReservationRepository extends PagingAndSortingRepository
 	List<CottageReservation> findByCottageId(Long id);
 
 	List<CottageReservation> findByCottage_CottageOwner_Id(Long id);
-	
+
 	Page<CottageReservation> findByCustomerId(Long id, Pageable pageable);
 
-	@Query(value = " SELECT * Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.cottage_reservation as cr  "
-			+ " WHERE cr.customer_id = customerId ", countQuery = " SELECT count(*) FROM public.cottage_reservation as cr  "
-					+ " WHERE cr.customer_id = :customerId ", nativeQuery = true)
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.cottage_reservation   "
+			+ " WHERE customer_id = :customerId and end_date <= NOW() ",
+			countQuery = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.cottage_reservation  "
+					+ " WHERE customer_id = :customerId and end_date <= NOW() ", nativeQuery = true)
 	Page<CottageReservation> findCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
+			Pageable pageable);
+	
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.cottage_reservation    "
+			+ " WHERE customer_id = :customerId and ( (start_date > NOW()) OR ( start_date< NOW() and end_date > NOW() )) ", 
+			countQuery = "SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.cottage_reservation  "
+					+ " WHERE customer_id = :customerId and ( (start_date > NOW()) OR ( start_date< NOW() and end_date > NOW() ))", nativeQuery = true)
+	Page<CottageReservation> findIncomingCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
 }

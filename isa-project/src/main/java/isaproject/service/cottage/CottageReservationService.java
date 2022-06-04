@@ -33,5 +33,6 @@ public interface CottageReservationService {
 	Set<CottageReservationDTO> findByCottageCottageOwnerId(Long id);
 	Set<CottageReservationDTO> findAllActiveByCottageOwnerId(Long id);
 	Set<CottageReservationDTO> findAllPastByCottageOwnerId(Long id);
-	Page<CottageReservationDTO> findAllPagination(Long id,List<SortTypeDTO> sortTypeDTOList, Pageable paging);
+	Page<CottageReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	Page<CottageReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 }

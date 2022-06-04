@@ -1,6 +1,8 @@
 package isaproject.controller.cottage;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -28,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.service.CustomerService;
 import isaproject.service.cottage.CottageReservationService;
 import isaproject.util.ProjectUtil;
 
@@ -40,6 +42,9 @@ public class CottageReservationController {
 
 	@Autowired
 	CottageReservationService cottageReservationService;
+	
+	@Autowired
+	CustomerService customerService;
 
 	@GetMapping
 	@ResponseBody
@@ -61,13 +66,30 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/customer/{id}")
+	@PostMapping("/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public Page<CottageReservationDTO> getAllCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
-					@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+	public Page<CottageReservationDTO> getAllPastCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
 				Pageable paging = PageRequest.of(page, size);
-				return cottageReservationService.findAllPagination(id,sortTypeDTOList, paging);
+				return cottageReservationService.findAllPagination(id,sortTypeDTO, paging);
+			}
+	
+	@PostMapping("/incoming/customer/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public Page<CottageReservationDTO> getAllIncomingCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				Pageable paging = PageRequest.of(page, size);
+				return cottageReservationService.findAllIncomingPagination(id,sortTypeDTO, paging);
 			}
 
 

@@ -12,20 +12,29 @@ import org.springframework.data.repository.query.Param;
 import isaproject.model.boat.BoatReservation;
 import isaproject.model.cottage.CottageReservation;
 
-public interface BoatReservationRepository extends PagingAndSortingRepository<BoatReservation, Long>{
-	
+public interface BoatReservationRepository extends PagingAndSortingRepository<BoatReservation, Long> {
+
 	Set<BoatReservation> findAll();
-	
+
 	List<BoatReservation> findByBoatId(Long id);
-	
+
 	List<BoatReservation> findByBoat_BoatOwner_Id(Long id);
-	
+
 	Page<BoatReservation> findByCustomerId(Long id, Pageable pageable);
-	
-	@Query(value = " SELECT * Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.boat_reservation as br  "
-			+ " WHERE br.customer_id = customerId ", countQuery = " SELECT count(*) FROM public.boat_reservation as br  "
-					+ " WHERE br.customer_id = :customerId ", nativeQuery = true)
+
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.boat_reservation as br  "
+			+ " WHERE br.customer_id = :customerId and cr.end_date <= NOW() "
+			+ " and br.confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation as br  "
+					+ " WHERE br.customer_id = :customerId and cr.end_date <= NOW() "
+					+ " and br.confirmed = true ", nativeQuery = true)
 	Page<BoatReservation> findCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
-}
 
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.boat_reservation as br  "
+			+ " WHERE br.customer_id = customerId and ( (br.start_date > NOW()) OR ( br.start_date< NOW() and br.end_date > NOW() )) "
+			+ " and br.confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation as br  "
+					+ " WHERE br.customer_id = :customerId and ( (br.start_date > NOW()) OR ( br.start_date< NOW() and br.end_date > NOW() )) "
+					+ " and br.confirmed = true ", nativeQuery = true)
+	Page<BoatReservation> findIncomingCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
+			Pageable pageable);
+}

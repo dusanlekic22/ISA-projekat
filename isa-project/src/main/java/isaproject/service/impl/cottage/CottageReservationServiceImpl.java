@@ -110,27 +110,48 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	}
 
 	@Override
-	public Page<CottageReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable) {
+	public Page<CottageReservationDTO> findAllPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
 		List<Sort.Order> sorts = new ArrayList<>();
-		List<SortType> sortTypes = sortTypeDTO.stream()
-				.map(sortType-> SortTypeMapper.SortTypeDTOToSortType(sortType)).collect(Collectors.toList());
-		if (sortTypes != null) {
-			for (SortType sortType : sortTypes) {
-				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
-					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
-				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
-					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+	    SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+	    Sort sort = Sort.by("id").ascending()  ;
+		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
+				if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sort = Sort.by(sortType.getField()).descending();
+				} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sort = Sort.by(sortType.getField()).ascending();
 				}
-			}
-
-			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+			
+				
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
 					cottageReservationRepository.findCustomerReservationsSortByDuration(id, paging));
 		} else {
 			return CottageReservationMapper
-					.pageCottageReservationToPageCottageReservationDTO(cottageReservationRepository.findAll(pageable));
+					.pageCottageReservationToPageCottageReservationDTO(cottageReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
+		}
+	}
+	
+	@Override
+	public Page<CottageReservationDTO> findAllIncomingPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
+
+		List<Sort.Order> sorts = new ArrayList<>();
+		 SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+			if (sortType != null) {
+					if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
+						sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+					} else if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
+						sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+					}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
+					cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, paging));
+		} else {
+			return CottageReservationMapper
+					.pageCottageReservationToPageCottageReservationDTO(cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
 

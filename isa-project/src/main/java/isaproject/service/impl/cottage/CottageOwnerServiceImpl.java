@@ -16,6 +16,8 @@ import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.model.cottage.CottageOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
@@ -62,6 +64,10 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 		cottageOwner.setRoles(roleService.findByName("ROLE_COTTAGE_OWNER"));
 		cottageOwner.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
 		cottageOwner.setEnabled(false);
+		LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+		loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		loyaltyProgram.setPoints(0);
+		cottageOwner.setLoyaltyProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);

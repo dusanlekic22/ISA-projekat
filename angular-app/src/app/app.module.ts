@@ -123,6 +123,7 @@ import { BaseActiveBoatReservationComponent } from './components/base-active-boa
 import { BaseHistoryFishingReservationComponent } from './components/base-history-fishing-reservation/base-history-fishing-reservation.component';
 import { BaseActiveFishingReservationComponent } from './components/base-active-fishing-reservation/base-active-fishing-reservation.component';
 import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
+import { LoyaltyProgramComponent } from './components/loyalty-program/loyalty-program.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -217,6 +218,7 @@ FullCalendarModule.registerPlugins([
     BaseHistoryFishingReservationComponent,
     BaseActiveFishingReservationComponent,
     LoyaltySettingsComponent,
+    LoyaltyProgramComponent,
   ],
   imports: [
     NgbModule,

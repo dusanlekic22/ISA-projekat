@@ -2,6 +2,7 @@ import { IFishingCourse } from './fishingCourse';
 import { IUser } from './../pages/registration/registration/user';
 import { IDateSpan } from './dateSpan';
 import { ISortType } from './sortType';
+import { ILoyaltyProgram, LoyaltyRank } from './loyaltyProgram';
 
 export interface IFishingTrainer extends IUser {
   grade: number;
@@ -10,6 +11,7 @@ export interface IFishingTrainer extends IUser {
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
   averageGrade: number;
+  loyaltyProgram: ILoyaltyProgram;
 }
 
 export interface IFishingTrainerAvailability {
@@ -54,6 +56,10 @@ export const emptyFishingTrainer: IFishingTrainer = {
   fishingCourse: [],
   availableReservationDateSpan: [],
   unavailableReservationDateSpan: [],
+  loyaltyProgram: {
+    loyaltyRank: LoyaltyRank.Regular,
+    points: 0,
+  },
 };
 
 export const emptyFishingTrainerAvailability: IFishingTrainerAvailability = {

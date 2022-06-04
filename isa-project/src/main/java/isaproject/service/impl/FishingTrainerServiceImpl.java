@@ -35,6 +35,8 @@ import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Grade;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.model.SortType;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
@@ -104,6 +106,10 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainer.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
 		fishingTrainer.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
 		fishingTrainer.setEnabled(false);
+		LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+		loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		loyaltyProgram.setPoints(0);
+		fishingTrainer.setLoyalityProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);

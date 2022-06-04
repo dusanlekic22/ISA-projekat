@@ -1,4 +1,4 @@
-import { IFishingTrainer } from './fishingTrainer';
+import { IFishingTrainer, emptyFishingTrainer } from './fishingTrainer';
 import { IFishingReservation } from './fishingReservation';
 import { IFishingQuickReservation } from './fishingQuickReservation';
 import { IFishingImage } from './fishingImage';
@@ -67,29 +67,7 @@ export const emptyFishingCourse: IFishingCourse = {
   cancellationPercentageKeep: 0,
   additionalService: [],
   price: 0,
-  fishingTrainer: {
-    id: 0,
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    averageGrade:0,
-    email: '',
-    phoneNumber: '',
-    address: {
-      street: '',
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-    },
-    roles: [],
-    biography: '',
-    fishingCourse: [],
-    availableReservationDateSpan: [],
-    unavailableReservationDateSpan: [],
-    grade: 0,
-  },
+  fishingTrainer: emptyFishingTrainer,
 };
 
 export const emptyFishingCourseAvailability: IFishingCourseAvailability = {

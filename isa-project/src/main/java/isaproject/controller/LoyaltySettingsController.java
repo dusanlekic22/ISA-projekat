@@ -27,7 +27,7 @@ public class LoyaltySettingsController {
 	}
 	
 	@GetMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public ResponseEntity<LoyaltySettingsDTO> get() {
 		LoyaltySettingsDTO dto = loyaltySettingsService.getLoyaltySettings();
 		return new ResponseEntity<LoyaltySettingsDTO>(dto, HttpStatus.OK);

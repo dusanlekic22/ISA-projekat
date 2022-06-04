@@ -1,3 +1,4 @@
+import { emptyCustomer } from 'src/app/model/customer';
 import { ICottage, initCottage } from 'src/app/model/cottage';
 import { IAdditionalService } from './additionalService';
 import { ISortType } from './sortType';
@@ -34,27 +35,7 @@ export const emptyCottageReservation = {
   },
   guestCapacity: 0,
   price: 0,
-  customer: {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    username: '',
-    password: '',
-    email: '',
-    phoneNumber: '',
-    roles: [],
-    address: {
-      street: '',
-      city: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-    },
-    enabled: true,
-    verificationCode: '',
-    points: '',
-    loyalityProgram: '',
-  },
+  customer: emptyCustomer,
   confirmed: false,
   cottage: initCottage,
 };

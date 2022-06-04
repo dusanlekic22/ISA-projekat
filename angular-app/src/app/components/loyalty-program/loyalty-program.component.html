@@ -1,0 +1,17 @@
+<div class="container my-5 d-flex align-items-center justify-content-center">
+  <div
+    class="box border rounded p-4 pb-2"
+    [ngClass]="loyaltyProgram.loyaltyRank"
+  >
+    <div class="box border border-dark border-2 rounded text-center p-4">
+      <div class="box-title display-3">{{ loyaltyProgram.loyaltyRank }}</div>
+      <div class="box-description pt-2 display-1">Loyalty Card</div>
+    </div>
+  </div>
+</div>
+<div>
+  <p>You earned {{ loyaltyProgram.points }} points.</p>
+  <p>
+    You get {{ getDiscount() }}% discount for every reservation.
+  </p>
+</div>

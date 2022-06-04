@@ -2,18 +2,10 @@
   <div class="profile-side">
     <p class="user-mail"><i class="fa fa-envelope"></i> {{ user.email }}</p>
     <div class="user-bio">
-      <h2>
-        <div class="row price">
-          <div class="col-6">
-            <strong>Points :</strong>
-          </div>
-          <div class="col-4 text-left">{{ customer.points }}</div>
-        </div>
-      </h2>
     </div>
-
+    <app-loyalty-program [loyaltyProgram]="customer.loyaltyProgram" [userType]="'cutomer'"></app-loyalty-program>
     <div class="user-rating">
-      <h3 class="rating">{{ customer.loyalityProgram }}</h3>
+      <h3 class="rating"></h3>
       <div class="rate">
         <span class="no-of-user-rate">&nbsp;&nbsp;member</span>
       </div>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BoatReservationService } from 'src/app/pages/boat-owner/services/boat-reservation.service';
 import { ToastrService } from 'ngx-toastr';
-import { ICustomer } from 'src/app/model/customer';
+import { ICustomer, emptyCustomer } from 'src/app/model/customer';
 import { BoatService } from 'src/app/pages/boat-owner/services/boat.service';
 import { UserService } from 'src/app/service/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -37,27 +37,7 @@ export class AddBoatReservationComponent implements OnInit {
     guestCapacity: 0,
     boat: initBoat,
     price: 0,
-    customer: {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      username: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      roles: [],
-      address: {
-        street: '',
-        city: '',
-        country: '',
-        latitude: 0,
-        longitude: 0,
-      },
-      enabled: true,
-      verificationCode: '',
-      points: '',
-      loyalityProgram: '',
-    },
+    customer: emptyCustomer,
     confirmed: false,
   };
 

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
+import isaproject.model.LoyaltyProgram;
 
 public class FishingTrainerDTO extends UserDTO {
 
@@ -12,7 +13,8 @@ public class FishingTrainerDTO extends UserDTO {
 	private Set<DateTimeSpan> availableReservationDateSpan;
 	private Set<DateTimeSpan> unavailableReservationDateSpan;
 	private Double averageGrade;
-	
+	private LoyaltyProgram loyaltyProgram;
+
 	public FishingTrainerDTO() {
 	}
 
@@ -54,6 +56,14 @@ public class FishingTrainerDTO extends UserDTO {
 
 	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
 		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
+	}
+
+	public LoyaltyProgram getLoyaltyProgram() {
+		return loyaltyProgram;
+	}
+
+	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+		this.loyaltyProgram = loyaltyProgram;
 	}
 
 }

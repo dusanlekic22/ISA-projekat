@@ -5,11 +5,13 @@ import java.util.Set;
 
 import isaproject.dto.UserDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.LoyaltyProgram;
 import isaproject.model.boat.Boat;
 
 public class BoatOwnerDTO extends UserDTO {
 	private Set<Boat> boat;
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
+	private LoyaltyProgram loyaltyProgram;
 
 	public BoatOwnerDTO() {
 		super();
@@ -29,5 +31,13 @@ public class BoatOwnerDTO extends UserDTO {
 
 	public void setUnavailableReservationDateSpan(Set<DateTimeSpan> unavailableReservationDateSpan) {
 		this.unavailableReservationDateSpan = unavailableReservationDateSpan;
+	}
+
+	public LoyaltyProgram getLoyaltyProgram() {
+		return loyaltyProgram;
+	}
+
+	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+		this.loyaltyProgram = loyaltyProgram;
 	}
 }

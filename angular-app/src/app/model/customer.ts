@@ -1,6 +1,7 @@
 import { emptyFishingCourse } from './fishingCourse';
 import { IRole } from './../pages/registration/registration/user';
 import { IAddress } from './address';
+import { ILoyaltyProgram, LoyaltyRank } from './loyaltyProgram';
 
 export interface ICustomer {
   id: number;
@@ -14,8 +15,7 @@ export interface ICustomer {
   roles: IRole[];
   phoneNumber: string;
   address: IAddress;
-  points: string;
-  loyalityProgram: string;
+  loyaltyProgram: ILoyaltyProgram;
 }
 
 export const emptyCustomer: ICustomer = {
@@ -36,6 +36,8 @@ export const emptyCustomer: ICustomer = {
   },
   enabled: true,
   verificationCode: '',
-  points: '',
-  loyalityProgram: '',
+  loyaltyProgram: {
+    loyaltyRank: LoyaltyRank.Regular,
+    points: 0,
+  },
 };

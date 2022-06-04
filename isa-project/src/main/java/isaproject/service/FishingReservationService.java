@@ -1,9 +1,15 @@
 package isaproject.service;
 
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatReservationDTO;
 
 public interface FishingReservationService {
 	FishingReservationDTO findById(Long id);
@@ -19,6 +25,8 @@ public interface FishingReservationService {
 	Set<FishingReservationDTO> findAllPastByFishingCourseId(Long id);
 
 	Set<FishingReservationDTO> findAllActiveByFishingCourseId(Long id);
+	
+	Page<FishingReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable);
 
 	FishingReservationDTO reserveCustomer(FishingReservationDTO cottageReservation);
 

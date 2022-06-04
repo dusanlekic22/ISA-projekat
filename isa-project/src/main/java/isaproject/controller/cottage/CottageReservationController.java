@@ -1,12 +1,16 @@
 package isaproject.controller.cottage;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +22,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.SortTypeDTO;
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.service.cottage.CottageReservationService;
 import isaproject.util.ProjectUtil;
@@ -53,6 +60,16 @@ public class CottageReservationController {
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassed() {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/customer/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public Page<CottageReservationDTO> getAllCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+				Pageable paging = PageRequest.of(page, size);
+				return cottageReservationService.findAllPagination(id,sortTypeDTOList, paging);
+			}
+
 
 
 	@GetMapping("/active")

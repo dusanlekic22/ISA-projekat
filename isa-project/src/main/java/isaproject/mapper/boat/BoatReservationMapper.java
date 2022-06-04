@@ -1,5 +1,9 @@
 package isaproject.mapper.boat;
 
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
+
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.boat.BoatReservation;
@@ -30,4 +34,17 @@ public class BoatReservationMapper {
 		boatReservationDTO.setConfirmed(boatReservation.isConfirmed());
 		return boatReservationDTO;
 	}
+
+		public static Page<BoatReservationDTO> pageBoatReservationToPageBoatReservationDTO(
+			Page<BoatReservation> boatReservationPages) {
+			Page<BoatReservationDTO> boatReservationDTOPages = boatReservationPages.map(new Function<BoatReservation, BoatReservationDTO>() {
+				@Override
+				public BoatReservationDTO apply(BoatReservation entity) {
+					BoatReservationDTO dto = BoatReservationMapper.BoatReservationToBoatReservationDTO(entity);
+					return dto;
+				}
+			});
+			return boatReservationDTOPages;
+	}
+		
 }

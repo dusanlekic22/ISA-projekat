@@ -1,23 +1,35 @@
 package isaproject.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.FishingReservationMapper;
+import isaproject.mapper.SortTypeMapper;
+import isaproject.mapper.boat.BoatReservationMapper;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
 import isaproject.model.FishingTrainer;
+import isaproject.model.SortType;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.FishingQuickReservationRepository;
 import isaproject.repository.FishingReservationRepository;
@@ -61,6 +73,31 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 		return dtos;
 	}
+	
+	@Override
+	public Page<FishingReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable) {
+
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypeDTO.stream()
+				.map(sortType-> SortTypeMapper.SortTypeDTOToSortType(sortType)).collect(Collectors.toList());
+		if (sortTypes != null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(
+					fishingeReservationRepository.findCustomerReservationsSortByDuration(id, paging));
+		} else {
+			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(fishingeReservationRepository.findAll(pageable));
+		}
+	}
+	
 
 	@Override
 	public Set<CustomerDTO> findCustomersHasCurrentReservation() {

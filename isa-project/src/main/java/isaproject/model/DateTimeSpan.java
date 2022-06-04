@@ -1,5 +1,6 @@
 package isaproject.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class DateTimeSpan {
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}
+	
 
 	public boolean validate() {
 		return startDate.compareTo(endDate) < 0;

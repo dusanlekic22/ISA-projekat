@@ -1,11 +1,16 @@
 package isaproject.service.boat;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 
 public interface BoatReservationService {
@@ -26,6 +31,8 @@ public interface BoatReservationService {
 	Set<BoatReservationDTO> findAllPastByBoatId(Long id);
 
 	Set<BoatReservationDTO> findAllActiveByBoatId(Long id);
+	
+	Page<BoatReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable);
 
 	BoatReservationDTO reserveCustomer(BoatReservationDTO BoatReservation);
 

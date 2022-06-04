@@ -2,22 +2,34 @@ package isaproject.service.impl.boat;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.mapper.CottageReservationMapper;
 import isaproject.mapper.CustomerMapper;
+import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatReservationMapper;
 import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
@@ -97,6 +109,32 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 		return dtos;
 	}
+	
+	@Override
+	public Page<BoatReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable) {
+
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypeDTO.stream()
+				.map(sortType-> SortTypeMapper.SortTypeDTOToSortType(sortType)).collect(Collectors.toList());
+		if (sortTypes != null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(
+					boatReservationRepository.findCustomerReservationsSortByDuration(id, paging));
+		} else {
+			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(boatReservationRepository.findAll(pageable));
+		}
+	}
+	
+	
 
 	@Transactional
 	@Override

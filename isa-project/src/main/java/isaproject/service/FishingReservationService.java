@@ -26,7 +26,6 @@ public interface FishingReservationService {
 
 	Set<FishingReservationDTO> findAllActiveByFishingCourseId(Long id);
 	
-	Page<FishingReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable);
 
 	FishingReservationDTO reserveCustomer(FishingReservationDTO cottageReservation);
 
@@ -43,4 +42,6 @@ public interface FishingReservationService {
 	Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id);
 
 	Set<FishingReservationDTO> findByFishingCourseId(Long id);
+	Page<FishingReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	Page<FishingReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 }

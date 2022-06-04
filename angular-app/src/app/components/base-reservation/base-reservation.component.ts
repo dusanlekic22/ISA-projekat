@@ -141,8 +141,6 @@ export class BaseReservationComponent implements OnInit {
   }
 
   activateCottageEnd() {
-    let x = '';
-    x = this.startCottageDate.toString();
     this.endDateCottageString = this.startCottageDate;
   }
 }

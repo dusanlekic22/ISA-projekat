@@ -112,7 +112,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Override
 	public Page<CottageReservationDTO> findAllPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-		List<Sort.Order> sorts = new ArrayList<>();
+
 	    SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
 	    Sort sort = Sort.by("id").ascending()  ;
 		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
@@ -136,16 +136,15 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Override
 	public Page<CottageReservationDTO> findAllIncomingPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-		List<Sort.Order> sorts = new ArrayList<>();
-		 SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-			if (sortType != null) {
+		  SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		    Sort sort = Sort.by("id").ascending()  ;
+			if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
 					if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-						sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
-					} else if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-						sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+						sort = Sort.by(sortType.getField()).descending();
+					} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
+						sort = Sort.by(sortType.getField()).ascending();
 					}
-
-			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
 
 			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
 					cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, paging));

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.dto.cottage.CottageReservationDTO;
 
 public interface BoatReservationService {
 	BoatReservationDTO findById(Long id);
@@ -32,8 +33,6 @@ public interface BoatReservationService {
 
 	Set<BoatReservationDTO> findAllActiveByBoatId(Long id);
 	
-	Page<BoatReservationDTO> findAllPagination(Long id, List<SortTypeDTO> sortTypeDTO, Pageable pageable);
-
 	BoatReservationDTO reserveCustomer(BoatReservationDTO BoatReservation);
 
 	BoatReservationDTO reserveBoatOwner(BoatReservationDTO BoatReservation, String siteUrl)
@@ -48,4 +47,7 @@ public interface BoatReservationService {
 	Set<BoatReservationDTO> findAllActiveByBoatOwnerId(Long id);
 
 	Set<BoatReservationDTO> findAllPastByBoatOwnerId(Long id);
+	
+	Page<BoatReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	Page<BoatReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 }

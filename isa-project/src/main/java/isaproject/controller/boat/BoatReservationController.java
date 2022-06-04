@@ -1,6 +1,8 @@
 package isaproject.controller.boat;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ import isaproject.dto.CustomerDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.service.CustomerService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.util.ProjectUtil;
 
@@ -40,6 +43,9 @@ public class BoatReservationController {
 
 	@Autowired
 	BoatReservationService boatReservationService;
+	
+	@Autowired
+	CustomerService customerService;
 
 	@GetMapping
 	@ResponseBody
@@ -84,13 +90,30 @@ public class BoatReservationController {
 		return new ResponseEntity<>(boatReservationService.findAllPastByBoatId(id), HttpStatus.OK);
 	}
 	
-	@GetMapping("/customer/{id}")
+	@PostMapping("/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public Page<BoatReservationDTO> getAllCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
-					@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+	public Page<BoatReservationDTO> getAllPastCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
 				Pageable paging = PageRequest.of(page, size);
-				return boatReservationService.findAllPagination(id,sortTypeDTOList, paging);
+				return boatReservationService.findAllPagination(id,sortTypeDTO, paging);
+			}
+	
+	@PostMapping("/incoming/customer/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public Page<BoatReservationDTO> getAllIncomingCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
+					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+				CustomerDTO customer = this.customerService.getCustomer(id);
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				Pageable paging = PageRequest.of(page, size);
+				return boatReservationService.findAllIncomingPagination(id,sortTypeDTO, paging);
 			}
 
 	@PostMapping("/owner")

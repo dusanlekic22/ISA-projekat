@@ -1,0 +1,126 @@
+<div class="col-md-12 mb-1 cottageCard">
+  <div class="card h-100" *ngIf="fishingReservation.fishingCourse">
+    <div class="d-flex justify-content-between position-absolute w-100"></div>
+    <div class="img-hover-zoom img-hover-zoom--xyz">
+      <img
+        src="https://picsum.photos/700/550"
+        class="card-img-top"
+        alt="Product"
+      />
+      <div class="cardOverlay" *ngIf="fishingReservation.fishingCourse.name">
+        Pogledaj <br />
+        {{ fishingReservation.fishingCourse.name }} <br />
+        ponudu
+      </div>
+    </div>
+    <div class="card-body px-2 pb-2 pt-1">
+      <div class="d-flex justify-content-between">
+        <div *ngIf="fishingReservation.fishingCourse.name">
+          <p class="h4">{{ fishingReservation.fishingCourse.name }}</p>
+        </div>
+        <div>
+          <a
+            href="#"
+            class="text-secondary lead"
+            data-toggle="tooltip"
+            data-placement="left"
+            title="Compare"
+          >
+            <app-grade-star
+              *ngIf="fishingReservation.fishingCourse.averageGrade"
+              [grade]="fishingReservation.fishingCourse.averageGrade"
+            ></app-grade-star>
+          </a>
+        </div>
+      </div>
+      <div class="row d-flex">
+        <div class="col-7 text-dark">
+          Grad :<strong *ngIf="fishingReservation.fishingCourse.address">{{
+            "   " + fishingReservation.fishingCourse.address.city
+          }}</strong>
+        </div>
+        <div
+          *ngIf="openForReservation !== 'yes' && type !== 4"
+          class="col-5 text-dark text-left"
+        >
+          <strong>Price: </strong>{{ "  " + fishingReservation.price + " $" }}
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Ulica :
+          <strong *ngIf="fishingReservation.fishingCourse.address">
+            {{
+              "   " + fishingReservation.fishingCourse.address.street
+            }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Drzava :<strong *ngIf="fishingReservation.fishingCourse.address">
+            {{
+              "   " + fishingReservation.fishingCourse.address.country
+            }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Description</span>
+          <strong
+            class="text-center"
+            *ngIf="fishingReservation.fishingCourse.promoDescription"
+          >
+            {{
+              ": " + fishingReservation.fishingCourse.promoDescription
+            }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Start date:</span>
+          <strong
+            class="text-center"
+            *ngIf="fishingReservation.duration.startDate"
+          >
+            {{ ": " + fishingReservation.duration.startDate }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>End date:</span>
+          <strong
+            class="text-center"
+            *ngIf="fishingReservation.duration.endDate"
+          >
+            {{ ": " + fishingReservation.duration.endDate }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-12 reserv-btn">
+          <button
+            *appHasRole="['ROLE_CUSTOMER']"
+            class="btn btn-success reservationbtn"
+          >
+            Review
+          </button>
+        </div>
+      </div>
+      <div class="row d-flex pt-2 mb-2">
+        <div class="col-12 reserv-btn">
+          <button
+            *appHasRole="['ROLE_CUSTOMER']"
+            class="btn btn-success reservationbtn"
+          >
+            Complaint
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
+  </div>
+</div>

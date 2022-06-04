@@ -47,6 +47,12 @@ export const sortTypes: ISortType[] = [
   },
 ];
 
+export const initSortType: ISortType = {
+  text: '',
+  direction: '',
+  field: '',
+};
+
 export const emptySortType: ISortType = {
   text: '',
   field: 'name',

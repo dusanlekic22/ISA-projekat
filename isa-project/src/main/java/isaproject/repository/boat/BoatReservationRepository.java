@@ -22,19 +22,19 @@ public interface BoatReservationRepository extends PagingAndSortingRepository<Bo
 
 	Page<BoatReservation> findByCustomerId(Long id, Pageable pageable);
 
-	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.boat_reservation as br  "
-			+ " WHERE br.customer_id = :customerId and cr.end_date <= NOW() "
-			+ " and br.confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation as br  "
-					+ " WHERE br.customer_id = :customerId and cr.end_date <= NOW() "
-					+ " and br.confirmed = true ", nativeQuery = true)
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.boat_reservation  "
+			+ " WHERE customer_id = :customerId and end_date <= NOW() "
+			+ " and confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation   "
+					+ " WHERE customer_id = :customerId and end_date <= NOW() "
+					+ " and confirmed = true ", nativeQuery = true)
 	Page<BoatReservation> findCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
 
-	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration, FROM public.boat_reservation as br  "
-			+ " WHERE br.customer_id = customerId and ( (br.start_date > NOW()) OR ( br.start_date< NOW() and br.end_date > NOW() )) "
-			+ " and br.confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation as br  "
-					+ " WHERE br.customer_id = :customerId and ( (br.start_date > NOW()) OR ( br.start_date< NOW() and br.end_date > NOW() )) "
-					+ " and br.confirmed = true ", nativeQuery = true)
+	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.boat_reservation   "
+			+ " WHERE customer_id = :customerId and ( (start_date > NOW()) OR ( start_date< NOW() and end_date > NOW() )) "
+			+ " and confirmed = true ", countQuery = " SELECT count(*) FROM public.boat_reservation  "
+					+ " WHERE customer_id = :customerId and ( (start_date > NOW()) OR ( start_date< NOW() and end_date > NOW() )) "
+					+ " and confirmed = true ", nativeQuery = true)
 	Page<BoatReservation> findIncomingCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
 }

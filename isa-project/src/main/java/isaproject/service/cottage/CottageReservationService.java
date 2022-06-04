@@ -24,8 +24,8 @@ public interface CottageReservationService {
 	CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservation, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException;
     CottageReservationDTO confirmReservation(Long id);
-	Set<CustomerDTO> findCustomersHasCurrentReservation();
 	Set<CottageReservationDTO> findByCottageCottageOwnerId(Long id);
 	Set<CottageReservationDTO> findAllActiveByCottageOwnerId(Long id);
 	Set<CottageReservationDTO> findAllPastByCottageOwnerId(Long id);
+	Set<CustomerDTO> findCustomersHasCurrentReservation(long cottageId);
 }

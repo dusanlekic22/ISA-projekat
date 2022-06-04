@@ -62,6 +62,7 @@ insert into cottage (name, promo_description, average_grade, bed_count, room_cou
 insert into additional_service (name,price,cottage_id) values ('Wi-fi',5,4);
 
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, true, 4,6);
+insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-06-04T12:22:11', '2022-06-12', 5, 70, true, 4,6);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,4,5);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, true,4,5);
 insert into cottage_reservation (start_date, end_date, guest_capacity, price, confirmed, cottage_id,customer_id) values ('2021-05-11', '2021-05-13', 6, 100, true,4,5);

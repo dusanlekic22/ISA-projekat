@@ -42,12 +42,12 @@ export class AddReservationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
     this._cottageReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(cottageId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });
-    let cottageId = this._route.snapshot.paramMap.get('cottageId');
     this._userService.currentUser.subscribe((user) => {
       this._cottageService
         .getCottagesByCottageOwnerId(user.id)
@@ -55,16 +55,21 @@ export class AddReservationComponent implements OnInit {
           this.cottages = cottages;
           if (cottageId != undefined)
             this.cottage = this.cottages.filter(
-              (c) => c.id == parseInt(cottageId!)
+              (c) => c.id == cottageId
             )[0];
         });
     });
     if(cottageId!=undefined){
-      this.getChips(parseInt(cottageId));
+      this.getChips(cottageId);
     }
   }
 
   setCustomer(id: number) {
+    this._cottageReservationService
+      .getCustomerHasReservationNow(id)
+      .subscribe((customers) => {
+        this.eligibleCustomers = customers;
+      });
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
   }
 

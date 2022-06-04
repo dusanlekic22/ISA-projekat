@@ -95,7 +95,7 @@
                       [(ngModel)]="cottage"
                       id="input-cottage"
                       name="cottage"
-                      (selectionChange)="getChips(cottage.id)"
+                      (selectionChange)="getChips(cottage.id); setCustomer(cottage.id)"
                     >
                       <mat-option
                         *ngFor="let cottage of cottages"

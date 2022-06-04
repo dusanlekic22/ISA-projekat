@@ -84,10 +84,10 @@ export class CottageReservationService {
       );
   }
 
-  getCustomerHasReservationNow(): Observable<ICustomer[]> {
+  getCustomerHasReservationNow(id:number): Observable<ICustomer[]> {
     return this._http
       .get<ICustomer[]>(
-        environment.apiUrl + `/cottageReservation/customerHasReservationNow`
+        environment.apiUrl + `/cottageReservation/customerHasReservationNow/cottage/${id}`
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),

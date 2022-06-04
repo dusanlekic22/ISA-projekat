@@ -93,7 +93,7 @@ export class CottageProfileComponent implements OnInit {
         this.passedReservations = passedReservations;
       });
     this._cottageReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(this.cottageId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });

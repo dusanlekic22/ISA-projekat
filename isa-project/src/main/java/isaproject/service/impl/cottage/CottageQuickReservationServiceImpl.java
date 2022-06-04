@@ -115,7 +115,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		}
 
 		for (CottageReservation q : cottageReservationRepository
-				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
+				.findByConfirmedIsTrueAndCottageId(cottageQuickReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}

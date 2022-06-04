@@ -80,14 +80,14 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	}
 
 	@Override
-	public Set<CustomerDTO> findCustomersHasCurrentReservation() {
+	public Set<CustomerDTO> findCustomersHasCurrentReservation(long cottageId) {
 		Set<Customer> customers = new HashSet<>(customerRepository.findAll());
 		Set<CustomerDTO> dtos = new HashSet<>();
 		if (customers.size() != 0) {
 			CustomerDTO dto;
 			for (Customer p : customers) {
 				for (CottageReservation cottageReservation : p.getCottageReservation()) {
-					if (cottageReservation.getDuration().isBetween(LocalDateTime.now())) {
+					if (cottageReservation.getDuration().isBetween(LocalDateTime.now()) && cottageReservation.getCottage().getId() == cottageId) {
 						dto = CustomerMapper.customertoCustomerDTO(p);
 						dtos.add(dto);
 						break;
@@ -117,7 +117,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 
 		for (CottageReservation q : cottageReservationRepository
-				.findByCottageId(cottageReservation.getCottage().getId())) {
+				.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
 				return null;
 			}
@@ -200,7 +200,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 		boolean inAction = false;
 		for (CottageReservation q : cottageReservationRepository
-				.findByCottageId(cottageReservation.getCottage().getId())) {
+				.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
 
 			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
 				return null;
@@ -251,7 +251,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Transactional
 	@Override
 	public Set<CottageReservationDTO> findByCottageId(Long id) {
-		Set<CottageReservation> cottageReservations = new HashSet<>(cottageReservationRepository.findByCottageId(id));
+		Set<CottageReservation> cottageReservations = new HashSet<>(cottageReservationRepository.findByConfirmedIsTrueAndCottageId(id));
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		if (cottageReservations.size() != 0) {
 
@@ -358,7 +358,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 	@Override
 	public Set<CottageReservationDTO> findByCottageCottageOwnerId(Long id) {
-		Set<CottageReservation> cottageReservations = new HashSet<>(cottageReservationRepository.findByCottage_CottageOwner_Id(id));
+		Set<CottageReservation> cottageReservations = new HashSet<>(cottageReservationRepository.findByConfirmedIsTrueAndCottage_CottageOwner_Id(id));
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		if (cottageReservations.size() != 0) {
 

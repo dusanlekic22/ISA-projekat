@@ -25,7 +25,7 @@ export class CottageReservationsComponent implements OnInit {
   ngOnInit(): void {
     let cottageId = this._route.snapshot.paramMap.get('cottageId')!;
     this._additionalCottageService
-      .getAdditionalServicesByCottageQuickReservationId(parseInt(cottageId))
+      .getAdditionalServicesByCottageReservationId(parseInt(cottageId))
       .subscribe((services) => {
         this.services = services;
       });

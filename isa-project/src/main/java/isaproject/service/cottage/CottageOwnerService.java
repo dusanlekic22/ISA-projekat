@@ -13,4 +13,6 @@ public interface CottageOwnerService {
 
 	CottageOwnerDTO findByUsername(String username);
 
+	void promoteLoyaltyCottageOwner(CottageOwner owner);
+
 }

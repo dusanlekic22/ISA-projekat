@@ -29,13 +29,13 @@ export class LoyaltyProgramComponent implements OnInit {
   getDiscount() {
     if (!this.loyaltySettings) return 0
     if (this.userType == "customer") {
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Regular) return this.loyaltySettings.customerRegularDiscount * 100;
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Gold) return this.loyaltySettings.customerGoldDiscount * 100;
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Silver) return this.loyaltySettings.customerSilverDiscount * 100;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Regular) return this.loyaltySettings.customerRegularDiscount;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Gold) return this.loyaltySettings.customerGoldDiscount;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Silver) return this.loyaltySettings.customerSilverDiscount;
     } else if (this.userType == "owner") {
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Regular) return this.loyaltySettings.onwerRegularRevenue * 100;
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Gold) return this.loyaltySettings.onwerGoldRevenue * 100;
-      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Silver) return this.loyaltySettings.onwerSilverRevenue * 100;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Regular) return this.loyaltySettings.onwerRegularRevenue;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Gold) return this.loyaltySettings.onwerGoldRevenue;
+      if (this.loyaltyProgram.loyaltyRank == LoyaltyRank.Silver) return this.loyaltySettings.onwerSilverRevenue;
     }
     return 0;
   }

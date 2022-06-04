@@ -1,31 +1,31 @@
 package isaproject.dto;
 
 public class IncomeDTO {
-	private int[] yearlySum;
-	private int[][] monthlySum;
-	private int[][][] dailySum;
+	private Double[] yearlySum;
+	private Double[][] monthlySum;
+	private Double[][][] dailySum;
 
-	public int[] getYearlySum() {
+	public Double[] getYearlySum() {
 		return yearlySum;
 	}
 
-	public void setYearlySum(int[] yearlySum) {
+	public void setYearlySum(Double[] yearlySum) {
 		this.yearlySum = yearlySum;
 	}
 
-	public int[][] getMonthlySum() {
+	public Double[][] getMonthlySum() {
 		return monthlySum;
 	}
 
-	public void setMonthlySum(int[][] monthlySum) {
+	public void setMonthlySum(Double[][] monthlySum) {
 		this.monthlySum = monthlySum;
 	}
 
-	public int[][][] getDailySum() {
+	public Double[][][] getDailySum() {
 		return dailySum;
 	}
 
-	public void setDailySum(int[][][] dailySum) {
+	public void setDailySum(Double[][][] dailySum) {
 		this.dailySum = dailySum;
 	}
 

@@ -473,7 +473,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public IncomeDTO getCottageIncomeYearly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		int[] incomeSum = new int[(int) yearCount];
+		Double[] incomeSum = new Double[(int) yearCount];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
@@ -491,7 +491,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public IncomeDTO getCottageIncomeMonthly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		int[][] incomeSum = new int[(int) yearCount][12];
+		Double[][] incomeSum = new Double[(int) yearCount][12];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();
@@ -513,7 +513,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public IncomeDTO getCottageIncomeDaily(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		int[][][] incomeSum = new int[(int) yearCount][12][31];
+		Double[][][] incomeSum = new Double[(int) yearCount][12][31];
 		Income income = new Income();
 		Cottage cottage = cottageRepository.findById(id).get();
 		Set<CottageReservation> reservations = cottage.getCottageReservation();

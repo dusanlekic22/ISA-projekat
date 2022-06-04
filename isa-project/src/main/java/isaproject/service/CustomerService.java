@@ -44,4 +44,6 @@ public interface CustomerService {
 			FishingQuickReservation fishingQuickReservationReturn);
 
 	public void sendReservationConfirmationEmail(String siteUrl, FishingReservation fishingReservationReturn);
+
+	public void promoteLoyaltyCustomer(Customer customer);
 }

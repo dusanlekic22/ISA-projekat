@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatOwnerDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
@@ -23,6 +24,7 @@ import isaproject.model.boat.BoatOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.boat.BoatOwnerRepository;
+import isaproject.service.LoyaltySettingsService;
 import isaproject.service.RoleService;
 import isaproject.service.boat.BoatOwnerService;
 import isaproject.service.boat.BoatQuickReservationService;
@@ -40,13 +42,14 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
 	private BoatService boatService;
+	private LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public BoatOwnerServiceImpl(BoatOwnerRepository boatOwnerRepository, RoleService roleService,
 			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
 			BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
 			BoatReservationService boatReservationService, BoatQuickReservationService boatQuickReservationService,
-			BoatService boatService) {
+			BoatService boatService, LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.boatOwnerRepository = boatOwnerRepository;
 		this.roleService = roleService;
@@ -56,6 +59,7 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
 		this.boatService = boatService;
+		this.loyaltySettingsService = loyaltySettingsService;
 	}
 
 	@Override
@@ -124,4 +128,20 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 		BoatOwner boatOwner = boatOwnerRepository.findByUsername(username);
 		return UserMapper.BoatOwnerToDTO(boatOwner);
 	}
+	
+	@Override
+	public void promoteLoyaltyBoatOwner(BoatOwner owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		boatOwnerRepository.save(owner);
+	}
+	
 }

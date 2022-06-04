@@ -51,7 +51,7 @@ public class StatiscticsServiceImpl implements StatisticsService {
 	}
 
 	@Override
-	public int[] yearlyIncome(DateTimeSpan reservationSpan, int reservationPrice, int year, int income[],
+	public Double[] yearlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, Double income[],
 			int yearBackward) {
 		if (reservationSpan.getEndDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)) {
@@ -61,8 +61,8 @@ public class StatiscticsServiceImpl implements StatisticsService {
 	}
 
 	@Override
-	public int[][] monthlyIncome(DateTimeSpan reservationSpan, int reservationPrice, int year, int month,
-			int income[][], int yearBackward) {
+	public Double[][] monthlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, int month,
+			Double income[][], int yearBackward) {
 		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)
 				&& reservationSpan.getEndDate().getMonthValue() == month) {
@@ -72,8 +72,8 @@ public class StatiscticsServiceImpl implements StatisticsService {
 	}
 
 	@Override
-	public int[][][] dailyIncome(DateTimeSpan reservationSpan, int reservationPrice, int year, int month, int day,
-			int income[][][], int yearBackward) {
+	public Double[][][] dailyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, int month, int day,
+			Double income[][][], int yearBackward) {
 		if (reservationSpan.getStartDate().getYear() == LocalDateTime.now().getYear() + year
 				- (LocalDateTime.now().getYear() - yearBackward + 1)
 				&& reservationSpan.getEndDate().getMonthValue() == month

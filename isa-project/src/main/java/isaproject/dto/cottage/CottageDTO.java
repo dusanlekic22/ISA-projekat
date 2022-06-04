@@ -22,7 +22,7 @@ public class CottageDTO {
 	private Integer bedCount;
 	private Integer roomCount;
 	private String cottageRules;
-	private Integer pricePerHour;
+	private Double pricePerHour;
 
 	private Set<CottageQuickReservation> cottageQuickReservation;
 	private Set<CottageImage> cottageImage;
@@ -161,11 +161,11 @@ public class CottageDTO {
 		this.subscribers = subscribers;
 	}
 
-	public Integer getPricePerHour() {
+	public Double getPricePerHour() {
 		return pricePerHour;
 	}
 
-	public void setPricePerHour(Integer pricePerHour) {
+	public void setPricePerHour(Double pricePerHour) {
 		this.pricePerHour = pricePerHour;
 	}
 

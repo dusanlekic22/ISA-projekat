@@ -62,7 +62,7 @@ public class Boat implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "boat_fishing_equipment", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "equipment_boat"))
 	private Set<String> fishingEquipment;
-	private Integer pricePerHour;
+	private Double pricePerHour;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
@@ -207,11 +207,11 @@ public class Boat implements Serializable {
 		this.fishingEquipment = fishingEquipment;
 	}
 
-	public Integer getPricePerHour() {
+	public Double getPricePerHour() {
 		return pricePerHour;
 	}
 
-	public void setPricePerHour(Integer param) {
+	public void setPricePerHour(Double param) {
 		this.pricePerHour = param;
 	}
 

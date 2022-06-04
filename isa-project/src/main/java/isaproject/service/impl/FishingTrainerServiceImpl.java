@@ -1,7 +1,6 @@
 package isaproject.service.impl;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,20 +18,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BusinessOwnerDTO;
-import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
 import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.GradeDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.mapper.FishingCourseMapper;
 import isaproject.mapper.GradeMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.FishingCourse;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
@@ -44,6 +41,7 @@ import isaproject.repository.FishingTrainerRepository;
 import isaproject.service.FishingQuickReservationService;
 import isaproject.service.FishingReservationService;
 import isaproject.service.FishingTrainerService;
+import isaproject.service.LoyaltySettingsService;
 import isaproject.service.RoleService;
 
 @Service
@@ -56,13 +54,15 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 	private BusinessOwnerRegistrationRequestRepository registrationRequestRepository;
 	private FishingReservationService fishingReservationService;
 	private FishingQuickReservationService fishingQuickReservationService;
+	private LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public FishingTrainerServiceImpl(FishingTrainerRepository fishingTrainerRepository, RoleService roleService,
 			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
 			BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
 			FishingReservationService fishingReservationService,
-			FishingQuickReservationService fishingQuickReservationService) {
+			FishingQuickReservationService fishingQuickReservationService,
+			LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.fishingTrainerRepository = fishingTrainerRepository;
 		this.roleService = roleService;
@@ -71,6 +71,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		this.registrationRequestRepository = registrationRequestRepository;
 		this.fishingReservationService = fishingReservationService;
 		this.fishingQuickReservationService = fishingQuickReservationService;
+		this.loyaltySettingsService = loyaltySettingsService;
 	}
 
 	public Set<FishingTrainerDTO> getAll() {
@@ -109,7 +110,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
 		loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
 		loyaltyProgram.setPoints(0);
-		fishingTrainer.setLoyalityProgram(loyaltyProgram);
+		fishingTrainer.setLoyaltyProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
 		request.setAccepted(null);
@@ -363,4 +364,20 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainerRepository.save(fishingTrainer);
 		return UserMapper.FishingTrainerToDTO(fishingTrainer);
 	}
+	
+	@Override
+	public void promoteLoyaltyFishingTrainer(FishingTrainer owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		fishingTrainerRepository.save(owner);
+	}
+	
 }

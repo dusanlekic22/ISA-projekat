@@ -37,7 +37,9 @@ public class CottageReservation implements Serializable {
 	@Embedded
 	private DateTimeSpan duration;
 	private Integer guestCapacity;
-	private Integer price;
+	private Double price;
+	private Double ownerIncome;
+	private Double siteIncome;
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Cottage.class)
 	@JoinColumn(name = "cottage_id")
 	@JsonBackReference("cottageReservation")
@@ -82,12 +84,28 @@ public class CottageReservation implements Serializable {
 		this.guestCapacity = guestCapacity;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Double getOwnerIncome() {
+		return ownerIncome;
+	}
+
+	public void setOwnerIncome(Double ownerIncome) {
+		this.ownerIncome = ownerIncome;
+	}
+
+	public Double getSiteIncome() {
+		return siteIncome;
+	}
+
+	public void setSiteIncome(Double siteIncome) {
+		this.siteIncome = siteIncome;
 	}
 
 	public Cottage getCottage() {

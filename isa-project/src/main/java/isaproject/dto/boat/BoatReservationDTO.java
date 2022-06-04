@@ -10,7 +10,7 @@ import isaproject.model.boat.Boat;
 public class BoatReservationDTO {
 	private long id;
 	private DateTimeSpan duration;
-	private Integer price;
+	private Double price;
 	private String guestCapacity;
 	private Boat boat;
 	private Customer customer;
@@ -28,10 +28,10 @@ public class BoatReservationDTO {
 	public void setDuration(DateTimeSpan duration) {
 		this.duration = duration;
 	}
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getGuestCapacity() {

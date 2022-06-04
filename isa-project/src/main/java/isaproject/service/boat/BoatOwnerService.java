@@ -12,4 +12,6 @@ public interface BoatOwnerService {
 	BoatOwnerDTO updateUnavailableTerms(Long id, DateTimeSpan dateTimeSpan);
 
 	BoatOwnerDTO findByUsername(String username);
+
+	void promoteLoyaltyBoatOwner(BoatOwner owner);
 }

@@ -39,6 +39,10 @@ public class FishingReservation implements Serializable {
 
 	@Column(nullable = false)
 	private Double price;
+	
+	private Double ownerIncome;
+	
+	private Double siteIncome;
 
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", referencedColumnName = "id")
@@ -93,6 +97,22 @@ public class FishingReservation implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Double getOwnerIncome() {
+		return ownerIncome;
+	}
+
+	public void setOwnerIncome(Double ownerIncome) {
+		this.ownerIncome = ownerIncome;
+	}
+
+	public Double getSiteIncome() {
+		return siteIncome;
+	}
+
+	public void setSiteIncome(Double siteIncome) {
+		this.siteIncome = siteIncome;
 	}
 
 	public Address getLocation() {

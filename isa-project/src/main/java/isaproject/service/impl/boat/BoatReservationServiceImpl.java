@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.SortTypeDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageReservationMapper;
@@ -31,6 +32,7 @@ import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatOwner;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
 import isaproject.repository.CustomerRepository;
@@ -39,6 +41,8 @@ import isaproject.repository.boat.BoatQuickReservationRepository;
 import isaproject.repository.boat.BoatRepository;
 import isaproject.repository.boat.BoatReservationRepository;
 import isaproject.service.CustomerService;
+import isaproject.service.LoyaltySettingsService;
+import isaproject.service.boat.BoatOwnerService;
 import isaproject.service.boat.BoatReservationService;
 
 @Service
@@ -50,12 +54,15 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	CustomerService customerService;
 	CustomerRepository customerRepository;
 	BoatOwnerRepository boatOwnerRepository;
+	LoyaltySettingsService loyaltySettingsService;
+	BoatOwnerService boatOwnerService;
 
 	@Autowired
 	public BoatReservationServiceImpl(BoatReservationRepository boatReservationRepository,
 			BoatQuickReservationRepository boatQuickReservationRepository, BoatRepository boatRepository,
 			CustomerService customerService, CustomerRepository customerRepository,
-			BoatOwnerRepository boatOwnerRepository) {
+			BoatOwnerRepository boatOwnerRepository, LoyaltySettingsService loyaltySettingsService,
+			BoatOwnerService boatOwnerService) {
 		super();
 		this.boatReservationRepository = boatReservationRepository;
 		this.boatQuickReservationRepository = boatQuickReservationRepository;
@@ -63,6 +70,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		this.customerService = customerService;
 		this.customerRepository = customerRepository;
 		this.boatOwnerRepository = boatOwnerRepository;
+		this.loyaltySettingsService = loyaltySettingsService;
+		this.boatOwnerService = boatOwnerService;
 	}
 
 	@Override
@@ -99,7 +108,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			CustomerDTO dto;
 			for (Customer p : customers) {
 				for (BoatReservation boatReservation : p.getBoatReservation()) {
-					if (boatReservation.getDuration().isBetween(LocalDateTime.now()) && boatReservation.getBoat().getId() == boatId) {
+					if (boatReservation.getDuration().isBetween(LocalDateTime.now())
+							&& boatReservation.getBoat().getId() == boatId) {
 						dto = CustomerMapper.customertoCustomerDTO(p);
 						dtos.add(dto);
 						break;
@@ -159,20 +169,21 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	@Override
 	public BoatReservationDTO reserveCustomer(BoatReservationDTO boatReservationDTO) {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
+		Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
+		BoatOwner owner = boatOwnerRepository.findById(boatReservationDTO.getBoat().getBoatOwner().getId()).get();
 		boatReservation.setConfirmed(true);
-		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
-		long reservationPrice = boatReservation.getBoat().getPricePerHour() * boatReservation.getDuration().getHours();
-		if(boatReservation.getAdditionalService()!= null) {
-			for(AdditionalService additionalService: boatReservation.getAdditionalService()) {
-				reservationPrice+= Double.parseDouble(additionalService.getPrice());
-			}
-			}
-		boatReservation.setPrice((int) (long) reservationPrice);
+		boatReservation.setCustomer(customer);
+		boatReservation = calculateIncome(boatReservation);
+		customerService.promoteLoyaltyCustomer(customer);
+		boatOwnerService.promoteLoyaltyBoatOwner(owner);
+
+		
 		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
-		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
+		for (BoatReservation q : boatReservationRepository
+				.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
 			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 				return null;
 			}
@@ -199,9 +210,37 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 
 		if (!overlaps) {
-			return null;}
+			return null;
+		}
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
+	}
+	
+	private BoatReservation calculateIncome(BoatReservation boatReservation) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		Double cutomerDiscount = loyaltySettingsService.getCustomerDiscount(boatReservation.getCustomer().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
+		Double siteRevenue = loyaltySettings.getSystemRevenue();
+		Double boatPrice = boatReservation.getBoat().getPricePerHour() * boatReservation.getDuration().getHours();
+		Double reservationPrice = 0.0;
+		Double reservationSiteIncome = 0.0;
+		Double reservationIncome = 0.0;
+		
+		if (boatReservation.getAdditionalService() != null) {
+			for (AdditionalService additionalService : boatReservation.getAdditionalService()) {
+				boatPrice += additionalService.getPrice();
+			}
+		}
+		reservationPrice = boatPrice - (boatPrice * cutomerDiscount) / 100;
+		reservationSiteIncome = reservationPrice * siteRevenue / 100;
+		reservationIncome = reservationPrice - reservationSiteIncome + ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationSiteIncome -= ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		
+		boatReservation.setPrice(reservationPrice);
+		boatReservation.setOwnerIncome(reservationIncome);
+		boatReservation.setSiteIncome(reservationSiteIncome);
+		
+		return boatReservation;
 	}
 
 	private boolean isCustomersReservationInAction(BoatReservation newReservation,
@@ -239,14 +278,25 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	public BoatReservationDTO reserveBoatOwner(BoatReservationDTO boatReservationDTO, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
+		Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
+		BoatOwner owner = boatOwnerRepository.findById(boatReservationDTO.getBoat().getBoatOwner().getId()).get();
 		boatReservation.setConfirmed(false);
-		boatReservation.setCustomer(customerRepository.findById(boatReservationDTO.getCustomer().getId()).get());
+		boatReservation.setCustomer(customer);
+		if (boatReservationDTO.getPrice() == 0) {
+			boatReservation = calculateIncome(boatReservation);			
+		} else {
+			boatReservation = calculateIncomeWithoutCustomerDiscount(boatReservation);
+		}
+		customerService.promoteLoyaltyCustomer(customer);
+		boatOwnerService.promoteLoyaltyBoatOwner(owner);
+
 		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
 		boolean inAction = false;
-		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
+		for (BoatReservation q : boatReservationRepository
+				.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
 
 			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 				return null;
@@ -287,11 +337,30 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 
 		return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
 	}
+	
+	private BoatReservation calculateIncomeWithoutCustomerDiscount(BoatReservation boatReservation) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
+		Double siteRevenue = loyaltySettings.getSystemRevenue();
+		Double boatPrice = boatReservation.getPrice();
+		Double reservationSiteIncome = 0.0;
+		Double reservationIncome = 0.0;
+		
+		reservationSiteIncome = boatPrice * siteRevenue / 100;
+		reservationIncome = boatPrice - reservationSiteIncome + ((boatPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationSiteIncome -= ((boatPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		
+		boatReservation.setOwnerIncome(reservationIncome);
+		boatReservation.setSiteIncome(reservationSiteIncome);
+		
+		return boatReservation;
+	}
 
 	@Transactional
 	@Override
 	public Set<BoatReservationDTO> findByBoatId(Long id) {
-		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByConfirmedIsTrueAndBoatId(id));
+		Set<BoatReservation> boatReservations = new HashSet<>(
+				boatReservationRepository.findByConfirmedIsTrueAndBoatId(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 
@@ -400,7 +469,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 
 	@Override
 	public Set<BoatReservationDTO> findByBoatBoatOwnerId(Long id) {
-		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByConfirmedIsTrueAndBoat_BoatOwner_Id(id));
+		Set<BoatReservation> boatReservations = new HashSet<>(
+				boatReservationRepository.findByConfirmedIsTrueAndBoat_BoatOwner_Id(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 

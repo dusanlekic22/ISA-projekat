@@ -9,7 +9,7 @@ import isaproject.model.boat.Boat;
 public class BoatQuickReservationDTO {
 	private long id;
 	private DateTimeSpan duration;
-	private Integer price;
+	private Double price;
 	private String guestCapacity;
 	private Set<AdditionalService> additionalService;
 	private Boat boat;
@@ -31,11 +31,11 @@ public class BoatQuickReservationDTO {
 		this.duration = duration;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

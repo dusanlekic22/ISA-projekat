@@ -30,7 +30,7 @@ public class AdditionalService implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
-	private String price;
+	private Double price;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "boat")
@@ -82,11 +82,11 @@ public class AdditionalService implements Serializable {
 		this.name = param;
 	}
 
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String param) {
+	public void setPrice(Double param) {
 		this.price = param;
 	}
 

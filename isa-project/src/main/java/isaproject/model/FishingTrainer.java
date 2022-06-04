@@ -41,7 +41,7 @@ public class FishingTrainer extends User {
 	private Double averageGrade = 0.0;
 
 	@Embedded
-	private LoyaltyProgram loyalityProgram;
+	private LoyaltyProgram loyaltyProgram;
 
 	public FishingTrainer() {
 	}
@@ -115,12 +115,12 @@ public class FishingTrainer extends User {
 		}
 	}
 	
-	public LoyaltyProgram getLoyalityProgram() {
-		return loyalityProgram;
+	public LoyaltyProgram getLoyaltyProgram() {
+		return loyaltyProgram;
 	}
 
-	public void setLoyalityProgram(LoyaltyProgram loyalityProgram) {
-		this.loyalityProgram = loyalityProgram;
+	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+		this.loyaltyProgram = loyaltyProgram;
 	}
 
 }

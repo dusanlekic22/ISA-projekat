@@ -103,4 +103,4 @@ insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_
 insert into fishing_trainer_available_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-1', '2022-06-7',7);
 insert into fishing_trainer_unavailable_date_spans (start_date, end_date, fishing_trainer_id) values ('2022-06-6', '2022-06-7',7);
 
-insert into loyalty_settings (id, customer_score, owner_score, min_score_regular, min_score_silver, min_score_gold, customer_regular_discount, onwer_regular_revenue, customer_silver_discount, onwer_silver_revenue, customer_gold_discount, onwer_gold_revenue, system_revenue) values (1, 50, 50, 0, 500, 1000, 0, 0, 0.05, 0.05, 0.1, 0.1, 0.05);
+insert into loyalty_settings (id, customer_score, owner_score, min_score_regular, min_score_silver, min_score_gold, customer_regular_discount, onwer_regular_revenue, customer_silver_discount, onwer_silver_revenue, customer_gold_discount, onwer_gold_revenue, system_revenue) values (1, 50, 50, 0, 500, 1000, 0, 0, 5, 5, 10, 10, 5);

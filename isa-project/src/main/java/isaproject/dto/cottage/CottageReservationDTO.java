@@ -12,7 +12,7 @@ public class CottageReservationDTO {
 	private long id;
 	private DateTimeSpan duration;
 	private Integer guestCapacity;
-	private Integer price;
+	private Double price;
 	private Cottage cottage;
 	private Customer customer;
 	private Set<AdditionalService> additionalService;
@@ -47,11 +47,11 @@ public class CottageReservationDTO {
 		this.guestCapacity = guestCapacity;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

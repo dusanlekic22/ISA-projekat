@@ -35,7 +35,9 @@ public class BoatReservation implements Serializable {
 	private long id;
 	@Embedded
 	private DateTimeSpan duration;
-	private Integer price;
+	private Double price;
+	private Double ownerIncome;
+	private Double siteIncome;
 	private String guestCapacity;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "boat_id", referencedColumnName = "id")
@@ -57,12 +59,28 @@ public class BoatReservation implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer param) {
+	public void setPrice(Double param) {
 		this.price = param;
+	}
+
+	public Double getOwnerIncome() {
+		return ownerIncome;
+	}
+
+	public void setOwnerIncome(Double ownerIncome) {
+		this.ownerIncome = ownerIncome;
+	}
+
+	public Double getSiteIncome() {
+		return siteIncome;
+	}
+
+	public void setSiteIncome(Double siteIncome) {
+		this.siteIncome = siteIncome;
 	}
 
 	public String getGuestCapacity() {

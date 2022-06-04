@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.model.Customer;
 import isaproject.model.FishingQuickReservation;
@@ -25,6 +26,7 @@ import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.UserRepository;
 import isaproject.service.CustomerService;
+import isaproject.service.LoyaltySettingsService;
 import isaproject.service.RoleService;
 import isaproject.service.SendMailService;
 import net.bytebuddy.utility.RandomString;
@@ -37,16 +39,18 @@ public class CustomerServiceImpl implements CustomerService {
 	private PasswordEncoder passwordEncoder;
 	private SendMailService service;
 	private RoleService roleService;
+	private LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public CustomerServiceImpl(UserRepository repo, CustomerRepository customerRepo, PasswordEncoder passwordEncoder,
-			SendMailService service, RoleService roleService) {
+			SendMailService service, RoleService roleService, LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.repo = repo;
 		this.customerRepo = customerRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.service = service;
 		this.roleService = roleService;
+		this.loyaltySettingsService = loyaltySettingsService;
 	}
 
 	@Override
@@ -221,4 +225,21 @@ public class CustomerServiceImpl implements CustomerService {
 		service.sendMailHTML(mail);
 	}
 
+	@Override
+	public void promoteLoyaltyCustomer(Customer customer) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = customer.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getCustomerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular()) {
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		}
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver()) {
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		}
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold()) {
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		}
+		customer.setLoyaltyProgram(loyaltyProgram);
+		customerRepo.save(customer);
+	}
 }

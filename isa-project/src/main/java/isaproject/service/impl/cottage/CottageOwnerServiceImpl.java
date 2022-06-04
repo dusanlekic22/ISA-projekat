@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
@@ -22,6 +23,7 @@ import isaproject.model.cottage.CottageOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.cottage.CottageOwnerRepository;
+import isaproject.service.LoyaltySettingsService;
 import isaproject.service.RoleService;
 import isaproject.service.cottage.CottageOwnerService;
 import isaproject.service.cottage.CottageQuickReservationService;
@@ -39,13 +41,15 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 	private CottageService cottageService;
+	private LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public CottageOwnerServiceImpl(CottageOwnerRepository cottageOwnerRepository, RoleService roleService,
 			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
 			BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
 			CottageReservationService cottageReservationService,
-			CottageQuickReservationService cottageQuickReservationService, CottageService cottageService) {
+			CottageQuickReservationService cottageQuickReservationService, CottageService cottageService,
+			LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.cottageOwnerRepository = cottageOwnerRepository;
 		this.roleService = roleService;
@@ -55,8 +59,9 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 		this.cottageReservationService = cottageReservationService;
 		this.cottageQuickReservationService = cottageQuickReservationService;
 		this.cottageService = cottageService;
+		this.loyaltySettingsService = loyaltySettingsService;
 	}
-
+	
 	@Override
 	public CottageOwner registerCottageOwner(BusinessOwnerDTO businessOwnerDTO) {
 		addressRepository.save(businessOwnerDTO.getAddress());
@@ -124,6 +129,21 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 	public CottageOwnerDTO findByUsername(String username) {
 		CottageOwner cottageOwner = cottageOwnerRepository.findByUsername(username);
 		return UserMapper.CottageOwnerToDTO(cottageOwner);
+	}
+	
+	@Override
+	public void promoteLoyaltyCottageOwner(CottageOwner owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		cottageOwnerRepository.save(owner);
 	}
 	
 }

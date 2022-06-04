@@ -34,7 +34,7 @@ public class BoatQuickReservation implements Serializable {
 	private long id;
 	@Embedded
 	private DateTimeSpan duration;
-	private Integer price;
+	private Double price;
 	private String guestCapacity;
 	@OneToMany(mappedBy = "boatQuickReservation", fetch = FetchType.EAGER)
 	@JsonManagedReference(value = "boatQuickReservationService")
@@ -73,11 +73,11 @@ public class BoatQuickReservation implements Serializable {
 		this.additionalService = additionalService;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer param) {
+	public void setPrice(Double param) {
 		this.price = param;
 	}
 

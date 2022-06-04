@@ -12,7 +12,7 @@ public class AdditionalServiceDTO {
 	
 	private long id;
 	private String name;
-	private String price;
+	private Double price;
 	private Boat boat;
 	private Cottage cottage;
 	private FishingCourse fishingCourse;
@@ -40,11 +40,11 @@ public class AdditionalServiceDTO {
 		this.name = name;
 	}
 
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

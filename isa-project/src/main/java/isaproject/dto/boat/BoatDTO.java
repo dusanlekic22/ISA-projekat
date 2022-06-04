@@ -30,7 +30,7 @@ public class BoatDTO {
 	private String boatRules;
 	private CancelConditionEnum cancelCondition;
 	private Set<String> fishingEquipment;
-	private Integer pricePerHour;
+	private Double pricePerHour;
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
 	private Set<BoatReservation> boatReservation = new HashSet<>();
 	private Set<NavigationEquipment> navigationEquipment = new HashSet<>();
@@ -154,11 +154,11 @@ public class BoatDTO {
 		this.fishingEquipment = fishingEquipment;
 	}
 
-	public Integer getPricePerHour() {
+	public Double getPricePerHour() {
 		return pricePerHour;
 	}
 
-	public void setPricePerHour(Integer pricePerHour) {
+	public void setPricePerHour(Double pricePerHour) {
 		this.pricePerHour = pricePerHour;
 	}
 

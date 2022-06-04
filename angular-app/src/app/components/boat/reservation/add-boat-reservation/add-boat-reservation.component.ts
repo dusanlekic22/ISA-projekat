@@ -71,26 +71,31 @@ export class AddBoatReservationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let boatId = +this._route.snapshot.paramMap.get('boatId')!;
     this._boatReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(boatId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });
-    let boatId = this._route.snapshot.paramMap.get('boatId');
     this._userService.currentUser.subscribe((user) => {
       this._boatService.getBoatsByBoatOwnerId(user.id).subscribe((boats) => {
         this.boats = boats;
         if (boatId != undefined)
-          this.boat = this.boats.filter((c) => c.id == parseInt(boatId!))[0];
+          this.boat = this.boats.filter((c) => c.id == boatId)[0];
       });
     });
     if(boatId!=undefined){
-      this.getChips(parseInt(boatId));
+      this.getChips(boatId);
     }
   }
 
   setCustomer(id: number) {
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
+    this._boatReservationService
+    .getCustomerHasReservationNow(id)
+    .subscribe((customers) => {
+      this.eligibleCustomers = customers;
+    });
   }
 
   getChips(id:number) {

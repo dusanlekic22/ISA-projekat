@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import isaproject.model.boat.BoatReservation;
 
 public interface BoatReservationRepository extends JpaRepository<BoatReservation, Long>{
-	List<BoatReservation> findByBoatId(Long id);
+	List<BoatReservation> findByConfirmedIsTrueAndBoatId(Long id);
 	
-	List<BoatReservation> findByBoat_BoatOwner_Id(Long id);
+	List<BoatReservation> findByConfirmedIsTrueAndBoat_BoatOwner_Id(Long id);
 }
 

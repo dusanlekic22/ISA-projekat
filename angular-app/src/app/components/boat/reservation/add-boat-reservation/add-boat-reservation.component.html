@@ -95,7 +95,7 @@
                         [(ngModel)]="boat"
                         id="input-boat"
                         name="boat"
-                        (selectionChange)="getChips(boat.id)"
+                        (selectionChange)="getChips(boat.id); setCustomer(boat.id)"
                       >
                         <mat-option
                           *ngFor="let boat of boats"

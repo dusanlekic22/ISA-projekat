@@ -41,11 +41,11 @@ public class BoatReservationController {
 		return new ResponseEntity<>(boatReservationService.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/customerHasReservationNow")
+	@GetMapping("/customerHasReservationNow/boat/{id}")
 	@ResponseBody
 	@PreAuthorize("hasRole('BOAT_OWNER')")
-	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation() {
-		return new ResponseEntity<>(boatReservationService.findCustomersHasCurrentReservation(), HttpStatus.OK);
+	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(boatReservationService.findCustomersHasCurrentReservation(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")

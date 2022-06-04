@@ -80,14 +80,14 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	}
 
 	@Override
-	public Set<CustomerDTO> findCustomersHasCurrentReservation() {
+	public Set<CustomerDTO> findCustomersHasCurrentReservation(long boatId) {
 		Set<Customer> customers = new HashSet<>(customerRepository.findAll());
 		Set<CustomerDTO> dtos = new HashSet<>();
 		if (customers.size() != 0) {
 			CustomerDTO dto;
 			for (Customer p : customers) {
 				for (BoatReservation boatReservation : p.getBoatReservation()) {
-					if (boatReservation.getDuration().isBetween(LocalDateTime.now())) {
+					if (boatReservation.getDuration().isBetween(LocalDateTime.now()) && boatReservation.getBoat().getId() == boatId) {
 						dto = CustomerMapper.customertoCustomerDTO(p);
 						dtos.add(dto);
 						break;
@@ -115,7 +115,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			return null;
 		}
 
-		for (BoatReservation q : boatReservationRepository.findByBoatId(boatReservation.getBoat().getId())) {
+		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
 			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 				return null;
 			}
@@ -189,7 +189,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 
 		boolean inAction = false;
-		for (BoatReservation q : boatReservationRepository.findByBoatId(boatReservation.getBoat().getId())) {
+		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
 
 			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 				return null;
@@ -234,7 +234,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	@Transactional
 	@Override
 	public Set<BoatReservationDTO> findByBoatId(Long id) {
-		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByBoatId(id));
+		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByConfirmedIsTrueAndBoatId(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 
@@ -343,7 +343,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 
 	@Override
 	public Set<BoatReservationDTO> findByBoatBoatOwnerId(Long id) {
-		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByBoat_BoatOwner_Id(id));
+		Set<BoatReservation> boatReservations = new HashSet<>(boatReservationRepository.findByConfirmedIsTrueAndBoat_BoatOwner_Id(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 

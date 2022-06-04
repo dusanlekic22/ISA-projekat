@@ -92,7 +92,7 @@ export class BoatProfileComponent implements OnInit {
         this.passedReservations = passedReservations;
       });
     this._boatReservationService
-      .getCustomerHasReservationNow()
+      .getCustomerHasReservationNow(this.boatId)
       .subscribe((customers) => {
         this.eligibleCustomers = customers;
       });

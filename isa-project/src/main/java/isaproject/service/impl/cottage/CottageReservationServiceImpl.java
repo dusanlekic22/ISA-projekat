@@ -1,6 +1,7 @@
 package isaproject.service.impl.cottage;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.JodaTimeConverters.LocalDateTimeToJodaLocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -452,6 +454,19 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 				dtos.add(cottageReservationDTO);
 		}
 		return dtos;
+	}
+	
+	@Override
+	public CottageReservationDTO cancelCottageReservation(CottageReservationDTO cottageReservationDTO) {
+		CottageReservation cottageReservation = CottageReservationMapper.CottageReservationDTOToCottageReservation(cottageReservationDTO);
+		LocalDateTime currentTime = LocalDateTime.now();
+		if(currentTime.plusDays(3).compareTo(cottageReservation.getDuration().getStartDate()) >= 0)  {
+		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		}
+		cottageReservation.setConfirmed(false);
+		return CottageReservationMapper
+				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
+		
 	}
 
 }

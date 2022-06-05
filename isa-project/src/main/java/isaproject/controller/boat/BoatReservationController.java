@@ -162,4 +162,16 @@ public class BoatReservationController {
 	public ResponseEntity<Set<BoatReservationDTO>> getAllPassedByBoatOwnerIdId(@PathVariable("boatId") Long id) {
 		return new ResponseEntity<>(boatReservationService.findAllPastByBoatOwnerId(id), HttpStatus.OK);
 	}
+	
+	@PostMapping("/{id}/cancel")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public ResponseEntity<BoatReservationDTO> cancelBoatReservation( @RequestBody BoatReservationDTO boatReservationDTO, Principal user) {
+				
+		CustomerDTO customer = this.customerService.getCustomer(boatReservationDTO.getCustomer().getId());
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				return new ResponseEntity<>(boatReservationService.cancelBoatReservation(boatReservationDTO), HttpStatus.OK);
+			}
 }

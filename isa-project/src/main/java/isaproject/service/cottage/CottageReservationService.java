@@ -35,4 +35,5 @@ public interface CottageReservationService {
 	Set<CustomerDTO> findCustomersHasCurrentReservation(long cottageId);
 	Page<CottageReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 	Page<CottageReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	CottageReservationDTO cancelCottageReservation(CottageReservationDTO cottageReservationDTO);
 }

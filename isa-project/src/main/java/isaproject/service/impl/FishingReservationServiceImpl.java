@@ -1,5 +1,6 @@
 package isaproject.service.impl;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
 import isaproject.model.FishingTrainer;
 import isaproject.model.SortType;
+import isaproject.model.boat.BoatReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.FishingQuickReservationRepository;
 import isaproject.repository.FishingReservationRepository;
@@ -427,6 +429,20 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 				dtos.add(fishingeReservationDTO);
 		}
 		return dtos;
+	}
+	
+	
+	@Override
+	public FishingReservationDTO cancelFishingReservation(FishingReservationDTO fishingReservationDTO) {
+		FishingReservation fishingReservation =FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
+		LocalDateTime currentTime = LocalDateTime.now();
+		if(currentTime.plusDays(3).compareTo(fishingReservation.getDuration().getStartDate()) >= 0) {
+		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		}
+		fishingReservation.setConfirmed(false);
+		return FishingReservationMapper
+				.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
+		
 	}
 
 }

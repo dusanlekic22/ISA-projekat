@@ -3,7 +3,6 @@ package isaproject.controller.cottage;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -92,7 +91,17 @@ public class CottageReservationController {
 				return cottageReservationService.findAllIncomingPagination(id,sortTypeDTO, paging);
 			}
 
-
+	@PostMapping("/{id}/cancel")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public ResponseEntity<CottageReservationDTO> cancelCottageReservation( @RequestBody CottageReservationDTO cottageReservationDTO, Principal user) {
+				
+		CustomerDTO customer = this.customerService.getCustomer(cottageReservationDTO.getCustomer().getId());
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				return new ResponseEntity<>(cottageReservationService.cancelCottageReservation(cottageReservationDTO), HttpStatus.OK);
+			}
 
 	@GetMapping("/active")
 	@ResponseBody

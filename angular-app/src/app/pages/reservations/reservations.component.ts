@@ -239,4 +239,14 @@ export class ReservationsComponent implements OnInit {
     this.availableReservationActiveFishing(this.reservationsActiveFishingPage);
   }
   //incoming fishing reservations end
+
+  cancelFishingsRefresh(event: any) {
+    this.availableReservationActiveFishing(0);
+  }
+  cancelBoatsRefresh(event: any) {
+    this.availableReservationActiveBoat(0);
+  }
+  cancelCottagesRefresh(event: any) {
+    this.availableReservationActiveCottage(0);
+  }
 }

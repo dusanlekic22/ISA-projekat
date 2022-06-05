@@ -1,6 +1,7 @@
 package isaproject.service.impl.boat;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.boat.BoatOwnerRepository;
 import isaproject.repository.boat.BoatQuickReservationRepository;
@@ -431,6 +433,19 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 				dtos.add(boatReservationDTO);
 		}
 		return dtos;
+	}
+	
+	@Override
+	public BoatReservationDTO cancelBoatReservation(BoatReservationDTO boatReservationDTO) {
+		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
+		LocalDateTime currentTime = LocalDateTime.now();
+		if(currentTime.plusDays(3).compareTo(boatReservation.getDuration().getStartDate()) >= 0) {
+		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		}
+		boatReservation.setConfirmed(true);
+		return BoatReservationMapper
+				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
+		
 	}
 
 }

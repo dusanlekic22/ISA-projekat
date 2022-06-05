@@ -78,10 +78,11 @@ export class BoatReservationService {
       );
   }
 
-  getCustomerHasReservationNow(id:number): Observable<ICustomer[]> {
+  getCustomerHasReservationNow(id: number): Observable<ICustomer[]> {
     return this._http
       .get<ICustomer[]>(
-        environment.apiUrl + `/boatReservation/customerHasReservationNow/boat/${id}`
+        environment.apiUrl +
+          `/boatReservation/customerHasReservationNow/boat/${id}`
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -140,6 +141,17 @@ export class BoatReservationService {
         tap((data) => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)
       );
+  }
+
+  cancelBoatReservation(
+    boatReservation: IBoatReservation
+  ): Observable<IBoatReservation> {
+    return this._http
+      .post<IBoatReservation>(
+        environment.apiUrl + `/boatReservation/${boatReservation.id}/cancel`,
+        boatReservation
+      )
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(err: HttpErrorResponse) {

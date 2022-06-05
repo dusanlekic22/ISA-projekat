@@ -150,6 +150,18 @@ export class CottageReservationService {
       .pipe(catchError(this.handleError));
   }
 
+  cancelCottageReservation(
+    cottageReservation: ICottageReservation
+  ): Observable<ICottageReservation> {
+    return this._http
+      .post<ICottageReservation>(
+        environment.apiUrl +
+          `/cottageReservation/${cottageReservation.id}/cancel`,
+        cottageReservation
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

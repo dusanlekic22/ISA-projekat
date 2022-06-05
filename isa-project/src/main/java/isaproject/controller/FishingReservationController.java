@@ -151,5 +151,17 @@ public class FishingReservationController {
 		FishingReservationDTO fishingReservationDTO = fishingReservationService.deleteById(id);
 		return new ResponseEntity<>(fishingReservationDTO, HttpStatus.OK);
 	}
+	
+	@PostMapping("/{id}/cancel")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@ResponseBody
+	public ResponseEntity<FishingReservationDTO> cancelFishingReservation( @RequestBody FishingReservationDTO fishingReservationDTO, Principal user) {
+				
+		CustomerDTO customer = this.customerService.getCustomer(fishingReservationDTO.getCustomer().getId());
+				if(!user.getName().equals(customer.getUsername())) {
+					throw new InvalidParameterException();
+				}
+				return new ResponseEntity<>(fishingReservationService.cancelFishingReservation(fishingReservationDTO), HttpStatus.OK);
+			}
 
 }

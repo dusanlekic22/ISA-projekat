@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive" style="overflow: visible">
+      <div *ngIf="services" class="table-responsive" style="overflow: visible">
         <table class="table align-items-center table-flush">
           <thead class="thead-light">
             <tr>
@@ -22,7 +22,7 @@
               <th scope="col">Guest Capacity</th>
               <th scope="col">Price(in €)</th>
               <th scope="col">Location</th>
-              <th *ngIf="services.length !== 0"scope="col">Additional services</th>
+              <th *ngIf="services.length > 0"scope="col">Additional services</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -47,7 +47,7 @@
                     reservation.location.city
                 }}
               </td>
-              <td *ngIf="services.length !== 0">
+              <td *ngIf="services.length > 0">
                 <span *ngFor="let service of services">
                   {{ service.name }}({{ service.price }}€) 
                 </span>

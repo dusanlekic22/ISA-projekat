@@ -26,7 +26,9 @@
                         type="datetime-local"
                         placeholder="Start date"
                         [min]="minDate"
-                        [(ngModel)]="fishingCourseReservation.duration.startDate"
+                        [(ngModel)]="
+                          fishingCourseReservation.duration.startDate
+                        "
                         name="reservationStart"
                       />
                     </div>
@@ -95,7 +97,10 @@
                       [(ngModel)]="fishingCourse"
                       id="input-fishingCourse"
                       name="fishingCourse"
-                      (selectionChange)="getChips(fishingCourse.id); setCustomer(fishingCourse.id)"
+                      (selectionChange)="
+                        getChips(fishingCourse.id);
+                        setCustomer(fishingCourse.id)
+                      "
                     >
                       <mat-option
                         *ngFor="let fishingCourse of fishingCourses"
@@ -135,14 +140,19 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div *ngIf="fishingServices.length > 0" class="row">
             <div class="col-lg-4">
               <div class="form-group">
                 <label class="form-control-label" for="input-services"
                   >Additional services</label
                 >
                 <div class="col-4 chips">
-                  <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                  <mat-chip-list
+                    [(ngModel)]="chips"
+                    name="chips"
+                    selectable
+                    multiple
+                  >
                     <mat-chip
                       #c="matChip"
                       *ngFor="let option of fishingServices"

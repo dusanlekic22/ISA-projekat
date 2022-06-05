@@ -1,0 +1,108 @@
+<div class="header bg-gradient-danger pb-8 pt-9">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1 class="text-white display-3">New Admin</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--7 pb-5">
+  <div class="card bg-secondary shadow">
+    <div class="card-body">
+      <form>
+        <div class="row">
+          <div class="form-group col-md-6 py-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                [(ngModel)]="admin.username"
+                name="username"
+                placeholder="Username"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6 py-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                [(ngModel)]="admin.email"
+                name="email"
+                placeholder="@gmail.com"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 fone py-3">
+            <mat-form-field appearance="fill">
+              <mat-label>First name</mat-label>
+              <input
+                matInput
+                [(ngModel)]="admin.firstName"
+                name="firstName"
+                placeholder="First"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6 py-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Last name</mat-label>
+              <input
+                matInput
+                [(ngModel)]="admin.lastName"
+                name="lastname"
+                placeholder="Last name"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 py-3">
+            <ng-template matStepLabel>Fill out password</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Password</mat-label>
+              <input
+                type="password"
+                matInput
+                [(ngModel)]="admin.password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6 py-3">
+            <ng-template matStepLabel>Confirm password</ng-template>
+            <mat-form-field appearance="fill">
+              <mat-label>Confirm password</mat-label>
+              <input
+                type="password"
+                matInput
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 py-3">
+            <button class="btn btn-primary" (click)="register()">
+              <span>Create account</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

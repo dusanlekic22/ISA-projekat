@@ -1,3 +1,4 @@
+import { RegisterAdminComponent } from './pages/admin-pages/register-admin/register-admin.component';
 import { ReservationsComponent } from './pages/reservations/reservations.component';
 import { AplicationIncomeComponent } from './pages/admin-pages/aplication-income/aplication-income.component';
 import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
@@ -138,6 +139,10 @@ const routes: Routes = [
   {
     path: 'aplicationIncome',
     component: AplicationIncomeComponent,
+  },
+  {
+    path: 'registerAdmin',
+    component: RegisterAdminComponent,
   },
   { path: '**', redirectTo: '' },
 ];

@@ -34,7 +34,6 @@ import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
 import isaproject.model.SortType;
-import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.FishingTrainerRepository;
 import isaproject.service.FishingQuickReservationService;
@@ -48,22 +47,19 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 	private FishingTrainerRepository fishingTrainerRepository;
 	private RoleService roleService;
 	private PasswordEncoder passwordEncoder;
-	private AddressRepository addressRepository;
 	private BusinessOwnerRegistrationRequestRepository registrationRequestRepository;
 	private FishingReservationService fishingReservationService;
 	private FishingQuickReservationService fishingQuickReservationService;
 
 	@Autowired
 	public FishingTrainerServiceImpl(FishingTrainerRepository fishingTrainerRepository, RoleService roleService,
-			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
-			BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
+			PasswordEncoder passwordEncoder, BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
 			FishingReservationService fishingReservationService,
 			FishingQuickReservationService fishingQuickReservationService) {
 		super();
 		this.fishingTrainerRepository = fishingTrainerRepository;
 		this.roleService = roleService;
 		this.passwordEncoder = passwordEncoder;
-		this.addressRepository = addressRepository;
 		this.registrationRequestRepository = registrationRequestRepository;
 		this.fishingReservationService = fishingReservationService;
 		this.fishingQuickReservationService = fishingQuickReservationService;
@@ -97,7 +93,6 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 
 	@Override
 	public FishingTrainer registerFishingTrainer(BusinessOwnerDTO businessOwnerDTO) {
-		addressRepository.save(businessOwnerDTO.getAddress());
 		FishingTrainer fishingTrainer = UserMapper.DTOToFishingTrainer(businessOwnerDTO);
 		fishingTrainer.setRoles(roleService.findByName("ROLE_FISHING_TRAINER"));
 		fishingTrainer.setPassword(passwordEncoder.encode(businessOwnerDTO.getPassword()));
@@ -372,5 +367,5 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainer.setBiography(bio);
 		return UserMapper.FishingTrainerToDTO(fishingTrainerRepository.save(fishingTrainer));
 	}
-	
+
 }

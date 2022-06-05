@@ -49,7 +49,7 @@ public class FishingCourse implements Serializable {
 
 	private Double cancellationPercentageKeep = 0.0;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 

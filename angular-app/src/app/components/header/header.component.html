@@ -111,6 +111,14 @@
             >Income</a
           >
         </li>
+        <li class="nav-item" *appHasRole="['ROLE_ADMIN']">
+          <a
+            class="nav-link"
+            [routerLink]="['/registerAdmin']"
+            routerLinkActive="router-link-active"
+            >New Admin</a
+          >
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/user/' + loggedInUser.id]">
             Profile

@@ -31,6 +31,8 @@ import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.SortType;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatOwner;
 import isaproject.model.boat.BoatQuickReservation;
@@ -42,7 +44,6 @@ import isaproject.repository.boat.BoatRepository;
 import isaproject.repository.boat.BoatReservationRepository;
 import isaproject.service.CustomerService;
 import isaproject.service.LoyaltySettingsService;
-import isaproject.service.boat.BoatOwnerService;
 import isaproject.service.boat.BoatReservationService;
 
 @Service
@@ -55,14 +56,12 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	CustomerRepository customerRepository;
 	BoatOwnerRepository boatOwnerRepository;
 	LoyaltySettingsService loyaltySettingsService;
-	BoatOwnerService boatOwnerService;
 
 	@Autowired
 	public BoatReservationServiceImpl(BoatReservationRepository boatReservationRepository,
 			BoatQuickReservationRepository boatQuickReservationRepository, BoatRepository boatRepository,
 			CustomerService customerService, CustomerRepository customerRepository,
-			BoatOwnerRepository boatOwnerRepository, LoyaltySettingsService loyaltySettingsService,
-			BoatOwnerService boatOwnerService) {
+			BoatOwnerRepository boatOwnerRepository, LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.boatReservationRepository = boatReservationRepository;
 		this.boatQuickReservationRepository = boatQuickReservationRepository;
@@ -71,7 +70,6 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		this.customerRepository = customerRepository;
 		this.boatOwnerRepository = boatOwnerRepository;
 		this.loyaltySettingsService = loyaltySettingsService;
-		this.boatOwnerService = boatOwnerService;
 	}
 
 	@Override
@@ -175,9 +173,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		boatReservation.setCustomer(customer);
 		boatReservation = calculateIncome(boatReservation);
 		customerService.promoteLoyaltyCustomer(customer);
-		boatOwnerService.promoteLoyaltyBoatOwner(owner);
+		promoteLoyaltyBoatOwner(owner);
 
-		
 		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
@@ -215,17 +212,33 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
 	}
-	
+
+	private void promoteLoyaltyBoatOwner(BoatOwner owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		boatOwnerRepository.save(owner);
+	}
+
 	private BoatReservation calculateIncome(BoatReservation boatReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double cutomerDiscount = loyaltySettingsService.getCustomerDiscount(boatReservation.getCustomer().getLoyaltyProgram());
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
+		Double cutomerDiscount = loyaltySettingsService
+				.getCustomerDiscount(boatReservation.getCustomer().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
 		Double boatPrice = boatReservation.getBoat().getPricePerHour() * boatReservation.getDuration().getHours();
 		Double reservationPrice = 0.0;
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		if (boatReservation.getAdditionalService() != null) {
 			for (AdditionalService additionalService : boatReservation.getAdditionalService()) {
 				boatPrice += additionalService.getPrice();
@@ -233,13 +246,14 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 		reservationPrice = boatPrice - (boatPrice * cutomerDiscount) / 100;
 		reservationSiteIncome = reservationPrice * siteRevenue / 100;
-		reservationIncome = reservationPrice - reservationSiteIncome + ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = reservationPrice - reservationSiteIncome
+				+ ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		boatReservation.setPrice(reservationPrice);
 		boatReservation.setOwnerIncome(reservationIncome);
 		boatReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return boatReservation;
 	}
 
@@ -283,12 +297,12 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		boatReservation.setConfirmed(false);
 		boatReservation.setCustomer(customer);
 		if (boatReservationDTO.getPrice() == 0) {
-			boatReservation = calculateIncome(boatReservation);			
+			boatReservation = calculateIncome(boatReservation);
 		} else {
 			boatReservation = calculateIncomeWithoutCustomerDiscount(boatReservation);
 		}
 		customerService.promoteLoyaltyCustomer(customer);
-		boatOwnerService.promoteLoyaltyBoatOwner(owner);
+		promoteLoyaltyBoatOwner(owner);
 
 		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
@@ -337,22 +351,24 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 
 		return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
 	}
-	
+
 	private BoatReservation calculateIncomeWithoutCustomerDiscount(BoatReservation boatReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(boatReservation.getBoat().getBoatOwner().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
 		Double boatPrice = boatReservation.getPrice();
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		reservationSiteIncome = boatPrice * siteRevenue / 100;
-		reservationIncome = boatPrice - reservationSiteIncome + ((boatPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = boatPrice - reservationSiteIncome
+				+ ((boatPrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((boatPrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		boatReservation.setOwnerIncome(reservationIncome);
 		boatReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return boatReservation;
 	}
 

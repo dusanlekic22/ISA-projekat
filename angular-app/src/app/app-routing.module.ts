@@ -1,4 +1,5 @@
 import { ReservationsComponent } from './pages/reservations/reservations.component';
+import { AplicationIncomeComponent } from './pages/admin-pages/aplication-income/aplication-income.component';
 import { LoyaltySettingsComponent } from './pages/admin-pages/loyalty-settings/loyalty-settings.component';
 import { UserProfileComponent } from './pages/user-profile/view/user-profile.component';
 import { CottageReservationComponent } from './pages/reservation/cottage-reservation/cottage-reservation.component';
@@ -133,6 +134,10 @@ const routes: Routes = [
   {
     path: 'loyaltySettings',
     component: LoyaltySettingsComponent,
+  },
+  {
+    path: 'aplicationIncome',
+    component: AplicationIncomeComponent,
   },
   { path: '**', redirectTo: '' },
 ];

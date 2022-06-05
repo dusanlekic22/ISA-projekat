@@ -35,4 +35,6 @@ public interface FishingReservationRepository extends PagingAndSortingRepository
 					+ " and confirmed = true ", nativeQuery = true)
 	Page<FishingReservation> findIncomingCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
+
+	Set<FishingReservation> findByConfirmedIsTrue();
 }

@@ -32,6 +32,4 @@ public interface FishingTrainerService {
 
 	FishingTrainerDTO addGrade(GradeDTO gradeDTO, long fishingId);
 
-	void promoteLoyaltyFishingTrainer(FishingTrainer owner);
-
 }

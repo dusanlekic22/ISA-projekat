@@ -38,4 +38,6 @@ public interface CottageReservationRepository extends PagingAndSortingRepository
 					+ " WHERE customer_id = :customerId and ( (start_date > NOW()) OR ( start_date< NOW() and end_date > NOW() ))", nativeQuery = true)
 	Page<CottageReservation> findIncomingCustomerReservationsSortByDuration(@Param("customerId") Long customerId,
 			Pageable pageable);
+	
+	List<CottageReservation> findByConfirmedIsTrue();
 }

@@ -34,13 +34,14 @@ import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
 import isaproject.model.FishingTrainer;
 import isaproject.model.SortType;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.FishingQuickReservationRepository;
 import isaproject.repository.FishingReservationRepository;
 import isaproject.repository.FishingTrainerRepository;
 import isaproject.service.CustomerService;
 import isaproject.service.FishingReservationService;
-import isaproject.service.FishingTrainerService;
 import isaproject.service.LoyaltySettingsService;
 
 @Service
@@ -51,21 +52,19 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	CustomerService customerService;
 	CustomerRepository customerRepository;
 	FishingTrainerRepository fishingTrainerRepository;
-	FishingTrainerService fishingTrainerService;
 	LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public FishingReservationServiceImpl(FishingReservationRepository fishingeReservationRepository,
 			FishingQuickReservationRepository fishingeQuickReservationRepository, CustomerService customerService,
 			CustomerRepository customerRepository, FishingTrainerRepository fishingTrainerRepository,
-			FishingTrainerService fishingTrainerService, LoyaltySettingsService loyaltySettingsService) {
+			LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.fishingeReservationRepository = fishingeReservationRepository;
 		this.fishingeQuickReservationRepository = fishingeQuickReservationRepository;
 		this.customerService = customerService;
 		this.customerRepository = customerRepository;
 		this.fishingTrainerRepository = fishingTrainerRepository;
-		this.fishingTrainerService = fishingTrainerService;
 		this.loyaltySettingsService = loyaltySettingsService;
 	}
 
@@ -137,7 +136,8 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 			CustomerDTO dto;
 			for (Customer p : customers) {
 				for (FishingReservation fishingeReservation : p.getFishingReservation()) {
-					if (fishingeReservation.getDuration().isBetween(LocalDateTime.now()) && fishingeReservation.getFishingCourse().getId() == fishingCourseId) {
+					if (fishingeReservation.getDuration().isBetween(LocalDateTime.now())
+							&& fishingeReservation.getFishingCourse().getId() == fishingCourseId) {
 						dto = CustomerMapper.customertoCustomerDTO(p);
 						dtos.add(dto);
 						break;
@@ -151,22 +151,23 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Transactional
 	@Override
 	public FishingReservationDTO reserveCustomer(FishingReservationDTO fishingReservationDTO) {
-		FishingReservation fishingReservation = FishingReservationMapper
-				.DTOToFishingReservation(fishingReservationDTO);
+		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
 		Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
-		FishingTrainer owner = fishingTrainerRepository.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
+		FishingTrainer owner = fishingTrainerRepository
+				.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
 		fishingReservation.setConfirmed(true);
 		fishingReservation.setCustomer(customer);
 		fishingReservation = calculateIncome(fishingReservation);
 		customerService.promoteLoyaltyCustomer(customer);
-		fishingTrainerService.promoteLoyaltyFishingTrainer(owner);
-		
+		promoteLoyaltyFishingTrainer(owner);
+
 		if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
 		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
+				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(
+						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
 				return null;
 			}
@@ -184,22 +185,39 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 
 		if (!overlaps) {
-			return null;}
+			return null;
+		}
 
-		return FishingReservationMapper
-				.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
+		return FishingReservationMapper.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
 	}
-	
+
+	private void promoteLoyaltyFishingTrainer(FishingTrainer owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		fishingTrainerRepository.save(owner);
+	}
+
 	private FishingReservation calculateIncome(FishingReservation fishingReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double cutomerDiscount = loyaltySettingsService.getCustomerDiscount(fishingReservation.getCustomer().getLoyaltyProgram());
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(fishingReservation.getFishingCourse().getFishingTrainer().getLoyaltyProgram());
+		Double cutomerDiscount = loyaltySettingsService
+				.getCustomerDiscount(fishingReservation.getCustomer().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(fishingReservation.getFishingCourse().getFishingTrainer().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
-		Double fishingPrice = fishingReservation.getFishingCourse().getPrice() * fishingReservation.getDuration().getHours();
+		Double fishingPrice = fishingReservation.getFishingCourse().getPrice()
+				* fishingReservation.getDuration().getHours();
 		Double reservationPrice = 0.0;
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		if (fishingReservation.getAdditionalService() != null) {
 			for (AdditionalService additionalService : fishingReservation.getAdditionalService()) {
 				fishingPrice += additionalService.getPrice();
@@ -207,13 +225,14 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 		reservationPrice = fishingPrice - (fishingPrice * cutomerDiscount) / 100;
 		reservationSiteIncome = reservationPrice * siteRevenue / 100;
-		reservationIncome = reservationPrice - reservationSiteIncome + ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = reservationPrice - reservationSiteIncome
+				+ ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		fishingReservation.setPrice(reservationPrice);
 		fishingReservation.setOwnerIncome(reservationIncome);
 		fishingReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return fishingReservation;
 	}
 
@@ -278,33 +297,43 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 
 	@Transactional
 	@Override
-	public FishingReservationDTO reserveFishingOwner(FishingReservationDTO fishingeReservationDTO, String siteUrl) {
-		FishingReservation fishingeReservation = FishingReservationMapper
-				.DTOToFishingReservation(fishingeReservationDTO);
-		fishingeReservation.setConfirmed(false);
-		fishingeReservation
-				.setCustomer(customerRepository.findById(fishingeReservationDTO.getCustomer().getId()).get());
-		if (fishingeReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+	public FishingReservationDTO reserveFishingOwner(FishingReservationDTO fishingReservationDTO, String siteUrl) {
+		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
+		Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
+		FishingTrainer owner = fishingTrainerRepository
+				.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
+		fishingReservation.setConfirmed(false);
+		fishingReservation.setCustomer(customer);
+		if (fishingReservationDTO.getPrice() == 0) {
+			fishingReservation = calculateIncome(fishingReservation);
+		} else {
+			fishingReservation = calculateIncomeWithoutCustomerDiscount(fishingReservation);
+		}
+		customerService.promoteLoyaltyCustomer(customer);
+		promoteLoyaltyFishingTrainer(owner);
+
+		if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
 
 		boolean inAction = false;
 		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
+				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(
+						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 
-			if (q.getDuration().overlapsWith(fishingeReservation.getDuration())) {
+			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
 				return null;
 			}
 
-			if (isCustomersReservationInAction(fishingeReservation, q)) {
+			if (isCustomersReservationInAction(fishingReservation, q)) {
 				inAction = true;
 			}
 		}
 
-		for (FishingQuickReservation q : fishingeQuickReservationRepository
-				.findByFishingCourse_FishingTrainer_Id(fishingeReservation.getFishingCourse().getFishingTrainer().getId())) {
+		for (FishingQuickReservation q : fishingeQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(
+				fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 
-			if (q.getDuration().overlapsWith(fishingeReservation.getDuration())) {
+			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
 				return null;
 			}
 		}
@@ -314,14 +343,14 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 
 		FishingTrainer fishingTrainer = fishingTrainerRepository
-				.findByUsername(fishingeReservation.getFishingCourse().getFishingTrainer().getUsername());
+				.findByUsername(fishingReservation.getFishingCourse().getFishingTrainer().getUsername());
 		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
-			if (fishingeReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpanForOwner(fishingeReservation, dateTimeSpan);
+			if (fishingReservation.getDuration().overlapsWith(dateTimeSpan)) {
+				reserveAvailableDateSpanForOwner(fishingReservation, dateTimeSpan);
 				break;
 			}
 		}
-		FishingReservation fishingeReservationReturn = fishingeReservationRepository.save(fishingeReservation);
+		FishingReservation fishingeReservationReturn = fishingeReservationRepository.save(fishingReservation);
 
 		customerService.sendReservationConfirmationEmail(siteUrl, fishingeReservationReturn);
 
@@ -330,22 +359,24 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 
 	private FishingReservation calculateIncomeWithoutCustomerDiscount(FishingReservation fishingReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(fishingReservation.getFishingCourse().getFishingTrainer().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(fishingReservation.getFishingCourse().getFishingTrainer().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
 		Double fishingPrice = fishingReservation.getPrice();
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		reservationSiteIncome = fishingPrice * siteRevenue / 100;
-		reservationIncome = fishingPrice - reservationSiteIncome + ((fishingPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = fishingPrice - reservationSiteIncome
+				+ ((fishingPrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((fishingPrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		fishingReservation.setOwnerIncome(reservationIncome);
 		fishingReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return fishingReservation;
 	}
-	
+
 	@Transactional
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id) {

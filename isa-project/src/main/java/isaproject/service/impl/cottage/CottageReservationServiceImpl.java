@@ -30,6 +30,8 @@ import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.SortType;
+import isaproject.model.LoyaltyProgram;
+import isaproject.model.LoyaltyRank;
 import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageOwner;
 import isaproject.model.cottage.CottageQuickReservation;
@@ -41,7 +43,6 @@ import isaproject.repository.cottage.CottageRepository;
 import isaproject.repository.cottage.CottageReservationRepository;
 import isaproject.service.CustomerService;
 import isaproject.service.LoyaltySettingsService;
-import isaproject.service.cottage.CottageOwnerService;
 import isaproject.service.cottage.CottageReservationService;
 
 @Service
@@ -54,14 +55,12 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	CustomerRepository customerRepository;
 	CottageOwnerRepository cottageOwnerRepository;
 	LoyaltySettingsService loyaltySettingsService;
-	CottageOwnerService cottageOwnerService;
-	
+
 	@Autowired
 	public CottageReservationServiceImpl(CottageReservationRepository cottageReservationRepository,
 			CottageQuickReservationRepository cottageQuickReservationRepository, CottageRepository cottageRepository,
 			CustomerService customerService, CustomerRepository customerRepository,
-			CottageOwnerRepository cottageOwnerRepository, LoyaltySettingsService loyaltySettingsService,
-			CottageOwnerService cottageOwnerService) {
+			CottageOwnerRepository cottageOwnerRepository, LoyaltySettingsService loyaltySettingsService) {
 		super();
 		this.cottageReservationRepository = cottageReservationRepository;
 		this.cottageQuickReservationRepository = cottageQuickReservationRepository;
@@ -70,7 +69,6 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		this.customerRepository = customerRepository;
 		this.cottageOwnerRepository = cottageOwnerRepository;
 		this.loyaltySettingsService = loyaltySettingsService;
-		this.cottageOwnerService = cottageOwnerService;
 	}
 
 	@Override
@@ -170,13 +168,14 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-		CottageOwner owner = cottageOwnerRepository.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
+		CottageOwner owner = cottageOwnerRepository
+				.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
 		cottageReservation.setConfirmed(true);
 		cottageReservation.setCustomer(customer);
 		cottageReservation = calculateIncome(cottageReservation);
 		customerService.promoteLoyaltyCustomer(customer);
-		cottageOwnerService.promoteLoyaltyCottageOwner(owner);
-		
+		promoteLoyaltyCottageOwner(owner);
+
 		if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
 		}
@@ -218,17 +217,34 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
 	}
-	
+
+	private void promoteLoyaltyCottageOwner(CottageOwner owner) {
+		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
+		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
+		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
+		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
+			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
+		owner.setLoyaltyProgram(loyaltyProgram);
+		cottageOwnerRepository.save(owner);
+	}
+
 	private CottageReservation calculateIncome(CottageReservation cottageReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double cutomerDiscount = loyaltySettingsService.getCustomerDiscount(cottageReservation.getCustomer().getLoyaltyProgram());
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(cottageReservation.getCottage().getCottageOwner().getLoyaltyProgram());
+		Double cutomerDiscount = loyaltySettingsService
+				.getCustomerDiscount(cottageReservation.getCustomer().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(cottageReservation.getCottage().getCottageOwner().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
-		Double cottagePrice = cottageReservation.getCottage().getPricePerHour() * cottageReservation.getDuration().getHours();
+		Double cottagePrice = cottageReservation.getCottage().getPricePerHour()
+				* cottageReservation.getDuration().getHours();
 		Double reservationPrice = 0.0;
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		if (cottageReservation.getAdditionalService() != null) {
 			for (AdditionalService additionalService : cottageReservation.getAdditionalService()) {
 				cottagePrice += additionalService.getPrice();
@@ -236,13 +252,14 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 		reservationPrice = cottagePrice - (cottagePrice * cutomerDiscount) / 100;
 		reservationSiteIncome = reservationPrice * siteRevenue / 100;
-		reservationIncome = reservationPrice - reservationSiteIncome + ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = reservationPrice - reservationSiteIncome
+				+ ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((reservationPrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		cottageReservation.setPrice(reservationPrice);
 		cottageReservation.setOwnerIncome(reservationIncome);
 		cottageReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return cottageReservation;
 	}
 
@@ -283,7 +300,8 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-		CottageOwner owner = cottageOwnerRepository.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
+		CottageOwner owner = cottageOwnerRepository
+				.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
 		cottageReservation.setConfirmed(false);
 		cottageReservation.setCustomer(customer);
 		if (cottageReservationDTO.getPrice() == 0) {
@@ -292,7 +310,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			cottageReservation = calculateIncomeWithoutCustomerDiscount(cottageReservation);
 		}
 		customerService.promoteLoyaltyCustomer(customer);
-		cottageOwnerService.promoteLoyaltyCottageOwner(owner);
+		promoteLoyaltyCottageOwner(owner);
 
 		if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 			return null;
@@ -349,22 +367,24 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationReturn);
 	}
-	
+
 	private CottageReservation calculateIncomeWithoutCustomerDiscount(CottageReservation cottageReservation) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		Double ownerRevenue = loyaltySettingsService.getOwnerRevenue(cottageReservation.getCottage().getCottageOwner().getLoyaltyProgram());
+		Double ownerRevenue = loyaltySettingsService
+				.getOwnerRevenue(cottageReservation.getCottage().getCottageOwner().getLoyaltyProgram());
 		Double siteRevenue = loyaltySettings.getSystemRevenue();
 		Double cottagePrice = cottageReservation.getPrice();
 		Double reservationSiteIncome = 0.0;
 		Double reservationIncome = 0.0;
-		
+
 		reservationSiteIncome = cottagePrice * siteRevenue / 100;
-		reservationIncome = cottagePrice - reservationSiteIncome + ((cottagePrice - reservationSiteIncome) * ownerRevenue) / 100;
+		reservationIncome = cottagePrice - reservationSiteIncome
+				+ ((cottagePrice - reservationSiteIncome) * ownerRevenue) / 100;
 		reservationSiteIncome -= ((cottagePrice - reservationSiteIncome) * ownerRevenue) / 100;
-		
+
 		cottageReservation.setOwnerIncome(reservationIncome);
 		cottageReservation.setSiteIncome(reservationSiteIncome);
-		
+
 		return cottageReservation;
 	}
 

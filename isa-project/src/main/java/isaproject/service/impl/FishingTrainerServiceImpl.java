@@ -23,7 +23,6 @@ import isaproject.dto.FishingReservationDTO;
 import isaproject.dto.FishingTrainerAvailabilityDTO;
 import isaproject.dto.FishingTrainerDTO;
 import isaproject.dto.GradeDTO;
-import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.mapper.GradeMapper;
 import isaproject.mapper.SortTypeMapper;
@@ -41,7 +40,6 @@ import isaproject.repository.FishingTrainerRepository;
 import isaproject.service.FishingQuickReservationService;
 import isaproject.service.FishingReservationService;
 import isaproject.service.FishingTrainerService;
-import isaproject.service.LoyaltySettingsService;
 import isaproject.service.RoleService;
 
 @Service
@@ -54,15 +52,13 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 	private BusinessOwnerRegistrationRequestRepository registrationRequestRepository;
 	private FishingReservationService fishingReservationService;
 	private FishingQuickReservationService fishingQuickReservationService;
-	private LoyaltySettingsService loyaltySettingsService;
 
 	@Autowired
 	public FishingTrainerServiceImpl(FishingTrainerRepository fishingTrainerRepository, RoleService roleService,
 			PasswordEncoder passwordEncoder, AddressRepository addressRepository,
 			BusinessOwnerRegistrationRequestRepository registrationRequestRepository,
 			FishingReservationService fishingReservationService,
-			FishingQuickReservationService fishingQuickReservationService,
-			LoyaltySettingsService loyaltySettingsService) {
+			FishingQuickReservationService fishingQuickReservationService) {
 		super();
 		this.fishingTrainerRepository = fishingTrainerRepository;
 		this.roleService = roleService;
@@ -71,7 +67,6 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		this.registrationRequestRepository = registrationRequestRepository;
 		this.fishingReservationService = fishingReservationService;
 		this.fishingQuickReservationService = fishingQuickReservationService;
-		this.loyaltySettingsService = loyaltySettingsService;
 	}
 
 	public Set<FishingTrainerDTO> getAll() {
@@ -363,21 +358,6 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainer.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
 		fishingTrainerRepository.save(fishingTrainer);
 		return UserMapper.FishingTrainerToDTO(fishingTrainer);
-	}
-	
-	@Override
-	public void promoteLoyaltyFishingTrainer(FishingTrainer owner) {
-		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
-		LoyaltyProgram loyaltyProgram = owner.getLoyaltyProgram();
-		loyaltyProgram.setPoints(loyaltyProgram.getPoints() + loyaltySettings.getOwnerScore());
-		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreRegular())
-			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Regular);
-		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreSilver())
-			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Silver);
-		if (loyaltyProgram.getPoints() > loyaltySettings.getMinScoreGold())
-			loyaltyProgram.setLoyaltyRank(LoyaltyRank.Gold);
-		owner.setLoyaltyProgram(loyaltyProgram);
-		fishingTrainerRepository.save(owner);
 	}
 	
 }

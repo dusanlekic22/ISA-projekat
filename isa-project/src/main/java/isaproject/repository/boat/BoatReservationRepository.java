@@ -24,6 +24,8 @@ public interface BoatReservationRepository extends PagingAndSortingRepository<Bo
 	
 	List<BoatReservation> findByConfirmedIsTrueAndBoat_BoatOwner_Id(Long id);
 
+	List<BoatReservation> findByConfirmedIsTrue();
+
 	Page<BoatReservation> findByCustomerId(Long id, Pageable pageable);
 
 	@Query(value = " SELECT *, Extract(epoch FROM (end_date - start_date))/60 AS duration FROM public.boat_reservation  "

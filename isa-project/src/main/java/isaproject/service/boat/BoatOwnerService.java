@@ -13,5 +13,4 @@ public interface BoatOwnerService {
 
 	BoatOwnerDTO findByUsername(String username);
 
-	void promoteLoyaltyBoatOwner(BoatOwner owner);
 }

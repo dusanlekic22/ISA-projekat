@@ -103,6 +103,14 @@
             >Loyalty Settings</a
           >
         </li>
+        <li class="nav-item" *appHasRole="['ROLE_ADMIN']">
+          <a
+            class="nav-link"
+            [routerLink]="['/aplicationIncome']"
+            routerLinkActive="router-link-active"
+            >Income</a
+          >
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn() && loggedInUser">
           <a class="nav-link" [routerLink]="['/user/' + loggedInUser.id]">
             Profile

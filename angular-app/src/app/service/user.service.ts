@@ -38,6 +38,12 @@ export class UserService {
     }
   }
 
+  deleteUser(id: number): Observable<IUser> {
+    return this.http
+      .delete<IUser>(`${environment.apiUrl}/user/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   createDeleteRequest(explanation: string, email: string): Observable<any> {
     return this.http
       .post<any>(`${environment.apiUrl}/userDeletion`, {
@@ -83,6 +89,12 @@ export class UserService {
       id: user.id,
       password: password,
     });
+  }
+
+  getAllUser(): Observable<IUser[]> {
+    return this.http
+      .get<IUser[]>(`${environment.apiUrl}/user/users`)
+      .pipe(catchError(this.handleError));
   }
 
   handleError(error: any) {

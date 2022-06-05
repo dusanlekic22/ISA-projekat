@@ -19,35 +19,35 @@ insert into address (city, country, latitude, longitude,street) values ('Zrenjan
 
 
 -- username:admin password:123
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Darko', 'Vrbaski', 'semestar2021+1@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Darko', 'Vrbaski', 'semestar2021+1@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (1, 1);
-insert into admin (id, first_time_logged_in) values (1, true);
+insert into admin (id, first_time_logged_in) values (1, false);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('pape', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksa', 'Papovic', 'semestar2021+2@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('pape', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksa', 'Papovic', 'semestar2021+2@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (2, 3);
 insert into customer (id, penalties, loyalty_rank, points) values (2,0,0,0);
  
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+3@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+3@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (3, 3);
 insert into customer (id, penalties, loyalty_rank, points) values (3,0,0,0);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('jagodica', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Dusan', 'Lekic', 'semestar2021+4@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('jagodica', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Dusan', 'Lekic', 'semestar2021+4@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (4, 4);
 insert into cottage_owner (id, loyalty_rank, points) values (4,0,0);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('daco', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Danilo', 'Korac', 'semestar2021+5@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('daco', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Danilo', 'Korac', 'semestar2021+5@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (5, 3);
 insert into customer (id, penalties, loyalty_rank, points) values (5,0,0,0);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+6@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('mare', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'semestar2021+6@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (6, 3);
 insert into customer (id, penalties, loyalty_rank, points) values (6,0,0,0);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date,address_id) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00',1);
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted,address_id) values ('fisher', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Fisher', 'Fisher', 'semestar2021+7@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false,1);
 insert into app_user_roles (user_id, role_id) values (7, 2);
 insert into fishing_trainer (id, biography, loyalty_rank, points, average_grade) values (7, 'Skroz lagan lik :)', 0, 0, 0);
 
-insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date) values ('tresnja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Tresnja', 'Sljivic', 'semestar2021+8@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00');
+insert into app_user (username, password, first_name, last_name, email, enabled, verification_code, phone_number, last_password_reset_date, deleted) values ('tresnja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Tresnja', 'Sljivic', 'semestar2021+8@gmail.com', true, '1', '06465435643', '2021-12-08 23:06:00.000-00', false);
 insert into app_user_roles (user_id, role_id) values (8, 5);
 insert into boat_owner (id, loyalty_rank, points) values (8,0,0);
 

@@ -21,4 +21,6 @@ public interface UserService extends UserDetailsService {
 	BusinessOwnerRegistrationRequest declineUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO);
 	List<BusinessOwnerRegistrationRequestDTO> getAllRegistrationRequests();
 	boolean isUserAuthorized(Set<RoleDTO> roles, String username);
+	Set<UserDTO> findAll();
+	UserDTO deleteById(Long userId);
 }

@@ -3,6 +3,7 @@ package isaproject.service.impl;
 import java.security.InvalidParameterException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -161,6 +162,23 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Set<UserDTO> findAll() {
+		Set<User> users = new HashSet<User>(userRepository.findAll());
+		Set<UserDTO> userDTOs = new HashSet<UserDTO>();
+		for (User user : users) {
+			userDTOs.add(UserMapper.UserToDTO(user));
+		}
+		return userDTOs;	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public UserDTO deleteById(Long userId) {
+		User user = userRepository.findById(userId).get();
+		userRepository.delete(user);
+		return UserMapper.UserToDTO(user);
 	}
 
 }

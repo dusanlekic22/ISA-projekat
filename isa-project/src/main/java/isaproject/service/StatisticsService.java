@@ -10,9 +10,9 @@ public interface StatisticsService {
 
 	 public int[] countWeekly(DateTimeSpan reservationSpan, int week, int count[]);
 
-	 public Double[] yearlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, Double income[],int yearBackward);
+	 public double[] yearlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, double[] income,int yearBackward);
 
-	 public Double[][] monthlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, int month, Double income[][],int yearBackward);
+	 public double[][] monthlyIncome(DateTimeSpan reservationSpan, Double reservationPrice, int year, int month, double[][] incomeSum,int yearBackward);
 
-	 public Double[][][] dailyIncome(DateTimeSpan reservationSpan, Double reservationPrice,int year, int month, int day, Double income[][][],int yearBackward);
+	 public double[][][] dailyIncome(DateTimeSpan reservationSpan, Double reservationPrice,int year, int month, int day, double[][][] incomeSum,int yearBackward);
 }

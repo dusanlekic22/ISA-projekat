@@ -316,7 +316,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	@Override
 	public IncomeDTO getFishingCourseIncomeYearly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[] incomeSum = new Double[(int) yearCount];
+		double[] incomeSum = new double[(int) yearCount];
 		Income income = new Income();
 		FishingCourse fishingCourse = courseRepository.findById(id).get();
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
@@ -334,7 +334,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	@Override
 	public IncomeDTO getFishingCourseIncomeMonthly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[][] incomeSum = new Double[(int) yearCount][12];
+		double[][] incomeSum = new double[(int) yearCount][12];
 		Income income = new Income();
 		FishingCourse fishingCourse = courseRepository.findById(id).get();
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
@@ -356,7 +356,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	@Override
 	public IncomeDTO getFishingCourseIncomeDaily(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[][][] incomeSum = new Double[(int) yearCount][12][31];
+		double[][][] incomeSum = new double[(int) yearCount][12][31];
 		Income income = new Income();
 		FishingCourse fishingCourse = courseRepository.findById(id).get();
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();

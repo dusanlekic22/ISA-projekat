@@ -381,7 +381,7 @@ public class BoatServiceImpl implements BoatService {
 	@Override
 	public IncomeDTO getBoatIncomeYearly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[] incomeSum = new Double[(int) yearCount];
+		double[] incomeSum = new double[(int) yearCount];
 		Income income = new Income();
 		Boat boat = boatRepository.findById(id).get();
 		Set<BoatReservation> reservations = boat.getBoatReservation();
@@ -399,7 +399,7 @@ public class BoatServiceImpl implements BoatService {
 	@Override
 	public IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[][] incomeSum = new Double[(int) yearCount][12];
+		double[][] incomeSum = new double[(int) yearCount][12];
 		Income income = new Income();
 		Boat boat = boatRepository.findById(id).get();
 		Set<BoatReservation> reservations = boat.getBoatReservation();
@@ -421,7 +421,7 @@ public class BoatServiceImpl implements BoatService {
 	@Override
 	public IncomeDTO getBoatIncomeDaily(DateTimeSpan duration, long id) {
 		long yearCount = duration.getYears() + 1;
-		Double[][][] incomeSum = new Double[(int) yearCount][12][31];
+		double[][][] incomeSum = new double[(int) yearCount][12][31];
 		Income income = new Income();
 		Boat boat = boatRepository.findById(id).get();
 		Set<BoatReservation> reservations = boat.getBoatReservation();

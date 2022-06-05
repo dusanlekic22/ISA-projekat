@@ -109,14 +109,19 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div *ngIf="cottageServices.length > 0" class="row">
             <div class="col-lg-4">
               <div class="form-group">
                 <label class="form-control-label" for="input-services"
                   >Additional services</label
                 >
                 <div class="col-12 chips">
-                  <mat-chip-list [(ngModel)]="chips" selectable multiple>
+                  <mat-chip-list
+                    [(ngModel)]="chips"
+                    name="chips"
+                    selectable
+                    multiple
+                  >
                     <mat-chip
                       #c="matChip"
                       *ngFor="let option of cottageServices"

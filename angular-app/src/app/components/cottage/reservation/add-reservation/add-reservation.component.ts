@@ -49,6 +49,7 @@ export class AddReservationComponent implements OnInit {
         this.eligibleCustomers = customers;
       });
     this._userService.currentUser.subscribe((user) => {
+      if(user.id!=undefined){
       this._cottageService
         .getCottagesByCottageOwnerId(user.id)
         .subscribe((cottages) => {
@@ -58,6 +59,7 @@ export class AddReservationComponent implements OnInit {
               (c) => c.id == cottageId
             )[0];
         });
+      }
     });
     if(cottageId!=undefined){
       this.getChips(cottageId);
@@ -74,6 +76,7 @@ export class AddReservationComponent implements OnInit {
   }
 
   getChips(id:number) {
+    this.cottageServices = [];
     this._cottageAdditionalService
       .getAdditionalServicesByCottageId(id)
       .subscribe((tags) => {

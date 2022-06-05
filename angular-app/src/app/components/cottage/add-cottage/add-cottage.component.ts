@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { initCottage } from './../../../model/cottage';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 import { IAdditionalService } from '../../../model/additionalService';
 import { AdditionalServiceService } from '../../../pages/cottage-owner/services/additional-service.service';
 import { CottageService } from '../../../pages/cottage-owner/services/cottage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-cottage',
@@ -42,7 +44,9 @@ export class AddCottageComponent implements OnInit {
     private _cottageService: CottageService,
     private _additionalServiceService: AdditionalServiceService,
     private _cottageAdditionalService: CottageAdditionalServicesService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _toastr: ToastrService,
+    private _router: Router
   ) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
@@ -58,16 +62,26 @@ export class AddCottageComponent implements OnInit {
   }
 
   addCottage() {
-    this._cottageService.saveCottage(this.cottage).subscribe((data) => {
-      this.additionalServiceTags.forEach((element) => {
-        this._cottageAdditionalService
-          .addAdditionalServiceForCottage(element, data)
-          .subscribe((additionalService) => {});
-      });
-    });
+    this._cottageService.saveCottage(this.cottage).subscribe(
+      (data) => {
+        this._toastr.success('Cottage was successfully added.');
+        this.additionalServiceTags.forEach((element) => {
+          this._cottageAdditionalService
+            .addAdditionalServiceForCottage(element, data)
+            .subscribe((additionalService) => {});
+        });
+        this._router.navigate(['/cottageOwnerHome'])
+      },
+      (err) => {
+        console.log(err);
+        this._toastr.error(
+          "Couldn't add the cottage!"
+        );
+      }
+    );
   }
 
-  setAddress(address:IAddress){
+  setAddress(address: IAddress) {
     this.cottage.address = address;
   }
 

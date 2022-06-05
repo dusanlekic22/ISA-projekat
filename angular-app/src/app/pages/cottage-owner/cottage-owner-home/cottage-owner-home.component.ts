@@ -37,8 +37,9 @@ export class CottageOwnerHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.currentUser.subscribe((user) => {
-      this.cottageOwner = user;
-      this.getCottages(user.id);
+      if(user.id!=undefined){
+        this.cottageOwner = user;
+        this.getCottages(user.id);}
     });
   }
 

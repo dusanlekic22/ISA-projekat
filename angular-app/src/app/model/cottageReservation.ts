@@ -54,6 +54,7 @@ export const emptyCottageReservation = {
     verificationCode: '',
     points: '',
     loyalityProgram: '',
+    penalties: 0,
   },
   confirmed: false,
   cottage: initCottage,

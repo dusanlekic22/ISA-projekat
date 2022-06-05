@@ -1,3 +1,4 @@
+import { IReview } from './../../../model/review';
 import { ICustomer } from './../../../model/customer';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -150,6 +151,16 @@ export class BoatReservationService {
       .post<IBoatReservation>(
         environment.apiUrl + `/boatReservation/${boatReservation.id}/cancel`,
         boatReservation
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  sendBoatReview(boatReview: IReview): Observable<IBoatReservation> {
+    return this._http
+      .post<IBoatReservation>(
+        environment.apiUrl +
+          `/boatReservation/${boatReview.boatReservation.id}/review`,
+        boatReview
       )
       .pipe(catchError(this.handleError));
   }

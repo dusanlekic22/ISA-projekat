@@ -1,3 +1,4 @@
+import { IReview, emptyReview } from './../../model/review';
 import { CottageReservationService } from 'src/app/pages/cottage-owner/services/cottage-reservation.service';
 import { ICottageReservation } from './../../model/cottageReservation';
 import { ICottage } from './../../model/cottage';
@@ -9,6 +10,8 @@ import {
   NgbModal,
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
+import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
+import { ComplaintService } from 'src/app/service/complaint.service';
 
 @Component({
   selector: 'app-base-history-reservation',
@@ -26,11 +29,14 @@ export class BaseHistoryReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
+  reviewCottage: IReview = emptyReview;
+  complaintCottage: IComplaint = emptyComplaint;
 
   constructor(
     public router: Router,
     private modalService: NgbModal,
-    private reservationService: CottageReservationService
+    private reservationService: CottageReservationService,
+    private complaintService: ComplaintService
   ) {}
 
   closeResult = '';
@@ -73,11 +79,11 @@ export class BaseHistoryReservationComponent implements OnInit {
   }
 
   sendComplaint() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
-    this.modalReferenceComplaint.close();
+    this.complaintCottage.cottageReservation = this.cottageReservation;
+    this.complaintCottage.text = this.complaint;
+    this.complaintService.sendComplaint(this.complaintCottage).subscribe(() => {
+      this.modalReferenceComplaint.close();
+    });
   }
 
   private getDismissReason(reason: any): string {

@@ -7,6 +7,9 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FishingReservationService } from 'src/app/service/fishingReservation.service';
+import { emptyReview, IReview } from 'src/app/model/review';
+import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
+import { ComplaintService } from 'src/app/service/complaint.service';
 
 @Component({
   selector: 'app-base-history-fishing-reservation',
@@ -24,11 +27,14 @@ export class BaseHistoryFishingReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
+  reviewFishing: IReview = emptyReview;
+  complaintFishing: IComplaint = emptyComplaint;
 
   constructor(
     public router: Router,
     private modalService: NgbModal,
-    private reservationService: FishingReservationService
+    private reservationService: FishingReservationService,
+    private complaintService: ComplaintService
   ) {}
 
   closeResult = '';
@@ -71,11 +77,11 @@ export class BaseHistoryFishingReservationComponent implements OnInit {
   }
 
   sendComplaint() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
-    this.modalReferenceComplaint.close();
+    this.complaintFishing.fishingReservation = this.fishingReservation;
+    this.complaintFishing.text = this.complaint;
+    this.complaintService.sendComplaint(this.complaintFishing).subscribe(() => {
+      this.modalReferenceComplaint.close();
+    });
   }
 
   private getDismissReason(reason: any): string {

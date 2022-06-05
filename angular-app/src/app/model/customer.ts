@@ -16,6 +16,7 @@ export interface ICustomer {
   address: IAddress;
   points: string;
   loyalityProgram: string;
+  penalties: number;
 }
 
 export const emptyCustomer: ICustomer = {
@@ -38,4 +39,5 @@ export const emptyCustomer: ICustomer = {
   verificationCode: '',
   points: '',
   loyalityProgram: '',
+  penalties: 0,
 };

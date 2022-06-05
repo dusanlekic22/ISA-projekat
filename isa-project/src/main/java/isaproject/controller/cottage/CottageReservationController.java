@@ -28,10 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.CustomerDTO;
+import isaproject.dto.ReviewDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.service.CustomerService;
+import isaproject.service.cottage.CottageOwnerService;
 import isaproject.service.cottage.CottageReservationService;
+import isaproject.service.cottage.CottageService;
 import isaproject.util.ProjectUtil;
 
 @RestController
@@ -44,6 +47,12 @@ public class CottageReservationController {
 	
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	CottageService cottageService;
+	
+	@Autowired
+	CottageOwnerService CottageOwnerService;
 
 	@GetMapping
 	@ResponseBody
@@ -172,5 +181,19 @@ public class CottageReservationController {
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageOwnerIdId(@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageOwnerId(id), HttpStatus.OK);
 	}
+	
+	
+	@PostMapping("/customer/{id}/review")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<CottageReservationDTO> reserveOwner(@RequestBody ReviewDTO reviewDTO,
+			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+		
+	return null;	
+//		if (cottageReservationReturnDTO == null)
+//			return new ResponseEntity<>(cottageReservationReturnDTO, HttpStatus.BAD_REQUEST);
+//		return new ResponseEntity<>(cottageReservationReturnDTO, HttpStatus.CREATED);
+	}
+	
+	
 
 }

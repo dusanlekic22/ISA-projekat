@@ -464,6 +464,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
 		cottageReservation.setConfirmed(false);
+		this.freeReservedSpan(cottageReservation);
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
 		

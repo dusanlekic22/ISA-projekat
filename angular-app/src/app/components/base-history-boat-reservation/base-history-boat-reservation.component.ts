@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ModalDismissReasons,
   NgbModal,
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
+import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
+import { emptyReview, IReview } from 'src/app/model/review';
 import { BoatReservationService } from 'src/app/pages/boat-owner/services/boat-reservation.service';
+import { ComplaintService } from 'src/app/service/complaint.service';
 
 @Component({
   selector: 'app-base-history-boat-reservation',
@@ -24,11 +27,16 @@ export class BaseHistoryBoatReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
+  reviewBoat: IReview = emptyReview;
+  complaintBoat: IComplaint = emptyComplaint;
+  customerId!: number;
 
   constructor(
     public router: Router,
     private modalService: NgbModal,
-    private reservationService: BoatReservationService
+    private _route: ActivatedRoute,
+    private reservationService: BoatReservationService,
+    private complaintService: ComplaintService
   ) {}
 
   closeResult = '';
@@ -60,22 +68,31 @@ export class BaseHistoryBoatReservationComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._route.params.subscribe((data) => {
+      this.customerId = data.id;
+    });
+  }
 
   sendReview() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
-    this.modalReference.close();
+    if (this.gradeEntity !== undefined && this.gradeOwner !== undefined) {
+      this.reviewBoat.boatReservation = this.boatReservation;
+      this.reviewBoat.customerId = this.customerId;
+      this.reviewBoat.entityGrade = this.gradeEntity;
+      this.reviewBoat.ownerGrade = this.gradeOwner;
+      this.reviewBoat.text = this.review;
+      this.reservationService.sendBoatReview(this.reviewBoat).subscribe(() => {
+        this.modalReference.close();
+      });
+    }
   }
 
   sendComplaint() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
-    this.modalReferenceComplaint.close();
+    this.complaintBoat.boatReservation = this.boatReservation;
+    this.complaintBoat.text = this.complaint;
+    this.complaintService.sendComplaint(this.complaintBoat).subscribe(() => {
+      this.modalReferenceComplaint.close();
+    });
   }
 
   private getDismissReason(reason: any): string {

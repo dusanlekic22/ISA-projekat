@@ -82,6 +82,7 @@ export const emptyBoatReservation: IBoatReservation = {
     verificationCode: '',
     points: '',
     loyalityProgram: '',
+    penalties: 0,
   },
   confirmed: false,
   boat: initBoat,

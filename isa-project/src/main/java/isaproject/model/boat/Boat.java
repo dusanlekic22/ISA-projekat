@@ -32,7 +32,6 @@ import isaproject.model.CancelConditionEnum;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
-import isaproject.model.NavigationEquipment;
 
 @Entity
 @Table(name = "Boat")
@@ -61,7 +60,7 @@ public class Boat implements Serializable {
 	private CancelConditionEnum cancelCondition;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "boat_fishing_equipment", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "equipment_boat"))
-	private Set<String> fishingEquipment;
+	private Set<String> fishingEquipment = new HashSet<>();
 	private Integer pricePerHour;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
@@ -69,9 +68,9 @@ public class Boat implements Serializable {
 	@JsonManagedReference("boatReservation")
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<BoatReservation> boatReservation = new HashSet<>();
-	@JsonManagedReference
-	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<NavigationEquipment> navigationEquipment = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "boat_navigation_equipment", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "navigation_boat"))
+	private Set<String> navigationEquipment = new HashSet<>();
 	@JsonBackReference(value = "boat")
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<AdditionalService> additionalService = new HashSet<>();
@@ -223,11 +222,11 @@ public class Boat implements Serializable {
 		this.boatQuickReservation = param;
 	}
 
-	public Set<NavigationEquipment> getNavigationEquipment() {
+	public Set<String> getNavigationEquipment() {
 		return navigationEquipment;
 	}
 
-	public void setNavigationEquipment(Set<NavigationEquipment> param) {
+	public void setNavigationEquipment(Set<String> param) {
 		this.navigationEquipment = param;
 	}
 

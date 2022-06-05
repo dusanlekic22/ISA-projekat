@@ -68,6 +68,12 @@ export class FishingTrainerService {
       .pipe(catchError(this.handleError));
   }
 
+  updateBio(id: number, bio: string): Observable<IFishingTrainer> {
+    return this.http
+      .put<IFishingTrainer>(`${this.fishingTrainerUrl}/bio/${id}`, bio)
+      .pipe(catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

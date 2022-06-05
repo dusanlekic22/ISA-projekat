@@ -359,5 +359,18 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainerRepository.save(fishingTrainer);
 		return UserMapper.FishingTrainerToDTO(fishingTrainer);
 	}
+
+	@Override
+	public FishingTrainerDTO findById(Long id) {
+		return UserMapper.FishingTrainerToDTO(fishingTrainerRepository.findById(id).get());
+	}
+
+	@Override
+	@Transactional
+	public FishingTrainerDTO updateBio(Long id, String bio) {
+		FishingTrainer fishingTrainer = fishingTrainerRepository.findById(id).get();
+		fishingTrainer.setBiography(bio);
+		return UserMapper.FishingTrainerToDTO(fishingTrainerRepository.save(fishingTrainer));
+	}
 	
 }

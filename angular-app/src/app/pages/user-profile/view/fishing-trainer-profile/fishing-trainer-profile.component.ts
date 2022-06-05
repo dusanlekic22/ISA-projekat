@@ -36,4 +36,12 @@ export class FishingTrainerProfileComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  updateBio(): void {
+    this._fishingTrainerService
+      .updateBio(this.fishingTrainer.id, this.fishingTrainer.biography)
+      .subscribe((fishingTrainer) => {
+        this.fishingTrainer = fishingTrainer;
+      });
+  }
 }

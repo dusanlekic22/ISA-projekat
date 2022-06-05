@@ -1,22 +1,30 @@
 <div class="left-side">
   <div class="profile-side" *ngIf="fishingTrainer">
     <p class="user-mail"><i class="fa fa-envelope"></i> {{ user.email }}</p>
-    <div class="user-bio">
+    <div class="user-bio mb-5">
       <h3>Bio</h3>
-      <p class="bio">
-        {{ fishingTrainer.biography }}
-      </p>
+      <textarea
+        type="text"
+        id="bioo"
+        class="form-control"
+        [(ngModel)]="fishingTrainer.biography"
+        mdbInput
+      ></textarea>
+      <div class="form-group py-2">
+        <button class="btn btn-success" (click)="updateBio()">
+          <span>Update bio</span>
+        </button>
+      </div>
     </div>
     <div class="text-right">
       <app-grade-star [grade]="fishingTrainer.averageGrade"></app-grade-star>
     </div>
-    <app-loyalty-program [loyaltyProgram]="fishingTrainer.loyaltyProgram" [userType]="'owner'"></app-loyalty-program>
+    <app-loyalty-program
+      [loyaltyProgram]="fishingTrainer.loyaltyProgram"
+      [userType]="'owner'"
+    ></app-loyalty-program>
     <div class="profile-btn">
-      <button
-        class="createbtn"
-        id="Create-post"
-        (click)="openDialog()"
-      >
+      <button class="createbtn" id="Create-post" (click)="openDialog()">
         <i class="fas fa-user-times"></i> Delete Account
       </button>
     </div>

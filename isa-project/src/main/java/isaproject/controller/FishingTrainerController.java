@@ -1,5 +1,6 @@
 package isaproject.controller;
 
+import java.security.InvalidParameterException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -118,6 +119,16 @@ public class FishingTrainerController {
 	public ResponseEntity<FishingTrainerDTO> addGrade(@PathVariable("id") Long id,
 			@RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(fishingTrainerService.addGrade(gradeDTO, id), HttpStatus.OK);
+	}
+	
+	@PutMapping("/bio/{id}")
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
+	public ResponseEntity<FishingTrainerDTO> updateBio(@PathVariable("id") Long id, @RequestBody String bio, Principal loggedInUser) {
+		FishingTrainerDTO fishingTrainerDTO = fishingTrainerService.findById(id);
+		if(!loggedInUser.getName().equals(fishingTrainerDTO.getUsername()))
+			throw new InvalidParameterException();
+		FishingTrainerDTO updatedFishingTrainerDTO = fishingTrainerService.updateBio(id, bio);
+		return new ResponseEntity<>(updatedFishingTrainerDTO, HttpStatus.OK);
 	}
 
 }

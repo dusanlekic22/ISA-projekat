@@ -32,4 +32,8 @@ public interface FishingTrainerService {
 
 	FishingTrainerDTO addGrade(GradeDTO gradeDTO, long fishingId);
 
+	FishingTrainerDTO findById(Long id);
+
+	FishingTrainerDTO updateBio(Long id, String bio);
+
 }

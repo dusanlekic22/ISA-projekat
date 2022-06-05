@@ -105,6 +105,7 @@
           <button
             *appHasRole="['ROLE_CUSTOMER']"
             class="btn btn-success reservationbtn"
+            (click)="open(content)"
           >
             Review
           </button>
@@ -115,6 +116,7 @@
           <button
             *appHasRole="['ROLE_CUSTOMER']"
             class="btn btn-success reservationbtn"
+            (click)="openComplaint(content2)"
           >
             Complaint
           </button>
@@ -124,3 +126,103 @@
     <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title review">
+      Review fishing reservation
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <mat-form-field class="example-full-width rev" appearance="fill">
+          <mat-label>Text of your review</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="review"
+            name="complaint"
+            placeholder="Enter complaint"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field class="example-full-width rev" appearance="fill">
+          <mat-label>Fishing trainer grade</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="5"
+            [(ngModel)]="gradeOwner"
+            name="gradeOwner"
+            placeholder="Enter complaint"
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width rev" appearance="fill">
+          <mat-label>Cottage grade</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="5"
+            [(ngModel)]="gradeEntity"
+            name="gradeEntitite"
+            placeholder="Enter cottage grade"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="sendReview()">
+      Send review
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title complaint">
+      Complaint fishing reservation
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <mat-form-field class="example-full-width rev" appearance="fill">
+          <mat-label>Text of your complaint</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="complaint"
+            name="complaint"
+            placeholder="Enter complaint"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="sendComplaint()"
+    >
+      Send complaint
+    </button>
+  </div>
+</ng-template>

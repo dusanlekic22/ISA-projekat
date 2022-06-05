@@ -63,3 +63,7 @@
 .price {
   width: 100px;
 }
+
+.rev {
+  min-width: 100%;
+}

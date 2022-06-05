@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ModalDismissReasons,
@@ -14,6 +14,7 @@ import { CottageReservationService } from 'src/app/pages/cottage-owner/services/
   styleUrls: ['./base-active-reservation-history.component.css'],
 })
 export class BaseActiveReservationHistoryComponent implements OnInit {
+  @Output() outputFromChild: EventEmitter<string> = new EventEmitter();
   @Input() id!: string;
   @Input() cottageReservation!: ICottageReservation;
   @Input() openForReservation!: string;
@@ -30,21 +31,23 @@ export class BaseActiveReservationHistoryComponent implements OnInit {
   closeResult = '';
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+    this.modalReference = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+    });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
   cancel() {
     this.reservationService
       .cancelCottageReservation(this.cottageReservation)
       .subscribe(() => {
+        this.outputFromChild.emit();
         this.modalReference.close();
       });
   }

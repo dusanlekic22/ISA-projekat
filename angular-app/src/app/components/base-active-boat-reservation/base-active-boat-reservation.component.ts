@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ModalDismissReasons,
@@ -15,6 +15,7 @@ import { ReservationService } from 'src/app/service/reservation.service';
   styleUrls: ['./base-active-boat-reservation.component.css'],
 })
 export class BaseActiveBoatReservationComponent implements OnInit {
+  @Output() outputFromChild: EventEmitter<string> = new EventEmitter();
   @Input() id!: string;
   @Input() boatReservation!: IBoatReservation;
   @Input() openForReservation!: string;
@@ -32,16 +33,17 @@ export class BaseActiveBoatReservationComponent implements OnInit {
   closeResult = '';
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+    this.modalReference = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+    });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
   ngOnInit(): void {
     let x = new Date(this.boatReservation.duration.startDate);
@@ -53,6 +55,7 @@ export class BaseActiveBoatReservationComponent implements OnInit {
     this.reservationService
       .cancelBoatReservation(this.boatReservation)
       .subscribe(() => {
+        this.outputFromChild.emit();
         this.modalReference.close();
       });
   }

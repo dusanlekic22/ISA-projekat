@@ -50,4 +50,6 @@ public interface BoatReservationService {
 	
 	Page<BoatReservationDTO> findAllPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
 	Page<BoatReservationDTO> findAllIncomingPagination(Long id,SortTypeDTO sortTypeDTO, Pageable paging);
+	
+	BoatReservationDTO cancelBoatReservation(BoatReservationDTO boatReservationDTO);
 }

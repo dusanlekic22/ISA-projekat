@@ -76,7 +76,7 @@ export class FishingReservationService {
       .pipe(catchError(this.handleError));
   }
 
-  getCustomerHasReservationNow(id:number): Observable<ICustomer[]> {
+  getCustomerHasReservationNow(id: number): Observable<ICustomer[]> {
     return this.http
       .get<ICustomer[]>(
         `${this.fishingReservationUrl}/customerHasReservationNow/fishingCourse/${id}`
@@ -115,6 +115,18 @@ export class FishingReservationService {
         tap((data) => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)
       );
+  }
+
+  cancelFishingReservation(
+    fishingReservation: IFishingReservation
+  ): Observable<IFishingReservation> {
+    return this.http
+      .post<IFishingReservation>(
+        environment.apiUrl +
+          `/fishingReservation/${fishingReservation.id}/cancel`,
+        fishingReservation
+      )
+      .pipe(catchError(this.handleError));
   }
 
   handleError(error: any) {

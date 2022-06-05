@@ -16,6 +16,7 @@ export interface ICustomer {
   phoneNumber: string;
   address: IAddress;
   loyaltyProgram: ILoyaltyProgram;
+  penalties: number;
 }
 
 export const emptyCustomer: ICustomer = {
@@ -40,4 +41,5 @@ export const emptyCustomer: ICustomer = {
     loyaltyRank: LoyaltyRank.Regular,
     points: 0,
   },
+  penalties: 0,
 };

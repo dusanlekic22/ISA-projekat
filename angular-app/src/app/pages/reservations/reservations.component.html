@@ -258,6 +258,7 @@
               <app-base-active-reservation-history
                 id="{{ cottage.id }}"
                 [cottageReservation]="cottage"
+                (outputFromChild)="cancelCottagesRefresh($event)"
               >
               </app-base-active-reservation-history>
             </div>
@@ -324,6 +325,7 @@
               <app-base-active-boat-reservation
                 id="{{ boat.id }}"
                 [boatReservation]="boat"
+                (outputFromChild)="cancelBoatsRefresh($event)"
               >
               </app-base-active-boat-reservation>
             </div>
@@ -396,6 +398,7 @@
               <app-base-active-fishing-reservation
                 id="{{ fishing.id }}"
                 [fishingReservation]="fishing"
+                (outputFromChild)="cancelFishingsRefresh($event)"
               >
               </app-base-active-fishing-reservation>
             </div>

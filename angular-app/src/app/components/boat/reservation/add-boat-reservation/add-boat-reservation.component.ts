@@ -64,7 +64,7 @@ export class AddBoatReservationComponent implements OnInit {
           this.boat = this.boats.filter((c) => c.id == boatId)[0];
       });
     });
-    if(boatId!=undefined){
+    if (boatId != undefined) {
       this.getChips(boatId);
     }
   }
@@ -72,21 +72,20 @@ export class AddBoatReservationComponent implements OnInit {
   setCustomer(id: number) {
     this.customer = this.eligibleCustomers.filter((c) => c.id == id)[0];
     this._boatReservationService
-    .getCustomerHasReservationNow(id)
-    .subscribe((customers) => {
-      this.eligibleCustomers = customers;
-    });
+      .getCustomerHasReservationNow(id)
+      .subscribe((customers) => {
+        this.eligibleCustomers = customers;
+      });
   }
 
-  getChips(id:number) {
+  getChips(id: number) {
     this._boatAdditionalService
       .getAdditionalServicesByBoatId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          if (this.boatServices.length < 1 ) {
+          if (this.boatServices.length < 1) {
             this.boatServices.push(t);
-          }
-          else if(this.boatServices.some(e => e.name !== t.name)){
+          } else if (this.boatServices.some((e) => e.name !== t.name)) {
             this.boatServices.push(t);
           }
         });

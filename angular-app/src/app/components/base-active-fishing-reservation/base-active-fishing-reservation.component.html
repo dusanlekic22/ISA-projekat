@@ -104,7 +104,8 @@
         <div class="col-12 reserv-btn">
           <button
             *appHasRole="['ROLE_CUSTOMER']"
-            class="btn btn-danger reservationbtn"
+            class="btn btn-outline-danger reservationbtn"
+            (click)="open(content)"
           >
             Cancel
           </button>
@@ -114,3 +115,35 @@
     <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Apply to cancel fishing reservation
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        Are you sure that you want to cancel your reservation
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      *ngIf="reservationThreeDays >= today"
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="cancel()"
+    >
+      Cancel
+    </button>
+  </div>
+</ng-template>

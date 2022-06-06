@@ -103,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 								.antMatchers("/fishingTrainer/availability**").permitAll()
 								.antMatchers("/fishingTrainer/pagination**").permitAll()
 								.antMatchers("/fishingTrainer/all").permitAll()
-								.antMatchers("/fishingCourse/pagination**").permitAll()
+								.antMatchers("/fishingCourse/pagination/**").permitAll()
 								.antMatchers("/cottageQuickReservation/pagination/**").permitAll()
 								.antMatchers("/fishingQuickReservation/pagination/**").permitAll()
 								.antMatchers("/boatQuickReservation/pagination/**").permitAll()

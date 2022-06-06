@@ -65,7 +65,7 @@ public class FishingCourseController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('FISHING_TRAINER', 'ADMIN','CUSTOMER')")
+//	@PreAuthorize("hasAnyRole('FISHING_TRAINER', 'ADMIN','CUSTOMER')")
 	public FishingCourseDTO get(@PathVariable Long id) {
 		return fishingCourseService.findById(id);
 	}

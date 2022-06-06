@@ -5,6 +5,10 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 
@@ -28,4 +32,6 @@ public interface CottageQuickReservationService {
 	CottageReservationDTO appointQuickReservation(Long reservationId, Long userId);
 
 	Set<CottageQuickReservationDTO> findByCottageOwnerId(Long id);
+	
+	Page<CottageQuickReservationDTO> findAllPagination(Long cottageOwnerId,Pageable paging);
 }

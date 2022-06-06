@@ -526,7 +526,7 @@ export class HomepageComponent implements OnInit {
   }
 
   searchFishingTrainer() {
-    this.fishingCourseSearch = true;
+    this.fishingTrainerSearch = true;
     this.availableFishingTrainers(0);
   }
 

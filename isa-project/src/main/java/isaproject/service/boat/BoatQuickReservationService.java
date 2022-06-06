@@ -5,6 +5,9 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 
@@ -29,4 +32,6 @@ public interface BoatQuickReservationService {
 	BoatReservationDTO appointQuickReservation(Long reservationId, Long userId);
 
 	Set<BoatQuickReservationDTO> findByBoatOwnerId(Long id);
+
+	Page<BoatQuickReservationDTO> findAllPagination(Long boatOwnerId,Pageable paging);
 }

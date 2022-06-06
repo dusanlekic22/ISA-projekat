@@ -19,7 +19,7 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.fishing_trainer_available_date_spans  "
 				+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ "  and (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+				+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 				countQuery  = " SELECT count(*)  FROM public.fishing_trainer as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
@@ -35,11 +35,11 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a natural join public.fishing_trainer_available_date_spans  "
 				+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ "  and (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+				+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 				countQuery  = " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a natural join public.fishing_trainer_available_date_spans  "
 						+ " WHERE ((f.id = fishing_trainer_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-						+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+						+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 					nativeQuery = true)
 	Page<FishingTrainer> getAvailabilityWithSortLocation(
 			@Param("start") LocalDateTime start,
@@ -51,12 +51,12 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u"
 			    + " WHERE "
 			    + "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+				+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.fishing_trainer as f natural join public.app_user as u"
 					+ " WHERE "
 					+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-					+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+					+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 					nativeQuery = true)
 	Page<FishingTrainer> searchFishingTrainer(
 			@Param("name") String name, @Param("grade") Double grade,Pageable pageable );
@@ -65,12 +65,12 @@ public interface FishingTrainerRepository extends PagingAndSortingRepository<Fis
 			  " SELECT *  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a "
 			    + " WHERE "
 				+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-				+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+				+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 				countQuery  =
 				  " SELECT count(*)  FROM public.fishing_trainer as f natural join public.app_user as u natural join public.address as a"
 					+ " WHERE "
 					+ "  (lower(u.first_name) like :name OR lower(u.last_name) like :name  OR :name is null)  " 
-					+ " and ( f.grade = :grade OR :grade = -1.0)  ",
+					+ " and ( f.average_grade = :grade OR :grade = -1.0)  ",
 					nativeQuery = true)
 	Page<FishingTrainer> searchFishingTrainerWithSortLocation(
 			@Param("name") String name, @Param("grade") Double grade, Pageable pageable );

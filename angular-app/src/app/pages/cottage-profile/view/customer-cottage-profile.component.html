@@ -194,6 +194,48 @@
             </div>
           </div>
         </div>
+        <div class="container mt-3 itemss">
+          <div
+            class="row d-flex p-2 text-white"
+            *ngIf="cottageQuickReservations"
+          >
+            <div
+              class="col-4 p-2"
+              *ngFor="let quickReservation of cottageQuickReservations"
+            >
+              <app-base-quick-reservation-customer
+                name="{{ quickReservation.cottage.name }},
+                {{ quickReservation.cottage.name }}"
+                [promoDesc]="quickReservation.cottage.promoDescription"
+                id="{{ quickReservation.cottage.id }}"
+                [price]="'' + quickReservation.price"
+                [address]="quickReservation.cottage.address"
+                [grade]="quickReservation.cottage.averageGrade"
+                [customerId]="customer.id"
+                [reservationId]="quickReservation.id"
+                openForReservation="{{ openCottages }}"
+              >
+              </app-base-quick-reservation-customer>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeCottageQuickPage($event)"
+                class="bg-dark text-white"
+                [length]="cottageQuickTotalElements"
+                [pageIndex]="cottageQuickPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2">
+              <h2 class="text-white">Sort by :</h2>
+            </div>
+            <div class="col-3 pt-2 sortbtn"></div>
+          </div>
+        </div>
         <div class="col-md-10 offset-md-1">
           <ul
             class="nav nav-pills-a nav-pills mb-3 section-t3"

@@ -27,7 +27,14 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 	Set<Cottage> findAll();
 	Page<Cottage> findAll(Pageable paging);
 	Set<Cottage> findByName(String name);
-
+	
+	@Query(value =
+			  " SELECT *  FROM public.cottage  ",
+				countQuery  = " SELECT count(*)  FROM public.cottage"
+						,
+					nativeQuery = true)
+	Page<Cottage> findAllCottages(Pageable paging);
+	
 	@Query(value =
 			  " SELECT *  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 				+ " WHERE ((c.id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "

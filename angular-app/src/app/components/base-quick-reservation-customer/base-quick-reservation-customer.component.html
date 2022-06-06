@@ -1,0 +1,121 @@
+<div class="col-md-12 mb-1 cottageCard">
+  <div class="card h-100">
+    <div class="d-flex justify-content-between position-absolute w-100"></div>
+    <div class="img-hover-zoom img-hover-zoom--xyz">
+      <img
+        src="https://picsum.photos/700/550"
+        class="card-img-top"
+        alt="Product"
+      />
+      <div *ngIf="type === undefined" class="cardOverlay">
+        Pogledaj <br />
+        {{ name }} <br />
+        ponudu
+      </div>
+      <div *ngIf="type === 2" class="cardOverlay">
+        Pogledaj <br />
+        {{ name }} <br />
+        ponudu
+      </div>
+      <div *ngIf="type === 3" class="cardOverlay">
+        Pogledaj <br />
+        {{ name }} <br />
+        ponudu
+      </div>
+    </div>
+    <div class="card-body px-2 pb-2 pt-1">
+      <div class="d-flex justify-content-between">
+        <div>
+          <p class="h4">{{ name }}</p>
+        </div>
+        <div>
+          <a
+            href="#"
+            class="text-secondary lead"
+            data-toggle="tooltip"
+            data-placement="left"
+            title="Compare"
+          >
+            <app-grade-star [grade]="grade"></app-grade-star>
+          </a>
+        </div>
+      </div>
+      <div class="row d-flex">
+        <div class="col-7 text-dark">
+          Grad :<strong *ngIf="address">{{ "   " + address.city }}</strong>
+        </div>
+        <div
+          *ngIf="openForReservation !== 'yes' && type !== 4"
+          class="col-5 text-dark text-left"
+        >
+          <strong>Price: </strong>{{ "  " + price + " $" }}
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Ulica : <strong *ngIf="address"> {{ "   " + address.street }}</strong>
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          Drzava :<strong *ngIf="address">
+            {{ "   " + address.country }}</strong
+          >
+        </div>
+      </div>
+      <div class="row d-flex pt-2">
+        <div class="col-7 text-dark">
+          <span>Description</span>
+          <strong class="text-center" *ngIf="promoDesc">
+            {{ ": " + promoDesc }}</strong
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      class="reserv-btn"
+      *ngIf="
+        openForReservation !== 'yes' &&
+        type === undefined &&
+        type !== 2 &&
+        type !== 3 &&
+        type !== 4
+      "
+    >
+      <button
+        *appHasRole="['ROLE_CUSTOMER']"
+        class="btn btn-success reservationbtn"
+        (click)="bookCottageQuickReservation()"
+      >
+        Book
+      </button>
+    </div>
+    <div
+      class="reserv-btn"
+      *ngIf="openForReservation !== 'yes' && type && type === 2"
+    >
+      <button
+        *appHasRole="['ROLE_CUSTOMER']"
+        class="btn btn-success reservationbtn"
+        (click)="bookBoatQuickReservation()"
+      >
+        Book
+      </button>
+    </div>
+    <div
+      class="reserv-btn"
+      *ngIf="openForReservation !== 'yes' && type && type === 3"
+    >
+      <button
+        *appHasRole="['ROLE_CUSTOMER']"
+        class="btn btn-success reservationbtn"
+        [routerLink]="[
+          '/fishingCourse/' + this.id + '/' + startDate + '/' + endDate
+        ]"
+      >
+        Book
+      </button>
+    </div>
+    <div class="reserv-btn" *ngIf="openForReservation === 'yes'"></div>
+  </div>
+</div>

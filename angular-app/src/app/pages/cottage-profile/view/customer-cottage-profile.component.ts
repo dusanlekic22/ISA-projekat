@@ -1,3 +1,4 @@
+import { ICottageQuickReservation } from 'src/app/model/cottageQuickReservation';
 import { ICottage } from './../../../model/cottage';
 import { AuthenticationService } from './../../../service/authentication.service';
 import { CustomerService } from './../../customer.service';
@@ -8,6 +9,8 @@ import '../../../../assets/owlcarousel/owl.carousel.js';
 import { UserService } from 'src/app/service/user.service';
 import { CottageService } from '../../cottage-owner/services/cottage.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { CottageQuickReservationService } from '../../cottage-owner/services/cottage-quick-reservation.service';
 
 @Component({
   selector: 'app-customer-cottage-profile',
@@ -20,9 +23,17 @@ export class CustomerCottageProfileComponent implements OnInit {
   cottageId!: number;
   isSubscribed: boolean = false;
 
+  // cottage quick reservation data
+  cottageQuickPage: number = 0;
+  cottageQuickTotalElements: number = 30;
+  paginatorCottageQuick!: MatPaginator;
+  cottageQuickReservations!: ICottageQuickReservation[];
+  openCottages: string = 'yes';
+
   constructor(
     private customerService: CustomerService,
     private cottageService: CottageService,
+    private cottageQuickReservationService: CottageQuickReservationService,
     private userService: UserService,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute
@@ -40,11 +51,13 @@ export class CustomerCottageProfileComponent implements OnInit {
         .getCottageById(this.cottageId)
         .subscribe((cottage) => {
           this.cottage = cottage;
+          this.getQuickCottagesReservations();
           if (this.authenticationService.isLoggedIn()) {
             this.userService.currentUser.subscribe((user) => {
               this.customerService
                 .getCustomerById(user.id)
                 .subscribe((customer) => {
+                  this.openCottages = 'no';
                   this.customer = customer;
                   this.checkSubscribe();
                 });
@@ -81,5 +94,23 @@ export class CustomerCottageProfileComponent implements OnInit {
         this.isSubscribed = false;
         this.loadCottage();
       });
+  }
+  // cottage quick reservation methods
+
+  getQuickCottagesReservations() {
+    this.cottageQuickReservationService
+      .getCottagesQuickReservationPagination(
+        this.cottageQuickPage,
+        this.cottage.cottageOwner.id
+      )
+      .subscribe((data) => {
+        this.cottageQuickReservations = data.content;
+        this.cottageQuickTotalElements = data.totalElements;
+      });
+  }
+
+  onChangeCottageQuickPage(pe: PageEvent) {
+    this.cottageQuickPage = pe.pageIndex;
+    this.getQuickCottagesReservations();
   }
 }

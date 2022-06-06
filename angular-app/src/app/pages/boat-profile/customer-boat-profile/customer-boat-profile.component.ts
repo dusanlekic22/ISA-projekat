@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { IBoat } from 'src/app/model/boat/boat';
+import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
 import { emptyCustomer, ICustomer } from 'src/app/model/customer';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 import '../../../../assets/jquery/jquery.min';
 import '../../../../assets/owlcarousel/owl.carousel.js';
+import { BoatQuickReservationService } from '../../boat-owner/services/boat-quick-reservation.service';
 import { BoatService } from '../../boat-owner/services/boat.service';
 import { CustomerService } from '../../customer.service';
 
@@ -20,9 +23,17 @@ export class CustomerBoatProfileComponent implements OnInit {
   boatId!: number;
   isSubscribed: boolean = false;
 
+  // boat quick reservation data
+  boatQuickPage: number = 0;
+  boatQuickTotalElements: number = 30;
+  paginatorBoatQuick!: MatPaginator;
+  boatQuickReservations!: IBoatQuickReservation[];
+  openBoats: string = 'yes';
+
   constructor(
     private customerService: CustomerService,
     private boatService: BoatService,
+    private boatQuickReservationService: BoatQuickReservationService,
     private userService: UserService,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute
@@ -37,11 +48,13 @@ export class CustomerBoatProfileComponent implements OnInit {
       this.boatId = data.boatId;
       this.boatService.getBoatById(this.boatId).subscribe((boat) => {
         this.boat = boat;
+        this.getQuickBoatsReservations();
         if (this.authenticationService.isLoggedIn()) {
           this.userService.currentUser.subscribe((user) => {
             this.customerService
               .getCustomerById(user.id)
               .subscribe((customer) => {
+                this.openBoats = 'no';
                 this.customer = customer;
                 this.checkSubscribe();
               });
@@ -78,5 +91,23 @@ export class CustomerBoatProfileComponent implements OnInit {
         this.isSubscribed = false;
         this.loadBoat();
       });
+  }
+
+  // boat quick reservation methods
+  getQuickBoatsReservations() {
+    this.boatQuickReservationService
+      .getBoatsQuickReservationPagination(
+        this.boatQuickPage,
+        this.boat.boatOwner.id
+      )
+      .subscribe((data) => {
+        this.boatQuickReservations = data.content;
+        this.boatQuickTotalElements = data.totalElements;
+      });
+  }
+
+  onChangeBoatsQuickPage(pe: PageEvent) {
+    this.boatQuickPage = pe.pageIndex;
+    this.getQuickBoatsReservations();
   }
 }

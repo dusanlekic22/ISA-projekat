@@ -103,7 +103,7 @@ public class BoatServiceImpl implements BoatService {
 
 		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 		
-		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(paging));
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllBoats(paging));
 		}else {
 			return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(pageable));
 		}

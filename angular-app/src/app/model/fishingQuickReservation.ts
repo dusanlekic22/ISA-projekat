@@ -29,3 +29,11 @@ export const emptyFishingQuickReservation: IFishingQuickReservation = {
   },
   fishingCourse: emptyFishingCourse,
 };
+
+export interface IFishingQuickReservationPage {
+  content: IFishingQuickReservation[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+}

@@ -134,6 +134,7 @@ import { AnswerComplaintComponent } from './pages/admin-pages/answer-complaint/a
 import { CustomerFishingCourseProfileComponent } from './pages/fishing-course/customer-fishing-course-profile/customer-fishing-course-profile.component';
 import { GradesComponent } from './pages/admin-pages/grades/grades.component';
 import { AnswerGradeComponent } from './pages/admin-pages/answer-grade/answer-grade.component';
+import { BaseQuickReservationCustomerComponent } from './components/base-quick-reservation-customer/base-quick-reservation-customer.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -241,6 +242,7 @@ FullCalendarModule.registerPlugins([
     CustomerFishingCourseProfileComponent,
     GradesComponent,
     AnswerGradeComponent,
+    BaseQuickReservationCustomerComponent,
   ],
   imports: [
     NgbModule,

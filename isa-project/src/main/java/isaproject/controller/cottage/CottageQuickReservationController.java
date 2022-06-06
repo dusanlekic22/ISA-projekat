@@ -7,6 +7,9 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.service.cottage.CottageQuickReservationService;
@@ -38,6 +43,14 @@ public class CottageQuickReservationController {
 	@ResponseBody
 	public ResponseEntity<Set<CottageQuickReservationDTO>> getAll(){
 		return new ResponseEntity<>(cottageQuickReservationService.findAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/pagination/{cottageOwnerId}")
+	@ResponseBody
+	public Page<CottageQuickReservationDTO> getAllPagination(@PathVariable("cottageOwnerId")Long cottageOwnerId,@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return cottageQuickReservationService.findAllPagination(cottageOwnerId,paging);
 	}
 	
 	@GetMapping("/cottage/{id}")
@@ -75,6 +88,15 @@ public class CottageQuickReservationController {
 	@GetMapping("/appoint/{reservationId}/user/{id}")
 	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
+		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(reservationId,userId);
+		if(cottageReservationReturnDTO == null)
+			return new ResponseEntity<>(cottageReservationReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(cottageReservationReturnDTO,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/customer/appoint/{reservationId}/user/{id}")
+	@PreAuthorize("hasRole('Customer')")
+	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservationByCustomer(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(cottageReservationReturnDTO == null)
 			return new ResponseEntity<>(cottageReservationReturnDTO,HttpStatus.BAD_REQUEST);

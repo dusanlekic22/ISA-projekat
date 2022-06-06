@@ -9,12 +9,15 @@ import javax.mail.MessagingException;
 
 import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.mapper.boat.BoatMapper;
 import isaproject.mapper.boat.BoatQuickReservationMapper;
 import isaproject.mapper.boat.BoatReservationMapper;
 import isaproject.model.Customer;
@@ -79,6 +82,12 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		}
 		return dtos;
 	}
+	
+	@Override
+	public Page<BoatQuickReservationDTO> findAllPagination(Long boatOwnerId,Pageable paging){
+		return BoatQuickReservationMapper.pageBoatQuickReservationToPageBoatQuickReservationDTO(boatQuickReservationRepository.findAllByBoatOwnerId(boatOwnerId,paging));
+	}
+	
 
 	private void reserveAvailableDateSpan(BoatQuickReservation boatQuickReservation, DateTimeSpan availableDateSpan) {
 		Boat boat = boatQuickReservation.getBoat();

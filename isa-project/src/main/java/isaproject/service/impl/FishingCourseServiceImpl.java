@@ -159,7 +159,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 
-			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(paging));
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllFishingCourses(paging));
 		} else {
 			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(pageable));
 		}

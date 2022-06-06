@@ -59,6 +59,8 @@ public class CottageReservationController {
 	public ResponseEntity<Set<CottageReservationDTO>> getAll() {
 		return new ResponseEntity<>(cottageReservationService.findAll(), HttpStatus.OK);
 	}
+	
+	
 
 	@GetMapping("/customerHasReservationNow/cottage/{id}")
 	@ResponseBody
@@ -74,6 +76,9 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
 
+	
+	
+	
 	@PostMapping("/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody

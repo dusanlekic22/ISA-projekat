@@ -5,6 +5,7 @@ import java.util.Set;
 
 import isaproject.dto.UserDTO;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.cottage.Cottage;
 
@@ -13,6 +14,7 @@ public class CottageOwnerDTO extends UserDTO {
 	private Set<Cottage> cottage;
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	private LoyaltyProgram loyaltyProgram;
+	private Set<Grade> grades = new HashSet<Grade>();
 
 	public CottageOwnerDTO() {
 		super();
@@ -40,6 +42,14 @@ public class CottageOwnerDTO extends UserDTO {
 
 	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
 		this.loyaltyProgram = loyaltyProgram;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 }

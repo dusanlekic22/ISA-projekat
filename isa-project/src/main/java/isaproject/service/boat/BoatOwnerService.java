@@ -1,6 +1,7 @@
 package isaproject.service.boat;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.boat.BoatOwnerDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.boat.BoatOwner;
@@ -12,5 +13,7 @@ public interface BoatOwnerService {
 	BoatOwnerDTO updateUnavailableTerms(Long id, DateTimeSpan dateTimeSpan);
 
 	BoatOwnerDTO findByUsername(String username);
+
+	BoatOwnerDTO addGrade(GradeDTO gradeDTO, long boatId);
 
 }

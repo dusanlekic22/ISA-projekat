@@ -124,6 +124,7 @@ public class UserMapper {
 		fishingTrainerDTO.setAvailableReservationDateSpan(fishingTrainer.getAvailableReservationDateSpan());
 		fishingTrainerDTO.setUnavailableReservationDateSpan(fishingTrainer.getUnavailableReservationDateSpan());
 		fishingTrainerDTO.setLoyaltyProgram(fishingTrainer.getLoyaltyProgram());
+		fishingTrainerDTO.setGrades(fishingTrainer.getGrades());
 		return fishingTrainerDTO;
 	}
 	
@@ -141,6 +142,7 @@ public class UserMapper {
 		cottageOwnerDTO.setCottage(cottageOwner.getCottage());
 		cottageOwnerDTO.setUnavailableReservationDateSpan(cottageOwner.getUnavailableReservationDateSpan());
 		cottageOwnerDTO.setLoyaltyProgram(cottageOwner.getLoyaltyProgram());
+		cottageOwnerDTO.setGrades(cottageOwner.getGrades());
 		return cottageOwnerDTO;
 	}
 	
@@ -158,6 +160,7 @@ public class UserMapper {
 		boatOwnerDTO.setBoat(boatOwner.getBoat());
 		boatOwnerDTO.setUnavailableReservationDateSpan(boatOwner.getUnavailableReservationDateSpan());
 		boatOwnerDTO.setLoyaltyProgram(boatOwner.getLoyaltyProgram());
+		boatOwnerDTO.setGrades(boatOwner.getGrades());
 		return boatOwnerDTO;
 	}
 

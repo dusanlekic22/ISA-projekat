@@ -44,6 +44,7 @@ export interface IFishingCourseAvailability {
   fishingTrainerId: number;
   sortBy: ISortType[];
   freeAdditionalServices: string[];
+  grades: IGrade[];
 }
 
 export const emptyFishingCourse: IFishingCourse = {
@@ -84,4 +85,5 @@ export const emptyFishingCourseAvailability: IFishingCourseAvailability = {
   fishingTrainerId: 0,
   sortBy: [],
   freeAdditionalServices: [],
+  grades: []
 };

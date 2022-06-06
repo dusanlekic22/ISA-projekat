@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "FishingTrainer")
@@ -34,8 +35,9 @@ public class FishingTrainer extends User {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "fishing_trainer_unavailable_date_spans", joinColumns = @JoinColumn(name = "fishing_trainer_id"), foreignKey = @ForeignKey(name = "no_date_spans_fishing_trainer"))
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "trainer_grades", joinColumns = @JoinColumn(name = "fishingTrainer_id"), foreignKey = @ForeignKey(name = "grades_fishing"))
+
+	@OneToMany(mappedBy = "fishingTrainer", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "fishingTrainerGrades")
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
 	private Double averageGrade = 0.0;
@@ -95,7 +97,8 @@ public class FishingTrainer extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			return sum / grades.size();
 		} else {
@@ -107,14 +110,15 @@ public class FishingTrainer extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();
 		} else {
 			averageGrade = sum;
 		}
 	}
-	
+
 	public LoyaltyProgram getLoyaltyProgram() {
 		return loyaltyProgram;
 	}

@@ -70,8 +70,8 @@ public class Cottage implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "cottage_subscribers", joinColumns = @JoinColumn(name = "cottage_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "cottage_grades", joinColumns = @JoinColumn(name = "cottage_id"), foreignKey = @ForeignKey(name = "grades_cottage"))
+	@OneToMany(mappedBy = "cottage", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "cottageGrades")
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
 	private Double averageGrade = 0.0;
@@ -224,13 +224,15 @@ public class Cottage implements Serializable {
 
 	public Double getAverageGrade() {
 		Double sum = 0.0;
+		System.out.println(grades.size());
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				System.out.println("aa"+grade.getValue());
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			return sum / grades.size();
-		}
-		else {
+		} else {
 			return sum;
 		}
 	}
@@ -239,11 +241,11 @@ public class Cottage implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();
-		}
-		else {
+		} else {
 			averageGrade = sum;
 		}
 	}

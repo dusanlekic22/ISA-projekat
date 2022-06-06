@@ -61,7 +61,7 @@ public class Boat implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "boat_fishing_equipment", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "equipment_boat"))
 	private Set<String> fishingEquipment = new HashSet<>();
-	private Integer pricePerHour;
+	private Double pricePerHour;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
@@ -88,11 +88,11 @@ public class Boat implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "boat_subscribers", joinColumns = @JoinColumn(name = "boat_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "boat_grades", joinColumns = @JoinColumn(name = "boat_id"), foreignKey = @ForeignKey(name = "grades_boat"))
+	@OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "boatGrades")
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
-	private Double averageGrade;
+	private Double averageGrade = 0.0;
 
 	public long getId() {
 		return id;
@@ -295,11 +295,11 @@ public class Boat implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			return sum / grades.size();
-		}
-		else {
+		} else {
 			return sum;
 		}
 	}
@@ -308,11 +308,11 @@ public class Boat implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();
-		}
-		else {
+		} else {
 			averageGrade = sum;
 		}
 	}

@@ -32,7 +32,7 @@ public class CottageDTO {
 	private Set<DateTimeSpan> unavailableReservationDateSpan;
 
 	private Set<Customer> subscribers;
-
+	private Set<Grade> grades = new HashSet<Grade>();
 	private CottageOwner cottageOwner;
 	private Double averageGrade;
 
@@ -40,7 +40,7 @@ public class CottageDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Set<DateTimeSpan> getUnavailableReservationDateSpan() {
 		return unavailableReservationDateSpan;
 	}
@@ -175,6 +175,14 @@ public class CottageDTO {
 
 	public void setAverageGrade(Double averageGrade) {
 		this.averageGrade = averageGrade;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 }

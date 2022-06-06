@@ -1,40 +1,100 @@
 package isaproject.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-@Embeddable
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatOwner;
+import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageOwner;
+
+@Entity(name = "grade")
 public class Grade {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	private Double value;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
 
+	private String review;
+
 	private Boolean isAccepted;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "cottageGrades")
+	private Cottage cottage;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "cottageOwnerGrades")
+	private CottageOwner cottageOwner;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "boatGrades")
+	private Boat boat;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "boatOwnerGrades")
+	private BoatOwner boatOwner;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "fishingCourseGrades")
+	private FishingCourse fishingCourse;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference(value = "fishingTrainerGrades")
+	private FishingTrainer fishingTrainer;
 
 	public Grade() {
 	}
 
-	public Grade(Double value, User user, Boolean isAccepted) {
+	public Grade(Long id, Double value, User user, String review, Boolean isAccepted, Cottage cottage,
+			CottageOwner cottageOwner, Boat boat, BoatOwner boatOwner, FishingCourse fishingCourse,
+			FishingTrainer fishingTrainer) {
 		super();
+		this.id = id;
 		this.value = value;
 		this.user = user;
+		this.review = review;
 		this.isAccepted = isAccepted;
-		validate();
+		this.cottage = cottage;
+		this.cottageOwner = cottageOwner;
+		this.boat = boat;
+		this.boatOwner = boatOwner;
+		this.fishingCourse = fishingCourse;
+		this.fishingTrainer = fishingTrainer;
 	}
-	
+
 	public Grade(Grade grade) {
 		super();
+		this.id = grade.id;
 		this.value = grade.value;
 		this.user = grade.user;
+		this.review = grade.review;
 		this.isAccepted = grade.isAccepted;
 		validate();
 	}
 
 	private boolean validate() {
 		return value >= 1 && value <= 5;
+	}
+
+	public FishingCourse getFishingCourse() {
+		return fishingCourse;
+	}
+
+	public void setFishingCourse(FishingCourse fishingCourse) {
+		this.fishingCourse = fishingCourse;
 	}
 
 	public Double getValue() {
@@ -49,16 +109,72 @@ public class Grade {
 		return isAccepted;
 	}
 
-	public void accept() {
-		if (isAccepted == null) {
-			isAccepted = true;
-		}
+	public Long getId() {
+		return id;
 	}
 
-	public void decline() {
-		if (isAccepted == null) {
-			isAccepted = true;
-		}
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setIsAccepted(Boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
+	public Cottage getCottage() {
+		return cottage;
+	}
+
+	public void setCottage(Cottage cottage) {
+		this.cottage = cottage;
+	}
+
+	public CottageOwner getCottageOwner() {
+		return cottageOwner;
+	}
+
+	public void setCottageOwner(CottageOwner cottageOwner) {
+		this.cottageOwner = cottageOwner;
+	}
+
+	public Boat getBoat() {
+		return boat;
+	}
+
+	public void setBoat(Boat boat) {
+		this.boat = boat;
+	}
+
+	public BoatOwner getBoatOwner() {
+		return boatOwner;
+	}
+
+	public void setBoatOwner(BoatOwner boatOwner) {
+		this.boatOwner = boatOwner;
+	}
+
+	public FishingTrainer getFishingTrainer() {
+		return fishingTrainer;
+	}
+
+	public void setFishingTrainer(FishingTrainer fishingTrainer) {
+		this.fishingTrainer = fishingTrainer;
 	}
 
 	@Override

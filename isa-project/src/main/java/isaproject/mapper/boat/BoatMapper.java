@@ -35,6 +35,7 @@ public class BoatMapper {
 		boat.setFishingEquipment(boatDTO.getFishingEquipment());
 		boat.setNavigationEquipment(boatDTO.getNavigationEquipment());
 		boat.setAverageGrade();
+		boat.setGrades(boatDTO.getGrades());
 		return boat;
 	}
 
@@ -65,6 +66,7 @@ public class BoatMapper {
 		boatDTO.setAverageGrade(boat.getAverageGrade());
 		boatDTO.setFishingEquipment(boat.getFishingEquipment());
 		boatDTO.setNavigationEquipment(boat.getNavigationEquipment());
+		boatDTO.setGrades(boat.getGrades());
 		return boatDTO;
 	}
 	

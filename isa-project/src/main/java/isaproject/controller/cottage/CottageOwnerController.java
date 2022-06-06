@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.UserDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.exception.ResourceConflictException;
@@ -70,6 +71,13 @@ public class CottageOwnerController {
 		if (cottageOwnerDTO == null)
 			return new ResponseEntity<>(cottageOwnerDTO, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(cottageOwnerDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/grade")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<CottageOwnerDTO> addGrade(@PathVariable("id") Long id,
+			@RequestBody GradeDTO gradeDTO) {
+		return new ResponseEntity<>(cottageOwnerService.addGrade(gradeDTO, id), HttpStatus.OK);
 	}
 
 }

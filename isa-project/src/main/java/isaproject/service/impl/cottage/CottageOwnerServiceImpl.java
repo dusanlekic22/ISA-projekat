@@ -9,13 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
+import isaproject.mapper.GradeMapper;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
 import isaproject.model.cottage.CottageOwner;
@@ -123,6 +126,22 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 	@Override
 	public CottageOwnerDTO findByUsername(String username) {
 		CottageOwner cottageOwner = cottageOwnerRepository.findByUsername(username);
+		return UserMapper.CottageOwnerToDTO(cottageOwner);
+	}
+	
+	@Override
+	@Transactional
+	public CottageOwnerDTO addGrade(GradeDTO gradeDTO,long cottageId) {
+		gradeDTO.setIsAccepted(null);
+		CottageOwner cottageOwner = cottageOwnerRepository.findById(cottageId).get();
+		for(Grade grade: cottageOwner.getGrades()) {
+			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {
+				cottageOwner.getGrades().remove(grade);
+				break;
+			}
+		}
+		cottageOwner.getGrades().add(GradeMapper.GradeDTOToGrade(gradeDTO));
+		cottageOwnerRepository.save(cottageOwner);
 		return UserMapper.CottageOwnerToDTO(cottageOwner);
 	}
 

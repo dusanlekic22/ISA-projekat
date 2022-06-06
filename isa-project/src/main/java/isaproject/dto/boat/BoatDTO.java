@@ -8,6 +8,7 @@ import isaproject.model.Address;
 import isaproject.model.CancelConditionEnum;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.boat.BoatImage;
 import isaproject.model.boat.BoatOwner;
 import isaproject.model.boat.BoatQuickReservation;
@@ -28,7 +29,7 @@ public class BoatDTO {
 	private String boatRules;
 	private CancelConditionEnum cancelCondition;
 	private Set<String> fishingEquipment = new HashSet<>();
-	private Integer pricePerHour;
+	private Double pricePerHour;
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
 	private Set<BoatReservation> boatReservation = new HashSet<>();
 	private Set<String> navigationEquipment = new HashSet<>();
@@ -39,6 +40,7 @@ public class BoatDTO {
 	private Set<DateTimeSpan> unavailableReservationDateSpan = new HashSet<DateTimeSpan>();
 	private Set<Customer> subscribers = new HashSet<>();
 	private Double averageGrade;
+	private Set<Grade> grades = new HashSet<Grade>();
 
 	public long getId() {
 		return id;
@@ -238,6 +240,14 @@ public class BoatDTO {
 
 	public void setAverageGrade(Double averageGrade) {
 		this.averageGrade = averageGrade;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 }

@@ -9,11 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -76,11 +73,11 @@ public class FishingCourse implements Serializable {
 	@JoinTable(name = "fishing_course_subscribers", joinColumns = @JoinColumn(name = "fishingCourse_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> subscribers = new HashSet<>();
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "fishing_grades", joinColumns = @JoinColumn(name = "fishingCourse_id"), foreignKey = @ForeignKey(name = "grades_fishing"))
+	@OneToMany(mappedBy = "fishingCourse", fetch = FetchType.EAGER)
+	@JsonManagedReference(value = "fishingCourseGrades")
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
-	private Double averageGrade;
+	private Double averageGrade = 0.0;
 
 	public FishingCourse() {
 	}
@@ -222,11 +219,12 @@ public class FishingCourse implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			return sum / grades.size();
-		}
-		else {
+		} else {
 			return sum;
 		}
 	}
@@ -235,11 +233,12 @@ public class FishingCourse implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				sum += grade.getValue();
+
+				if (grade.getIsAccepted())
+					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();
-		}
-		else {
+		} else {
 			averageGrade = sum;
 		}
 	}

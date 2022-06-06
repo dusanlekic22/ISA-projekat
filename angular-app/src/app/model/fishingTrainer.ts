@@ -3,6 +3,7 @@ import { IUser } from './../pages/registration/registration/user';
 import { IDateSpan } from './dateSpan';
 import { ISortType } from './sortType';
 import { ILoyaltyProgram, LoyaltyRank } from './loyaltyProgram';
+import { IGrade } from './grade';
 
 export interface IFishingTrainer extends IUser {
   grade: number;
@@ -24,6 +25,7 @@ export interface IFishingTrainerAvailability {
   latitude: number;
   sortBy: ISortType[];
   freeAdditionalServices: string[];
+  grades: IGrade[];
 }
 
 export interface IFishingTrainerPage {
@@ -75,4 +77,5 @@ export const emptyFishingTrainerAvailability: IFishingTrainerAvailability = {
   latitude: 0,
   sortBy: [],
   freeAdditionalServices: [],
+  grades: [],
 };

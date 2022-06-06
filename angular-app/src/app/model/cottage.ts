@@ -22,6 +22,7 @@ export interface ICottage {
   unavailableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
   averageGrade:number;
+  grades: IGrade[];
 }
 
 export interface ICottagePage {
@@ -41,6 +42,7 @@ export const initCottage: ICottage = {
     longitude: 19.842518,
     street: '',
   },
+  grades:[],
   averageGrade:0,
   promoDescription: '',
   bedCount: 0,

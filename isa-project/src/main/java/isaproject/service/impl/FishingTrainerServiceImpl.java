@@ -343,6 +343,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 	@Override
 	@Transactional
 	public FishingTrainerDTO addGrade(GradeDTO gradeDTO, long fishingId) {
+		gradeDTO.setIsAccepted(null);
 		FishingTrainer fishingTrainer = fishingTrainerRepository.findById(fishingId).get();
 		for (Grade grade : fishingTrainer.getGrades()) {
 			if (grade.getUser().getId() == gradeDTO.getUser().getId()) {
@@ -350,7 +351,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 				break;
 			}
 		}
-		fishingTrainer.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
+		fishingTrainer.getGrades().add(GradeMapper.GradeDTOToGrade(gradeDTO));
 		fishingTrainerRepository.save(fishingTrainer);
 		return UserMapper.FishingTrainerToDTO(fishingTrainer);
 	}

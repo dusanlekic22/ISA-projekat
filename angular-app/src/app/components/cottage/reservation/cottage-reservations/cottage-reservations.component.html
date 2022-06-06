@@ -21,7 +21,7 @@
               <th scope="col">End Date</th>
               <th scope="col">Guest Capacity</th>
               <th scope="col">Price(in €)</th>
-              <th *ngIf="services.length!==0" scope="col">
+              <th *ngIf="services.length !== 0" scope="col">
                 Additional services
               </th>
               <th scope="col"></th>
@@ -30,10 +30,10 @@
           <tbody>
             <tr *ngFor="let reservation of reservations">
               <td>
-                {{ reservation.duration.startDate | date:'dd/MM/YYYY HH:mm' }}
+                {{ reservation.duration.startDate | date: "dd/MM/YYYY HH:mm" }}
               </td>
               <td>
-                {{ reservation.duration.endDate | date:'dd/MM/YYYY HH:mm' }}
+                {{ reservation.duration.endDate | date: "dd/MM/YYYY HH:mm" }}
               </td>
               <td>
                 {{ reservation.guestCapacity }}
@@ -41,9 +41,9 @@
               <td>
                 {{ reservation.price }}
               </td>
-              <td *ngIf="services.length!==0">
+              <td *ngIf="services.length !== 0">
                 <span *ngFor="let service of services">
-                  {{ service.name }}({{ service.price }}€) 
+                  {{ service.name }}({{ service.price }}€)
                 </span>
               </td>
               <td class="text-right">
@@ -68,12 +68,12 @@
                       (click)="customerInfo(reservation.customer)"
                       >See customer info</a
                     >
-                    <a
-                      class="dropdown-item"
-                      *ngIf="isCustomerEligible(reservation.customer)"
-                      (click)="newReservation(reservation.customer)"
-                      >New reservation</a
-                    >
+                      <a
+                        class="dropdown-item"
+                        *ngIf="isCustomerEligible(reservation.customer)"
+                        (click)="newReservation(reservation.customer)"
+                        >New reservation</a
+                      >
                   </div>
                 </div>
               </td>

@@ -10,13 +10,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatOwnerDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.mapper.GradeMapper;
 import isaproject.mapper.UserMapper;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.DateTimeSpan;
+import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
 import isaproject.model.boat.BoatOwner;
@@ -122,6 +125,22 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 	@Override
 	public BoatOwnerDTO findByUsername(String username) {
 		BoatOwner boatOwner = boatOwnerRepository.findByUsername(username);
+		return UserMapper.BoatOwnerToDTO(boatOwner);
+	}
+	
+	@Override
+	@Transactional
+	public BoatOwnerDTO addGrade(GradeDTO gradeDTO,long boatId) {
+		gradeDTO.setIsAccepted(null);
+		BoatOwner boatOwner = boatOwnerRepository.findById(boatId).get();
+		for(Grade grade: boatOwner.getGrades()) {
+			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {
+				boatOwner.getGrades().remove(grade);
+				break;
+			}
+		}
+		boatOwner.addGrade(GradeMapper.GradeDTOToGrade(gradeDTO));
+		boatOwnerRepository.save(boatOwner);
 		return UserMapper.BoatOwnerToDTO(boatOwner);
 	}
 	

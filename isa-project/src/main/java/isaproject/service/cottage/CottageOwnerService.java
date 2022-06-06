@@ -1,6 +1,7 @@
 package isaproject.service.cottage;
 
 import isaproject.dto.BusinessOwnerDTO;
+import isaproject.dto.GradeDTO;
 import isaproject.dto.cottage.CottageOwnerDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.cottage.CottageOwner;
@@ -12,5 +13,7 @@ public interface CottageOwnerService {
 	CottageOwnerDTO updateUnavailableTerms(Long id, DateTimeSpan dateTimeSpan);
 
 	CottageOwnerDTO findByUsername(String username);
+
+	CottageOwnerDTO addGrade(GradeDTO gradeDTO, long cottageId);
 
 }

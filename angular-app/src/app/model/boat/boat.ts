@@ -30,6 +30,7 @@ export interface IBoat {
   boatOwner: IUser;
   averageGrade:number;
   navigationEquipment:string[];
+  grades: IGrade[];
 }
 
 export interface IBoatPage {
@@ -50,6 +51,7 @@ export const initBoat: IBoat = {
     longitude: 19.842518,
     street: '',
   },
+  grades:[],
   averageGrade:0,
   description: '',
   grade: 0,

@@ -1,9 +1,11 @@
 package isaproject.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
+import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 
 public class FishingTrainerDTO extends UserDTO {
@@ -14,6 +16,7 @@ public class FishingTrainerDTO extends UserDTO {
 	private Set<DateTimeSpan> unavailableReservationDateSpan;
 	private Double averageGrade;
 	private LoyaltyProgram loyaltyProgram;
+	private Set<Grade> grades = new HashSet<Grade>();
 
 	public FishingTrainerDTO() {
 	}
@@ -64,6 +67,14 @@ public class FishingTrainerDTO extends UserDTO {
 
 	public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
 		this.loyaltyProgram = loyaltyProgram;
+	}
+
+	public Set<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 }

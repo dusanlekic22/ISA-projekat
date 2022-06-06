@@ -68,12 +68,14 @@
                       (click)="customerInfo(reservation.customer)"
                       >See customer info</a
                     >
-                    <a
-                      class="dropdown-item"
-                      *ngIf="isCustomerEligible(reservation.customer)"
-                      (click)="newReservation(reservation.customer)"
-                      >New reservation</a
-                    >
+                    <div *ngIf="this.customers">
+                      <a
+                        class="dropdown-item"
+                        *ngIf="isCustomerEligible(reservation.customer)"
+                        (click)="newReservation(reservation.customer)"
+                        >New reservation</a
+                      >
+                    </div>
                   </div>
                 </div>
               </td>

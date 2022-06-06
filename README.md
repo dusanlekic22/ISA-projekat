@@ -196,7 +196,7 @@ Project Link: [https://github.com/dusanlekic22/ISA-projekat](https://github.com/
 [forks-url]: https://github.com/dusanlekic22/ISA-projekat/members
 [stars-shield]: https://img.shields.io/github/stars/dusanlekic22/ISA-projekat.svg?style=for-the-badge
 [stars-url]: https://github.com/dusanlekic22/ISA-projekat/stargazers
-[issues-shield]: https://img.shields.io/github/issuesdusanlekic22/ISA-projekat.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/dusanlekic22/ISA-projekat.svg?style=for-the-badge
 [issues-url]: https://github.com/dusanlekic22/ISA-projekat/issues
 [license-shield]: https://img.shields.io/github/license/dusanlekic22/ISA-projekat.svg?style=for-the-badge
 [license-url]: https://github.com/dusanlekic22/ISA-projekat/blob/master/LICENSE.txt

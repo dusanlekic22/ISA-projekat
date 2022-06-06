@@ -8,13 +8,17 @@ import java.util.Set;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageQuickReservationMapper;
 import isaproject.mapper.CottageReservationMapper;
+import isaproject.mapper.FishingQuickReservationMapper;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.cottage.Cottage;
@@ -71,6 +75,11 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 			}
 		}
 		return dtos;
+	}
+	
+	@Override
+	public Page<CottageQuickReservationDTO> findAllPagination(Long cottageOwnerId,Pageable paging){
+		return CottageQuickReservationMapper.pageCottageQuickReservationToPageCottageQuickReservationDTO(cottageQuickReservationRepository.findAllByCottageOwnerId(cottageOwnerId,paging));
 	}
 
 	private void reserveAvailableDateSpan(CottageQuickReservation cottageQuickReservation, DateTimeSpan availableDateSpan) {

@@ -1,9 +1,15 @@
 package isaproject.mapper.boat;
 
 import java.util.HashSet;
+import java.util.function.Function;
 
+import org.springframework.data.domain.Page;
+
+import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.mapper.FishingQuickReservationMapper;
+import isaproject.model.FishingQuickReservation;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
 
@@ -52,4 +58,17 @@ public class BoatQuickReservationMapper {
 		boatReservation.setBoat(boatQuickReservation.getBoat());
 		return boatReservation;
 	}
+	
+	public static Page<BoatQuickReservationDTO> pageBoatQuickReservationToPageBoatQuickReservationDTO(
+			Page<BoatQuickReservation> boatReservationPages) {
+			Page<BoatQuickReservationDTO> boatReservationDTOPages = boatReservationPages.map(new Function<BoatQuickReservation, BoatQuickReservationDTO>() {
+				@Override
+				public BoatQuickReservationDTO apply(BoatQuickReservation entity) {
+					BoatQuickReservationDTO dto = BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(entity);
+					return dto;
+				}
+			});
+			return boatReservationDTOPages;
+	}
+	
 }

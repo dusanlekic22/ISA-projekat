@@ -2,8 +2,12 @@ package isaproject.service;
 
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.cottage.CottageQuickReservationDTO;
 
 public interface FishingQuickReservationService {
 
@@ -24,4 +28,6 @@ public interface FishingQuickReservationService {
 	Set<FishingQuickReservationDTO> findByFishingCourseFishingTrainerId(Long id);
 
 	Set<FishingQuickReservationDTO> findByFishingTrainerId(Long id);
+	
+	Page<FishingQuickReservationDTO> findAllPagination(Long fishingTrainerId,Pageable paging);
 }

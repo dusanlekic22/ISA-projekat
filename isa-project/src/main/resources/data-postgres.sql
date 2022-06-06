@@ -54,7 +54,7 @@ insert into boat_owner (id, loyalty_rank, points) values (8,0,0);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',2,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',3,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca', 0.0, 3, 15,2,'Nema',4,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 0.0, 3, 15,3,'Nema',5,4);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 2.7, 3, 15,3,'Nema',5,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',6,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',7,4);
 insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('OOOOOOOOOOOOOOO ', 'Najjaca', 0.0, 3, 15,2,'Nema',2,4);

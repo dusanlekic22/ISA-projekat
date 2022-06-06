@@ -695,7 +695,7 @@
                     [promoDesc]="fishingTrainer.biography"
                     id="{{ fishingTrainer.id }}"
                     [address]="fishingTrainer.address"
-                    [grade]="fishingTrainer.grade"
+                    [grade]="fishingTrainer.averageGrade"
                     openForReservation="{{ openFishingTrainers }}"
                     [startDate]="startFishingCourseDate"
                     [endDate]="endFishingCourseDate"
@@ -708,8 +708,8 @@
                   <mat-paginator
                     (page)="onChangeFishingCoursePage($event)"
                     class="bg-dark text-white"
-                    [length]="fishingCourseTotalElements"
-                    [pageIndex]="fishingCoursePage"
+                    [length]="fishingTrainerTotalElements"
+                    [pageIndex]="fishingTrainerPage"
                     [pageSize]="6"
                     aria-label="<class ='btn-success'>Select page"
                   >
@@ -720,19 +720,19 @@
                 </div>
                 <div class="col-3 pt-2 sortbtn">
                   <mat-chip-list [(ngModel)]="bsortChips" selectable multiple>
-                    <mat-chip
-                      *ngIf="openFishingCourses === 'no'"
+                    <!-- <mat-chip
+                      *ngIf="openFishingTrainers === 'no'"
                       value="Price Ascending"
                       #cft91="matChip"
                       (click)="
-                        toggleSelectionFishingCourseSort(
+                        toggleSelectionFishingTrainerSort(
                           cft91,
                           priceSortFishingCourseType
                         )
                       "
                     >
                       Price
-                    </mat-chip>
+                    </mat-chip> -->
                     <mat-chip
                       value="Grade Ascending"
                       #cft92="matChip"

@@ -5,6 +5,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.service.FishingQuickReservationService;
 import isaproject.util.ProjectUtil;
 
@@ -36,6 +42,14 @@ public class FishingQuickReservationController {
 	@GetMapping
 	public ResponseEntity<Set<FishingQuickReservationDTO>> getAll() {
 		return new ResponseEntity<>(fishingQuickReservationService.findAll(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/pagination/{fishingTrainerId}")
+	@ResponseBody
+	public Page<FishingQuickReservationDTO> getAllPagination(@PathVariable("fishingTrainerId")Long fishingTrainerId,@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingQuickReservationService.findAllPagination(fishingTrainerId,paging);
 	}
 
 	@GetMapping("/notReserved")
@@ -61,6 +75,16 @@ public class FishingQuickReservationController {
 
 	@GetMapping("/appoint/{reservationId}/user/{id}")
 	public ResponseEntity<FishingReservationDTO> appointQuickFishingReservation(
+			@PathVariable("reservationId") Long reservationId, @PathVariable("id") Long userId) {
+		FishingReservationDTO fishingReservationReturnDTO = fishingQuickReservationService
+				.appointQuickReservation(reservationId, userId);
+		if (fishingReservationReturnDTO == null)
+			return new ResponseEntity<>(fishingReservationReturnDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(fishingReservationReturnDTO, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/cutomer/appoint/{reservationId}/user/{id}")
+	public ResponseEntity<FishingReservationDTO> appointQuickFishingReservationCustomer(
 			@PathVariable("reservationId") Long reservationId, @PathVariable("id") Long userId) {
 		FishingReservationDTO fishingReservationReturnDTO = fishingQuickReservationService
 				.appointQuickReservation(reservationId, userId);

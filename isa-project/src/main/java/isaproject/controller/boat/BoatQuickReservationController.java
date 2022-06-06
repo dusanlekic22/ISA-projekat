@@ -1,12 +1,16 @@
 package isaproject.controller.boat;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.service.boat.BoatQuickReservationService;
@@ -38,6 +45,14 @@ public class BoatQuickReservationController {
 	@ResponseBody
 	public ResponseEntity<Set<BoatQuickReservationDTO>> getAll(){
 		return new ResponseEntity<>(boatQuickReservationService.findAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/pagination/{boatOwnerId}")
+	@ResponseBody
+	public Page<BoatQuickReservationDTO> getAllPagination(@PathVariable("boatOwnerId")Long boatOwnerId,@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatQuickReservationService.findAllPagination(boatOwnerId,paging);
 	}
 	
 	@GetMapping("/boat/{id}")
@@ -75,6 +90,15 @@ public class BoatQuickReservationController {
 	@GetMapping("/appoint/{reservationId}/user/{id}")
 	@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatReservationDTO> appointQuickBoatReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
+		BoatReservationDTO boatReservationReturnDTO = boatQuickReservationService.appointQuickReservation(reservationId,userId);
+		if(boatReservationReturnDTO == null)
+			return new ResponseEntity<>(boatReservationReturnDTO,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(boatReservationReturnDTO,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/customer/appoint/{reservationId}/user/{id}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<BoatReservationDTO> appointQuickBoatReservationCustomer(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		BoatReservationDTO boatReservationReturnDTO = boatQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(boatReservationReturnDTO == null)
 			return new ResponseEntity<>(boatReservationReturnDTO,HttpStatus.BAD_REQUEST);

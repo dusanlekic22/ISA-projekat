@@ -2,7 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { IBoat } from 'src/app/model/boat/boat';
-import { IBoatQuickReservation } from 'src/app/model/boat/boatQuickReservation';
+import {
+  IBoatQuickReservation,
+  IBoatQuickReservationPage,
+} from 'src/app/model/boat/boatQuickReservation';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -67,14 +70,40 @@ export class BoatQuickReservationService {
       );
   }
 
-  getAllByBoatOwnerId(
-    id: number
-  ): Observable<IBoatQuickReservation[]> {
+  getAllByBoatOwnerId(id: number): Observable<IBoatQuickReservation[]> {
     return this._http
       .get<IBoatQuickReservation[]>(
         environment.apiUrl + `/boatQuickReservation/boatOwner/${id}`
       )
       .pipe(catchError(this.handleError));
+  }
+
+  getBoatsQuickReservationPagination(
+    page: number,
+    boatOwnerId: number
+  ): Observable<IBoatQuickReservationPage> {
+    return this._http
+      .get<IBoatQuickReservationPage>(
+        environment.apiUrl +
+          `/boatQuickReservation/pagination/${boatOwnerId}/?page=` +
+          page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  appoint(reservationId: number, customerId: number): Observable<any> {
+    return this._http
+      .get<any>(
+        environment.apiUrl +
+          `/boatQuickReservation/customer/appoint/${reservationId}/user/${customerId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

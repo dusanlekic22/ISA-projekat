@@ -1,3 +1,4 @@
+import { ICottageQuickReservationPage } from './../../../model/cottageQuickReservation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
@@ -68,14 +69,40 @@ export class CottageQuickReservationService {
       );
   }
 
-  getAllByCottageOwnerId(
-    id: number
-  ): Observable<ICottageQuickReservation[]> {
+  getAllByCottageOwnerId(id: number): Observable<ICottageQuickReservation[]> {
     return this._http
       .get<ICottageQuickReservation[]>(
         environment.apiUrl + `/cottageQuickReservation/cottageOwner/${id}`
       )
       .pipe(catchError(this.handleError));
+  }
+
+  getCottagesQuickReservationPagination(
+    page: number,
+    cottageOwnerId: number
+  ): Observable<ICottageQuickReservationPage> {
+    return this._http
+      .get<ICottageQuickReservationPage>(
+        environment.apiUrl +
+          `/cottageQuickReservation/pagination/${cottageOwnerId}/?page=` +
+          page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  appoint(reservationId: number, customerId: number): Observable<any> {
+    return this._http
+      .get<any>(
+        environment.apiUrl +
+          `/cottageQuickReservation/customer/appoint/${reservationId}/user/${customerId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

@@ -93,18 +93,16 @@ public class CottageServiceImpl implements CottageService {
 		if (sortTypes != null) {
 			for (SortType sortType : sortTypes) {
 				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
-					System.out.println("Poljeeee" + sortType.getField());
 					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
-					System.out.println(sortType.getField());
 				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
-					System.out.println("Poljeeee" + sortType.getField());
 					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
 				}
+				
 			}
-
+			
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 
-			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(paging));
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllCottages(paging));
 		} else {
 			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(pageable));
 		}

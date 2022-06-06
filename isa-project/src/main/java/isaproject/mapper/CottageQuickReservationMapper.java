@@ -1,6 +1,9 @@
 package isaproject.mapper;
 
 import java.util.HashSet;
+import java.util.function.Function;
+
+import org.springframework.data.domain.Page;
 
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
@@ -52,6 +55,18 @@ public class CottageQuickReservationMapper {
 		cottageReservation.setAdditionalService(new HashSet<>(cottageQuickReservation.getAdditionalService()));
 		cottageReservation.setCottage(cottageQuickReservation.getCottage());
 		return cottageReservation;
+	}
+	
+	public static Page<CottageQuickReservationDTO> pageCottageQuickReservationToPageCottageQuickReservationDTO(
+			Page<CottageQuickReservation> cottageReservationPages) {
+			Page<CottageQuickReservationDTO> cottageReservationDTOPages = cottageReservationPages.map(new Function<CottageQuickReservation, CottageQuickReservationDTO>() {
+				@Override
+				public CottageQuickReservationDTO apply(CottageQuickReservation entity) {
+					CottageQuickReservationDTO dto = CottageQuickReservationMapper.CottageQuickReservationToCottageQuickReservationDTO(entity);
+					return dto;
+				}
+			});
+			return cottageReservationDTOPages;
 	}
 
 }

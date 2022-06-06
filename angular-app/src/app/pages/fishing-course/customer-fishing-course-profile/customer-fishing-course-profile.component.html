@@ -194,6 +194,49 @@
             </div>
           </div>
         </div>
+        <div class="container mt-3 itemss">
+          <div
+            class="row d-flex p-2 text-white"
+            *ngIf="fishingQuickReservations"
+          >
+            <div
+              class="col-4 p-2"
+              *ngFor="let quickReservation of fishingQuickReservations"
+            >
+              <app-base-quick-reservation-customer
+                [type]="3"
+                name="{{ quickReservation.fishingCourse.name }},
+                {{ quickReservation.fishingCourse.name }}"
+                [promoDesc]="quickReservation.fishingCourse.promoDescription"
+                id="{{ quickReservation.fishingCourse.id }}"
+                [price]="'' + quickReservation.price"
+                [address]="quickReservation.fishingCourse.address"
+                [grade]="quickReservation.fishingCourse.averageGrade"
+                [customerId]="customer.id"
+                [reservationId]="quickReservation.id"
+                openForReservation="{{ openFishings }}"
+              >
+              </app-base-quick-reservation-customer>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeFishingQuickPage($event)"
+                class="bg-dark text-white"
+                [length]="fishingQuickTotalElements"
+                [pageIndex]="fishingQuickPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2">
+              <h2 class="text-white">Sort by :</h2>
+            </div>
+            <div class="col-3 pt-2 sortbtn"></div>
+          </div>
+        </div>
         <div class="col-md-10 offset-md-1">
           <ul
             class="nav nav-pills-a nav-pills mb-3 section-t3"

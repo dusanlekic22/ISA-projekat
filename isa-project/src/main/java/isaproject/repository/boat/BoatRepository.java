@@ -21,6 +21,13 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	List<Boat> findByBoatOwnerId(Long id);
 	
 	@Query(value =
+			  " SELECT *  FROM public.boat  ",
+				countQuery  = " SELECT count(*)  FROM public.boat"
+						,
+					nativeQuery = true)
+	Page<Boat> findAllBoats(Pageable paging);
+	
+	@Query(value =
 			  " SELECT *  FROM public.boat as b natural join public.boat_available_date_spans  "
 				+ " WHERE ((b.id = boat_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(b.name) like :name OR :name is null)  " 

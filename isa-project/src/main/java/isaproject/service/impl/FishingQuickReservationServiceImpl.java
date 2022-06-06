@@ -5,13 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.FishingQuickReservationDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.mapper.FishingQuickReservationMapper;
 import isaproject.mapper.FishingReservationMapper;
+import isaproject.mapper.boat.BoatQuickReservationMapper;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
@@ -61,6 +65,11 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 			dtos.add(FishingQuickReservationMapper.FishingQuickReservationToDTO(qr));
 		}
 		return dtos;
+	}
+	
+	@Override
+	public Page<FishingQuickReservationDTO> findAllPagination(Long fishingTrainerId,Pageable paging){
+		return FishingQuickReservationMapper.pageFishingQuickReservationToPageFishingQuickReservationDTO(fishingQuickReservationRepository.findAllByFishingTrainerId(fishingTrainerId,paging));
 	}
 
 	private void reserveAvailableDateSpan(FishingQuickReservation fishingCourseQuickReservation,

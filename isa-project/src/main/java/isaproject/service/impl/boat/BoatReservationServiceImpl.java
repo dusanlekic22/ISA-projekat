@@ -489,12 +489,19 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		return dtos;
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatReservationDTO confirmReservation(Long id) {
-		BoatReservation boatReservation = boatReservationRepository.findById(id).get();
-		boatReservation.setConfirmed(true);
-		return BoatReservationMapper
-				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
+		try {
+			BoatReservation boatReservation = boatReservationRepository.getNotLockedBoatReservation(id);
+			boatReservation.setConfirmed(true);
+			return BoatReservationMapper
+					.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
+			
+		}  catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override

@@ -14,11 +14,15 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
 
 public interface BoatReservationRepository extends PagingAndSortingRepository<BoatReservation, Long> {
 
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b FROM BoatReservation b WHERE b.id=:id")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
+	BoatReservation getNotLockedBoatReservation(long id);
+	
 	Set<BoatReservation> findAll();
 
 	List<BoatReservation> findByBoatId(Long id);

@@ -168,7 +168,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		try {
 			Cottage cottage = cottageRepository.getNotLockedCottage(cottageReservation.getCottage().getId());
 			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
+			if (this.customerService.isCustomerUnderPenalityRestrictions(customer.getId())) {
 				return null;
 			}
 			CottageOwner owner = cottageOwnerRepository.findById(cottage.getCottageOwner().getId()).get();
@@ -218,7 +218,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 			return CottageReservationMapper
 					.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
-			
+
 		} catch (PessimisticEntityLockException e) {
 			e.printStackTrace();
 			throw e;
@@ -311,8 +311,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		try {
 			Cottage cottage = cottageRepository.getNotLockedCottage(cottageReservation.getCottage().getId());
 			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-			CottageOwner owner = cottageOwnerRepository
-					.findById(cottage.getCottageOwner().getId()).get();
+			CottageOwner owner = cottageOwnerRepository.findById(cottage.getCottageOwner().getId()).get();
 			cottageReservation.setConfirmed(false);
 			cottageReservation.setCustomer(customer);
 			if (cottageReservationDTO.getPrice() == 0) {
@@ -506,12 +505,20 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		return dtos;
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public CottageReservationDTO confirmReservation(Long id) {
-		CottageReservation cottageReservation = cottageReservationRepository.findById(id).get();
-		cottageReservation.setConfirmed(true);
-		return CottageReservationMapper
-				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
+		try {
+			CottageReservation cottageReservation = cottageReservationRepository.getNotLockedCottageReservation(id);
+			cottageReservation.setConfirmed(true);
+			return CottageReservationMapper
+					.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
+
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package isaproject.dto;
 
 import isaproject.model.FishingReservation;
+import isaproject.model.RequestStatus;
 import isaproject.model.ReservationReportStatus;
 import isaproject.model.boat.BoatReservation;
 import isaproject.model.cottage.CottageReservation;
@@ -8,7 +9,7 @@ import isaproject.model.cottage.CottageReservation;
 public class ReservationReportDTO {
 
 	private Long id;
-	private Boolean userPenalized;
+	private RequestStatus userPenalized;
 	private String comment;
 	private ReservationReportStatus reservationReportStatus;
 	private FishingReservation fishingReservation;
@@ -28,11 +29,11 @@ public class ReservationReportDTO {
 		this.id = id;
 	}
 
-	public Boolean getUserPenalized() {
+	public RequestStatus getUserPenalized() {
 		return userPenalized;
 	}
 
-	public void setUserPenalized(Boolean accepted) {
+	public void setUserPenalized(RequestStatus accepted) {
 		this.userPenalized = accepted;
 	}
 

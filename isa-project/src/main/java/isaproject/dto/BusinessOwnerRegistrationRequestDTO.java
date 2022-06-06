@@ -1,9 +1,11 @@
 package isaproject.dto;
 
+import isaproject.model.RequestStatus;
+
 public class BusinessOwnerRegistrationRequestDTO {
 	
 	private long id;
-	private Boolean accepted;
+	private RequestStatus accepted;
 	private String registrationExplanation;
 	private String declineReason;
 	private String userEmail;
@@ -16,11 +18,11 @@ public class BusinessOwnerRegistrationRequestDTO {
 		this.id = id;
 	}
 	
-	public Boolean getAccepted() {
+	public RequestStatus getAccepted() {
 		return accepted;
 	}
 	
-	public void setAccepted(Boolean accepted) {
+	public void setAccepted(RequestStatus accepted) {
 		this.accepted = accepted;
 	}
 

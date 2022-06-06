@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { RequestsService } from 'src/app/service/requests.service';
 import { IBusinessOwnerRegistrationRequest } from 'src/app/model/businessOwnerRegistrationRequest';
+import { RequestStatus } from 'src/app/model/requestStatus';
 
 @Component({
   selector: 'app-registration-requests',
@@ -11,6 +12,7 @@ import { IBusinessOwnerRegistrationRequest } from 'src/app/model/businessOwnerRe
   styleUrls: ['./registration-requests.component.css'],
 })
 export class RegistrationRequestsComponent implements OnInit {
+  RequestStatus = RequestStatus;
   requests!: IBusinessOwnerRegistrationRequest[];
 
   constructor(private requestsService: RequestsService) {
@@ -32,8 +34,8 @@ export class RegistrationRequestsComponent implements OnInit {
   }
 
   getStatus(request: IBusinessOwnerRegistrationRequest): string {
-    if (request.accepted == null) return 'Waitting';
-    else if (request.accepted) return 'Accepted';
+    if (request.accepted == RequestStatus.Waiting) return 'Waitting';
+    else if (request.accepted == RequestStatus.Accepted) return 'Accepted';
     return 'Declined';
   }
 

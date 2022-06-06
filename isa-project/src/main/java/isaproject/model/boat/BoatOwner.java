@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
+import isaproject.model.RequestStatus;
 import isaproject.model.User;
 
 @Entity
@@ -85,7 +86,7 @@ public class BoatOwner extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			return sum / grades.size();
@@ -98,7 +99,7 @@ public class BoatOwner extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();

@@ -14,6 +14,7 @@ import isaproject.model.FishingCourse;
 import isaproject.model.FishingTrainer;
 import isaproject.model.Grade;
 import isaproject.model.Mail;
+import isaproject.model.RequestStatus;
 import isaproject.model.User;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatOwner;
@@ -64,9 +65,9 @@ public class GradeServiceImpl implements GradeService {
 	@Override
 	public GradeDTO approve(GradeDTO gradeDTO) {
 		Grade grade = gradeRepository.findById(gradeDTO.getId()).get();
-		if (grade.getIsAccepted() != null)
+		if (grade.getIsAccepted() != RequestStatus.Waiting)
 			return GradeMapper.GradeToGradeDTO(grade);
-		grade.setIsAccepted(true);
+		grade.setIsAccepted(RequestStatus.Accepted);
 		sendAnswerEmailOwner(getOwnerAndUpdateAverageGrade(gradeDTO).getEmail());
 		return GradeMapper.GradeToGradeDTO(grade);
 	}
@@ -87,9 +88,9 @@ public class GradeServiceImpl implements GradeService {
 	@Override
 	public GradeDTO decline(GradeDTO gradeDTO) {
 		Grade grade = gradeRepository.findById(gradeDTO.getId()).get();
-		if (grade.getIsAccepted() != null)
+		if (grade.getIsAccepted() != RequestStatus.Waiting)
 			return GradeMapper.GradeToGradeDTO(grade);
-		grade.setIsAccepted(false);
+		grade.setIsAccepted(RequestStatus.Declined);
 		return GradeMapper.GradeToGradeDTO(grade);
 	}
 

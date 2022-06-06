@@ -35,6 +35,7 @@ import isaproject.model.FishingCourse;
 import isaproject.model.FishingReservation;
 import isaproject.model.Grade;
 import isaproject.model.Income;
+import isaproject.model.RequestStatus;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.repository.FishingCourseRepository;
@@ -385,7 +386,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	@Override
 	@Transactional
 	public FishingCourseDTO addGrade(GradeDTO gradeDTO, long fishingId) {
-		gradeDTO.setIsAccepted(null);
+		gradeDTO.setIsAccepted(RequestStatus.Waiting);
 		FishingCourse fishing = courseRepository.findById(fishingId).get();
 		for (Grade grade : fishing.getGrades()) {
 			if (grade.getUser().getId() == gradeDTO.getUser().getId()) {

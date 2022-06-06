@@ -220,7 +220,7 @@ public class FishingCourse implements Serializable {
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
 
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			return sum / grades.size();
@@ -234,7 +234,7 @@ public class FishingCourse implements Serializable {
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
 
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();

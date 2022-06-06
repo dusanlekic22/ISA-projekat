@@ -1,9 +1,11 @@
 package isaproject.dto;
 
+import isaproject.model.RequestStatus;
+
 public class UserDeletionRequestDTO {
 	
 	private Long id;
-	private Boolean accepted;
+	private RequestStatus accepted;
 	private String deletionExplanation;
 	private String userEmail;
 	private String answer;
@@ -19,11 +21,11 @@ public class UserDeletionRequestDTO {
 		this.id = id;
 	}
 
-	public Boolean getAccepted() {
+	public RequestStatus getAccepted() {
 		return accepted;
 	}
 
-	public void setAccepted(Boolean accepted) {
+	public void setAccepted(RequestStatus accepted) {
 		this.accepted = accepted;
 	}
 

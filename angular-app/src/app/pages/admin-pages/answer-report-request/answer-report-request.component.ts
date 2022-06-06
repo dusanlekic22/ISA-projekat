@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { emptyBoatReservation } from 'src/app/model/boat/boatReservation';
+import { RequestStatus } from 'src/app/model/requestStatus';
 import {
   IReservationReport,
   ReservationReportStatus,
@@ -19,7 +20,7 @@ export class AnswerReportRequestComponent implements OnInit {
   @ViewChild('report') reportModal!: ModalDirective;
   request: IReservationReport = {
     id: 0,
-    userPenalized: false,
+    userPenalized: RequestStatus.Waiting,
     comment: '',
     reservationReportStatus: ReservationReportStatus.Positive,
     fishingReservation: emptyFishingReservation,

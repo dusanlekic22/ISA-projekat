@@ -22,6 +22,7 @@ import isaproject.mapper.UserMapper;
 import isaproject.model.Address;
 import isaproject.model.BusinessOwnerRegistrationRequest;
 import isaproject.model.Mail;
+import isaproject.model.RequestStatus;
 import isaproject.model.Role;
 import isaproject.model.User;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
@@ -98,9 +99,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public BusinessOwnerRegistrationRequest activateUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO) {
 		BusinessOwnerRegistrationRequest request = requestRepository.getById(registrationRequestDTO.getId());
-		if (request.getAccepted() != null)
+		if (request.getAccepted() != RequestStatus.Waiting)
 			return request;
-		request.setAccepted(true);
+		request.setAccepted(RequestStatus.Accepted);
 		User user = userRepository.findByEmail(request.getUserEmail());
 		user.setEnabled(true);
 		sendAcceptEmail(request.getUserEmail());
@@ -123,9 +124,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public BusinessOwnerRegistrationRequest declineUser(BusinessOwnerRegistrationRequestDTO registrationRequestDTO) {
 		BusinessOwnerRegistrationRequest request = requestRepository.getById(registrationRequestDTO.getId());
-		if (request.getAccepted() != null)
+		if (request.getAccepted() != RequestStatus.Waiting)
 			return request;
-		request.setAccepted(false);
+		request.setAccepted(RequestStatus.Accepted);
 		request.setDeclineReason(registrationRequestDTO.getDeclineReason());
 		sendDeclineEmail(request.getUserEmail(), request.getDeclineReason());
 		return request;

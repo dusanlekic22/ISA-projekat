@@ -27,7 +27,6 @@ public class GradeMapper {
 		gradeDTO.setUser(grade.getUser());
 		gradeDTO.setIsAccepted(grade.getIsAccepted());
 		gradeDTO.setReview(grade.getReview());
-		gradeDTO.setIsAccepted(grade.getIsAccepted());
 		gradeDTO.setCottage(grade.getCottage());
 		gradeDTO.setBoat(grade.getBoat());
 		gradeDTO.setFishingCourse(grade.getFishingCourse());

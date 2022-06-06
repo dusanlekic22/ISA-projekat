@@ -19,7 +19,7 @@ public class ReservationReport {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Boolean userPenalized;
+	private RequestStatus userPenalized;
 
 	private String comment;
 
@@ -48,11 +48,11 @@ public class ReservationReport {
 		this.id = id;
 	}
 
-	public Boolean getUserPenalized() {
+	public RequestStatus getUserPenalized() {
 		return userPenalized;
 	}
 
-	public void setUserPenalized(Boolean accepted) {
+	public void setUserPenalized(RequestStatus accepted) {
 		this.userPenalized = accepted;
 	}
 

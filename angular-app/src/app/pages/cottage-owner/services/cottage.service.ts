@@ -56,6 +56,20 @@ export class CottageService {
       );
   }
 
+  getAvailableCottagesSubscription(
+    customerId: number,
+    page: number
+  ): Observable<ICottagePage> {
+    return this._http
+      .get<ICottagePage>(
+        environment.apiUrl + `/cottage/subscription/${customerId}?page=` + page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   saveCottage(cottage: ICottage): Observable<ICottage> {
     return this._http
       .post<ICottage>(environment.apiUrl + '/cottage', cottage)
@@ -96,13 +110,21 @@ export class CottageService {
         tap((data) => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)
       );
-    }
+  }
 
-  editUnavailableTerms(cottageId:number,dateSpan:IDateSpan): Observable<ICottage> {
-    return this._http.put<ICottage>(environment.apiUrl + `/cottage/unavailableTerms/${cottageId}`,dateSpan).pipe(
-      tap((data) => console.log('All: ', JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+  editUnavailableTerms(
+    cottageId: number,
+    dateSpan: IDateSpan
+  ): Observable<ICottage> {
+    return this._http
+      .put<ICottage>(
+        environment.apiUrl + `/cottage/unavailableTerms/${cottageId}`,
+        dateSpan
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   deleteCottage(cottageId: number): Observable<ArrayBuffer> {
@@ -168,14 +190,16 @@ export class CottageService {
         tap((data) => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)
       );
-      }
+  }
 
   getCottageIncomeYearlyById(
-    cottageId: number,duration:IDateSpan
+    cottageId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/cottage/${cottageId}/yearlyIncome`,duration
+        environment.apiUrl + `/cottage/${cottageId}/yearlyIncome`,
+        duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -184,11 +208,13 @@ export class CottageService {
   }
 
   getCottageIncomeMonthlyById(
-    cottageId: number,duration:IDateSpan
+    cottageId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/cottage/${cottageId}/monthlyIncome`,duration
+        environment.apiUrl + `/cottage/${cottageId}/monthlyIncome`,
+        duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -197,11 +223,35 @@ export class CottageService {
   }
 
   getCottageIncomeDailyById(
-    cottageId: number,duration:IDateSpan
+    cottageId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/cottage/${cottageId}/dailyIncome`,duration
+        environment.apiUrl + `/cottage/${cottageId}/dailyIncome`,
+        duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  subscription(customerId: number, cottageId: number): Observable<ICottage> {
+    return this._http
+      .get<any>(
+        environment.apiUrl + `/cottage/${cottageId}/subscribe/${customerId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  unsubscription(customerId: number, cottageId: number): Observable<ICottage> {
+    return this._http
+      .get<any>(
+        environment.apiUrl + `/cottage/${cottageId}/unsubscribe/${customerId}`
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),

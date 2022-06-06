@@ -5,6 +5,7 @@ import java.util.Set;
 
 import isaproject.model.AdditionalService;
 import isaproject.model.Address;
+import isaproject.model.Customer;
 import isaproject.model.FishingImage;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
@@ -30,6 +31,17 @@ public class FishingCourseDTO {
 	private FishingTrainer fishingTrainer;
 	private Double averageGrade;
 	private Set<Grade> grades = new HashSet<Grade>();
+	private Set<Customer> subscribers = new HashSet<>();
+	
+	
+
+	public Set<Customer> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(Set<Customer> subscribers) {
+		this.subscribers = subscribers;
+	}
 
 	public FishingCourseDTO() {
 		super();

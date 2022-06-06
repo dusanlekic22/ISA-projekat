@@ -1,4 +1,4 @@
-<div class="container-fluid top">
+<div class="conatiner-fluid top">
   <section class="intro-single">
     <div class="container">
       <div class="row">
@@ -83,7 +83,7 @@
               <div class="row" *appHasRole="['ROLE_CUSTOMER']">
                 <div
                   class="offset-4 card-title-c align-self-center"
-                  *ngIf="customer && boat && !isSubscribed"
+                  *ngIf="customer && fishingCourse && !isSubscribed"
                 >
                   <button class="btn btn-success" (click)="subscribe()">
                     Subscribe
@@ -91,7 +91,7 @@
                 </div>
                 <div
                   class="offset-4 card-title-c align-self-center"
-                  *ngIf="customer && boat && isSubscribed"
+                  *ngIf="customer && fishingCourse && isSubscribed"
                 >
                   <button class="btn btn-success" (click)="unsubscribe()">
                     Unsubscribe

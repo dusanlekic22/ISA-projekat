@@ -58,5 +58,10 @@ public interface CottageService {
 	CottageDTO addGrade(GradeDTO gradeDTO, long cottageId);
 
 	Page<CottageDTO> findByName(String name, Pageable paging);
+	CottageDTO subscribe(Long id, Long customerId);
+	
+	CottageDTO unsubscribe(Long id, Long customerId);
+
+	Page<CottageDTO> findAllCottageSubscriptionByCustomer(Long customerId, Pageable pageable);
 
 }

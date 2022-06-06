@@ -27,11 +27,13 @@ import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageQuickReservationDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.mapper.CottageMapper;
+import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
+import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.Income;
@@ -40,6 +42,7 @@ import isaproject.model.SortType;
 import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.cottage.CottageRepository;
+import isaproject.service.CustomerService;
 import isaproject.service.StatisticsService;
 import isaproject.service.cottage.CottageQuickReservationService;
 import isaproject.service.cottage.CottageReservationService;
@@ -52,15 +55,17 @@ public class CottageServiceImpl implements CottageService {
 	private CottageReservationService cottageReservationService;
 	private CottageQuickReservationService cottageQuickReservationService;
 	private StatisticsService statisticsService;
+	private CustomerService customerService;
 
 	@Autowired
 	public CottageServiceImpl(CottageRepository cottageRepository, CottageReservationService cottageReservationService,
-			CottageQuickReservationService cottageQuickReservationService, StatisticsService statisticsService) {
+			CottageQuickReservationService cottageQuickReservationService, StatisticsService statisticsService, CustomerService customerService) {
 		super();
 		this.cottageRepository = cottageRepository;
 		this.cottageReservationService = cottageReservationService;
 		this.cottageQuickReservationService = cottageQuickReservationService;
 		this.statisticsService = statisticsService;
+		this.customerService=customerService;
 	}
 
 	public CottageDTO findById(Long id) {
@@ -548,6 +553,35 @@ public class CottageServiceImpl implements CottageService {
 		cottage.getGrades().add(GradeMapper.GradeDTOToGrade(gradeDTO));
 		cottageRepository.save(cottage);
 		return CottageMapper.CottageToCottageDTO(cottage);
+	}
+	
+	@Override
+	public CottageDTO subscribe(Long id, Long customerId) {
+		Cottage cottage = cottageRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(this.customerService.getCustomer(customerId));
+		Set<Customer> customers = cottage.getSubscribers();
+		customers.add(customer);
+		cottage.setSubscribers(customers);
+		cottageRepository.save(cottage);
+		return CottageMapper.CottageToCottageDTO(cottage);
+	}
+	
+	@Override
+	public CottageDTO unsubscribe(Long id, Long customerId){
+		Cottage cottage = cottageRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(this.customerService.getCustomer(customerId));
+		Set<Customer> customers = cottage.getSubscribers();
+		customers = customers.stream()
+				  .filter(e -> e.getId()!= customerId)
+				  .collect(Collectors.toSet());
+		cottage.setSubscribers(customers);
+		cottageRepository.save(cottage);
+		return CottageMapper.CottageToCottageDTO(cottage);
+	}
+	
+	@Override
+	public Page<CottageDTO> findAllCottageSubscriptionByCustomer(Long customerId, Pageable pageable){
+		return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.subscriptionsCottage(customerId, pageable));
 	}
 
 	@Override

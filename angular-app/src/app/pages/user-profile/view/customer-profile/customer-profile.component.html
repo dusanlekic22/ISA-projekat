@@ -28,5 +28,134 @@
         <i class="fas fa-user-times"></i> Delete Account
       </button>
     </div>
+    <div class="profile-btn">
+      <button
+        (click)="open(content2)"
+        class="createbtn btn-success"
+        id="Create-post"
+      >
+        Subscription
+      </button>
+    </div>
   </div>
 </div>
+
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title complaint">
+      Complaint cottage reservation
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body mm">
+    <form>
+      <div class="mb-3 rev">
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="subscriptionsCottage">
+            <div class="col-4 p-2" *ngFor="let cottage of subscriptionsCottage">
+              <app-base-cottage
+                name="{{ cottage.name }}"
+                id="{{ cottage.id }}"
+                [address]="cottage.address"
+                promoDesc="{{ cottage.promoDescription }}"
+                [grade]="cottage.averageGrade"
+                [openForReservation]="'no'"
+              >
+              </app-base-cottage>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeSubscriptionsCottagePage($event)"
+                class="bg-dark text-white"
+                [length]="subscriptionsCottageTotalElements"
+                [pageIndex]="subscriptionsCottagePage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="subscriptionsBoat">
+            <div class="col-4 p-2" *ngFor="let boat of subscriptionsBoat">
+              <app-base-cottage
+                [type]="2"
+                name="{{ boat.name }}"
+                id="{{ boat.id }}"
+                [address]="boat.address"
+                promoDesc="{{ boat.description }}"
+                [grade]="boat.averageGrade"
+                [openForReservation]="'no'"
+              >
+              </app-base-cottage>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeSubscriptionsBoatPage($event)"
+                class="bg-dark text-white"
+                [length]="subscriptionsBoatTotalElements"
+                [pageIndex]="subscriptionsBoatPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+        <div class="container mt-3 itemss">
+          <div class="row d-flex p-2 text-white" *ngIf="subscriptionsFishing">
+            <div class="col-4 p-2" *ngFor="let fishing of subscriptionsFishing">
+              <app-base-cottage
+                [type]="3"
+                name="{{ fishing.name }}"
+                id="{{ fishing.id }}"
+                [address]="fishing.address"
+                promoDesc="{{ fishing.promoDescription }}"
+                [grade]="fishing.averageGrade"
+                [openForReservation]="'no'"
+              >
+              </app-base-cottage>
+            </div>
+          </div>
+          <div class="row d-flex text-success bg-dark rounded">
+            <div class="col-6">
+              <mat-paginator
+                (page)="onChangeSubscriptionsBoatPage($event)"
+                class="bg-dark text-white"
+                [length]="subscriptionsBoatTotalElements"
+                [pageIndex]="subscriptionsBoatPage"
+                [pageSize]="6"
+                aria-label="<class ='btn-success'>Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="col-3 text-right pt-2"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="sendComplaint()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

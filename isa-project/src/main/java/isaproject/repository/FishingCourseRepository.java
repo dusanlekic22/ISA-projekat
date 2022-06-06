@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.FishingCourse;
+import isaproject.model.cottage.Cottage;
 
 public interface FishingCourseRepository extends PagingAndSortingRepository<FishingCourse, Long> {
 	 
@@ -96,4 +97,15 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed, @Param("fishingTrainerId")Long fishingTrainerId,Pageable pageable );
 	Page<FishingCourse> findByNameContains(String name, Pageable paging);
 
+	@Query(value =
+			  " SELECT * from public.fishing_course natural join public.fishing_course_subscribers as fs  "
+			    + " WHERE fs.customer_id = :customerId and fs.fishing_course_id = id",	
+				countQuery  =
+				  "SELECT count(*) from public.fishing_course natural join public.fishing_course_subscribers as fs  "
+					+ " WHERE fs.customer_id = :customerId and fs.fishing_course_id = id ",
+					nativeQuery = true)
+	Page<FishingCourse> subscriptionsFishing(
+			@Param("customerId") Long customerId,Pageable pageable );
+	
+	
 }

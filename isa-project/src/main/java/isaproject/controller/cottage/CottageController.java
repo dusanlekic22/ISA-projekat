@@ -55,7 +55,7 @@ public class CottageController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
+//	@PreAuthorize("hasAnyRole('COTTAGE_OWNER','CUSTOMER')")
 	public CottageDTO loadById(@PathVariable("id") Long id) {
 		return cottageService.findById(id);
 	}
@@ -178,6 +178,25 @@ public class CottageController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<CottageDTO> addGrade(@PathVariable("id") Long id, @RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(cottageService.addGrade(gradeDTO, id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/subscribe/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<CottageDTO> subscribe(@PathVariable("id") Long id,@PathVariable("customerId") Long customerId) {
+		return new ResponseEntity<>(cottageService.subscribe(id,customerId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/unsubscribe/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<CottageDTO> unsubscribe(@PathVariable("id") Long id,@PathVariable("customerId") Long customerId) {
+		return new ResponseEntity<>(cottageService.unsubscribe(id,customerId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/subscription/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public Page<CottageDTO> findAllCottageSubscriptionByCustomer(@PathVariable("customerId") Long customerId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return cottageService.findAllCottageSubscriptionByCustomer(customerId,paging);
 	}
 
 }

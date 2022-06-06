@@ -577,5 +577,10 @@ public class CottageServiceImpl implements CottageService {
 		cottageRepository.save(cottage);
 		return CottageMapper.CottageToCottageDTO(cottage);
 	}
+	
+	@Override
+	public Page<CottageDTO> findAllCottageSubscriptionByCustomer(Long customerId, Pageable pageable){
+		return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.subscriptionsCottage(customerId, pageable));
+	}
 
 }

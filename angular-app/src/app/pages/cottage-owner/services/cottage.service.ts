@@ -56,6 +56,20 @@ export class CottageService {
       );
   }
 
+  getAvailableCottagesSubscription(
+    customerId: number,
+    page: number
+  ): Observable<ICottagePage> {
+    return this._http
+      .get<ICottagePage>(
+        environment.apiUrl + `/cottage/subscription/${customerId}?page=` + page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   saveCottage(cottage: ICottage): Observable<ICottage> {
     return this._http
       .post<ICottage>(environment.apiUrl + '/cottage', cottage)

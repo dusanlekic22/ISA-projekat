@@ -11,4 +11,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
     public User findByVerificationCode(String code);
     
     public Customer findByUsername(String username);
+    
+    
+    
 }

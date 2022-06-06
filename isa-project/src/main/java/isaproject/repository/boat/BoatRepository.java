@@ -11,6 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.boat.Boat;
+import isaproject.model.cottage.Cottage;
 
 public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	
@@ -86,5 +87,16 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 					nativeQuery = true)
 	Page<Boat> searchBoatWithSortLocation(
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+	
+	
+	@Query(value =
+			  " SELECT * from public.boat natural join public.boat_subscribers as bs "
+			    + " WHERE  bs.customer_id = :customerId and bs.boat_id = id ",	
+				countQuery  =
+				  "SELECT count(*) from public.boat natural join public.boat_subscribers as bs   "
+					+ " WHERE bs.customer_id = :customerId and bs.boat_id = id  ",
+					nativeQuery = true)
+	Page<Boat> subscriptionsBoat(
+			@Param("customerId") Long customerId,Pageable pageable );
 	
 }

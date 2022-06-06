@@ -430,5 +430,10 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	}
 	
 	
+	@Override
+	public Page<FishingCourseDTO> findAllFishingSubscriptionByCustomer(Long customerId, Pageable pageable){
+		return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.subscriptionsFishing(customerId, pageable));
+	}
+	
 
 }

@@ -87,6 +87,16 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
 
 	
+	@Query(value =
+			  " SELECT * from public.cottage natural join public.cottage_subscribers as cs "
+			    + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id ",	
+				countQuery  =
+				  "SELECT count(*) from public.cottage natural join public.cottage_subscribers as cs  "
+						  + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id ",
+					nativeQuery = true)
+	Page<Cottage> subscriptionsCottage(
+			@Param("customerId") Long customerId,Pageable pageable );
+	
 	
 	List<Cottage> findByCottageOwnerId(Long id);
 

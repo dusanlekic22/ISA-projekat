@@ -28,6 +28,7 @@ import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
@@ -164,6 +165,13 @@ public class FishingCourseController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<FishingCourseDTO> unsubscribe(@PathVariable("id") Long id,@PathVariable("customerId") Long customerId) {
 		return new ResponseEntity<>(fishingCourseService.unsubscribe(id,customerId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/subscription/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public Page<FishingCourseDTO> findAllFishingSubscriptionByCustomer(@PathVariable("customerId") Long customerId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingCourseService.findAllFishingSubscriptionByCustomer(customerId,paging);
 	}
 
 }

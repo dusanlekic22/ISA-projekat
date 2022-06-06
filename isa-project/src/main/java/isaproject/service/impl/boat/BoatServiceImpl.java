@@ -582,5 +582,10 @@ public class BoatServiceImpl implements BoatService {
 		return BoatMapper.BoatToBoatDTO(boat);
 	}
 	
+	@Override
+	public Page<BoatDTO> findAllBoatSubscriptionByCustomer(Long customerId, Pageable pageable){
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.subscriptionsBoat(customerId, pageable));
+	}
+	
 
 }

@@ -192,4 +192,11 @@ public class BoatController {
 		return new ResponseEntity<>(boatService.unsubscribe(id,customerId), HttpStatus.OK);
 	}
 	
+	@GetMapping("/subscription/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public Page<BoatDTO> findAllBoatSubscriptionByCustomer(@PathVariable("customerId") Long customerId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatService.findAllBoatSubscriptionByCustomer(customerId,paging);
+	}
+	
 }

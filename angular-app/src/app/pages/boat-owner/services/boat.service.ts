@@ -215,6 +215,20 @@ export class BoatService {
       );
   }
 
+  getAvailableBoatsSubscription(
+    customerId: number,
+    page: number
+  ): Observable<IBoatPage> {
+    return this._http
+      .get<IBoatPage>(
+        environment.apiUrl + `/boat/subscription/${customerId}?page=` + page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return throwError(() => new Error('Error'));

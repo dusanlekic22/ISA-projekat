@@ -61,4 +61,6 @@ public interface CottageService {
 	
 	CottageDTO unsubscribe(Long id, Long customerId);
 
+	Page<CottageDTO> findAllCottageSubscriptionByCustomer(Long customerId, Pageable pageable);
+
 }

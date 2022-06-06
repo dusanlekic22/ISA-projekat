@@ -202,6 +202,22 @@ export class FishingCourseService {
       );
   }
 
+  getAvailableFishingsSubscription(
+    customerId: number,
+    page: number
+  ): Observable<IFishingCoursePage> {
+    return this.http
+      .get<IFishingCoursePage>(
+        environment.apiUrl +
+          `/fishingCourse/subscription/${customerId}?page=` +
+          page
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

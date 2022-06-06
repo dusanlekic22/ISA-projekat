@@ -183,7 +183,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 			}
 
 			for (CottageReservation q : cottageReservationRepository
-					.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndCottageId(cottageReservation.getCottage().getId())) {
 				if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
 					return null;
 				}
@@ -328,7 +328,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 			boolean inAction = false;
 			for (CottageReservation q : cottageReservationRepository
-					.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndCottageId(cottageReservation.getCottage().getId())) {
 
 				if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
 					return null;
@@ -406,7 +406,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Override
 	public Set<CottageReservationDTO> findByCottageId(Long id) {
 		Set<CottageReservation> cottageReservations = new HashSet<>(
-				cottageReservationRepository.findByConfirmedIsTrueAndCottageId(id));
+				cottageReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndCottageId(id));
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		if (cottageReservations.size() != 0) {
 
@@ -524,7 +524,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Override
 	public Set<CottageReservationDTO> findByCottageCottageOwnerId(Long id) {
 		Set<CottageReservation> cottageReservations = new HashSet<>(
-				cottageReservationRepository.findByConfirmedIsTrueAndCottage_CottageOwner_Id(id));
+				cottageReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndCottage_CottageOwner_Id(id));
 		Set<CottageReservationDTO> dtos = new HashSet<>();
 		if (cottageReservations.size() != 0) {
 
@@ -565,8 +565,8 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		if (currentTime.plusDays(3).compareTo(cottageReservation.getDuration().getStartDate()) >= 0) {
 			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
-		cottageReservation.setConfirmed(false);
-		this.freeReservedSpan(cottageReservation);
+		cottageReservation.setCancelled(true);
+		freeReservedSpan(cottageReservation);
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
 

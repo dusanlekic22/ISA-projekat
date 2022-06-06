@@ -161,7 +161,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 
 		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(
+				.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
 						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
 				return null;
@@ -317,7 +317,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 
 		boolean inAction = false;
 		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(
+				.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
 						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 
 			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
@@ -380,7 +380,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id) {
 		Set<FishingReservation> fishingeReservations = new HashSet<>(
-				fishingeReservationRepository.findByConfirmedIsTrueAndFishingCourse_FishingTrainer_Id(id));
+				fishingeReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(id));
 		Set<FishingReservationDTO> dtos = new HashSet<>();
 		for (FishingReservation p : fishingeReservations) {
 			dtos.add(FishingReservationMapper.FishingReservationToDTO(p));
@@ -480,7 +480,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseId(Long id) {
 		Set<FishingReservation> fishingeReservations = new HashSet<>(
-				fishingeReservationRepository.findByConfirmedIsTrueAndFishingCourseId(id));
+				fishingeReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourseId(id));
 		Set<FishingReservationDTO> dtos = new HashSet<>();
 		for (FishingReservation p : fishingeReservations) {
 			dtos.add(FishingReservationMapper.FishingReservationToDTO(p));
@@ -524,7 +524,8 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		if(currentTime.plusDays(3).compareTo(fishingReservation.getDuration().getStartDate()) >= 0) {
 		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
-		fishingReservation.setConfirmed(false);
+		fishingReservation.setCancelled(true);
+		freeReservedSpan(fishingReservation);
 		return FishingReservationMapper
 				.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
 		

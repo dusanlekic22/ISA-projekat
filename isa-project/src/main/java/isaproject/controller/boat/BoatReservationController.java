@@ -164,7 +164,7 @@ public class BoatReservationController {
 	@PostMapping("/{id}/cancel")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public ResponseEntity<BoatReservationDTO> cancelBoatReservation( @RequestBody BoatReservationDTO boatReservationDTO, Principal user) {
+	public ResponseEntity<BoatReservationDTO> cancelBoatReservation(@RequestBody BoatReservationDTO boatReservationDTO, Principal user) {
 				
 		CustomerDTO customer = this.customerService.getCustomer(boatReservationDTO.getCustomer().getId());
 				if(!user.getName().equals(customer.getUsername())) {

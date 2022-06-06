@@ -39,12 +39,12 @@ public class FishingReservation implements Serializable {
 
 	@Column(nullable = false)
 	private Double price;
-	
+
 	private Double ownerIncome;
-	
+
 	private Double siteIncome;
 
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", referencedColumnName = "id")
 	private Address location;
 
@@ -64,7 +64,17 @@ public class FishingReservation implements Serializable {
 
 	private boolean confirmed;
 
+	private boolean isCancelled;
+
 	public FishingReservation() {
+	}
+
+	public boolean isCancelled() {
+		return isCancelled;
+	}
+
+	public void setCancelled(boolean isCancelled) {
+		this.isCancelled = isCancelled;
 	}
 
 	public Long getId() {

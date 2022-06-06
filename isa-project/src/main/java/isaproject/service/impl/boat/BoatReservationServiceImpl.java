@@ -181,7 +181,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			}
 
 			for (BoatReservation q : boatReservationRepository
-					.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(boatReservation.getBoat().getId())) {
 				if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 					return null;
 				}
@@ -318,7 +318,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 
 			boolean inAction = false;
 			for (BoatReservation q : boatReservationRepository
-					.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(boatReservation.getBoat().getId())) {
 
 				if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
 					return null;
@@ -390,7 +390,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	@Override
 	public Set<BoatReservationDTO> findByBoatId(Long id) {
 		Set<BoatReservation> boatReservations = new HashSet<>(
-				boatReservationRepository.findByConfirmedIsTrueAndBoatId(id));
+				boatReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 
@@ -507,7 +507,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	@Override
 	public Set<BoatReservationDTO> findByBoatBoatOwnerId(Long id) {
 		Set<BoatReservation> boatReservations = new HashSet<>(
-				boatReservationRepository.findByConfirmedIsTrueAndBoat_BoatOwner_Id(id));
+				boatReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoat_BoatOwner_Id(id));
 		Set<BoatReservationDTO> dtos = new HashSet<>();
 		if (boatReservations.size() != 0) {
 
@@ -547,7 +547,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		if (currentTime.plusDays(3).compareTo(boatReservation.getDuration().getStartDate()) >= 0) {
 			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
-		boatReservation.setConfirmed(true);
+		boatReservation.setCancelled(true);
+		freeReservedSpan(boatReservation);
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
 

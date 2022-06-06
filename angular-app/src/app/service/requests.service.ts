@@ -6,6 +6,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IBusinessOwnerRegistrationRequest } from '../model/businessOwnerRegistrationRequest';
 import { IReservationReport } from '../model/reservationReport';
+import { IGrade } from '../model/grade';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,9 @@ export class RequestsService {
   public openDialogComplaint$: EventEmitter<IComplaint>;
   public submitedDialogComplaint$: EventEmitter<IComplaint>;
 
+  public openDialogGrade$: EventEmitter<IGrade>;
+  public submitedDialogGrade$: EventEmitter<IGrade>;
+
   constructor(private http: HttpClient) {
     this.openDialogRegistration$ = new EventEmitter();
     this.submitedRegistrationRequest$ = new EventEmitter();
@@ -34,6 +38,8 @@ export class RequestsService {
     this.submitedDialogReport$ = new EventEmitter();
     this.openDialogComplaint$ = new EventEmitter();
     this.submitedDialogComplaint$ = new EventEmitter();
+    this.openDialogGrade$ = new EventEmitter();
+    this.submitedDialogGrade$ = new EventEmitter();
   }
 
   openDialogRegistration(request: IBusinessOwnerRegistrationRequest) {
@@ -66,6 +72,14 @@ export class RequestsService {
 
   submitedComplaintRequest() {
     this.submitedDialogComplaint$.emit();
+  }
+
+  openDialogGrade(report: IGrade) {
+    this.openDialogGrade$.emit(report);
+  }
+
+  submitedGradeRequest() {
+    this.submitedDialogGrade$.emit();
   }
 
   getBusinessOwnerRegistrationRequests(): Observable<

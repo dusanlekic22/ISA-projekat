@@ -1,0 +1,84 @@
+<div
+  mdbModal
+  #grade="mdbModal"
+  class="modal fade left"
+  style="overflow-y: auto"
+  id="gradeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          Grade request
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="grade.hide()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-2">
+          <label for="grId">Id</label>
+          <input
+            type="text"
+            id="grId"
+            class="form-control"
+            [(ngModel)]="request.id"
+            [disabled]="true"
+            mdbInput
+          />
+          <label for="value">Value</label>
+          <input
+            type="text"
+            id="value"
+            class="form-control"
+            [(ngModel)]="request.value"
+            [disabled]="true"
+            mdbInput
+          />
+          <label for="review">Review</label>
+          <textarea
+            type="text"
+            id="review"
+            class="form-control"
+            [(ngModel)]="request.review"
+            [disabled]="true"
+            mdbInput
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button
+          (click)="approve()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Accept
+        </button>
+        <button
+          (click)="decline()"
+          mdbBtn
+          color="default"
+          class="waves-light"
+          mdbWavesEffect
+          data-dismiss="modal"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -131,6 +131,8 @@ import { UsersListComponent } from './pages/admin-pages/users-list/users-list.co
 import { ServicesListComponent } from './pages/admin-pages/services-list/services-list.component';
 import { ComplaintsComponent } from './pages/admin-pages/complaints/complaints.component';
 import { AnswerComplaintComponent } from './pages/admin-pages/answer-complaint/answer-complaint.component';
+import { GradesComponent } from './pages/admin-pages/grades/grades.component';
+import { AnswerGradeComponent } from './pages/admin-pages/answer-grade/answer-grade.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -235,6 +237,8 @@ FullCalendarModule.registerPlugins([
     AnswerComplaintComponent,
     ComplaintsComponent,
     AnswerComplaintComponent,
+    GradesComponent,
+    AnswerGradeComponent,
   ],
   imports: [
     NgbModule,

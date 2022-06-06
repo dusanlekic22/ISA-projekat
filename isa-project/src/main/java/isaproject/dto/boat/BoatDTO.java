@@ -28,7 +28,7 @@ public class BoatDTO {
 	private String boatRules;
 	private CancelConditionEnum cancelCondition;
 	private Set<String> fishingEquipment = new HashSet<>();
-	private Integer pricePerHour;
+	private Double pricePerHour;
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
 	private Set<BoatReservation> boatReservation = new HashSet<>();
 	private Set<String> navigationEquipment = new HashSet<>();

@@ -57,7 +57,7 @@ export class FishingQuickReservationService {
     return this.http
       .get<any>(
         environment.apiUrl +
-          `fishingQuickReservation/pagination/${fishingTrainerId}/?page=` +
+          `/fishingQuickReservation/pagination/${fishingTrainerId}/?page=` +
           page
       )
       .pipe(

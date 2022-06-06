@@ -57,6 +57,7 @@ export class CustomerFishingCourseProfileComponent implements OnInit {
                 .subscribe((customer) => {
                   this.openFishings = 'no';
                   this.customer = customer;
+                  this.getQuickFishingsReservations();
                   this.checkSubscribe();
                 });
             });

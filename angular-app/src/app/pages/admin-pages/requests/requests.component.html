@@ -12,7 +12,7 @@
   <!-- Table -->
   <div class="row">
     <div class="col">
-      <mat-tab-group class="mt-5 bg-white mat-accent">
+      <mat-tab-group mat-stretch-tabs class="mt-5 bg-white mat-accent">
         <mat-tab label="Registration Requests">
           <app-registration-requests></app-registration-requests>
         </mat-tab>
@@ -25,10 +25,14 @@
         <mat-tab label="Complaints">
           <app-complaints></app-complaints>
         </mat-tab>
+        <mat-tab label="Grades">
+          <app-grades></app-grades>
+        </mat-tab>
       </mat-tab-group>
       <app-answer-registration-request></app-answer-registration-request>
       <app-answer-deletion-request></app-answer-deletion-request>
       <app-answer-complaint></app-answer-complaint>
+      <app-answer-grade></app-answer-grade>
     </div>
   </div>
 </div>

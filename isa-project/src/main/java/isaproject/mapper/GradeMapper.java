@@ -6,6 +6,7 @@ import isaproject.model.Grade;
 public class GradeMapper {
 	public static Grade GradeDTOToGrade(GradeDTO gradeDTO) {
 		Grade grade = new Grade();
+		grade.setId(gradeDTO.getId());
 		grade.setValue(gradeDTO.getValue());
 		grade.setUser(gradeDTO.getUser());
 		grade.setReview(gradeDTO.getReview());
@@ -21,6 +22,7 @@ public class GradeMapper {
 
 	public static GradeDTO GradeToGradeDTO(Grade grade) {
 		GradeDTO gradeDTO = new GradeDTO();
+		gradeDTO.setId(grade.getId());
 		gradeDTO.setValue(grade.getValue());
 		gradeDTO.setUser(grade.getUser());
 		gradeDTO.setIsAccepted(grade.getIsAccepted());

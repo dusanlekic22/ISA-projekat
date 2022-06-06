@@ -132,6 +132,8 @@ import { ServicesListComponent } from './pages/admin-pages/services-list/service
 import { ComplaintsComponent } from './pages/admin-pages/complaints/complaints.component';
 import { AnswerComplaintComponent } from './pages/admin-pages/answer-complaint/answer-complaint.component';
 import { CustomerFishingCourseProfileComponent } from './pages/fishing-course/customer-fishing-course-profile/customer-fishing-course-profile.component';
+import { GradesComponent } from './pages/admin-pages/grades/grades.component';
+import { AnswerGradeComponent } from './pages/admin-pages/answer-grade/answer-grade.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -237,6 +239,8 @@ FullCalendarModule.registerPlugins([
     ComplaintsComponent,
     AnswerComplaintComponent,
     CustomerFishingCourseProfileComponent,
+    GradesComponent,
+    AnswerGradeComponent,
   ],
   imports: [
     NgbModule,

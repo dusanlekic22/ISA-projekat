@@ -9,25 +9,28 @@ import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageOwner;
 
 public class GradeDTO {
+	private Long id;
 	private Double value;
-
 	private User user;
-
 	private Boolean isAccepted;
-
 	private String review;
-
 	private Cottage cottage;
-
 	private CottageOwner cottageOwner;
-
 	private Boat boat;
-
 	private BoatOwner boatOwner;
-
 	private FishingCourse fishingCourse;
-
 	private FishingTrainer fishingTrainer;
+
+	public GradeDTO() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getReview() {
 		return review;

@@ -105,7 +105,7 @@ public class CottageServiceImpl implements CottageService {
 
 			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllCottages(paging));
 		} else {
-			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllByDeletedIsFalse(pageable));
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllCottages(pageable));
 		}
 	}
 	

@@ -45,10 +45,18 @@ public class CottageController {
 	public Set<CottageDTO> getAll() {
 		return cottageService.findAll();
 	}
+	
+	@PostMapping("/pagination")
+	@ResponseBody
+	public Page<CottageDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return cottageService.findAllPagination(sortTypeDTOList, paging);
+	}
 
 	@PostMapping("/pagination/admin")
 	@ResponseBody
-	public Page<CottageDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
+	public Page<CottageDTO> getAllPaginationAdmin(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
 		Pageable paging = PageRequest.of(page, size);
 		return cottageService.findAllPaginationAdmin(sortTypeDTOList, paging);

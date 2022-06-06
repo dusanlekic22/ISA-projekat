@@ -29,8 +29,8 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 	Set<Cottage> findByName(String name);
 	
 	@Query(value =
-			  " SELECT *  FROM public.cottage  ",
-				countQuery  = " SELECT count(*)  FROM public.cottage"
+			  " SELECT *  FROM public.cottage WHERE deleted = false  ",
+				countQuery  = " SELECT count(*)  FROM public.cottage WHERE deleted = false "
 						,
 					nativeQuery = true)
 	Page<Cottage> findAllCottages(Pageable paging);

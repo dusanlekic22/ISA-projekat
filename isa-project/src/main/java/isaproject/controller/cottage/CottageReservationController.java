@@ -76,8 +76,7 @@ public class CottageReservationController {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
 
-	
-	
+
 	
 	@PostMapping("/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")

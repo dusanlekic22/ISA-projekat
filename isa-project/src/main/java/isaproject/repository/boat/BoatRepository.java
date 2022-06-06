@@ -30,8 +30,8 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	List<Boat> findByBoatOwnerId(Long id);
 	
 	@Query(value =
-			  " SELECT *  FROM public.boat  ",
-				countQuery  = " SELECT count(*)  FROM public.boat"
+			  " SELECT *  FROM public.boat WHERE deleted = false ",
+				countQuery  = " SELECT count(*)  FROM public.boat WHERE deleted = false "
 						,
 					nativeQuery = true)
 	Page<Boat> findAllBoats(Pageable paging);

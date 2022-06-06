@@ -58,11 +58,13 @@ export class AddBoatReservationComponent implements OnInit {
         this.eligibleCustomers = customers;
       });
     this._userService.currentUser.subscribe((user) => {
-      this._boatService.getBoatsByBoatOwnerId(user.id).subscribe((boats) => {
-        this.boats = boats;
-        if (boatId != undefined)
-          this.boat = this.boats.filter((c) => c.id == boatId)[0];
-      });
+      if (user.id != undefined) {
+        this._boatService.getBoatsByBoatOwnerId(user.id).subscribe((boats) => {
+          this.boats = boats;
+          if (boatId != undefined)
+            this.boat = this.boats.filter((c) => c.id == boatId)[0];
+        });
+      }
     });
     if (boatId != undefined) {
       this.getChips(boatId);
@@ -79,6 +81,7 @@ export class AddBoatReservationComponent implements OnInit {
   }
 
   getChips(id: number) {
+    this.boatServices = [];
     this._boatAdditionalService
       .getAdditionalServicesByBoatId(id)
       .subscribe((tags) => {

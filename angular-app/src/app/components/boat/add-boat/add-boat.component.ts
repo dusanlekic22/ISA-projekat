@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { IAddress } from 'src/app/model/address';
 import { IBoat, initBoat } from 'src/app/model/boat/boat';
 import { IDateSpan } from 'src/app/model/dateSpan';
@@ -23,6 +25,8 @@ export class AddBoatComponent implements OnInit {
   avaliableDateSpans: IDateSpan[] = [];
   additionalServiceTags: IAdditionalService[] = [];
   minDate!: Date;
+  fishingEquipment!:string;
+  navigationEquipment!:string;
 
   ngOnInit(): void {
     this._userService.currentUser.subscribe((user) => {
@@ -42,7 +46,9 @@ export class AddBoatComponent implements OnInit {
     private _boatService: BoatService,
     private _additionalServiceService: AdditionalServiceService,
     private _boatAdditionalService: BoatAdditionalServicesService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _toastr: ToastrService,
+    private _router: Router
   ) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
@@ -63,12 +69,28 @@ export class AddBoatComponent implements OnInit {
 
   addBoat() {
     this._boatService.saveBoat(this.boat).subscribe((data) => {
+      this._toastr.success('Boat was successfully added.');
       this.additionalServiceTags.forEach((element) => {
         this._boatAdditionalService
           .addAdditionalServiceForBoat(element, data)
           .subscribe((additionalService) => {});
       });
+      this._router.navigate(['/boatOwnerHome'])
+    },
+    (err) => {
+      console.log(err);
+      this._toastr.error(
+        "Couldn't add the boat!"
+      );
     });
+  }
+
+  addFishingEquipment(){
+    this.boat.fishingEquipment.push(this.fishingEquipment);
+  }
+
+  addNavigationEquipment(){
+    this.boat.navigationEquipment.push(this.navigationEquipment);
   }
 
   removeTerm(term: IDateSpan) {

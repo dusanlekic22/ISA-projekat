@@ -86,6 +86,7 @@ export class AddFishingQuickReservationComponent implements OnInit {
     }
   
     getChips(id:number) {
+      this.fishingServices = [];
       this.additionalServiceService
         .getAdditionalServicesByFishingCourseId(id)
         .subscribe((tags) => {

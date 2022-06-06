@@ -16,6 +16,8 @@ import { BoatAdditionalServicesService } from 'src/app/pages/boat-owner/services
 export class BoatEditComponent implements OnInit {
   @Input() boat!: IBoat;
   additionalServiceTags: IAdditionalService[] = [];
+  fishingEquipment!:string;
+  navigationEquipment!:string;
 
   constructor(
     private _boatService: BoatService,
@@ -56,6 +58,14 @@ export class BoatEditComponent implements OnInit {
 
   setAddress(address:IAddress){
     this.boat.address = address;
+  }
+
+  addFishingEquipment(){
+    this.boat.fishingEquipment.push(this.fishingEquipment);
+  }
+
+  addNavigationEquipment(){
+    this.boat.navigationEquipment.push(this.navigationEquipment);
   }
 
   onItemAdded(input: any): void {

@@ -40,7 +40,7 @@ export class BoatQuickReservationsComponent implements OnInit {
         this._toastr.success('Reservation was successfully removed.');
         this.getBoat();
         this._boatQuickReservationService
-          .getBoatQuickReservations()
+          .getBoatQuickReservationsByBoatId(this.boat.id)
           .subscribe((boatQuickReservation) => {
             this.boat.boatQuickReservation = boatQuickReservation;
           });

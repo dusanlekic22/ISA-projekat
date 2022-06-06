@@ -8,8 +8,6 @@ import isaproject.model.Address;
 import isaproject.model.CancelConditionEnum;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.Grade;
-import isaproject.model.NavigationEquipment;
 import isaproject.model.boat.BoatImage;
 import isaproject.model.boat.BoatOwner;
 import isaproject.model.boat.BoatQuickReservation;
@@ -29,11 +27,11 @@ public class BoatDTO {
 	private Integer capacity;
 	private String boatRules;
 	private CancelConditionEnum cancelCondition;
-	private Set<String> fishingEquipment;
-	private Double pricePerHour;
+	private Set<String> fishingEquipment = new HashSet<>();
+	private Integer pricePerHour;
 	private Set<BoatQuickReservation> boatQuickReservation = new HashSet<>();
 	private Set<BoatReservation> boatReservation = new HashSet<>();
-	private Set<NavigationEquipment> navigationEquipment = new HashSet<>();
+	private Set<String> navigationEquipment = new HashSet<>();
 	private Set<AdditionalService> additionalService = new HashSet<>();
 	private Set<BoatImage> boatImage;
 	private BoatOwner boatOwner;
@@ -186,11 +184,11 @@ public class BoatDTO {
 		this.boatReservation = boatReservation;
 	}
 
-	public Set<NavigationEquipment> getNavigationEquipment() {
+	public Set<String> getNavigationEquipment() {
 		return navigationEquipment;
 	}
 
-	public void setNavigationEquipment(Set<NavigationEquipment> navigationEquipment) {
+	public void setNavigationEquipment(Set<String> navigationEquipment) {
 		this.navigationEquipment = navigationEquipment;
 	}
 

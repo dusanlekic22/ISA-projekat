@@ -78,10 +78,20 @@ export class CottageProfileComponent implements OnInit {
     this.cottageId = +this._route.snapshot.paramMap.get('cottageId')!;
     this.getCottage();
     this._cottageQuickReservationService
-      .getCottageQuickReservations()
+      .getCottageQuickReservationsByCottageId(this.cottageId)
       .subscribe((cottageQuickReservation) => {
         this.cottage.cottageQuickReservation = cottageQuickReservation;
       });
+    this.getReservations();
+    this._cottageReservationService
+      .getCustomerHasReservationNow(this.cottageId)
+      .subscribe((customers) => {
+        this.eligibleCustomers = customers;
+      });
+    this.minDate = new Date(Date.now());
+  }
+
+  getReservations(){
     this._cottageReservationService
       .getActiveCottageReservationByCottageId(this.cottageId)
       .subscribe((activeReservations) => {
@@ -92,12 +102,6 @@ export class CottageProfileComponent implements OnInit {
       .subscribe((passedReservations) => {
         this.passedReservations = passedReservations;
       });
-    this._cottageReservationService
-      .getCustomerHasReservationNow(this.cottageId)
-      .subscribe((customers) => {
-        this.eligibleCustomers = customers;
-      });
-    this.minDate = new Date(Date.now());
   }
 
   reservationAdded() {

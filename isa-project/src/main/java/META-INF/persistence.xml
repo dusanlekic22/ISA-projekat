@@ -19,7 +19,6 @@
 		<class>isaproject.model.FishingQuickReservation</class>
 		<class>isaproject.model.FishingReservation</class>
 		<class>isaproject.model.FishingTrainer</class>
-		<class>isaproject.model.NavigationEquipment</class>
 		<class>isaproject.model.Role</class>
 		<class>isaproject.model.User</class>
 	</persistence-unit>

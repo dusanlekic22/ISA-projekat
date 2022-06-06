@@ -26,7 +26,7 @@ export class AddCottageQuickReservationComponent implements OnInit {
     },
     guestCapacity: 0,
     price: 0,
-    cottage: initCottage
+    cottage: initCottage,
   };
   minDate!: string;
   @Output() submitted = new EventEmitter<boolean>();
@@ -49,27 +49,31 @@ export class AddCottageQuickReservationComponent implements OnInit {
     this.minDate = this.date();
     let cottageId = this._route.snapshot.paramMap.get('cottageId');
     this._userService.currentUser.subscribe((user) => {
-      this._cottageService
-        .getCottagesByCottageOwnerId(user.id)
-        .subscribe((cottages) => {
-          this.cottages = cottages;
-          this.cottage= this.cottages.filter(c=>c.id==parseInt(cottageId!))[0];
-        });
+      if (user.id) {
+        this._cottageService
+          .getCottagesByCottageOwnerId(user.id)
+          .subscribe((cottages) => {
+            this.cottages = cottages;
+            this.cottage = this.cottages.filter(
+              (c) => c.id == parseInt(cottageId!)
+            )[0];
+          });
+      }
     });
-    if(cottageId!=undefined){
+    if (cottageId != undefined) {
       this.getChips(parseInt(cottageId));
     }
   }
 
-  getChips(id:number) {
+  getChips(id: number) {
+    this.cottageServices = [];
     this._cottageAdditionalService
       .getAdditionalServicesByCottageId(id)
       .subscribe((tags) => {
         tags.forEach((t) => {
-          if (this.cottageServices.length < 1 ) {
+          if (this.cottageServices.length < 1) {
             this.cottageServices.push(t);
-          }
-          else if(this.cottageServices.some(e => e.name !== t.name)){
+          } else if (this.cottageServices.some((e) => e.name !== t.name)) {
             this.cottageServices.push(t);
           }
         });
@@ -78,7 +82,11 @@ export class AddCottageQuickReservationComponent implements OnInit {
 
   toggleSelectionCottage(chip: MatChip, option: IAdditionalService) {
     if (chip.toggleSelected()) {
-      this.reservationServices.push({id:0,name:option.name,price:option.price});
+      this.reservationServices.push({
+        id: 0,
+        name: option.name,
+        price: option.price,
+      });
     } else {
       this.reservationServices = this.reservationServices.filter(
         (e) => e !== option

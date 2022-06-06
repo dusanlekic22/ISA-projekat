@@ -67,6 +67,7 @@ export class AddFishingReservationComponent implements OnInit {
   }
 
   getChips(id:number) {
+    this.fishingServices = [];
     this.additionalServiceService
       .getAdditionalServicesByFishingCourseId(id)
       .subscribe((tags) => {

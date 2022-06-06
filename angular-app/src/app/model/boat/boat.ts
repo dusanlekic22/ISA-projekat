@@ -29,6 +29,7 @@ export interface IBoat {
   unavailableReservationDateSpan: IDateSpan[];
   boatOwner: IUser;
   averageGrade:number;
+  navigationEquipment:string[];
 }
 
 export interface IBoatPage {
@@ -60,6 +61,7 @@ export const initBoat: IBoat = {
   topSpeed: 0,
   enginePower: 0,
   fishingEquipment: [],
+  navigationEquipment: [],
   cancelCondition: '',
   boatRules: '',
   boatImage: [],

@@ -80,7 +80,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![KVZR Booking][product-screenshot]]
+[![Product Name Screen Shot][product-screenshot]]
 
 This repositorium contains a web application which can be used for booking various trips and adventures. Our application enables you to book cottage stays, boat trips and fishing adventures.
 
@@ -206,4 +206,4 @@ Project Link: [https://github.com/dusanlekic22/ISA-projekat](https://github.com/
 [license-url]: https://github.com/dusanlekic22/ISA-projekat/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: https://prnt.sc/_8ILgSiM8YxM
+[product-screenshot]: imgs/download.png

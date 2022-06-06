@@ -46,4 +46,6 @@ public interface CustomerService {
 	public void sendReservationConfirmationEmail(String siteUrl, FishingReservation fishingReservationReturn);
 
 	public void promoteLoyaltyCustomer(Customer customer);
+	
+	public boolean isCustomerUnderPenalityRestrictions(Long customerId);
 }

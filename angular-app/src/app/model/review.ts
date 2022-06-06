@@ -11,7 +11,7 @@ import {
 export interface IReview {
   customerId: number;
 
-  text: string;
+  review: string;
 
   ownerGrade: number;
 
@@ -25,7 +25,7 @@ export interface IReview {
 }
 export const emptyReview = {
   customerId: 0,
-  text: '',
+  review: '',
   ownerGrade: 0,
   entityGrade: 0,
   cottageReservation: emptyCottageReservation,

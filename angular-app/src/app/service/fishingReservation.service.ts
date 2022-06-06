@@ -6,6 +6,7 @@ import { ICustomer } from '../model/customer';
 import { IFishingReservation } from '../model/fishingReservation';
 import { IFishingCourse } from '../model/fishingCourse';
 import { ISortType } from '../model/sortType';
+import { IGrade } from '../model/grade';
 
 @Injectable({
   providedIn: 'root',
@@ -125,6 +126,28 @@ export class FishingReservationService {
         environment.apiUrl +
           `/fishingReservation/${fishingReservation.id}/cancel`,
         fishingReservation
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  sendFishingCourseReview(
+    fishingTrainerReview: IGrade
+  ): Observable<IFishingCourse> {
+    return this.http
+      .post<any>(
+        environment.apiUrl + `/boat/${fishingTrainerReview.boat?.id}/grade`,
+        fishingTrainerReview
+      )
+      .pipe(catchError(this.handleError));
+  }
+  sendFishingTrainerReview(
+    fishingTrainerReview: IGrade
+  ): Observable<IFishingCourse> {
+    return this.http
+      .post<any>(
+        environment.apiUrl +
+          `/boatOwner/${fishingTrainerReview.fishingTrainer?.id}/grade`,
+        fishingTrainerReview
       )
       .pipe(catchError(this.handleError));
   }

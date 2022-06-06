@@ -1,11 +1,11 @@
-import { IUser } from "../pages/registration/registration/user";
-import { IBoat } from "./boat/boat";
-import { IBoatOwner } from "./boat/boatOwner";
-import { ICottage } from "./cottage";
-import { ICottageOwner } from "./cottageOwner";
-import { emptyCustomer } from "./customer";
-import { IFishingCourse } from "./fishingCourse";
-import { IFishingTrainer } from "./fishingTrainer";
+import { IUser } from '../pages/registration/registration/user';
+import { IBoat } from './boat/boat';
+import { IBoatOwner } from './boat/boatOwner';
+import { ICottage } from './cottage';
+import { ICottageOwner } from './cottageOwner';
+import { emptyCustomer } from './customer';
+import { IFishingCourse } from './fishingCourse';
+import { IFishingTrainer } from './fishingTrainer';
 
 export interface IGrade {
   id: number;

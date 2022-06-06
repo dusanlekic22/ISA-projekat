@@ -3,7 +3,7 @@ import { CottageReservationService } from 'src/app/pages/cottage-owner/services/
 import { ICottageReservation } from './../../model/cottageReservation';
 import { ICottage } from './../../model/cottage';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IAddress } from 'src/app/model/address';
 import {
   ModalDismissReasons,
@@ -12,6 +12,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
 import { ComplaintService } from 'src/app/service/complaint.service';
+import { emptyGrade, IGrade } from 'src/app/model/grade';
 
 @Component({
   selector: 'app-base-history-reservation',
@@ -29,11 +30,13 @@ export class BaseHistoryReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
-  reviewCottage: IReview = emptyReview;
+  reviewCottage: IGrade = emptyGrade;
   complaintCottage: IComplaint = emptyComplaint;
+  customerId!: number;
 
   constructor(
     public router: Router,
+    private _route: ActivatedRoute,
     private modalService: NgbModal,
     private reservationService: CottageReservationService,
     private complaintService: ComplaintService
@@ -68,13 +71,24 @@ export class BaseHistoryReservationComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._route.params.subscribe((data) => {
+      this.customerId = data.id;
+    });
+  }
 
   sendReview() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
+    this.reviewCottage.review = this.review;
+    this.reviewCottage.cottage = this.cottageReservation.cottage;
+    this.reviewCottage.value = this.gradeEntity;
+    this.reviewCottage.user.id = this.customerId;
+    this.reservationService
+      .sendCottageReview(this.reviewCottage)
+      .subscribe(() => {});
+    this.reviewCottage.value = this.gradeOwner;
+    this.reservationService
+      .sendCottageOwnerReview(this.reviewCottage)
+      .subscribe(() => {});
     this.modalReference.close();
   }
 

@@ -7,6 +7,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
 import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
+import { emptyGrade, IGrade } from 'src/app/model/grade';
 import { emptyReview, IReview } from 'src/app/model/review';
 import { BoatReservationService } from 'src/app/pages/boat-owner/services/boat-reservation.service';
 import { ComplaintService } from 'src/app/service/complaint.service';
@@ -27,7 +28,7 @@ export class BaseHistoryBoatReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
-  reviewBoat: IReview = emptyReview;
+  reviewBoat: IGrade = emptyGrade;
   complaintBoat: IComplaint = emptyComplaint;
   customerId!: number;
 
@@ -75,16 +76,16 @@ export class BaseHistoryBoatReservationComponent implements OnInit {
   }
 
   sendReview() {
-    if (this.gradeEntity !== undefined && this.gradeOwner !== undefined) {
-      this.reviewBoat.boatReservation = this.boatReservation;
-      this.reviewBoat.customerId = this.customerId;
-      this.reviewBoat.entityGrade = this.gradeEntity;
-      this.reviewBoat.ownerGrade = this.gradeOwner;
-      this.reviewBoat.text = this.review;
-      this.reservationService.sendBoatReview(this.reviewBoat).subscribe(() => {
-        this.modalReference.close();
-      });
-    }
+    this.reviewBoat.review = this.review;
+    this.reviewBoat.boat = this.boatReservation.boat;
+    this.reviewBoat.value = this.gradeEntity;
+    this.reviewBoat.user.id = this.customerId;
+    this.reservationService.sendBoatReview(this.reviewBoat).subscribe(() => {});
+    this.reviewBoat.value = this.gradeOwner;
+    this.reservationService
+      .sendBoatOwnerReview(this.reviewBoat)
+      .subscribe(() => {});
+    this.modalReference.close();
   }
 
   sendComplaint() {

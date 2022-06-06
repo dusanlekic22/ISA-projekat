@@ -11,9 +11,8 @@ import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
+import isaproject.model.DateTimeSpan;
 
 public interface FishingCourseService {
 

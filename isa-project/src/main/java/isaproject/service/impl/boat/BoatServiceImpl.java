@@ -26,8 +26,6 @@ import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.dto.cottage.CottageDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.GradeMapper;
@@ -43,7 +41,6 @@ import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
-import isaproject.model.cottage.Cottage;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
 import isaproject.service.CustomerService;
@@ -115,10 +112,10 @@ public class BoatServiceImpl implements BoatService {
 	@Transactional
 	@Override
 	public BoatDTO deleteById(Long id) {
-		BoatDTO boatDTO = findById(id);
+		Boat boat = boatRepository.findById(id).get();
 		if (boatReservationService.findAllActiveByBoatId(id).isEmpty()) {
-			boatRepository.deleteById(id);
-			return boatDTO;
+			boat.setDeleted(true);
+			return BoatMapper.BoatToBoatDTO(boat);
 		}
 		return null;
 	}

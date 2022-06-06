@@ -114,10 +114,10 @@ public class CottageServiceImpl implements CottageService {
 	@Transactional
 	@Override
 	public CottageDTO deleteById(Long id) {
-		CottageDTO cottageDTO = findById(id);
+		Cottage cottage = cottageRepository.findById(id).get();
 		if (cottageReservationService.findAllActiveByCottageId(id).isEmpty()) {
-			cottageRepository.deleteById(id);
-			return cottageDTO;
+			cottage.setDeleted(true);
+			return CottageMapper.CottageToCottageDTO(cottage);
 		}
 		return null;
 	}

@@ -32,6 +32,7 @@ public class FishingCourseDTO {
 	private Double averageGrade;
 	private Set<Grade> grades = new HashSet<Grade>();
 	private Set<Customer> subscribers = new HashSet<>();
+	private Boolean deleted;
 	
 	
 
@@ -181,6 +182,14 @@ public class FishingCourseDTO {
 
 	public void setGrades(Set<Grade> grades) {
 		this.grades = grades;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

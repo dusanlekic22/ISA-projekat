@@ -42,7 +42,7 @@ export class ServicesListComponent implements OnInit {
     private _cottageService: CottageService,
     private _boatService: BoatService,
     private _fishingCourseService: FishingCourseService,
-    private _reservationService: ReservationService
+    private _reservationService: ReservationService,
   ) {}
 
   ngOnInit(): void {
@@ -180,9 +180,27 @@ export class ServicesListComponent implements OnInit {
     );
   }
 
-  deleteService(id: number) {
+  deleteFishingCourse(id: number) {
     if (confirm('Do you want to delete this service?')) {
-      // this.userService.deleteUser(id).subscribe(() => this.loadUsers());
+      this._fishingCourseService.deleteFishingCourse(id).subscribe(() => {
+        this.getFishingCourses();
+      });
+    }
+  }
+
+  deleteCottage(id: number) {
+    if (confirm('Do you want to delete this service?')) {
+      this._cottageService.deleteCottage(id).subscribe(() => {
+        this.getCottages();
+      });
+    }
+  }
+
+  deleteBoat(id: number) {
+    if (confirm('Do you want to delete this service?')) {
+      this._boatService.deleteBoat(id).subscribe(() => {
+        this.getBoats();
+      });
     }
   }
 }

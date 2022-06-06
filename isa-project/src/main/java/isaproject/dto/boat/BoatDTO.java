@@ -41,6 +41,8 @@ public class BoatDTO {
 	private Set<Customer> subscribers = new HashSet<>();
 	private Double averageGrade;
 	private Set<Grade> grades = new HashSet<Grade>();
+	private Boolean deleted;
+
 
 	public long getId() {
 		return id;
@@ -248,6 +250,14 @@ public class BoatDTO {
 
 	public void setGrades(Set<Grade> grades) {
 		this.grades = grades;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

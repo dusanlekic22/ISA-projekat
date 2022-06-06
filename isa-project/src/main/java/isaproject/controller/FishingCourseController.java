@@ -28,8 +28,6 @@ import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 

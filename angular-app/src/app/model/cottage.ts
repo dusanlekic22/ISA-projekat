@@ -27,6 +27,7 @@ export interface ICottage {
   averageGrade: number;
   grades: IGrade[];
   subscribers: ICustomer[];
+  deleted: boolean;
 }
 
 export interface ICottagePage {
@@ -84,4 +85,5 @@ export const initCottage: ICottage = {
     unavailableReservationDateSpan: [],
     deleted: false,
   },
+  deleted: false,
 };

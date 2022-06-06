@@ -51,6 +51,7 @@ public class CottageQuickReservationMapper {
 		cottageReservation.setPrice(cottageQuickReservation.getPrice());
 		cottageReservation.setAdditionalService(new HashSet<>(cottageQuickReservation.getAdditionalService()));
 		cottageReservation.setCottage(cottageQuickReservation.getCottage());
+		cottageReservation.setConfirmed(true);
 		return cottageReservation;
 	}
 

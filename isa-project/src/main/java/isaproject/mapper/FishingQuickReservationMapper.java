@@ -55,6 +55,7 @@ public class FishingQuickReservationMapper {
 		fishingReservation.setLocation(fishingQuickReservation.getLocation());
 		fishingReservation.setAdditionalService(new HashSet<>(fishingQuickReservation.getAdditionalService()));
 		fishingReservation.setFishingCourse(fishingQuickReservation.getFishingCourse());
+		fishingReservation.setConfirmed(true);
 		return fishingReservation;
 	}
 

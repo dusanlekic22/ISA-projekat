@@ -4,16 +4,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.cottage.Cottage;
 
 public interface CottageRepository extends PagingAndSortingRepository<Cottage, Long> {
-
+	
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT c FROM cottage c WHERE c.id=:id")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
+	Cottage getNotLockedCottage(long id);
+	
 	Set<Cottage> findAll();
 	Page<Cottage> findAll(Pageable paging);
 	Set<Cottage> findByName(String name);

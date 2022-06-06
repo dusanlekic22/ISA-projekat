@@ -100,7 +100,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 			return null;
 		}
 
-		for (FishingQuickReservation q : fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(
+		for (FishingQuickReservation q : fishingQuickReservationRepository.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(
 				fishingCourseQuickReservation.getFishingCourse().getFishingTrainer().getId())) {
 			if (q.getDuration().overlapsWith(fishingCourseQuickReservation.getDuration())) {
 				return null;
@@ -135,7 +135,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 	@Override
 	public Set<FishingQuickReservationDTO> findByFishingCourseFishingTrainerId(Long id) {
 		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
-				fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(id));
+				fishingQuickReservationRepository.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(id));
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
 		if (fishingCourseQuickReservations.size() != 0) {
 
@@ -251,7 +251,7 @@ public class FishingQuickReservationServiceImpl implements FishingQuickReservati
 	@Override
 	public Set<FishingQuickReservationDTO> findByFishingTrainerId(Long id) {
 		Set<FishingQuickReservation> fishingCourseQuickReservations = new HashSet<>(
-				fishingQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(id));
+				fishingQuickReservationRepository.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(id));
 		Set<FishingQuickReservationDTO> dtos = new HashSet<>();
 		for (FishingQuickReservation p : fishingCourseQuickReservations) {
 			dtos.add(FishingQuickReservationMapper.FishingQuickReservationToDTO(p));

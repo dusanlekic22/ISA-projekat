@@ -7,8 +7,10 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.boat.BoatQuickReservationDTO;
@@ -113,7 +115,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		}
 
 		for (BoatQuickReservation q : boatQuickReservationRepository
-				.findByBoatId(boatQuickReservation.getBoat().getId())) {
+				.findByIsReservedFalseAndBoatId(boatQuickReservation.getBoat().getId())) {
 			if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
 				return null;
 			}
@@ -141,7 +143,6 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		}
 		BoatQuickReservation boatQuickReservationReturn = boatQuickReservationRepository.save(boatQuickReservation);
 		for (Customer customer : boatQuickReservation.getBoat().getSubscribers()) {
-			System.out.println(customer.getFirstName());
 			customerService.sendNewQuickReservationEmail(customer, siteUrl, boatQuickReservationReturn);
 		}
 
@@ -151,7 +152,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	@Override
 	public Set<BoatQuickReservationDTO> findByBoatId(Long id) {
 		Set<BoatQuickReservation> boatQuickReservations = new HashSet<>(
-				boatQuickReservationRepository.findByBoatId(id));
+				boatQuickReservationRepository.findByIsReservedFalseAndBoatId(id));
 		Set<BoatQuickReservationDTO> dtos = new HashSet<>();
 		if (boatQuickReservations.size() != 0) {
 
@@ -211,20 +212,25 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		boatRepository.save(boat);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatReservationDTO appointQuickReservation(Long reservationId, Long userId) {
-		BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.findById(reservationId).get();
-		if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
+		try {
+			BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.getNotLockedBoatQuickReservation(reservationId);
+			if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+				return null;
+			}
+			boatQuickReservation.setReserved(true);
+			boatQuickReservationRepository.save(boatQuickReservation);
+			BoatReservation boatReservation = BoatQuickReservationMapper
+					.BoatQuickReservationToBoatReservation(boatQuickReservation);
+			boatReservation.setCustomer(customerRepository.findById(userId).get());
+			BoatReservation boatReservationReturn = boatReservationRepository.save(boatReservation);
+			return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		boatQuickReservation.setReserved(true);
-		boatQuickReservationRepository.save(boatQuickReservation);
-		BoatReservation boatReservation = BoatQuickReservationMapper
-				.BoatQuickReservationToBoatReservation(boatQuickReservation);
-		boatReservation.setCustomer(customerRepository.findById(userId).get());
-		BoatReservation boatReservationReturn = boatReservationRepository.save(boatReservation);
-		return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
 	}
 
 	@Override

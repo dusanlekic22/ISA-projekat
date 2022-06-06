@@ -3,37 +3,34 @@ package isaproject.service.impl.cottage;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.convert.JodaTimeConverters.LocalDateTimeToJodaLocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
-import isaproject.dto.SortTypeDTO;
 import isaproject.dto.LoyaltySettingsDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.mapper.CottageReservationMapper;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.SortType;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
+import isaproject.model.SortType;
 import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageOwner;
 import isaproject.model.cottage.CottageQuickReservation;
@@ -122,107 +119,112 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	@Override
 	public Page<CottageReservationDTO> findAllPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-
-	    SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-	    Sort sort = Sort.by("id").ascending()  ;
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
 		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-				if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-					sort = Sort.by(sortType.getField()).descending();
-				} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-					sort = Sort.by(sortType.getField()).ascending();
-				}
-			
-				
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
 					cottageReservationRepository.findCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return CottageReservationMapper
-					.pageCottageReservationToPageCottageReservationDTO(cottageReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
+			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
+					cottageReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
-	
+
 	@Override
 	public Page<CottageReservationDTO> findAllIncomingPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-		  SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-		    Sort sort = Sort.by("id").ascending()  ;
-			if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-					if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-						sort = Sort.by(sortType.getField()).descending();
-					} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-						sort = Sort.by(sortType.getField()).ascending();
-					}
-			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
+		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
 					cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return CottageReservationMapper
-					.pageCottageReservationToPageCottageReservationDTO(cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
+			return CottageReservationMapper.pageCottageReservationToPageCottageReservationDTO(
+					cottageReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public CottageReservationDTO reserveCustomer(CottageReservationDTO cottageReservationDTO) {
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
-		Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
-		CottageOwner owner = cottageOwnerRepository
-				.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
-		cottageReservation.setConfirmed(true);
-		cottageReservation.setCustomer(customer);
-		cottageReservation = calculateIncome(cottageReservation);
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyCottageOwner(owner);
 
-		if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
-
-		for (CottageReservation q : cottageReservationRepository
-				.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
-			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+		try {
+			Cottage cottage = cottageRepository.getNotLockedCottage(cottageReservation.getCottage().getId());
+			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 				return null;
 			}
-		}
+			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
+			CottageOwner owner = cottageOwnerRepository.findById(cottage.getCottageOwner().getId()).get();
+			cottageReservation.setConfirmed(true);
+			cottageReservation.setCustomer(customer);
+			cottageReservation = calculateIncome(cottageReservation);
+			customerService.promoteLoyaltyCustomer(customer);
+			promoteLoyaltyCottageOwner(owner);
 
-		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+			if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
-		}
 
-		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository
-				.findById(cottageReservation.getCottage().getCottageOwner().getId()).get()
-				.getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+			for (CottageReservation q : cottageReservationRepository
+					.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
+				if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			for (DateTimeSpan dateTimeSpan : cottageOwnerRepository
+					.findById(cottageReservation.getCottage().getCottageOwner().getId()).get()
+					.getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			boolean overlaps = false;
+			for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
+				if (cottageReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					overlaps = true;
+					reserveAvailableDateSpan(cottageReservation, dateTimeSpan);
+					break;
+				}
+			}
+
+			if (!overlaps) {
 				return null;
 			}
+
+			return CottageReservationMapper
+					.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
+			
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
 
-		boolean overlaps = false;
-		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
-			if (cottageReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				overlaps = true;
-				reserveAvailableDateSpan(cottageReservation, dateTimeSpan);
-				break;
-			}
-		}
-
-		if (!overlaps) {
-			return null;
-		}
-
-		return CottageReservationMapper
-				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
-		}else {
-		return null;
-		}
-		}
+	}
 
 	private void promoteLoyaltyCottageOwner(CottageOwner owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
@@ -299,79 +301,86 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		cottageRepository.save(cottage);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public CottageReservationDTO reserveCottageOwner(CottageReservationDTO cottageReservationDTO, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException {
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
-		Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
-		CottageOwner owner = cottageOwnerRepository
-				.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
-		cottageReservation.setConfirmed(false);
-		cottageReservation.setCustomer(customer);
-		if (cottageReservationDTO.getPrice() == 0) {
-			cottageReservation = calculateIncome(cottageReservation);
-		} else {
-			cottageReservation = calculateIncomeWithoutCustomerDiscount(cottageReservation);
-		}
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyCottageOwner(owner);
 
-		if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
+		try {
+			Cottage cottage = cottageRepository.getNotLockedCottage(cottageReservation.getCottage().getId());
+			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
+			CottageOwner owner = cottageOwnerRepository
+					.findById(cottage.getCottageOwner().getId()).get();
+			cottageReservation.setConfirmed(false);
+			cottageReservation.setCustomer(customer);
+			if (cottageReservationDTO.getPrice() == 0) {
+				cottageReservation = calculateIncome(cottageReservation);
+			} else {
+				cottageReservation = calculateIncomeWithoutCustomerDiscount(cottageReservation);
+			}
+			customerService.promoteLoyaltyCustomer(customer);
+			promoteLoyaltyCottageOwner(owner);
 
-		boolean inAction = false;
-		for (CottageReservation q : cottageReservationRepository
-				.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
-
-			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+			if (cottageReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
 
-			if (isCustomersReservationInAction(cottageReservation, q)) {
-				inAction = true;
-			}
-		}
+			boolean inAction = false;
+			for (CottageReservation q : cottageReservationRepository
+					.findByConfirmedIsTrueAndCottageId(cottageReservation.getCottage().getId())) {
 
-		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+				if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
+
+				if (isCustomersReservationInAction(cottageReservation, q)) {
+					inAction = true;
+				}
+			}
+
+			if (!inAction) {
 				return null;
 			}
-		}
 
-		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository
-				.findById(cottageReservation.getCottage().getCottageOwner().getId()).get()
-				.getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
-				return null;
+			for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
 
-		for (CottageQuickReservation q : cottageQuickReservationRepository
-				.findByCottageId(cottageReservation.getCottage().getId())) {
-
-			if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
-				return null;
+			for (DateTimeSpan dateTimeSpan : cottageOwnerRepository
+					.findById(cottageReservation.getCottage().getCottageOwner().getId()).get()
+					.getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
 
-		if (!inAction) {
-			return null;
-		}
+			for (CottageQuickReservation q : cottageQuickReservationRepository
+					.findByIsReservedFalseAndCottageId(cottageReservation.getCottage().getId())) {
 
-		for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
-			if (cottageReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpan(cottageReservation, dateTimeSpan);
-				break;
+				if (q.getDuration().overlapsWith(cottageReservation.getDuration())) {
+					return null;
+				}
 			}
+
+			for (DateTimeSpan dateTimeSpan : cottageReservation.getCottage().getAvailableReservationDateSpan()) {
+				if (cottageReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					reserveAvailableDateSpan(cottageReservation, dateTimeSpan);
+					break;
+				}
+			}
+			CottageReservation cottageReservationReturn = cottageReservationRepository.save(cottageReservation);
+
+			customerService.sendReservationConfirmationEmail(siteUrl, cottageReservationReturn);
+			System.out.println(cottageReservationReturn.getDuration().getStartDate());
+			return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationReturn);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		CottageReservation cottageReservationReturn = cottageReservationRepository.save(cottageReservation);
-
-		customerService.sendReservationConfirmationEmail(siteUrl, cottageReservationReturn);
-
-		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationReturn);
 	}
 
 	private CottageReservation calculateIncomeWithoutCustomerDiscount(CottageReservation cottageReservation) {
@@ -540,19 +549,20 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		}
 		return dtos;
 	}
-	
+
 	@Override
 	public CottageReservationDTO cancelCottageReservation(CottageReservationDTO cottageReservationDTO) {
-		CottageReservation cottageReservation = CottageReservationMapper.CottageReservationDTOToCottageReservation(cottageReservationDTO);
+		CottageReservation cottageReservation = CottageReservationMapper
+				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		LocalDateTime currentTime = LocalDateTime.now();
-		if(currentTime.plusDays(3).compareTo(cottageReservation.getDuration().getStartDate()) >= 0)  {
-		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		if (currentTime.plusDays(3).compareTo(cottageReservation.getDuration().getStartDate()) >= 0) {
+			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
 		cottageReservation.setConfirmed(false);
 		this.freeReservedSpan(cottageReservation);
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
-		
+
 	}
 
 }

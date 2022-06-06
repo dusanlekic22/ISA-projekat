@@ -3,42 +3,38 @@ package isaproject.service.impl.boat;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
-import isaproject.dto.SortTypeDTO;
 import isaproject.dto.LoyaltySettingsDTO;
+import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.dto.cottage.CottageReservationDTO;
-import isaproject.mapper.CottageReservationMapper;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatReservationMapper;
 import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.SortType;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
+import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatOwner;
 import isaproject.model.boat.BoatQuickReservation;
 import isaproject.model.boat.BoatReservation;
-import isaproject.model.cottage.CottageReservation;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.boat.BoatOwnerRepository;
 import isaproject.repository.boat.BoatQuickReservationRepository;
@@ -119,105 +115,109 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 		return dtos;
 	}
-	
+
 	@Override
 	public Page<BoatReservationDTO> findAllPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-
-	    SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-	    Sort sort = Sort.by("id").ascending()  ;
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
 		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-				if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-					sort = Sort.by(sortType.getField()).descending();
-				} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-					sort = Sort.by(sortType.getField()).ascending();
-				}
-			
-				
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(
 					boatReservationRepository.findCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(boatReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
+			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(
+					boatReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
-	
+
 	@Override
 	public Page<BoatReservationDTO> findAllIncomingPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-		  SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-		    Sort sort = Sort.by("id").ascending()  ;
-			if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-					if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-						sort = Sort.by(sortType.getField()).descending();
-					} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-						sort = Sort.by(sortType.getField()).ascending();
-					}
-			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
+		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(
 					boatReservationRepository.findIncomingCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(boatReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
+			return BoatReservationMapper.pageBoatReservationToPageBoatReservationDTO(
+					boatReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
-	
-	
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatReservationDTO reserveCustomer(BoatReservationDTO boatReservationDTO) {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
-		Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
-		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
-		BoatOwner owner = boatOwnerRepository.findById(boatReservationDTO.getBoat().getBoatOwner().getId()).get();
-		boatReservation.setConfirmed(true);
-		boatReservation.setCustomer(customer);
-		boatReservation = calculateIncome(boatReservation);
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyBoatOwner(owner);
-
-		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
-
-		for (BoatReservation q : boatReservationRepository
-				.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
-			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
+		try {
+			Boat boat = boatRepository.getNotLockedBoat(boatReservationDTO.getBoat().getId());
+			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 				return null;
 			}
-		}
+			Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
+			BoatOwner owner = boatOwnerRepository.findById(boat.getBoatOwner().getId()).get();
+			boatReservation.setConfirmed(true);
+			boatReservation.setCustomer(customer);
+			boatReservation = calculateIncome(boatReservation);
+			customerService.promoteLoyaltyCustomer(customer);
+			promoteLoyaltyBoatOwner(owner);
 
-		for (DateTimeSpan dateTimeSpan : boatOwnerRepository.findById(boatReservation.getBoat().getBoatOwner().getId())
-				.get().getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(boatReservation.getDuration())) {
+			if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
-		}
 
-		boolean overlaps = false;
-
-		// Boat boat =
-		// boatRepository.getById(boatReservation.getBoat().getId());
-
-		for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
-			if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				overlaps = true;
-				reserveAvailableDateSpan(boatReservation, dateTimeSpan);
-				break;
+			for (BoatReservation q : boatReservationRepository
+					.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
+				if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
 
-		if (!overlaps) {
-			return null;
+			for (DateTimeSpan dateTimeSpan : boatOwnerRepository
+					.findById(boatReservation.getBoat().getBoatOwner().getId()).get()
+					.getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(boatReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			boolean overlaps = false;
+
+			// Boat boat =
+			// boatRepository.getById(boatReservation.getBoat().getId());
+
+			for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
+				if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					overlaps = true;
+					reserveAvailableDateSpan(boatReservation, dateTimeSpan);
+					break;
+				}
+			}
+
+			if (!overlaps) {
+				return null;
+			}
+			return BoatReservationMapper
+					.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		return BoatReservationMapper
-				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
-	
-		}
-		return null;
-		}
+	}
 
 	private void promoteLoyaltyBoatOwner(BoatOwner owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
@@ -293,69 +293,77 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		boatRepository.save(boat);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatReservationDTO reserveBoatOwner(BoatReservationDTO boatReservationDTO, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
-		Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
-		BoatOwner owner = boatOwnerRepository.findById(boatReservationDTO.getBoat().getBoatOwner().getId()).get();
-		boatReservation.setConfirmed(false);
-		boatReservation.setCustomer(customer);
-		if (boatReservationDTO.getPrice() == 0) {
-			boatReservation = calculateIncome(boatReservation);
-		} else {
-			boatReservation = calculateIncomeWithoutCustomerDiscount(boatReservation);
-		}
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyBoatOwner(owner);
+		try {
+			Boat boat = boatRepository.getNotLockedBoat(boatReservationDTO.getBoat().getId());
+			Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
+			BoatOwner owner = boatOwnerRepository.findById(boat.getBoatOwner().getId()).get();
+			boatReservation.setConfirmed(false);
+			boatReservation.setCustomer(customer);
+			if (boatReservationDTO.getPrice() == 0) {
+				boatReservation = calculateIncome(boatReservation);
+			} else {
+				boatReservation = calculateIncomeWithoutCustomerDiscount(boatReservation);
+			}
+			customerService.promoteLoyaltyCustomer(customer);
+			promoteLoyaltyBoatOwner(owner);
 
-		if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
-
-		boolean inAction = false;
-		for (BoatReservation q : boatReservationRepository
-				.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
-
-			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
+			if (boatReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
 
-			if (isCustomersReservationInAction(boatReservation, q)) {
-				inAction = true;
-			}
-		}
+			boolean inAction = false;
+			for (BoatReservation q : boatReservationRepository
+					.findByConfirmedIsTrueAndBoatId(boatReservation.getBoat().getId())) {
 
-		for (DateTimeSpan dateTimeSpan : boatOwnerRepository.findById(boatReservation.getBoat().getBoatOwner().getId())
-				.get().getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(boatReservation.getDuration())) {
+				if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
+					return null;
+				}
+
+				if (isCustomersReservationInAction(boatReservation, q)) {
+					inAction = true;
+				}
+			}
+
+			for (DateTimeSpan dateTimeSpan : boatOwnerRepository
+					.findById(boatReservation.getBoat().getBoatOwner().getId()).get()
+					.getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(boatReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			for (BoatQuickReservation q : boatQuickReservationRepository
+					.findByBoatId(boatReservation.getBoat().getId())) {
+
+				if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			if (!inAction) {
 				return null;
 			}
-		}
 
-		for (BoatQuickReservation q : boatQuickReservationRepository.findByBoatId(boatReservation.getBoat().getId())) {
-
-			if (q.getDuration().overlapsWith(boatReservation.getDuration())) {
-				return null;
+			for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
+				if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					reserveAvailableDateSpan(boatReservation, dateTimeSpan);
+					break;
+				}
 			}
+			BoatReservation boatReservationReturn = boatReservationRepository.save(boatReservation);
+
+			customerService.sendReservationConfirmationEmail(siteUrl, boatReservationReturn);
+
+			return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-
-		if (!inAction) {
-			return null;
-		}
-
-		for (DateTimeSpan dateTimeSpan : boatReservation.getBoat().getAvailableReservationDateSpan()) {
-			if (boatReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpan(boatReservation, dateTimeSpan);
-				break;
-			}
-		}
-		BoatReservation boatReservationReturn = boatReservationRepository.save(boatReservation);
-
-		customerService.sendReservationConfirmationEmail(siteUrl, boatReservationReturn);
-
-		return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservationReturn);
 	}
 
 	private BoatReservation calculateIncomeWithoutCustomerDiscount(BoatReservation boatReservation) {
@@ -524,18 +532,18 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 		return dtos;
 	}
-	
+
 	@Override
 	public BoatReservationDTO cancelBoatReservation(BoatReservationDTO boatReservationDTO) {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		LocalDateTime currentTime = LocalDateTime.now();
-		if(currentTime.plusDays(3).compareTo(boatReservation.getDuration().getStartDate()) >= 0) {
-		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		if (currentTime.plusDays(3).compareTo(boatReservation.getDuration().getStartDate()) >= 0) {
+			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
 		boatReservation.setConfirmed(true);
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
-		
+
 	}
 
 }

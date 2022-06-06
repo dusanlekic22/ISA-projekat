@@ -4,9 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -14,6 +19,11 @@ import isaproject.model.boat.Boat;
 import isaproject.model.cottage.Cottage;
 
 public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
+	
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b FROM Boat b WHERE b.id=:id")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
+	Boat getNotLockedBoat(long id);
 	
 	public Set<Boat> findAll();
 	List<Boat> findByName(String name);

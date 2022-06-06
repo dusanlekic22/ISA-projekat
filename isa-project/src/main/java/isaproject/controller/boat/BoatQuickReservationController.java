@@ -73,7 +73,7 @@ public class BoatQuickReservationController {
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")
-	@PreAuthorize("hasRole('BOAT_OWNER')")
+	//@PreAuthorize("hasRole('BOAT_OWNER')")
 	public ResponseEntity<BoatReservationDTO> appointQuickBoatReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		BoatReservationDTO boatReservationReturnDTO = boatQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(boatReservationReturnDTO == null)

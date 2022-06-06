@@ -7,8 +7,10 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.cottage.CottageQuickReservationDTO;
@@ -73,7 +75,8 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		return dtos;
 	}
 
-	private void reserveAvailableDateSpan(CottageQuickReservation cottageQuickReservation, DateTimeSpan availableDateSpan) {
+	private void reserveAvailableDateSpan(CottageQuickReservation cottageQuickReservation,
+			DateTimeSpan availableDateSpan) {
 		Cottage cottage = cottageQuickReservation.getCottage();
 		DateTimeSpan duration = cottageQuickReservation.getDuration();
 		cottage.getAvailableReservationDateSpan().remove(availableDateSpan);
@@ -108,7 +111,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		}
 
 		for (CottageQuickReservation q : cottageQuickReservationRepository
-				.findByCottageId(cottageQuickReservation.getCottage().getId())) {
+				.findByIsReservedFalseAndCottageId(cottageQuickReservation.getCottage().getId())) {
 			if (q.getDuration().overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
@@ -120,13 +123,15 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				return null;
 			}
 		}
-		
-		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository.findById(cottageQuickReservation.getCottage().getCottageOwner().getId()).get().getUnavailableReservationDateSpan()) {
+
+		for (DateTimeSpan dateTimeSpan : cottageOwnerRepository
+				.findById(cottageQuickReservation.getCottage().getCottageOwner().getId()).get()
+				.getUnavailableReservationDateSpan()) {
 			if (dateTimeSpan.overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
 			}
 		}
-		
+
 		for (DateTimeSpan dateTimeSpan : cottageQuickReservation.getCottage().getUnavailableReservationDateSpan()) {
 			if (dateTimeSpan.overlapsWith(cottageQuickReservation.getDuration())) {
 				return null;
@@ -152,7 +157,7 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 	@Override
 	public Set<CottageQuickReservationDTO> findByCottageId(Long id) {
 		Set<CottageQuickReservation> cottageQuickReservations = new HashSet<>(
-				cottageQuickReservationRepository.findByCottageId(id));
+				cottageQuickReservationRepository.findByIsReservedFalseAndCottageId(id));
 		Set<CottageQuickReservationDTO> dtos = new HashSet<>();
 		if (cottageQuickReservations.size() != 0) {
 
@@ -188,7 +193,8 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				cottage.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (endChanged) {
 					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), newAvailableDateSpan.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(),
+							newAvailableDateSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(dateTimeSpan.getStartDate(), duration.getEndDate());
 					startChanged = true;
@@ -199,7 +205,8 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 				cottage.getAvailableReservationDateSpan().remove(dateTimeSpan);
 				if (startChanged) {
 					cottage.getAvailableReservationDateSpan().remove(newAvailableDateSpan);
-					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(), dateTimeSpan.getEndDate());
+					newAvailableDateSpan = new DateTimeSpan(newAvailableDateSpan.getStartDate(),
+							dateTimeSpan.getEndDate());
 				} else {
 					newAvailableDateSpan = new DateTimeSpan(duration.getStartDate(), dateTimeSpan.getEndDate());
 					endChanged = true;
@@ -211,21 +218,26 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 		cottageRepository.save(cottage);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public CottageReservationDTO appointQuickReservation(Long reservationId, Long userId) {
-		CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository.findById(reservationId)
-				.get();
-		if (cottageQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
+		try {
+			CottageQuickReservation cottageQuickReservation = cottageQuickReservationRepository
+					.getNotLockedCottageQuickReservation(reservationId);
+			if (cottageQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+				return null;
+			}
+			cottageQuickReservation.setReserved(true);
+			cottageQuickReservationRepository.save(cottageQuickReservation);
+			CottageReservation cottageReservation = CottageQuickReservationMapper
+					.CottageQuickReservationToCottageReservation(cottageQuickReservation);
+			cottageReservation.setCustomer(customerRepository.findById(userId).get());
+			CottageReservation cottageReservationReturn = cottageReservationRepository.save(cottageReservation);
+			return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationReturn);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		cottageQuickReservation.setReserved(true);
-		cottageQuickReservationRepository.save(cottageQuickReservation);
-		CottageReservation cottageReservation = CottageQuickReservationMapper
-				.CottageQuickReservationToCottageReservation(cottageQuickReservation);
-		cottageReservation.setCustomer(customerRepository.findById(userId).get());
-		CottageReservation cottageReservationReturn = cottageReservationRepository.save(cottageReservation);
-		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservationReturn);
 	}
 
 	@Override
@@ -278,5 +290,5 @@ public class CottageQuickReservationServiceImpl implements CottageQuickReservati
 
 		return dtos;
 	}
-	
+
 }

@@ -29,7 +29,6 @@ public class StatiscticsServiceImpl implements StatisticsService {
 
 	@Override
 	public int[] countMonthly(DateTimeSpan reservationSpan, int month, int count[]) {
-		System.out.println(reservationSpan.getEndDate().getYear()+" "+(reservationSpan.getEndDate().getMonthValue()));
 		if (isCurrentYear(reservationSpan) && reservationSpan.getEndDate().getMonthValue() == month) {
 			count[month - 1] += 1;
 		}

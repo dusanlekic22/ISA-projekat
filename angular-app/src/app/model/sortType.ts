@@ -17,12 +17,12 @@ export const sortTypes: ISortType[] = [
   },
   {
     text: 'Grade ascending',
-    field: 'grade',
+    field: 'average_grade',
     direction: 'asc',
   },
   {
     text: 'Grade descending',
-    field: 'grade',
+    field: 'average_grade',
     direction: 'desc',
   },
   {
@@ -67,7 +67,7 @@ export const priceSortType: ISortType = {
 
 export const gradeSortType: ISortType = {
   text: 'Grade ascending',
-  field: 'grade',
+  field: 'average_grade',
   direction: 'desc',
 };
 

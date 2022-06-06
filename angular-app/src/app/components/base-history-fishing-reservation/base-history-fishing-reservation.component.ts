@@ -1,6 +1,6 @@
 import { IFishingReservation } from 'src/app/model/fishingReservation';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ModalDismissReasons,
   NgbModal,
@@ -10,6 +10,7 @@ import { FishingReservationService } from 'src/app/service/fishingReservation.se
 import { emptyReview, IReview } from 'src/app/model/review';
 import { emptyComplaint, IComplaint } from 'src/app/model/complaint';
 import { ComplaintService } from 'src/app/service/complaint.service';
+import { emptyGrade, IGrade } from 'src/app/model/grade';
 
 @Component({
   selector: 'app-base-history-fishing-reservation',
@@ -27,11 +28,13 @@ export class BaseHistoryFishingReservationComponent implements OnInit {
   review!: string;
   gradeOwner!: number;
   gradeEntity!: number;
-  reviewFishing: IReview = emptyReview;
+  reviewFishing: IGrade = emptyGrade;
   complaintFishing: IComplaint = emptyComplaint;
+  customerId!: number;
 
   constructor(
     public router: Router,
+    private _route: ActivatedRoute,
     private modalService: NgbModal,
     private reservationService: FishingReservationService,
     private complaintService: ComplaintService
@@ -66,13 +69,24 @@ export class BaseHistoryFishingReservationComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._route.params.subscribe((data) => {
+      this.customerId = data.id;
+    });
+  }
 
   sendReview() {
-    // this.reservationService
-    //   .sendCottageReview(this.boatReservation)
-    //   .subscribe(() => {
-    //   });
+    this.reviewFishing.review = this.review;
+    this.reviewFishing.fishingCourse = this.fishingReservation.fishingCourse;
+    this.reviewFishing.value = this.gradeEntity;
+    this.reviewFishing.user.id = this.customerId;
+    this.reservationService
+      .sendFishingCourseReview(this.reviewFishing)
+      .subscribe(() => {});
+    this.reviewFishing.value = this.gradeOwner;
+    this.reservationService
+      .sendFishingTrainerReview(this.reviewFishing)
+      .subscribe(() => {});
     this.modalReference.close();
   }
 

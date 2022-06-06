@@ -170,6 +170,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 	public BoatReservationDTO reserveCustomer(BoatReservationDTO boatReservationDTO) {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
+		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 		BoatOwner owner = boatOwnerRepository.findById(boatReservationDTO.getBoat().getBoatOwner().getId()).get();
 		boatReservation.setConfirmed(true);
 		boatReservation.setCustomer(customer);
@@ -213,7 +214,10 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		}
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
-	}
+	
+		}
+		return null;
+		}
 
 	private void promoteLoyaltyBoatOwner(BoatOwner owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();

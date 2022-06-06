@@ -17,7 +17,6 @@ export interface IBoat {
   enginePower: number;
   address: IAddress;
   description: string;
-  grade: number;
   boatRules: string;
   fishingEquipment: string[];
   pricePerHour: number;
@@ -56,7 +55,6 @@ export const initBoat: IBoat = {
   grades: [],
   averageGrade: 0,
   description: '',
-  grade: 0,
   pricePerHour: 0,
   type: '',
   length: 0,

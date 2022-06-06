@@ -170,6 +170,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		CottageReservation cottageReservation = CottageReservationMapper
 				.CottageReservationDTOToCottageReservation(cottageReservationDTO);
 		Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
+		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 		CottageOwner owner = cottageOwnerRepository
 				.findById(cottageReservationDTO.getCottage().getCottageOwner().getId()).get();
 		cottageReservation.setConfirmed(true);
@@ -218,7 +219,10 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 		return CottageReservationMapper
 				.CottageReservationToCottageReservationDTO(cottageReservationRepository.save(cottageReservation));
-	}
+		}else {
+		return null;
+		}
+		}
 
 	private void promoteLoyaltyCottageOwner(CottageOwner owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();

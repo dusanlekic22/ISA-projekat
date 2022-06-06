@@ -242,4 +242,16 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setLoyaltyProgram(loyaltyProgram);
 		customerRepo.save(customer);
 	}
+	
+	@Override
+	public boolean isCustomerUnderPenalityRestrictions(Long customerId) {
+		Customer customer = customerRepo.getById(customerId);
+		if(customer.getPenalties()>=3) {
+			return true;
+		}
+		else {
+		return false;
+	    }
+	}
+	
 }

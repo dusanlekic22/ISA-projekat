@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { IBoat } from 'src/app/model/boat/boat';
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
 import { ISortType } from 'src/app/model/sortType';
+import { IGrade } from 'src/app/model/grade';
 
 @Injectable({
   providedIn: 'root',
@@ -155,11 +156,18 @@ export class BoatReservationService {
       .pipe(catchError(this.handleError));
   }
 
-  sendBoatReview(boatReview: IReview): Observable<IBoatReservation> {
+  sendBoatReview(boatReview: IGrade): Observable<IBoat> {
     return this._http
-      .post<IBoatReservation>(
-        environment.apiUrl +
-          `/boatReservation/${boatReview.boatReservation.id}/review`,
+      .post<any>(
+        environment.apiUrl + `/boat/${boatReview.boat?.id}/grade`,
+        boatReview
+      )
+      .pipe(catchError(this.handleError));
+  }
+  sendBoatOwnerReview(boatReview: IGrade): Observable<IBoat> {
+    return this._http
+      .post<any>(
+        environment.apiUrl + `/boatOwner/${boatReview.boatOwner?.id}/grade`,
         boatReview
       )
       .pipe(catchError(this.handleError));

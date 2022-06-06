@@ -155,6 +155,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	public FishingReservationDTO reserveCustomer(FishingReservationDTO fishingReservationDTO) {
 		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
 		Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
+		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 		FishingTrainer owner = fishingTrainerRepository
 				.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
 		fishingReservation.setConfirmed(true);
@@ -191,7 +192,11 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 
 		return FishingReservationMapper.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
-	}
+		}else {
+			return null;
+		}
+		
+		}
 
 	private void promoteLoyaltyFishingTrainer(FishingTrainer owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();

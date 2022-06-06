@@ -1,3 +1,4 @@
+import { IReview } from 'src/app/model/review';
 import { ISortType } from 'src/app/model/sortType';
 import { ICustomer } from './../../../model/customer';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -6,6 +7,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ICottageReservation } from 'src/app/model/cottageReservation';
 import { ICottage } from 'src/app/model/cottage';
+import { IGrade } from 'src/app/model/grade';
 
 @Injectable({
   providedIn: 'root',
@@ -157,6 +159,23 @@ export class CottageReservationService {
     return this._http
       .get<ICottageReservation[]>(
         environment.apiUrl + `/cottageReservation/passed/owner/${id}`
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  sendCottageReview(gradeDTO: IGrade): Observable<ICottage> {
+    return this._http
+      .post<any>(
+        environment.apiUrl + `/cottage/${gradeDTO.cottage?.id}/grade`,
+        gradeDTO
+      )
+      .pipe(catchError(this.handleError));
+  }
+  sendCottageOwnerReview(gradeDTO: IGrade): Observable<ICottage> {
+    return this._http
+      .post<any>(
+        environment.apiUrl + `/cottageOwner/${gradeDTO.cottageOwner?.id}/grade`,
+        gradeDTO
       )
       .pipe(catchError(this.handleError));
   }

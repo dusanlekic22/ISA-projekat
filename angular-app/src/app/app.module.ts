@@ -129,6 +129,8 @@ import { RegisterAdminComponent } from './pages/admin-pages/register-admin/regis
 import { BussinesOwnerCustomerInfoComponent } from './pages/user-profile/view/bussines-owner-customer-info/bussines-owner-customer-info.component';
 import { UsersListComponent } from './pages/admin-pages/users-list/users-list.component';
 import { ServicesListComponent } from './pages/admin-pages/services-list/services-list.component';
+import { ComplaintsComponent } from './pages/admin-pages/complaints/complaints.component';
+import { AnswerComplaintComponent } from './pages/admin-pages/answer-complaint/answer-complaint.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -229,6 +231,10 @@ FullCalendarModule.registerPlugins([
     BussinesOwnerCustomerInfoComponent,
     UsersListComponent,
     ServicesListComponent,
+    ComplaintsComponent,
+    AnswerComplaintComponent,
+    ComplaintsComponent,
+    AnswerComplaintComponent,
   ],
   imports: [
     NgbModule,

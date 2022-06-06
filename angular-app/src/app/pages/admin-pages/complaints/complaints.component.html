@@ -1,0 +1,44 @@
+<div class="card shadow mt-3">
+  <div class="table-responsive" style="overflow: visible">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Comment</th>
+          <th scope="col">Customer</th>
+          <th scope="col">Owner</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requests">
+          <td>
+            {{ request.id }}
+          </td>
+          <td>
+            {{ request.text }}
+          </td>
+          <td>
+            {{ getCustomer(request) }}
+          </td>
+          <td>
+            {{ getOwner(request) }}
+          </td>
+          <td class="text-right">
+            <button
+              type="button"
+              mdbBtn
+              data-toggle="modal"
+              data-target="#complaintModal"
+              (click)="answer(request)"
+              mdbWavesEffect
+              class="btn btn-primary"
+            >
+              Answer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

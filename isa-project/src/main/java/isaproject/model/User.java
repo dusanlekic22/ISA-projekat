@@ -21,6 +21,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +31,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Entity
 @Inheritance(strategy = JOINED)
 @Table(name = "AppUser")
+@SQLDelete(sql = "UPDATE AppUser SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -55,6 +59,7 @@ public class User implements Serializable, UserDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	private Timestamp lastPasswordResetDate;
+	private Boolean deleted;
 
 	public Long getId() {
 		return id;
@@ -178,6 +183,14 @@ public class User implements Serializable, UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

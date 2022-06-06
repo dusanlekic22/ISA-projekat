@@ -1,3 +1,5 @@
+import { ServicesListComponent } from './pages/admin-pages/services-list/services-list.component';
+import { UsersListComponent } from './pages/admin-pages/users-list/users-list.component';
 import { RegisterAdminComponent } from './pages/admin-pages/register-admin/register-admin.component';
 import { ReservationsComponent } from './pages/reservations/reservations.component';
 import { AplicationIncomeComponent } from './pages/admin-pages/aplication-income/aplication-income.component';
@@ -148,6 +150,14 @@ const routes: Routes = [
   {
     path: 'registerAdmin',
     component: RegisterAdminComponent,
+  },
+  {
+    path: 'users',
+    component: UsersListComponent,
+  },
+  {
+    path: 'services',
+    component: ServicesListComponent,
   },
   { path: '**', redirectTo: '' },
 ];

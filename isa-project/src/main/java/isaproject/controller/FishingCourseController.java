@@ -47,14 +47,13 @@ public class FishingCourseController {
 	public Set<FishingCourseDTO> getAll() {
 		return fishingCourseService.findAll();
 	}
-	
+
 	@PostMapping("/pagination")
 	@ResponseBody
 	public Page<FishingCourseDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "6") int size,
-			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
 		Pageable paging = PageRequest.of(page, size);
-		return fishingCourseService.findAllPagination(sortTypeDTOList,paging);
+		return fishingCourseService.findAllPagination(sortTypeDTOList, paging);
 	}
 
 	@GetMapping("/{id}")
@@ -100,25 +99,33 @@ public class FishingCourseController {
 	public Set<FishingCourseDTO> getByFishingTrainerId(@PathVariable("id") Long id) {
 		return fishingCourseService.findByFishingTrainerId(id);
 	}
-	
+
+	@PostMapping("/searchFishing")
+	@ResponseBody
+	public Page<FishingCourseDTO> searchF(@RequestBody String name, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingCourseService.findByName(name, paging);
+	}
+
 	@GetMapping("/{id}/yearlyCount")
-	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountYearly(id),HttpStatus.OK);
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountYearly(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/monthlyCount")
-	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountMonthly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountMonthly(id),HttpStatus.OK);
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountMonthly(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/weeklyCount")
-	@PreAuthorize("hasRole('FISHING_TRAINER')")	
+	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountWeekly(@PathVariable("id") Long id) {
-		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountWeekly(id),HttpStatus.OK);
+		return new ResponseEntity<>(fishingCourseService.getFishingCourseReservationCountWeekly(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/{id}/yearlyIncome")
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
 	public ResponseEntity<IncomeDTO> getIncomeYearly(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
@@ -133,18 +140,16 @@ public class FishingCourseController {
 
 	@PostMapping("/{id}/dailyIncome")
 	@PreAuthorize("hasRole('FISHING_TRAINER')")
-	public ResponseEntity<IncomeDTO> getIncomeDaily(@PathVariable("id") Long id,
-			@RequestBody DateTimeSpan duration) {
+	public ResponseEntity<IncomeDTO> getIncomeDaily(@PathVariable("id") Long id, @RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(fishingCourseService.getFishingCourseIncomeDaily(duration, id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/{id}/grade")
 	@PreAuthorize("hasRole('CUSTOMER')")
-	public ResponseEntity<FishingCourseDTO> addGrade(@PathVariable("id") Long id,
-			@RequestBody GradeDTO gradeDTO) {
+	public ResponseEntity<FishingCourseDTO> addGrade(@PathVariable("id") Long id, @RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(fishingCourseService.addGrade(gradeDTO, id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/availability")
 	@ResponseBody
 	public Page<FishingCourseDTO> search(@RequestBody FishingCourseAvailabilityDTO fishingCourseAvailability,

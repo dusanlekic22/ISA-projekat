@@ -94,5 +94,6 @@ public interface FishingCourseRepository extends PagingAndSortingRepository<Fish
 					nativeQuery = true)
 	Page<FishingCourse> searchFishingCourseWithSortLocation(
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed, @Param("fishingTrainerId")Long fishingTrainerId,Pageable pageable );
+	Page<FishingCourse> findByNameContains(String name, Pageable paging);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,18 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'FISHING_TRAINER', 'COTTAGE_OWNER', 'BOAT_OWNER')")
 	public UserDTO user(Principal user) {
 		return UserMapper.UserToDTO(this.userService.findByUsername(user.getName()));
+	}
+	
+	@GetMapping("users")
+	@PreAuthorize("hasRole('ADMIN')")
+	public Set<UserDTO> users() {
+		return this.userService.findAll();
+	}
+	
+	@DeleteMapping("{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public UserDTO delete(@PathVariable(value = "id") Long userId) {
+		return this.userService.deleteById(userId);
 	}
 	
 	@GetMapping("/credentials/{id}")

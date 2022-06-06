@@ -1,0 +1,93 @@
+<div class="header bg-gradient-danger pb-8 pt-9">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="text-center">
+        <h1 class="text-white display-3">Users</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--7 pb-5">
+  <div class="card bg-secondary shadow">
+    <div class="card-body">
+      <div
+        class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm"
+      >
+        <table class="table manage-candidates-top mb-0">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th class="text-center">Role</th>
+              <th class="action text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="users">
+            <tr class="candidates-list" *ngFor="let user of users">
+              <td class="title">
+                <div class="thumb">
+                  <img
+                    class="img-fluid"
+                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                    alt=""
+                  />
+                </div>
+                <div class="candidate-list-details">
+                  <div class="candidate-list-info">
+                    <div class="candidate-list-title">
+                      <h5 class="mb-0">
+                        <a href="#">{{
+                          user.firstName +
+                            " " +
+                            user.lastName +
+                            " (" +
+                            user.username +
+                            ")"
+                        }}</a>
+                      </h5>
+                    </div>
+                    <div class="candidate-list-option">
+                      <ul class="list-unstyled">
+                        <li>
+                          {{ user.email }}
+                        </li>
+                        <li>
+                          <i class="fas fa-map-marker-alt pr-1"></i>
+                          {{ getAddress(user) }}
+                        </li>
+                        <li>
+                          {{ user.phoneNumber }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="candidate-list-favourite-time text-center">
+                <a class="candidate-list-favourite order-2 text-danger" href="#"
+                  ><i class="fas fa-heart"></i
+                ></a>
+                <span class="candidate-list-time order-1">{{
+                  user.roles[0].name
+                }}</span>
+              </td>
+              <td>
+                <div
+                  class="mb-0 d-flex justify-content-end"
+                >
+                  <button
+                    class="btn btn-danger"
+                    id="del"
+                    (click)="deleteUser(user.id)"
+                  >
+                    <i class="fas fa-user-times"></i> Delete Account
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

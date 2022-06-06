@@ -86,5 +86,6 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 					nativeQuery = true)
 	Page<Boat> searchBoatWithSortLocation(
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
+	public Page<Boat> findByNameContains(String name, Pageable paging);
 	
 }

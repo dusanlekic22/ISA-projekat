@@ -549,5 +549,10 @@ public class BoatServiceImpl implements BoatService {
 		boatRepository.save(boat);
 		return BoatMapper.BoatToBoatDTO(boat);
 	}
+	
+	@Override
+	public Page<BoatDTO> findByName(String name, Pageable paging) {
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findByNameContains(name, paging));
+	}
 
 }

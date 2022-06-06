@@ -89,5 +89,6 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 	
 	
 	List<Cottage> findByCottageOwnerId(Long id);
+	Page<Cottage> findByNameContains(String name, Pageable paging);
 
 }

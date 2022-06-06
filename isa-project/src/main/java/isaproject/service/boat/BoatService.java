@@ -55,4 +55,7 @@ public interface BoatService {
 	IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id);
 
 	BoatDTO addGrade(GradeDTO gradeDTO, long boatId);
+
+	Page<BoatDTO> findByName(String name, Pageable paging);
+
 }

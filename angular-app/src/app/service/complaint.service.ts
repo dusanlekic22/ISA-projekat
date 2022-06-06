@@ -12,9 +12,21 @@ export class ComplaintService {
 
   constructor(private http: HttpClient) {}
 
-  sendComplaint(complaint: IComplaint): Observable<any> {
+  sendComplaint(complaint: IComplaint): Observable<IComplaint> {
     return this.http
       .post<IComplaint>(`${this.complaintUrl}`, complaint)
+      .pipe(catchError(this.handleError));
+  }
+
+  answer(complaint: IComplaint): Observable<IComplaint> {
+    return this.http
+      .post<IComplaint>(`${this.complaintUrl}/answer`, complaint)
+      .pipe(catchError(this.handleError));
+  }
+
+  getAllComplaints(): Observable<IComplaint[]> {
+    return this.http
+      .get<IComplaint[]>(`${this.complaintUrl}`)
       .pipe(catchError(this.handleError));
   }
 

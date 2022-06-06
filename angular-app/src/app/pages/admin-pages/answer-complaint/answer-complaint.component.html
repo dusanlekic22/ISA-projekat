@@ -39,7 +39,7 @@
             type="text"
             id="custom"
             class="form-control"
-            [(ngModel)]="getCustomer(request)"
+            [ngModel]="getCustomer(request)"
             [disabled]="true"
             mdbInput
           />
@@ -48,7 +48,7 @@
             type="text"
             id="owne"
             class="form-control"
-            [(ngModel)]="getOwner(request)"
+            [ngModel]="getOwner(request)"
             [disabled]="true"
             mdbInput
           />
@@ -57,7 +57,7 @@
             type="text"
             id="explanation"
             class="form-control"
-            [(ngModel)]="request.comment"
+            [(ngModel)]="request.text"
             [disabled]="true"
             mdbInput
           ></textarea>

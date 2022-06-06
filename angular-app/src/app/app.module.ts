@@ -233,6 +233,8 @@ FullCalendarModule.registerPlugins([
     ServicesListComponent,
     ComplaintsComponent,
     AnswerComplaintComponent,
+    ComplaintsComponent,
+    AnswerComplaintComponent,
   ],
   imports: [
     NgbModule,

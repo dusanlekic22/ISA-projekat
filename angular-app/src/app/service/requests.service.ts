@@ -1,3 +1,4 @@
+import { IComplaint } from 'src/app/model/complaint';
 import { IUserDeletionRequest } from './../model/userDeletionRequest';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -21,6 +22,9 @@ export class RequestsService {
   public openDialogReport$: EventEmitter<IReservationReport>;
   public submitedDialogReport$: EventEmitter<IReservationReport>;
 
+  public openDialogComplaint$: EventEmitter<IComplaint>;
+  public submitedDialogComplaint$: EventEmitter<IComplaint>;
+
   constructor(private http: HttpClient) {
     this.openDialogRegistration$ = new EventEmitter();
     this.submitedRegistrationRequest$ = new EventEmitter();
@@ -28,6 +32,8 @@ export class RequestsService {
     this.submitedDeletionRequest$ = new EventEmitter();
     this.openDialogReport$ = new EventEmitter();
     this.submitedDialogReport$ = new EventEmitter();
+    this.openDialogComplaint$ = new EventEmitter();
+    this.submitedDialogComplaint$ = new EventEmitter();
   }
 
   openDialogRegistration(request: IBusinessOwnerRegistrationRequest) {
@@ -52,6 +58,14 @@ export class RequestsService {
 
   submitedReportRequest() {
     this.submitedDialogReport$.emit();
+  }
+
+  openDialogComplaint(report: IComplaint) {
+    this.openDialogComplaint$.emit(report);
+  }
+
+  submitedComplaintRequest() {
+    this.submitedDialogComplaint$.emit();
   }
 
   getBusinessOwnerRegistrationRequests(): Observable<

@@ -1,8 +1,8 @@
+import { ComplaintService } from './../../../service/complaint.service';
+import { IComplaint, emptyComplaint } from 'src/app/model/complaint';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { emptyBoatReservation } from 'src/app/model/boat/boatReservation';
-import { emptyCottageReservation } from 'src/app/model/cottageReservation';
-import { emptyFishingReservation } from 'src/app/model/fishingReservation';
+import { RequestsService } from 'src/app/service/requests.service';
 
 @Component({
   selector: 'app-answer-complaint',
@@ -11,17 +11,19 @@ import { emptyFishingReservation } from 'src/app/model/fishingReservation';
 })
 export class AnswerComplaintComponent implements OnInit {
   @ViewChild('complaint') complaintModal!: ModalDirective;
-  request: any = {
-    id: 0,
-    comment: '',
-    answerOwner: '',
-    answerCustomer: '',
-    fishingReservation: emptyFishingReservation,
-    cottageReservation: emptyCottageReservation,
-    boatReservation: emptyBoatReservation,
-  };
+  request: IComplaint = emptyComplaint;
 
-  constructor() {}
+  constructor(
+    private complaintService: ComplaintService,
+    private requestsService: RequestsService
+  ) {
+    requestsService.openDialogComplaint$.subscribe((report) => {
+      if (report != undefined) {
+        this.request = report;
+        this.show();
+      }
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -33,13 +35,18 @@ export class AnswerComplaintComponent implements OnInit {
     this.complaintModal.hide();
   }
 
-  getOwner(request: any) {
-
+  getOwner(request: IComplaint) {
+    return "";
   }
 
-  getCustomer(request: any) {
-
+  getCustomer(request: IComplaint) {
+    return "";
   }
 
-  answer() {}
+  answer() {
+    this.complaintService.answer(this.request).subscribe(() => {
+      this.close();
+      this.requestsService.submitedComplaintRequest();
+    });
+  }
 }

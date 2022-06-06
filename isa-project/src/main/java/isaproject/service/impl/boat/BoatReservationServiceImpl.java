@@ -165,10 +165,10 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		BoatReservation boatReservation = BoatReservationMapper.BoatReservationDTOToBoatReservation(boatReservationDTO);
 		try {
 			Boat boat = boatRepository.getNotLockedBoat(boatReservationDTO.getBoat().getId());
+			Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
 			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 				return null;
 			}
-			Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
 			BoatOwner owner = boatOwnerRepository.findById(boat.getBoatOwner().getId()).get();
 			boatReservation.setConfirmed(true);
 			boatReservation.setCustomer(customer);

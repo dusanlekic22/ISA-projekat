@@ -167,10 +167,10 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 
 		try {
 			Cottage cottage = cottageRepository.getNotLockedCottage(cottageReservation.getCottage().getId());
+			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
 			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
 				return null;
 			}
-			Customer customer = customerRepository.findById(cottageReservationDTO.getCustomer().getId()).get();
 			CottageOwner owner = cottageOwnerRepository.findById(cottage.getCottageOwner().getId()).get();
 			cottageReservation.setConfirmed(true);
 			cottageReservation.setCustomer(customer);

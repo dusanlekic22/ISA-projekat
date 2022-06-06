@@ -30,8 +30,8 @@ export class BoatOwnerHomeComponent implements OnInit {
 
   getBoats(ownerId : number): void{
     this._boatService.getBoatsByBoatOwnerId(ownerId).subscribe((boats) => {
-      this.boats = boats;
-      this.filteredBoats = this.boats;
+      this.boats = boats.filter((e) => e.deleted == false);
+      this.filteredBoats = this.boats.filter((e) => e.deleted == false);
     });
   }
 
@@ -78,7 +78,7 @@ export class BoatOwnerHomeComponent implements OnInit {
   searchBoats(filter: string) {
     if(filter!='')
       this.filteredBoats = this.boats.filter(boat => boat.name.toLowerCase().includes(filter.toLowerCase()));
-    else 
+    else
       this.filteredBoats = this.boats;
   }
 }

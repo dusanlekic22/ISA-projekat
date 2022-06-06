@@ -24,7 +24,6 @@ import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
 import isaproject.exception.ReservedServiceException;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.FishingCourseMapper;
@@ -32,7 +31,6 @@ import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
-import isaproject.mapper.boat.BoatMapper;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
@@ -42,7 +40,6 @@ import isaproject.model.Income;
 import isaproject.model.RequestStatus;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
-import isaproject.model.boat.Boat;
 import isaproject.repository.FishingCourseRepository;
 import isaproject.service.CustomerService;
 import isaproject.service.FishingCourseService;
@@ -69,7 +66,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public Set<FishingCourseDTO> findAll() {
-		Set<FishingCourse> courses = new HashSet<FishingCourse>(courseRepository.findAll());
+		Set<FishingCourse> courses = new HashSet<FishingCourse>(courseRepository.findAllByDeletedIsFalse());
 		Set<FishingCourseDTO> courseDTOs = new HashSet<FishingCourseDTO>();
 		for (FishingCourse fishingCourse : courses) {
 			courseDTOs.add(FishingCourseMapper.FishingCourseToDTO(fishingCourse));
@@ -100,12 +97,12 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	@Transactional
 	@Override
 	public void deleteById(Long id) {
-		FishingCourseDTO courseDTO = findById(id);
-		if (isReserved(courseDTO.getId())) {
+		FishingCourse course = courseRepository.findById(id).get();
+		if (isReserved(course.getId())) {
 			throw new ReservedServiceException(
 					String.format("Fishing course '%s' is reserved and can't be deleted or changed.", id));
 		}
-		courseRepository.deleteById(courseDTO.getId());
+		course.setDeleted(true);
 	}
 
 	@Transactional
@@ -145,6 +142,31 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public Page<FishingCourseDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream()
+				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if (sortTypes != null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getField().equals("price_per_hour")) {
+					sortType.setField("price");
+				}
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(paging));
+		} else {
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(pageable));
+		}
+	}
+	
+	@Override
+	public Page<FishingCourseDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		List<SortType> sortTypes = sortTypesDTO.stream()
 				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());

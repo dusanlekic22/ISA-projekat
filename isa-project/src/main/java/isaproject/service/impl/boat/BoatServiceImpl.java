@@ -26,8 +26,6 @@ import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.dto.cottage.CottageDTO;
-import isaproject.mapper.CottageMapper;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.GradeMapper;
@@ -43,7 +41,6 @@ import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
-import isaproject.model.cottage.Cottage;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
 import isaproject.service.CustomerService;
@@ -80,7 +77,7 @@ public class BoatServiceImpl implements BoatService {
 	}
 
 	public Set<BoatDTO> findAll() {
-		Set<Boat> boats = new HashSet<>(boatRepository.findAll());
+		Set<Boat> boats = new HashSet<>(boatRepository.findAllByDeletedIsFalse());
 		Set<BoatDTO> dtos = new HashSet<>();
 		if (boats.size() != 0) {
 			BoatDTO dto;
@@ -106,19 +103,40 @@ public class BoatServiceImpl implements BoatService {
 
 		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 		
-		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAll(paging));
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(paging));
 		}else {
-			return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAll(pageable));
+			return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(pageable));
+		}
+		}
+	
+	@Override
+	public Page<BoatDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream().map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if(sortTypes !=null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+		Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+		
+		return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(paging));
+		}else {
+			return BoatMapper.pageBoatToPageBoatDTO(boatRepository.findAllByDeletedIsFalse(pageable));
 		}
 		}
 
 	@Transactional
 	@Override
 	public BoatDTO deleteById(Long id) {
-		BoatDTO boatDTO = findById(id);
+		Boat boat = boatRepository.findById(id).get();
 		if (boatReservationService.findAllActiveByBoatId(id).isEmpty()) {
-			boatRepository.deleteById(id);
-			return boatDTO;
+			boat.setDeleted(true);
+			return BoatMapper.BoatToBoatDTO(boat);
 		}
 		return null;
 	}
@@ -317,7 +335,7 @@ public class BoatServiceImpl implements BoatService {
 	@Override
 	public Set<BoatDTO> findByReservationDate(DateSpanDTO reservationDateDTO) {
 		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
-		Set<Boat> boats = new HashSet<>(boatRepository.findAll());
+		Set<Boat> boats = new HashSet<>(boatRepository.findAllByDeletedIsFalse());
 		Set<BoatDTO> availableBoats = new HashSet<>();
 		if (boats.size() != 0) {
 

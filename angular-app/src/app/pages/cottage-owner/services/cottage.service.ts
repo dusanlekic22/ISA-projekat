@@ -56,6 +56,21 @@ export class CottageService {
       );
   }
 
+  getCottagesPaginationAdmin(
+    page: number,
+    sorts: ISortType[]
+  ): Observable<ICottagePage> {
+    return this._http
+      .post<ICottagePage>(
+        environment.apiUrl + `/cottage/pagination/admin?page=` + page,
+        sorts
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   getAvailableCottagesSubscription(
     customerId: number,
     page: number

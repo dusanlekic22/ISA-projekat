@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -79,6 +80,9 @@ public class FishingCourse implements Serializable {
 	@SuppressWarnings("unused")
 	private Double averageGrade = 0.0;
 
+	@Column(columnDefinition = "boolean default false")
+	private Boolean deleted = false;
+	
 	public FishingCourse() {
 	}
 
@@ -245,6 +249,14 @@ public class FishingCourse implements Serializable {
 		} else {
 			averageGrade = sum;
 		}
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

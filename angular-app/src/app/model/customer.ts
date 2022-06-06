@@ -1,22 +1,12 @@
-import { emptyFishingCourse } from './fishingCourse';
-import { IRole } from './../pages/registration/registration/user';
+import { IRole, IUser } from './../pages/registration/registration/user';
 import { IAddress } from './address';
 import { ILoyaltyProgram, LoyaltyRank } from './loyaltyProgram';
 
-export interface ICustomer {
-  id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  enabled: boolean;
-  verificationCode: string;
-  roles: IRole[];
-  phoneNumber: string;
-  address: IAddress;
+export interface ICustomer extends IUser {
   loyaltyProgram: ILoyaltyProgram;
   penalties: number;
+  enabled: boolean;
+  verificationCode: string;
 }
 
 export const emptyCustomer: ICustomer = {
@@ -42,4 +32,5 @@ export const emptyCustomer: ICustomer = {
     points: 0,
   },
   penalties: 0,
+  deleted: false,
 };

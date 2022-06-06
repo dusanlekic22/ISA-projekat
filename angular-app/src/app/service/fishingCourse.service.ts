@@ -40,6 +40,21 @@ export class FishingCourseService {
       );
   }
 
+  getFishingCoursesPaginationAdmin(
+    page: number,
+    sorts: ISortType[]
+  ): Observable<IFishingCoursePage> {
+    return this.http
+      .post<IFishingCoursePage>(
+        `${this.fishingCourseUrl}/pagination/admin?page=${page}`,
+        sorts
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   getFishingCourseById(FishingCourseId: number): Observable<IFishingCourse> {
     return this.http
       .get<IFishingCourse>(`${this.fishingCourseUrl}/${FishingCourseId}`)

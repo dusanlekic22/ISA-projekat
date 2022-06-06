@@ -28,8 +28,6 @@ import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.FishingCourseService;
 
@@ -56,6 +54,14 @@ public class FishingCourseController {
 			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
 		Pageable paging = PageRequest.of(page, size);
 		return fishingCourseService.findAllPagination(sortTypeDTOList, paging);
+	}
+	
+	@PostMapping("/pagination/admin")
+	@ResponseBody
+	public Page<FishingCourseDTO> getAllPaginationAdmin(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingCourseService.findAllPaginationAdmin(sortTypeDTOList, paging);
 	}
 
 	@GetMapping("/{id}")

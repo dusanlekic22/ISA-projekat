@@ -45,6 +45,7 @@
                             ")"
                         }}</a>
                       </h5>
+                      <span *ngIf="user.deleted == true" class="text-red">[DELETED]</span>
                     </div>
                     <div class="candidate-list-option">
                       <ul class="list-unstyled">
@@ -64,7 +65,7 @@
                 </div>
               </td>
               <td class="candidate-list-favourite-time text-center">
-                <a class="candidate-list-favourite order-2 text-danger" href="#"
+                <a class="candidate-list-favourite order-2 text-danger" href="#" *ngIf="user.deleted == false"
                   ><i class="fas fa-heart"></i
                 ></a>
                 <span class="candidate-list-time order-1">{{
@@ -79,6 +80,7 @@
                     class="btn btn-danger"
                     id="del"
                     (click)="deleteUser(user.id)"
+                    *ngIf="user.deleted == false"
                   >
                     <i class="fas fa-user-times"></i> Delete Account
                   </button>

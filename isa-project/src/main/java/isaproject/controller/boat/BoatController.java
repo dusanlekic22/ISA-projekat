@@ -56,6 +56,15 @@ public class BoatController {
 		return boatService.findAllPagination(sortTypeDTOList,paging);
 	}
 	
+	@PostMapping("/pagination/admin")
+	@ResponseBody
+	public Page<BoatDTO> getAllPaginationAdmin(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size,
+			@RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatService.findAllPaginationAdmin(sortTypeDTOList,paging);
+	}
+	
 	@GetMapping("/{id}")
 //	@PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")	
 	public BoatDTO loadById(@PathVariable("id") Long id) {

@@ -48,6 +48,7 @@ public class FishingCourseMapper {
 		fishingCourseDTO.setFishingTrainer(fishingCourse.getFishingTrainer());
 		fishingCourseDTO.setAverageGrade(fishingCourse.getAverageGrade());
 		fishingCourseDTO.setSubscribers(fishingCourse.getSubscribers());
+		fishingCourseDTO.setDeleted(fishingCourse.getDeleted());
 		return fishingCourseDTO;
 	}
 	

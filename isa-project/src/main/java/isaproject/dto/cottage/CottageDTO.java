@@ -35,6 +35,8 @@ public class CottageDTO {
 	private Set<Grade> grades = new HashSet<Grade>();
 	private CottageOwner cottageOwner;
 	private Double averageGrade;
+	private Boolean deleted;
+
 
 	public CottageDTO() {
 		super();
@@ -183,6 +185,14 @@ public class CottageDTO {
 
 	public void setGrades(Set<Grade> grades) {
 		this.grades = grades;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

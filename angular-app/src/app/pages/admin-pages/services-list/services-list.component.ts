@@ -42,7 +42,7 @@ export class ServicesListComponent implements OnInit {
     private _cottageService: CottageService,
     private _boatService: BoatService,
     private _fishingCourseService: FishingCourseService,
-    private _reservationService: ReservationService
+    private _reservationService: ReservationService,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ServicesListComponent implements OnInit {
 
   getCottages() {
     this._cottageService
-      .getCottagesPagination(this.cottagePage, [emptySortType])
+      .getCottagesPaginationAdmin(this.cottagePage, [emptySortType])
       .subscribe((data) => {
         this.cottages = data.content;
         this.cottageTotalElements = data.totalElements;
@@ -93,7 +93,7 @@ export class ServicesListComponent implements OnInit {
 
   getBoats() {
     this._boatService
-      .getBoatsPagination(this.boatPage, [emptySortType])
+      .getBoatsPaginationAdmin(this.boatPage, [emptySortType])
       .subscribe((data) => {
         this.boats = data.content;
         this.boatTotalElements = data.totalElements;
@@ -133,7 +133,7 @@ export class ServicesListComponent implements OnInit {
 
   getFishingCourses() {
     this._fishingCourseService
-      .getFishingCoursesPagination(this.fishingCoursePage, [emptySortType])
+      .getFishingCoursesPaginationAdmin(this.fishingCoursePage, [emptySortType])
       .subscribe((data) => {
         this.fishingCourses = data.content;
         this.fishingCourseTotalElements = data.totalElements;
@@ -180,9 +180,27 @@ export class ServicesListComponent implements OnInit {
     );
   }
 
-  deleteService(id: number) {
+  deleteFishingCourse(id: number) {
     if (confirm('Do you want to delete this service?')) {
-      // this.userService.deleteUser(id).subscribe(() => this.loadUsers());
+      this._fishingCourseService.deleteFishingCourse(id).subscribe(() => {
+        this.getFishingCourses();
+      });
+    }
+  }
+
+  deleteCottage(id: number) {
+    if (confirm('Do you want to delete this service?')) {
+      this._cottageService.deleteCottage(id).subscribe(() => {
+        this.getCottages();
+      });
+    }
+  }
+
+  deleteBoat(id: number) {
+    if (confirm('Do you want to delete this service?')) {
+      this._boatService.deleteBoat(id).subscribe(() => {
+        this.getBoats();
+      });
     }
   }
 }

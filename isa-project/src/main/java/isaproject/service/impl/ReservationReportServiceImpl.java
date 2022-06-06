@@ -82,7 +82,7 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 	public ReservationReportDTO approve(ReservationReportDTO reservationReportDTO, String answerCutomer,
 			String answerOwner) {
 		ReservationReport report = reservationReportRepository.findById(reservationReportDTO.getId()).get();
-		if (report.getUserPenalized() != null)
+		if (report.getUserPenalized() != RequestStatus.Waiting)
 			return ReservationReportMapper.ReservationReportToDTO(report);
 		report.setUserPenalized(RequestStatus.Accepted);
 		penalizedCustomer(report);
@@ -120,7 +120,7 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 	public ReservationReportDTO decline(ReservationReportDTO reservationReportDTO, String answerCutomer,
 			String answerOwner) {
 		ReservationReport report = reservationReportRepository.findById(reservationReportDTO.getId()).get();
-		if (report.getUserPenalized() != null)
+		if (report.getUserPenalized() != RequestStatus.Waiting)
 			return ReservationReportMapper.ReservationReportToDTO(report);
 		report.setUserPenalized(RequestStatus.Accepted);
 		sendDeclineEmailCustomer(getReportedCustomer(report).getEmail(), answerCutomer);

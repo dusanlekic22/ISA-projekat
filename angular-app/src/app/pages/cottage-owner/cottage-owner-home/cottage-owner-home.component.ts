@@ -30,8 +30,8 @@ export class CottageOwnerHomeComponent implements OnInit {
 
   getCottages(ownerId : number): void{
     this._cottageService.getCottagesByCottageOwnerId(ownerId).subscribe((cottages) => {
-      this.cottages = cottages;
-      this.filteredCottages = this.cottages;
+      this.cottages = cottages.filter((e) => e.deleted == false);
+      this.filteredCottages = this.cottages.filter((e) => e.deleted == false);
     });
   }
 

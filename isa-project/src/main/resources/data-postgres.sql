@@ -51,13 +51,13 @@ insert into app_user (username, password, first_name, last_name, email, enabled,
 insert into app_user_roles (user_id, role_id) values (8, 5);
 insert into boat_owner (id, loyalty_rank, points) values (8,0,0);
 
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',2,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',3,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Royal ', 'Najjaca', 0.0, 3, 15,2,'Nema',4,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Vila Jezero', 'Najjaca', 0.0, 3, 15,3,'Nema',5,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',6,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',7,4);
-insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id) values ('OOOOOOOOOOOOOOO ', 'Najjaca', 0.0, 3, 15,2,'Nema',2,4);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',2,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',3,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Royal ', 'Najjaca', 0.0, 3, 15,2,'Nema',4,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Vila Jezero', 'Najjaca', 0.0, 3, 15,3,'Nema',5,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Turist', 'Najjaca', 0.0, 3, 15, 1,'Nema',6,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('Garni Ideal', 'Najjaca', 0.0, 3, 15, 2,'Nema',7,4,false);
+insert into cottage (name, promo_description, average_grade, bed_count, room_count, price_per_hour, cottage_rules,address_id,cottage_owner_id, deleted) values ('OOOOOOOOOOOOOOO ', 'Najjaca', 0.0, 3, 15,2,'Nema',2,4,false);
 insert into grade (value, review, is_accepted, cottage_id) values (4.2,'Solidna usluga',1,4);
 insert into grade (value, review, is_accepted, cottage_id) values (1.2,'Solidna usluga',2,4);
 insert into grade (value, review, is_accepted, cottage_id) values (1.0,'Valja',0,4);
@@ -76,15 +76,15 @@ insert into cottage_available_date_spans (start_date, end_date, cottage_id) valu
 insert into cottage_unavailable_date_spans (start_date, end_date, cottage_id) values ('2022-07-03', '2022-07-15',4);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,2);
 
-insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Pecanje 1', 'Najjace',4.2, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7);
-insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id) values ('Avantura 1', 'Najjace',4.8, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7);
+insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id, deleted) values ('Pecanje 1', 'Najjace',4.2, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 20.5, 5.0, 1, 7, false);
+insert into fishing_course (name, promo_description,average_grade, capacity, fishing_rules, fishing_equipment, price, cancellation_percentage_keep, address_id, fishing_trainer_id, deleted) values ('Avantura 1', 'Najjace',4.8, 3, 'Zabranjeno vikanje', '2 Pecaljeke', 50.0, 5.0, 1, 7, false);
 --insert into fishing_reservation (start_date, end_date, capacity, price, confirmed, fishing_course_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, true,1,5);
 insert into cottage_subscribers (cottage_id,customer_id) values (4,5);
 
-insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id) values ('Biser', 'Najjaca', 1,'Nema',2,8);
-insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id) values ('Delfin', 'Najjaca', 2,'Nema',3,8);
-insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id) values ('Dijamant ', 'Najjaca', 2,'Nema',2,8);
-insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8);
+insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id, deleted) values ('Biser', 'Najjaca', 1,'Nema',2,8,false);
+insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id, deleted) values ('Delfin', 'Najjaca', 2,'Nema',3,8,false);
+insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id, deleted) values ('Dijamant ', 'Najjaca', 2,'Nema',2,8,false);
+insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id, deleted) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8,false);
 insert into additional_service (name,price,boat_id) values ('Wi-fi',5,4);
 
 insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, 50, 100, true, 4,6);

@@ -34,6 +34,7 @@ export interface IBoat {
   averageGrade: number;
   navigationEquipment: string[];
   grades: IGrade[];
+  deleted: boolean;
 }
 
 export interface IBoatPage {
@@ -97,5 +98,7 @@ export const initBoat: IBoat = {
       points: 0,
     },
     unavailableReservationDateSpan: [],
+    deleted: false,
   },
+  deleted: false,
 };

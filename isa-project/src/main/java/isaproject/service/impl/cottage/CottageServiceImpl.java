@@ -75,7 +75,7 @@ public class CottageServiceImpl implements CottageService {
 	}
 
 	public Set<CottageDTO> findAll() {
-		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
+		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAllByDeletedIsFalse());
 		Set<CottageDTO> dtos = new HashSet<>();
 		if (cottages.size() != 0) {
 			CottageDTO dto;
@@ -105,6 +105,31 @@ public class CottageServiceImpl implements CottageService {
 
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
 
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllByDeletedIsFalse(paging));
+		} else {
+			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAllByDeletedIsFalse(pageable));
+		}
+	}
+	
+	@Override
+	public Page<CottageDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream()
+				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if (sortTypes != null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					System.out.println("Poljeeee" + sortType.getField());
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+					System.out.println(sortType.getField());
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					System.out.println("Poljeeee" + sortType.getField());
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
 			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(paging));
 		} else {
 			return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findAll(pageable));
@@ -114,10 +139,10 @@ public class CottageServiceImpl implements CottageService {
 	@Transactional
 	@Override
 	public CottageDTO deleteById(Long id) {
-		CottageDTO cottageDTO = findById(id);
+		Cottage cottage = cottageRepository.findById(id).get();
 		if (cottageReservationService.findAllActiveByCottageId(id).isEmpty()) {
-			cottageRepository.deleteById(id);
-			return cottageDTO;
+			cottage.setDeleted(true);
+			return CottageMapper.CottageToCottageDTO(cottage);
 		}
 		return null;
 	}
@@ -315,7 +340,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	public Set<CottageDTO> findByReservationDate(DateSpanDTO reservationDateDTO) {
 		DateTimeSpan reservationDate = DateSpanMapper.dateSpanDTOtoDateSpan(reservationDateDTO);
-		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAll());
+		Set<Cottage> cottages = new HashSet<>(cottageRepository.findAllByDeletedIsFalse());
 		Set<CottageDTO> availableCottages = new HashSet<>();
 		if (cottages.size() != 0) {
 

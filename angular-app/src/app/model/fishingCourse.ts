@@ -26,6 +26,7 @@ export interface IFishingCourse {
   fishingTrainer: IFishingTrainer;
   averageGrade: number;
   subscribers: ICustomer[];
+  deleted: boolean;
 }
 export interface IFishingCoursePage {
   content: IFishingCourse[];
@@ -72,6 +73,7 @@ export const emptyFishingCourse: IFishingCourse = {
   subscribers: [],
   price: 0,
   fishingTrainer: emptyFishingTrainer,
+  deleted: false
 };
 
 export const emptyFishingCourseAvailability: IFishingCourseAvailability = {

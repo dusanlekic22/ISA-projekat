@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -76,6 +77,8 @@ public class Cottage implements Serializable {
 	private Set<Grade> grades = new HashSet<Grade>();
 	@SuppressWarnings("unused")
 	private Double averageGrade = 0.0;
+	@Column(columnDefinition = "boolean default false")
+	private Boolean deleted = false;
 
 	public long getId() {
 		return id;
@@ -253,6 +256,14 @@ public class Cottage implements Serializable {
 		} else {
 			averageGrade = sum;
 		}
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

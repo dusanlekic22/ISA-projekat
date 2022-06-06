@@ -37,8 +37,8 @@ export class FishingTrainerCoursesComponent implements OnInit {
     this.fishingCourseService
       .getFishingTrainerCourses(id)
       .subscribe((fishingCourses: IFishingCourse[]) => {
-        this.fishingCourses = fishingCourses;
-        this.filteredCourses = fishingCourses;
+        this.fishingCourses = fishingCourses.filter((e) => e.deleted == false);
+        this.filteredCourses = fishingCourses.filter((e) => e.deleted == false);
       });
   }
 

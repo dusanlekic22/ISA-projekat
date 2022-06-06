@@ -67,6 +67,7 @@ public class BoatMapper {
 		boatDTO.setFishingEquipment(boat.getFishingEquipment());
 		boatDTO.setNavigationEquipment(boat.getNavigationEquipment());
 		boatDTO.setGrades(boat.getGrades());
+		boatDTO.setDeleted(boat.getDeleted());
 		return boatDTO;
 	}
 	

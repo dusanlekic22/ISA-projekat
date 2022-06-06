@@ -64,4 +64,6 @@ public interface CottageService {
 
 	Page<CottageDTO> findAllCottageSubscriptionByCustomer(Long customerId, Pageable pageable);
 
+	Page<CottageDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable);
+
 }

@@ -11,9 +11,8 @@ import isaproject.dto.FishingCourseDTO;
 import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
-import isaproject.model.DateTimeSpan;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatDTO;
+import isaproject.model.DateTimeSpan;
 
 public interface FishingCourseService {
 
@@ -59,4 +58,7 @@ public interface FishingCourseService {
 	FishingCourseDTO unsubscribe(Long id, Long customerId);
 	
 	Page<FishingCourseDTO> findAllFishingSubscriptionByCustomer(Long customerId, Pageable pageable);
+
+	Page<FishingCourseDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable);
+
 }

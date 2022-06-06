@@ -87,10 +87,10 @@ insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_
 insert into boat (name, description, price_per_hour, boat_rules,address_id,boat_owner_id) values ('Plava laguna', 'Najjaca', 3,'Nema',1,8);
 insert into additional_service (name,price,boat_id) values ('Wi-fi',5,4);
 
-insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, 50, 100, true, 4,6);
-insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, boat_id,customer_id) values ('2022-06-04', '2022-06-12', 5, 70, 50, 100, true, 4,6);
-insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, boat_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, 50, 100, true,4,5);
-insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, boat_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, 50, 100, true,4,5);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, is_cancelled, boat_id,customer_id) values ('2022-06-15T13:22:11', '2022-06-18', 5, 70, 50, 100, true, false, 4,6);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, is_cancelled, boat_id,customer_id) values ('2022-06-04', '2022-06-12', 5, 70, 50, 100, true, false, 4,6);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, is_cancelled, boat_id,customer_id) values ('2022-05-25', '2022-06-03', 5, 70, 50, 100, true, false, 4,5);
+insert into boat_reservation (start_date, end_date, guest_capacity, price, owner_income, site_income, confirmed, is_cancelled, boat_id,customer_id) values ('2022-05-11', '2022-05-13', 6, 100, 50, 100, true, false, 4,5);
 insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-05-01', '2022-05-31',4);
 insert into boat_available_date_spans (start_date, end_date, boat_id) values ('2022-06-01', '2022-06-30',4);
 

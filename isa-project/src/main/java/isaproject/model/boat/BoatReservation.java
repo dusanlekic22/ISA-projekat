@@ -50,6 +50,7 @@ public class BoatReservation implements Serializable {
 	@JsonManagedReference(value = "boatReservationService")
 	private Set<AdditionalService> additionalService;
 	private boolean confirmed;
+	private boolean isCancelled;
 	
 	public long getId() {
 		return id;
@@ -129,6 +130,14 @@ public class BoatReservation implements Serializable {
 
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
+	}
+
+	public boolean isCancelled() {
+		return isCancelled;
+	}
+
+	public void setCancelled(boolean isCancelled) {
+		this.isCancelled = isCancelled;
 	}	
 
 }

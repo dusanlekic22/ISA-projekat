@@ -129,7 +129,7 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 			}
 		}
 
-		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndBoatId(boatQuickReservation.getBoat().getId())) {
+		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(boatQuickReservation.getBoat().getId())) {
 			if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
 				return null;
 			}

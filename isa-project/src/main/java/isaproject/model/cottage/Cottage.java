@@ -27,6 +27,7 @@ import isaproject.model.Address;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
+import isaproject.model.RequestStatus;
 
 @Entity(name = "cottage")
 public class Cottage implements Serializable {
@@ -228,7 +229,7 @@ public class Cottage implements Serializable {
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
 				System.out.println("aa"+grade.getValue());
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			return sum / grades.size();
@@ -241,7 +242,7 @@ public class Cottage implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();

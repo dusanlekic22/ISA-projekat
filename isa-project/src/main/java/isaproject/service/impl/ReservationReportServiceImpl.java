@@ -12,6 +12,7 @@ import isaproject.dto.ReservationReportDTO;
 import isaproject.mapper.ReservationReportMapper;
 import isaproject.model.Customer;
 import isaproject.model.Mail;
+import isaproject.model.RequestStatus;
 import isaproject.model.ReservationReport;
 import isaproject.model.ReservationReportStatus;
 import isaproject.model.User;
@@ -44,12 +45,12 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 		ReservationReport reservationReport = ReservationReportMapper.DTOToReservationReport(reservationReportDTO);
 		if (isReported(reservationReport)) return null; 
 		if (reservationReport.getReservationReportStatus() == ReservationReportStatus.Positive) {
-			reservationReport.setUserPenalized(false);
+			reservationReport.setUserPenalized(RequestStatus.Declined);
 		} else if (reservationReport.getReservationReportStatus() == ReservationReportStatus.NoCustomer) {
-			reservationReport.setUserPenalized(true);
+			reservationReport.setUserPenalized(RequestStatus.Accepted);
 			penalizedCustomer(reservationReport);
 		} else if (reservationReport.getReservationReportStatus() == ReservationReportStatus.Negative) {
-			reservationReport.setUserPenalized(null);
+			reservationReport.setUserPenalized(RequestStatus.Waiting);
 		}
 		return ReservationReportMapper.ReservationReportToDTO(reservationReportRepository.save(reservationReport));
 	}
@@ -83,7 +84,7 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 		ReservationReport report = reservationReportRepository.findById(reservationReportDTO.getId()).get();
 		if (report.getUserPenalized() != null)
 			return ReservationReportMapper.ReservationReportToDTO(report);
-		report.setUserPenalized(true);
+		report.setUserPenalized(RequestStatus.Accepted);
 		penalizedCustomer(report);
 		sendApproveEmailCustomer(getReportedCustomer(report).getEmail(), answerCutomer);
 		sendApproveEmailOwner(getReportOwner(report).getEmail(), answerOwner);
@@ -121,7 +122,7 @@ public class ReservationReportServiceImpl implements ReservationReportService {
 		ReservationReport report = reservationReportRepository.findById(reservationReportDTO.getId()).get();
 		if (report.getUserPenalized() != null)
 			return ReservationReportMapper.ReservationReportToDTO(report);
-		report.setUserPenalized(false);
+		report.setUserPenalized(RequestStatus.Accepted);
 		sendDeclineEmailCustomer(getReportedCustomer(report).getEmail(), answerCutomer);
 		sendDeclineEmailOwner(getReportOwner(report).getEmail(), answerOwner);
 		return ReservationReportMapper.ReservationReportToDTO(report);

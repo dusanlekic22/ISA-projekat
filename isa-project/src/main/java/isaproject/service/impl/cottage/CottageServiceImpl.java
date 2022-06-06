@@ -37,6 +37,7 @@ import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.Income;
+import isaproject.model.RequestStatus;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.cottage.Cottage;
@@ -542,7 +543,7 @@ public class CottageServiceImpl implements CottageService {
 	@Override
 	@Transactional
 	public CottageDTO addGrade(GradeDTO gradeDTO,long cottageId) {
-		gradeDTO.setIsAccepted(null);
+		gradeDTO.setIsAccepted(RequestStatus.Waiting);
 		Cottage cottage = cottageRepository.findById(cottageId).get();
 		for(Grade grade: cottage.getGrades()) {
 			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {

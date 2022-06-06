@@ -33,7 +33,7 @@
               (click)="answer(request)"
               mdbWavesEffect
               class="btn btn-primary"
-              *ngIf="request.isAccepted == null"
+              *ngIf="request.isAccepted == RequestStatus.Waiting"
             >
               Answer
             </button>

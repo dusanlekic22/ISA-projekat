@@ -21,6 +21,7 @@ import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
+import isaproject.model.RequestStatus;
 import isaproject.model.cottage.CottageOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
@@ -73,7 +74,7 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 		cottageOwner.setLoyaltyProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
-		request.setAccepted(null);
+		request.setAccepted(RequestStatus.Waiting);
 		request.setRegistrationExplanation(businessOwnerDTO.getRegistrationExplanation());
 		request.setUserEmail(cottageOwner.getEmail());
 		registrationRequestRepository.save(request);
@@ -132,7 +133,7 @@ public class CottageOwnerServiceImpl implements CottageOwnerService {
 	@Override
 	@Transactional
 	public CottageOwnerDTO addGrade(GradeDTO gradeDTO,long cottageId) {
-		gradeDTO.setIsAccepted(null);
+		gradeDTO.setIsAccepted(RequestStatus.Waiting);
 		CottageOwner cottageOwner = cottageOwnerRepository.findById(cottageId).get();
 		for(Grade grade: cottageOwner.getGrades()) {
 			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {

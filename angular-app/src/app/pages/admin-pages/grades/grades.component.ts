@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IGrade } from 'src/app/model/grade';
+import { RequestStatus } from 'src/app/model/requestStatus';
 import { GradeService } from 'src/app/service/grade.service';
 import { RequestsService } from 'src/app/service/requests.service';
 
@@ -9,6 +10,7 @@ import { RequestsService } from 'src/app/service/requests.service';
   styleUrls: ['./grades.component.css']
 })
 export class GradesComponent implements OnInit {
+  RequestStatus = RequestStatus;
   requests: IGrade[] = [];
 
   constructor(
@@ -33,8 +35,8 @@ export class GradesComponent implements OnInit {
   }
 
   getStatus(request: IGrade): string {
-    if (request.isAccepted == null) return 'Waitting';
-    else if (request.isAccepted) return 'Accepted';
+    if (request.isAccepted == RequestStatus.Waiting) return 'Waitting';
+    else if (request.isAccepted == RequestStatus.Accepted) return 'Accepted';
     return 'Declined';
   }
 

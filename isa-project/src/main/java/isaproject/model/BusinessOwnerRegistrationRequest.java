@@ -11,7 +11,7 @@ public class BusinessOwnerRegistrationRequest {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Boolean accepted;
+	private RequestStatus accepted;
 	private String registrationExplanation;
 	private String declineReason;
 	private String userEmail;
@@ -27,11 +27,11 @@ public class BusinessOwnerRegistrationRequest {
 		this.id = id;
 	}
 
-	public Boolean getAccepted() {
+	public RequestStatus getAccepted() {
 		return accepted;
 	}
 
-	public void setAccepted(Boolean accepted) {
+	public void setAccepted(RequestStatus accepted) {
 		this.accepted = accepted;
 	}
 

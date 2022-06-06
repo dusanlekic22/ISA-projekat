@@ -2,6 +2,7 @@ package isaproject.dto;
 
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingTrainer;
+import isaproject.model.RequestStatus;
 import isaproject.model.User;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatOwner;
@@ -12,7 +13,7 @@ public class GradeDTO {
 	private Long id;
 	private Double value;
 	private User user;
-	private Boolean isAccepted;
+	private RequestStatus isAccepted;
 	private String review;
 	private Cottage cottage;
 	private CottageOwner cottageOwner;
@@ -56,11 +57,11 @@ public class GradeDTO {
 		this.user = user;
 	}
 
-	public Boolean getIsAccepted() {
+	public RequestStatus getIsAccepted() {
 		return isAccepted;
 	}
 
-	public void setIsAccepted(Boolean isAccepted) {
+	public void setIsAccepted(RequestStatus isAccepted) {
 		this.isAccepted = isAccepted;
 	}
 

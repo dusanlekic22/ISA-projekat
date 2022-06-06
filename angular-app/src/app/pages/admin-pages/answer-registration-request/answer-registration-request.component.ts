@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { IBusinessOwnerRegistrationRequest } from 'src/app/model/businessOwnerRegistrationRequest';
+import { RequestStatus } from 'src/app/model/requestStatus';
 import { RequestsService } from 'src/app/service/requests.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class AnswerRegistrationRequestComponent implements OnInit {
   @ViewChild('reg') addModal!: ModalDirective;
   request: IBusinessOwnerRegistrationRequest = {
     id: 0,
-    accepted: false,
+    accepted: RequestStatus.Waiting,
     declineReason: '',
     registrationExplanation: '',
     userEmail: '',

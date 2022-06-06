@@ -1,3 +1,4 @@
+import { BoatOwnerService } from './../../../pages/boat-owner/services/boat-owner.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,8 +30,10 @@ export class AddBoatComponent implements OnInit {
   navigationEquipment!:string;
 
   ngOnInit(): void {
-    this._userService.currentUser.subscribe((user) => {
-      this.boat.boatOwner = user;
+    this._boatOwnerService.getBoatOwner().subscribe((boatOwner) => {
+      if (boatOwner) {
+        this.boat.boatOwner = boatOwner;
+      }
     });
     this._additionalServiceService
       .getFreeAdditionalServices()
@@ -48,7 +51,8 @@ export class AddBoatComponent implements OnInit {
     private _boatAdditionalService: BoatAdditionalServicesService,
     private _userService: UserService,
     private _toastr: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private _boatOwnerService: BoatOwnerService
   ) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),

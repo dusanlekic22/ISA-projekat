@@ -2,6 +2,7 @@ import { IUserDeletionRequest } from './../../../model/userDeletionRequest';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { RequestsService } from 'src/app/service/requests.service';
+import { RequestStatus } from 'src/app/model/requestStatus';
 
 @Component({
   selector: 'app-answer-deletion-request',
@@ -12,7 +13,7 @@ export class AnswerDeletionRequestComponent implements OnInit {
   @ViewChild('frame') addModal!: ModalDirective;
   request: IUserDeletionRequest = {
     id: 0,
-    accepted: false,
+    accepted: RequestStatus.Waiting,
     deletionExplanation: '',
     userEmail: '',
     answer: '',

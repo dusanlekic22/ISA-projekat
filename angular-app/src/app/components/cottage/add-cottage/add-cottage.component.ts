@@ -11,6 +11,7 @@ import { IAdditionalService } from '../../../model/additionalService';
 import { AdditionalServiceService } from '../../../pages/cottage-owner/services/additional-service.service';
 import { CottageService } from '../../../pages/cottage-owner/services/cottage.service';
 import { ToastrService } from 'ngx-toastr';
+import { CottageOwnerService } from 'src/app/pages/cottage-owner/services/cottage-owner.service';
 
 @Component({
   selector: 'app-add-cottage',
@@ -27,8 +28,10 @@ export class AddCottageComponent implements OnInit {
   minDate!: Date;
 
   ngOnInit(): void {
-    this._userService.currentUser.subscribe((user) => {
-      this.cottage.cottageOwner = user;
+    this._cottageOwnerService.getCottageOwner().subscribe((cottageOwner) => {
+      if (cottageOwner) {
+        this.cottage.cottageOwner = cottageOwner;
+      }
     });
     this._additionalServiceService
       .getFreeAdditionalServices()
@@ -46,7 +49,8 @@ export class AddCottageComponent implements OnInit {
     private _cottageAdditionalService: CottageAdditionalServicesService,
     private _userService: UserService,
     private _toastr: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private _cottageOwnerService: CottageOwnerService
   ) {
     this.validatingForm = new FormGroup({
       loginFormModalEmail: new FormControl('', Validators.email),
@@ -70,13 +74,11 @@ export class AddCottageComponent implements OnInit {
             .addAdditionalServiceForCottage(element, data)
             .subscribe((additionalService) => {});
         });
-        this._router.navigate(['/cottageOwnerHome'])
+        this._router.navigate(['/cottageOwnerHome']);
       },
       (err) => {
         console.log(err);
-        this._toastr.error(
-          "Couldn't add the cottage!"
-        );
+        this._toastr.error("Couldn't add the cottage!");
       }
     );
   }

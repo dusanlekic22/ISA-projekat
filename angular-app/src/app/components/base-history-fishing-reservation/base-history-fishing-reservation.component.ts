@@ -84,6 +84,7 @@ export class BaseHistoryFishingReservationComponent implements OnInit {
       .sendFishingCourseReview(this.reviewFishing)
       .subscribe(() => {});
     this.reviewFishing.value = this.gradeOwner;
+    this.reviewFishing.fishingTrainer = this.fishingReservation.fishingCourse.fishingTrainer;
     this.reservationService
       .sendFishingTrainerReview(this.reviewFishing)
       .subscribe(() => {});

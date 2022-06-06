@@ -1,9 +1,11 @@
+import { IBoatOwner } from 'src/app/model/boat/boatOwner';
 import { ICustomer } from 'src/app/model/customer';
 import { IUser } from 'src/app/pages/registration/registration/user';
 import { IAddress } from '../address';
 import { IDateSpan } from '../dateSpan';
 import { IGrade } from '../grade';
 import { IImage } from '../image';
+import { LoyaltyRank } from '../loyaltyProgram';
 import { IBoatQuickReservation } from './boatQuickReservation';
 import { IBoatReservation } from './boatReservation';
 
@@ -28,7 +30,7 @@ export interface IBoat {
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
   subscribers: ICustomer[];
-  boatOwner: IUser;
+  boatOwner: IBoatOwner;
   averageGrade: number;
   navigationEquipment: string[];
   grades: IGrade[];
@@ -88,5 +90,12 @@ export const initBoat: IBoat = {
       latitude: 0,
       longitude: 0,
     },
+    boat: [],
+    grades: [],
+    loyaltyProgram: {
+      loyaltyRank: LoyaltyRank.Regular,
+      points: 0,
+    },
+    unavailableReservationDateSpan: [],
   },
 };

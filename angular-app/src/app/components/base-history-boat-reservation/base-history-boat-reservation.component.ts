@@ -82,6 +82,7 @@ export class BaseHistoryBoatReservationComponent implements OnInit {
     this.reviewBoat.user.id = this.customerId;
     this.reservationService.sendBoatReview(this.reviewBoat).subscribe(() => {});
     this.reviewBoat.value = this.gradeOwner;
+    this.reviewBoat.boatOwner = this.boatReservation.boat.boatOwner;
     this.reservationService
       .sendBoatOwnerReview(this.reviewBoat)
       .subscribe(() => {});

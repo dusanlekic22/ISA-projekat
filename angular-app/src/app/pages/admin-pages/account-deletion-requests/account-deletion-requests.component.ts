@@ -1,6 +1,7 @@
 import { IUserDeletionRequest } from './../../../model/userDeletionRequest';
 import { Component, OnInit } from '@angular/core';
 import { RequestsService } from 'src/app/service/requests.service';
+import { RequestStatus } from 'src/app/model/requestStatus';
 
 @Component({
   selector: 'app-account-deletion-requests',
@@ -8,6 +9,7 @@ import { RequestsService } from 'src/app/service/requests.service';
   styleUrls: ['./account-deletion-requests.component.css']
 })
 export class AccountDeletionRequestsComponent implements OnInit {
+  RequestStatus = RequestStatus;
   requests!: IUserDeletionRequest[];
 
   constructor(private requestsService: RequestsService) {
@@ -29,8 +31,8 @@ export class AccountDeletionRequestsComponent implements OnInit {
   }
 
   getStatus(request: IUserDeletionRequest): string {
-    if (request.accepted == null) return 'Waitting';
-    else if (request.accepted) return 'Accepted';
+    if (request.accepted == RequestStatus.Waiting) return 'Waitting';
+    else if (request.accepted == RequestStatus.Accepted) return 'Accepted';
     return 'Declined';
   }
 

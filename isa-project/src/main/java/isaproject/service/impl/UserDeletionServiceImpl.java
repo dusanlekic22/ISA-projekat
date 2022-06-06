@@ -11,6 +11,7 @@ import isaproject.dto.CreateUserDeletionRequestDTO;
 import isaproject.dto.UserDeletionRequestDTO;
 import isaproject.mapper.RequestMapper;
 import isaproject.model.Mail;
+import isaproject.model.RequestStatus;
 import isaproject.model.User;
 import isaproject.model.UserDeletionRequest;
 import isaproject.repository.UserDeletionRequestRepository;
@@ -39,7 +40,7 @@ public class UserDeletionServiceImpl implements UserDeletionService {
 	public UserDeletionRequest approve(UserDeletionRequestDTO userDeletionRequestDTO, String answer) {
 		UserDeletionRequest request = requestRepository.getById(userDeletionRequestDTO.getId());
 		if (request.getAccepted() != null) return request;
-		request.setAccepted(true);
+		request.setAccepted(RequestStatus.Accepted);
 		User user = userRepository.findByEmail(request.getUserEmail());
 //		TODO: user.setDeleted(true);  (mozda treba logicko ...)
 		userRepository.deleteById(user.getId());
@@ -66,7 +67,7 @@ public class UserDeletionServiceImpl implements UserDeletionService {
 	public UserDeletionRequest decline(UserDeletionRequestDTO userDeletionRequestDTO, String answer) {
 		UserDeletionRequest request = requestRepository.getById(userDeletionRequestDTO.getId());
 		if (request.getAccepted() != null) return request;
-		request.setAccepted(false);
+		request.setAccepted(RequestStatus.Accepted);
 		sendDeclineEmail(request.getUserEmail(), answer);
 		return request;
 	}
@@ -96,7 +97,7 @@ public class UserDeletionServiceImpl implements UserDeletionService {
 	@Override
 	public UserDeletionRequest create(CreateUserDeletionRequestDTO deletionRequestDTO) {
 		UserDeletionRequest deletionRequest = new UserDeletionRequest();
-		deletionRequest.setAccepted(null);
+		deletionRequest.setAccepted(RequestStatus.Waiting);
 		deletionRequest.setDeletionExplanation(deletionRequestDTO.getDeletionExplanation());
 		deletionRequest.setUserEmail(deletionRequestDTO.getUserEmail());
 		return requestRepository.save(deletionRequest);

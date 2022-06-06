@@ -22,6 +22,7 @@ import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
+import isaproject.model.RequestStatus;
 import isaproject.model.boat.BoatOwner;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
@@ -74,7 +75,7 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 		boatOwner.setLoyaltyProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
-		request.setAccepted(null);
+		request.setAccepted(RequestStatus.Waiting);
 		request.setRegistrationExplanation(businessOwnerDTO.getRegistrationExplanation());
 		request.setUserEmail(boatOwner.getEmail());
 		registrationRequestRepository.save(request);
@@ -131,7 +132,7 @@ public class BoatOwnerServiceImpl implements BoatOwnerService {
 	@Override
 	@Transactional
 	public BoatOwnerDTO addGrade(GradeDTO gradeDTO,long boatId) {
-		gradeDTO.setIsAccepted(null);
+		gradeDTO.setIsAccepted(RequestStatus.Waiting);
 		BoatOwner boatOwner = boatOwnerRepository.findById(boatId).get();
 		for(Grade grade: boatOwner.getGrades()) {
 			if(grade.getUser().getId() == gradeDTO.getUser().getId()) {

@@ -29,7 +29,7 @@ public class Grade {
 
 	private String review;
 
-	private Boolean isAccepted;
+	private RequestStatus isAccepted;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "cottageGrades")
@@ -58,7 +58,7 @@ public class Grade {
 	public Grade() {
 	}
 
-	public Grade(Long id, Double value, User user, String review, Boolean isAccepted, Cottage cottage,
+	public Grade(Long id, Double value, User user, String review, RequestStatus isAccepted, Cottage cottage,
 			CottageOwner cottageOwner, Boat boat, BoatOwner boatOwner, FishingCourse fishingCourse,
 			FishingTrainer fishingTrainer) {
 		super();
@@ -105,7 +105,7 @@ public class Grade {
 		return user;
 	}
 
-	public Boolean getIsAccepted() {
+	public RequestStatus getIsAccepted() {
 		return isAccepted;
 	}
 
@@ -133,7 +133,7 @@ public class Grade {
 		this.user = user;
 	}
 
-	public void setIsAccepted(Boolean isAccepted) {
+	public void setIsAccepted(RequestStatus isAccepted) {
 		this.isAccepted = isAccepted;
 	}
 

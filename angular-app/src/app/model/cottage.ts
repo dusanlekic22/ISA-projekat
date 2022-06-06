@@ -1,3 +1,4 @@
+import { ICottageOwner } from 'src/app/model/cottageOwner';
 import { IGrade } from './grade';
 import { IUser } from '../pages/registration/registration/user';
 import { IAddress } from './address';
@@ -6,6 +7,7 @@ import { ICottageQuickReservation } from './cottageQuickReservation';
 import { ICottageReservation } from './cottageReservation';
 import { IDateSpan } from './dateSpan';
 import { ICustomer } from './customer';
+import { LoyaltyRank } from './loyaltyProgram';
 
 export interface ICottage {
   id: number;
@@ -21,7 +23,7 @@ export interface ICottage {
   cottageQuickReservation: ICottageQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
-  cottageOwner: IUser;
+  cottageOwner: ICottageOwner;
   averageGrade: number;
   grades: IGrade[];
   subscribers: ICustomer[];
@@ -73,5 +75,12 @@ export const initCottage: ICottage = {
       longitude: 0,
     },
     roles: [],
+    cottage: [],
+    grades: [],
+    loyaltyProgram: {
+      loyaltyRank: LoyaltyRank.Regular,
+      points: 0,
+    },
+    unavailableReservationDateSpan: [],
   },
 };

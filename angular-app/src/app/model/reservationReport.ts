@@ -1,10 +1,11 @@
 import { IBoatReservation } from 'src/app/model/boat/boatReservation';
 import { ICottageReservation } from 'src/app/model/cottageReservation';
 import { IFishingReservation } from 'src/app/model/fishingReservation';
+import { RequestStatus } from './requestStatus';
 
 export interface IReservationReport {
   id: number;
-  userPenalized: boolean | null;
+  userPenalized: RequestStatus;
   comment: string;
   reservationReportStatus: ReservationReportStatus;
   fishingReservation: IFishingReservation | null;

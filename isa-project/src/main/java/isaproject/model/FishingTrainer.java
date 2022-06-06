@@ -97,7 +97,7 @@ public class FishingTrainer extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			return sum / grades.size();
@@ -110,7 +110,7 @@ public class FishingTrainer extends User {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();

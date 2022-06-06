@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { RequestStatus } from "src/app/model/requestStatus";
 import { IReservationReport, ReservationReportStatus } from "src/app/model/reservationReport";
 import { ReservationReportService } from "src/app/service/reservationReport.service";
 
@@ -11,7 +12,7 @@ export class OwnerReservationReportComponent implements OnInit {
   @Input() reservation: any;
   report: IReservationReport = {
     id: 0,
-    userPenalized: null,
+    userPenalized: RequestStatus.Waiting,
     comment: '',
     reservationReportStatus: ReservationReportStatus.Positive,
     fishingReservation: null,

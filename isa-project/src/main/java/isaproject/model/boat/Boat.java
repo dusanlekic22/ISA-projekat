@@ -32,6 +32,7 @@ import isaproject.model.CancelConditionEnum;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
+import isaproject.model.RequestStatus;
 
 @Entity
 @Table(name = "Boat")
@@ -295,7 +296,7 @@ public class Boat implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			return sum / grades.size();
@@ -308,7 +309,7 @@ public class Boat implements Serializable {
 		Double sum = 0.0;
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				if (grade.getIsAccepted())
+				if (grade.getIsAccepted() == RequestStatus.Accepted)
 					sum += grade.getValue();
 			}
 			averageGrade = sum / grades.size();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestStatus } from 'src/app/model/requestStatus';
 import {
   IReservationReport,
   ReservationReportStatus,
@@ -36,8 +37,8 @@ export class ReportRequestsComponent implements OnInit {
   }
 
   getStatus(request: IReservationReport): string {
-    if (request.userPenalized == null) return 'Waitting';
-    else if (request.userPenalized) return 'Accepted';
+    if (request.userPenalized == RequestStatus.Waiting) return 'Waitting';
+    else if (request.userPenalized == RequestStatus.Accepted) return 'Accepted';
     return 'Declined';
   }
 

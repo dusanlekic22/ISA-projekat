@@ -1,6 +1,8 @@
+import { RequestStatus } from "./requestStatus";
+
 export interface IBusinessOwnerRegistrationRequest {
   id: number;
-  accepted: boolean;
+  accepted: RequestStatus;
   registrationExplanation: string;
   declineReason: string;
   userEmail: string;

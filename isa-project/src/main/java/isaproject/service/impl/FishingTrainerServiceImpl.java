@@ -33,6 +33,7 @@ import isaproject.model.FishingTrainer;
 import isaproject.model.Grade;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
+import isaproject.model.RequestStatus;
 import isaproject.model.SortType;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
 import isaproject.repository.FishingTrainerRepository;
@@ -103,7 +104,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 		fishingTrainer.setLoyaltyProgram(loyaltyProgram);
 
 		BusinessOwnerRegistrationRequest request = new BusinessOwnerRegistrationRequest();
-		request.setAccepted(null);
+		request.setAccepted(RequestStatus.Waiting);
 		request.setRegistrationExplanation(businessOwnerDTO.getRegistrationExplanation());
 		request.setUserEmail(fishingTrainer.getEmail());
 		registrationRequestRepository.save(request);
@@ -343,7 +344,7 @@ public class FishingTrainerServiceImpl implements FishingTrainerService {
 	@Override
 	@Transactional
 	public FishingTrainerDTO addGrade(GradeDTO gradeDTO, long fishingId) {
-		gradeDTO.setIsAccepted(null);
+		gradeDTO.setIsAccepted(RequestStatus.Waiting);
 		FishingTrainer fishingTrainer = fishingTrainerRepository.findById(fishingId).get();
 		for (Grade grade : fishingTrainer.getGrades()) {
 			if (grade.getUser().getId() == gradeDTO.getUser().getId()) {

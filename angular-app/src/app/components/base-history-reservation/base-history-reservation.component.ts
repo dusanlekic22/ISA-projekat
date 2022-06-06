@@ -85,6 +85,7 @@ export class BaseHistoryReservationComponent implements OnInit {
     this.reservationService
       .sendCottageReview(this.reviewCottage)
       .subscribe(() => {});
+    this.reviewCottage.cottageOwner = this.cottageReservation.cottage.cottageOwner;
     this.reviewCottage.value = this.gradeOwner;
     this.reservationService
       .sendCottageOwnerReview(this.reviewCottage)

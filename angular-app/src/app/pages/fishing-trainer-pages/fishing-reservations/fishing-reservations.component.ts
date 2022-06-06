@@ -36,7 +36,7 @@ export class FishingReservationsComponent implements OnInit {
   deleteReservation(id: number) {}
 
   customerInfo(customer: ICustomer) {
-    this.router.navigateByUrl(`customer/${customer.id}`);
+    this.router.navigateByUrl(`customerInfo/${customer.id}`);
   }
 
   isCustomerEligible(customer: ICustomer) {

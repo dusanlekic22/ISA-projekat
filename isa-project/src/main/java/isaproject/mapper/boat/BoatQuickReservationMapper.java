@@ -50,6 +50,7 @@ public class BoatQuickReservationMapper {
 		boatReservation.setPrice(boatQuickReservation.getPrice());
 		boatReservation.setAdditionalService(new HashSet<>(boatQuickReservation.getAdditionalService()));
 		boatReservation.setBoat(boatQuickReservation.getBoat());
+		boatReservation.setConfirmed(true);
 		return boatReservation;
 	}
 }

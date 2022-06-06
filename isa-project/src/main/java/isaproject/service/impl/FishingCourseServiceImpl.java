@@ -290,7 +290,6 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		ReservationCount reservationCount = new ReservationCount();
 		FishingCourse fishingCourse = courseRepository.findById(id).get();
 		Set<FishingReservation> reservations = fishingCourse.getFishingReservation();
-		System.out.println(reservations);
 		for (FishingReservation reservation : reservations) {
 			for (int i = 1; i <= 12; i++) {
 				count = statisticsService.countMonthly(reservation.getDuration(), i, count);

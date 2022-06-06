@@ -3,14 +3,19 @@ package isaproject.repository.boat;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
-import isaproject.model.cottage.CottageReservation;
 
 public interface BoatReservationRepository extends PagingAndSortingRepository<BoatReservation, Long> {
 

@@ -103,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ cottageQuickReservation.getCottage().getName() + "<br>" + "from: "
 				+ cottageQuickReservation.getDuration().getStartDate() + " to: "
 				+ cottageQuickReservation.getDuration().getEndDate() + "<br>" + " with a discount price of: "
-				+ cottageQuickReservation.getPrice() + "€.<br>"
+				+ cottageQuickReservation.getPrice() + " &#x20AC; .<br>"
 				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
@@ -123,7 +123,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ cottageReservation.getCottage().getName() + "<br>" + "from: "
 				+ cottageReservation.getDuration().getStartDate() + " to: "
 				+ cottageReservation.getDuration().getEndDate() + "<br>" + " with a price of: "
-				+ cottageReservation.getPrice() + "€ needs confirmation.<br>"
+				+ cottageReservation.getPrice() + " &#x20AC; needs confirmation.<br>"
 				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
@@ -156,7 +156,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ boatQuickReservation.getBoat().getName() + "<br>" + "from: "
 				+ boatQuickReservation.getDuration().getStartDate() + " to: "
 				+ boatQuickReservation.getDuration().getEndDate() + "<br>" + " with a discount price of: "
-				+ boatQuickReservation.getPrice() + "€.<br>"
+				+ boatQuickReservation.getPrice() + " &#x20AC; .<br>"
 				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
@@ -176,7 +176,7 @@ public class CustomerServiceImpl implements CustomerService {
 		String content = "Dear " + user.getFirstName() + ",<br>" + "Your reservation in "
 				+ boatReservation.getBoat().getName() + "<br>" + "from: " + boatReservation.getDuration().getStartDate()
 				+ " to: " + boatReservation.getDuration().getEndDate() + "<br>" + " with a price of: "
-				+ boatReservation.getPrice() + "€ needs confirmation.<br>"
+				+ boatReservation.getPrice() + "&#x20AC; needs confirmation.<br>"
 				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
@@ -195,7 +195,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ fishingQuickReservationReturn.getFishingCourse().getName() + "<br>" + "from: "
 				+ fishingQuickReservationReturn.getDuration().getStartDate() + " to: "
 				+ fishingQuickReservationReturn.getDuration().getEndDate() + "<br>" + " with a discount price of: "
-				+ fishingQuickReservationReturn.getPrice() + "€.<br>"
+				+ fishingQuickReservationReturn.getPrice() + "	&#x20AC; .<br>"
 				+ "Click here to reserve the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">RESERVE</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 
@@ -215,7 +215,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ fishingReservationReturn.getFishingCourse().getName() + "<br>" + "from: "
 				+ fishingReservationReturn.getDuration().getStartDate() + " to: "
 				+ fishingReservationReturn.getDuration().getEndDate() + "<br>" + " with a price of: "
-				+ fishingReservationReturn.getPrice() + "€ needs confirmation.<br>"
+				+ fishingReservationReturn.getPrice() + "&euro needs confirmation.<br>"
 				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 

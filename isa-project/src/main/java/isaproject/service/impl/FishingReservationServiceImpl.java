@@ -2,11 +2,8 @@ package isaproject.service.impl;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,15 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.FishingReservationDTO;
+import isaproject.dto.LoyaltySettingsDTO;
 import isaproject.dto.SortTypeDTO;
-import isaproject.dto.boat.BoatReservationDTO;
 import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.FishingReservationMapper;
 import isaproject.mapper.SortTypeMapper;
-import isaproject.mapper.boat.BoatReservationMapper;
-import isaproject.dto.LoyaltySettingsDTO;
-import isaproject.mapper.CustomerMapper;
-import isaproject.mapper.FishingReservationMapper;
 import isaproject.model.AdditionalService;
 import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
@@ -34,10 +27,9 @@ import isaproject.model.FishingCourse;
 import isaproject.model.FishingQuickReservation;
 import isaproject.model.FishingReservation;
 import isaproject.model.FishingTrainer;
-import isaproject.model.SortType;
 import isaproject.model.LoyaltyProgram;
 import isaproject.model.LoyaltyRank;
-import isaproject.model.boat.BoatReservation;
+import isaproject.model.SortType;
 import isaproject.repository.CustomerRepository;
 import isaproject.repository.FishingQuickReservationRepository;
 import isaproject.repository.FishingReservationRepository;
@@ -332,7 +324,7 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 			}
 		}
 
-		for (FishingQuickReservation q : fishingeQuickReservationRepository.findByFishingCourse_FishingTrainer_Id(
+		for (FishingQuickReservation q : fishingeQuickReservationRepository.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(
 				fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 
 			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {

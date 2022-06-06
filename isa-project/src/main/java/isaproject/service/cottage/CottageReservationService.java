@@ -1,7 +1,6 @@
 package isaproject.service.cottage;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;

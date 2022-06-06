@@ -4,10 +4,8 @@ import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
 
-import isaproject.dto.cottage.CottageDTO;
 import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.model.DateTimeSpan;
-import isaproject.model.cottage.Cottage;
 import isaproject.model.cottage.CottageReservation;
 
 public class CottageReservationMapper {

@@ -73,7 +73,7 @@ public class CottageQuickReservationController {
 	}
 	
 	@GetMapping("/appoint/{reservationId}/user/{id}")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	//@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> appointQuickCottageReservation(@PathVariable("reservationId") Long reservationId,@PathVariable("id") Long userId) {
 		CottageReservationDTO cottageReservationReturnDTO = cottageQuickReservationService.appointQuickReservation(reservationId,userId);
 		if(cottageReservationReturnDTO == null)

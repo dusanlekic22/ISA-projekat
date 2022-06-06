@@ -138,7 +138,7 @@ public class CottageServiceImpl implements CottageService {
 			if (newDateSpan.overlapsWith(cottageReservation.getDuration()))
 				return null;
 		}
-		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByCottageId(id)) {
+		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByIsReservedFalseAndCottageId(id)) {
 			if (newDateSpan.overlapsWith(cottageQuickReservation.getDuration()))
 				return null;
 		}
@@ -205,7 +205,7 @@ public class CottageServiceImpl implements CottageService {
 			if (newDateSpan.overlapsWith(cottageReservation.getDuration()))
 				return null;
 		}
-		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByCottageId(id)) {
+		for (CottageQuickReservationDTO cottageQuickReservation : cottageQuickReservationService.findByIsReservedFalseAndCottageId(id)) {
 			if (newDateSpan.overlapsWith(cottageQuickReservation.getDuration()))
 				return null;
 		}

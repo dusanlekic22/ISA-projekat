@@ -3,7 +3,6 @@ package isaproject.controller.boat;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import isaproject.dto.CustomerDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.dto.cottage.CottageReservationDTO;
 import isaproject.service.CustomerService;
 import isaproject.service.boat.BoatReservationService;
 import isaproject.util.ProjectUtil;

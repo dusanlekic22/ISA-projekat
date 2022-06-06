@@ -224,10 +224,8 @@ public class Cottage implements Serializable {
 
 	public Double getAverageGrade() {
 		Double sum = 0.0;
-		System.out.println(grades.size());
 		if (grades.size() > 0) {
 			for (Grade grade : grades) {
-				System.out.println("aa"+grade.getValue());
 				if (grade.getIsAccepted())
 					sum += grade.getValue();
 			}

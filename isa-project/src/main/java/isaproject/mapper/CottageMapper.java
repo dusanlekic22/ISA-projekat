@@ -53,7 +53,6 @@ public class CottageMapper {
 		cottageDTO.setCottageOwner(cottage.getCottageOwner());
 		cottageDTO.setSubscribers(cottage.getSubscribers());
 		cottageDTO.setAverageGrade(cottage.getAverageGrade());
-		System.out.println(cottage.getAverageGrade());
 		cottageDTO.setGrades(cottage.getGrades());
 		return cottageDTO;
 	}

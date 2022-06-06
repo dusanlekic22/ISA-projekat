@@ -20,6 +20,7 @@ export class RegisterAdminComponent implements OnInit {
     phoneNumber: '',
     address: emptyAddress,
     roles: [],
+    deleted: false,
   };
 
   confirmPassword: string = '';

@@ -14,6 +14,7 @@ public class UserDTO {
 	private Set<RoleDTO> roles;
 	private String phoneNumber;
 	private Address address;
+	private Boolean deleted;
 
 	public UserDTO() {
 	}
@@ -115,6 +116,14 @@ public class UserDTO {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -93,6 +93,7 @@ public class UserMapper {
 		userDTO.setRoles(SetRoleToDTO(user.getRoles()));
 		userDTO.setPhoneNumber(user.getPhoneNumber());
 		userDTO.setAddress(user.getAddress());
+		userDTO.setDeleted(user.getDeleted());
 		return userDTO;
 	}
 

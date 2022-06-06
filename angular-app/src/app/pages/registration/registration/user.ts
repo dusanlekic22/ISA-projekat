@@ -11,6 +11,7 @@ export interface IUser {
   phoneNumber: string;
   roles: IRole[];
   address: IAddress;
+  deleted: boolean;
 }
 
 export interface IDirective {

@@ -21,12 +21,24 @@ import isaproject.mapper.RequestMapper;
 import isaproject.mapper.UserMapper;
 import isaproject.model.Address;
 import isaproject.model.BusinessOwnerRegistrationRequest;
+import isaproject.model.FishingCourse;
+import isaproject.model.FishingTrainer;
 import isaproject.model.Mail;
 import isaproject.model.RequestStatus;
 import isaproject.model.Role;
 import isaproject.model.User;
+import isaproject.model.boat.Boat;
+import isaproject.model.boat.BoatOwner;
+import isaproject.model.cottage.Cottage;
+import isaproject.model.cottage.CottageOwner;
 import isaproject.repository.BusinessOwnerRegistrationRequestRepository;
+import isaproject.repository.FishingCourseRepository;
+import isaproject.repository.FishingTrainerRepository;
 import isaproject.repository.UserRepository;
+import isaproject.repository.boat.BoatOwnerRepository;
+import isaproject.repository.boat.BoatRepository;
+import isaproject.repository.cottage.CottageOwnerRepository;
+import isaproject.repository.cottage.CottageRepository;
 import isaproject.service.SendMailService;
 import isaproject.service.UserService;
 
@@ -37,15 +49,30 @@ public class UserServiceImpl implements UserService {
 	private BusinessOwnerRegistrationRequestRepository requestRepository;
 	private SendMailService mailService;
 	private PasswordEncoder passwordEncoder;
+	private FishingCourseRepository courseRepository;
+	private FishingTrainerRepository fishingTrainerRepository;
+	private CottageRepository cottageRepository;
+	private CottageOwnerRepository cottageOwnerRepository;
+	private BoatRepository boatRepository;
+	private BoatOwnerRepository boatOwnerRepository;
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, BusinessOwnerRegistrationRequestRepository requestRepository,
-			SendMailService mailService, PasswordEncoder passwordEncoder) {
+			SendMailService mailService, PasswordEncoder passwordEncoder, FishingCourseRepository courseRepository,
+			FishingTrainerRepository fishingTrainerRepository, CottageRepository cottageRepository,
+			CottageOwnerRepository cottageOwnerRepository, BoatRepository boatRepository,
+			BoatOwnerRepository boatOwnerRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.requestRepository = requestRepository;
 		this.mailService = mailService;
 		this.passwordEncoder = passwordEncoder;
+		this.courseRepository = courseRepository;
+		this.fishingTrainerRepository = fishingTrainerRepository;
+		this.cottageRepository = cottageRepository;
+		this.cottageOwnerRepository = cottageOwnerRepository;
+		this.boatRepository = boatRepository;
+		this.boatOwnerRepository = boatOwnerRepository;
 	}
 	
 	@Override
@@ -175,11 +202,35 @@ public class UserServiceImpl implements UserService {
 		return userDTOs;	}
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional
 	public UserDTO deleteById(Long userId) {
 		User user = userRepository.findById(userId).get();
-		userRepository.delete(user);
+		user.setDeleted(true);
+		user.setEnabled(false);
+		deleteUserServices(user);
 		return UserMapper.UserToDTO(user);
 	}
 
+	private void deleteUserServices(User user) {
+		List<Role> role = new ArrayList<Role>(user.getRoles());
+		if (role.get(0).getName().equals("ROLE_FISHING_TRAINER")) {
+			FishingTrainer fishingTrainer = fishingTrainerRepository.findById(user.getId()).get();
+			Set<FishingCourse> courses = fishingTrainer.getFishingCourse();
+			for (FishingCourse fishingCourse : courses) {
+				fishingCourse.setDeleted(true);
+			}
+		} else if (role.get(0).getName().equals("ROLE_COTTAGE_OWNER")) {
+			CottageOwner cottageOwner = cottageOwnerRepository.findById(user.getId()).get();
+			Set<Cottage> cottages = cottageOwner.getCottage();
+			for (Cottage cottage : cottages) {
+				cottage.setDeleted(true);
+			}
+		} else if (role.get(0).getName().equals("BOAT_OWNER")) {
+			BoatOwner boatOwner = boatOwnerRepository.findById(user.getId()).get();
+			Set<Boat> boats = boatOwner.getBoat();
+			for (Boat boat : boats) {
+				boat.setDeleted(true);
+			}
+		}
+	}
 }

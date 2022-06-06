@@ -82,5 +82,6 @@ export const initCottage: ICottage = {
       points: 0,
     },
     unavailableReservationDateSpan: [],
+    deleted: false,
   },
 };

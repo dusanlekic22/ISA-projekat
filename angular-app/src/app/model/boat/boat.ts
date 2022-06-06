@@ -97,5 +97,6 @@ export const initBoat: IBoat = {
       points: 0,
     },
     unavailableReservationDateSpan: [],
+    deleted: false,
   },
 };

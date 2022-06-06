@@ -62,6 +62,7 @@ export const emptyFishingTrainer: IFishingTrainer = {
     loyaltyRank: LoyaltyRank.Regular,
     points: 0,
   },
+  deleted: false,
 };
 
 export const emptyFishingTrainerAvailability: IFishingTrainerAvailability = {

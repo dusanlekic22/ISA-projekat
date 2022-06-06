@@ -128,6 +128,7 @@ export class RegistrationComponent implements OnInit {
         longitude: this.longitude,
       },
       roles: [],
+      deleted: false,
     };
 
     this._registrationService.submitForm(this.user).subscribe({

@@ -49,4 +49,7 @@ public interface FishingCourseService {
 	Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable);
 
 	FishingCourseDTO addGrade(GradeDTO gradeDTO, long fishingId);
+
+	Page<FishingCourseDTO> findByName(String name, Pageable paging);
+
 }

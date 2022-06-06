@@ -57,4 +57,6 @@ public interface CottageService {
 
 	CottageDTO addGrade(GradeDTO gradeDTO, long cottageId);
 
+	Page<CottageDTO> findByName(String name, Pageable paging);
+
 }

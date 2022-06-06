@@ -21,6 +21,7 @@ import {
   providedIn: 'root',
 })
 export class ReservationService {
+
   constructor(private http: HttpClient) {}
 
   getAvailableCottagesByTimeSpan(
@@ -37,6 +38,23 @@ export class ReservationService {
         catchError(this.handleError)
       );
   }
+
+  getSearchCottages(search: any, page: number): Observable<ICottagePage[]> {
+    return this.http
+      .post<any>(`${environment.apiUrl}/cottage/searchCottage?page=` + page, search)
+      .pipe(catchError(this.handleError));
+  }
+
+  getSearchBoats(searchB: string, page: number) {
+    return this.http
+      .post<any>(`${environment.apiUrl}/boat/searchBoat?page=` + page, searchB)
+      .pipe(catchError(this.handleError));
+  }
+
+  getSearchFishingCourses(searchF: string, page: number) {
+    return this.http
+    .post<any>(`${environment.apiUrl}/fishingCourse/searchFishing?page=` + page, searchF)
+    .pipe(catchError(this.handleError));  }
 
   getAvailableBoatsByTimeSpan(
     reservationTimespan: IBoatAvailability,

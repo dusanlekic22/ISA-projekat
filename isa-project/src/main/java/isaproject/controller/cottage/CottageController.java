@@ -129,6 +129,14 @@ public class CottageController {
 		return cottageService.findByAvailability(cottageAvailability, paging);
 	}
 
+	@PostMapping("/searchCottage")
+	@ResponseBody
+	public Page<CottageDTO> searchCottages(@RequestBody String name, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return cottageService.findByName(name, paging);
+	}
+
 	@GetMapping("/{id}/yearlyCount")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {
@@ -165,11 +173,10 @@ public class CottageController {
 			@RequestBody DateTimeSpan duration) {
 		return new ResponseEntity<>(cottageService.getCottageIncomeDaily(duration, id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/{id}/grade")
 	@PreAuthorize("hasRole('CUSTOMER')")
-	public ResponseEntity<CottageDTO> addGrade(@PathVariable("id") Long id,
-			@RequestBody GradeDTO gradeDTO) {
+	public ResponseEntity<CottageDTO> addGrade(@PathVariable("id") Long id, @RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(cottageService.addGrade(gradeDTO, id), HttpStatus.OK);
 	}
 

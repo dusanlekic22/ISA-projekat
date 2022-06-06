@@ -135,6 +135,14 @@ public class BoatController {
 		return boatService.findByAvailability(boatAvailability,paging);
 	}
 	
+	@PostMapping("/searchBoat")
+	@ResponseBody
+	public Page<BoatDTO> searchBoats(@RequestBody String name,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		return boatService.findByName(name, paging);
+	}
+	
 	@GetMapping("/{id}/yearlyCount")
 	@PreAuthorize("hasRole('BOAT_OWNER')")	
 	public ResponseEntity<ReservationCountDTO> getReservationCountYearly(@PathVariable("id") Long id) {

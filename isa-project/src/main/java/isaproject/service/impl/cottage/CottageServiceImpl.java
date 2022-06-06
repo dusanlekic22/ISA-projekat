@@ -549,4 +549,9 @@ public class CottageServiceImpl implements CottageService {
 		return CottageMapper.CottageToCottageDTO(cottage);
 	}
 
+	@Override
+	public Page<CottageDTO> findByName(String name, Pageable paging) {
+		return CottageMapper.pageCottageToPageCottageDTO(cottageRepository.findByNameContains(name, paging));
+	}
+
 }

@@ -397,4 +397,10 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		return FishingCourseMapper.FishingCourseToDTO(fishing);
 	}
 
+	@Override
+	public Page<FishingCourseDTO> findByName(String name, Pageable paging) {
+		return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findByNameContains(name, paging));
+	}
+
+
 }

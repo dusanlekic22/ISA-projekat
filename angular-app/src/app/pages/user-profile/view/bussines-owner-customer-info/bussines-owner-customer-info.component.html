@@ -1,0 +1,168 @@
+<div class="container con">
+  <div *ngIf="customer">
+    <div class="profile-header">
+      <div class="profile-img">
+        <img
+          src="https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTR8fHBlcnNvbnxlbnwwfDF8MHx8&auto=format&fit=crop&w=300&q=18"
+          width="250"
+          alt="Profile Image"
+        />
+      </div>
+      <div class="profile-nav-info">
+        <h3 class="customer-name">{{ customer.username }}</h3>
+        <div class="address">
+          <p id="state" class="state">New York,</p>
+          <span id="country" class="country">USA.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-bd">
+      <div class="left-side" *ngIf="customer">
+        <div class="profile-side">
+          <p class="customer-mail">
+            <i class="fa fa-envelope"></i> {{ customer.email }}
+          </p>
+          <div class="customer-bio">
+            <h2>
+              <div class="row price">
+                <div class="col-6">
+                  <strong>Points :</strong>
+                </div>
+                <div class="col-4 text-left">{{ customer.points }}</div>
+              </div>
+            </h2>
+          </div>
+
+          <div class="customer-rating">
+            <h3 class="rating">{{ customer.loyalityProgram }}</h3>
+            <div class="rate">
+              <span class="no-of-user-rate">&nbsp;&nbsp;member</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="profile-body">
+          <div class="profile-posts">
+            <div
+              class="container-fluid d-flex justify-content-center regist"
+              *ngIf="customer !== undefined"
+            >
+              <div class="row my-5 mx-2 main regist2">
+                <div class="col-md-12 col-12 xcol">
+                  <h2 class="title pt-3 pb-3">Sign up</h2>
+                  <form class="myform">
+                    <div class="row rone">
+                      <div class="col-md-6 fone py-3">
+                        <ng-template> First name</ng-template>
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>First name</mat-label>
+                          <input
+                            [disabled]="true"
+                            matInput
+                            [(ngModel)]="customer.firstName"
+                            name="firstName"
+                            placeholder="First"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="form-group col-md-6 ftwo py-3">
+                        <ng-template matStepLabel
+                          >Fill out lastname</ng-template
+                        >
+                        <mat-form-field appearance="fill">
+                          <mat-label>Last name</mat-label>
+                          <input
+                            [disabled]="true"
+                            matInput
+                            [(ngModel)]="customer.lastName"
+                            name="lastname"
+                            placeholder="Last name"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row rtwo">
+                      <div class="form-group col-md-6 ffour py-3">
+                        <ng-template>Contact</ng-template>
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>Contact</mat-label>
+                          <input
+                            [disabled]="true"
+                            matInput
+                            [(ngModel)]="customer.phoneNumber"
+                            name="contact"
+                            placeholder="+381 ..."
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div
+                        *ngIf="customer.address"
+                        class="form-group col-md-6 fsix py-3"
+                      >
+                        <ng-template matStepLabel>Street</ng-template>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Street</mat-label>
+                          <input
+                            [disabled]="true"
+                            type="text"
+                            matInput
+                            [(ngModel)]="customer.address.street"
+                            name="street"
+                            placeholder="Enter your street"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="customer.address" class="row rthree">
+                      <div class="form-group col-md-6 ffive py-3">
+                        <ng-template matStepLabel>Country</ng-template>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Country</mat-label>
+                          <input
+                            [disabled]="true"
+                            type="text"
+                            matInput
+                            [(ngModel)]="customer.address.country"
+                            name="country"
+                            placeholder="Enter your country"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div
+                        *ngIf="customer.address"
+                        class="form-group col-md-6 fsix py-3"
+                      >
+                        <ng-template matStepLabel>City</ng-template>
+                        <mat-form-field appearance="fill">
+                          <mat-label>City</mat-label>
+                          <input
+                            [disabled]="true"
+                            type="text"
+                            matInput
+                            [(ngModel)]="customer.address.city"
+                            name="city"
+                            placeholder="Enter your city"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

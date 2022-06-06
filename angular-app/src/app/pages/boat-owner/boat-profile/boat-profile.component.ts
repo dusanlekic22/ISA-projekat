@@ -77,7 +77,7 @@ export class BoatProfileComponent implements OnInit {
     this.boatId = +this._route.snapshot.paramMap.get('boatId')!;
     this.getBoat();
     this._boatQuickReservationService
-      .getBoatQuickReservations()
+      .getBoatQuickReservationsByBoatId(this.boatId)
       .subscribe((boatQuickReservation) => {
         this.boat.boatQuickReservation = boatQuickReservation;
       });

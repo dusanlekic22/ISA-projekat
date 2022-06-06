@@ -95,6 +95,17 @@ export class CottageReservationService {
       );
   }
 
+  deleteCottageReservation(cottageId: number): Observable<ArrayBuffer> {
+    return this._http
+      .delete<ArrayBuffer>(
+        environment.apiUrl + `/cottageReservation/${cottageId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   getActiveCottageReservationByCottageByCottageOwnerId(
     id: number
   ): Observable<ICottageReservation[]> {

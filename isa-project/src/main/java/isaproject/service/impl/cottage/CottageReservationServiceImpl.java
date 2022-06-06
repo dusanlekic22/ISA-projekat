@@ -269,7 +269,7 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 	public CottageReservationDTO deleteById(Long id) {
 		CottageReservation cottageReservation = cottageReservationRepository.findById(id).get();
 		freeReservedSpan(cottageReservation);
-		cottageQuickReservationRepository.deleteById(id);
+		cottageReservationRepository.deleteById(id);
 		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservation);
 	}
 

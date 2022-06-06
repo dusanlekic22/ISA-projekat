@@ -14,19 +14,21 @@ import { ICottage } from 'src/app/model/cottage';
 export class CottageQuickReservationsComponent implements OnInit {
   @Input() cottage!: ICottage;
   @Input() imageObject!: Array<object>;
-  services!:IAdditionalService[];
+  services!: IAdditionalService[];
 
   constructor(
     private _cottageQuickReservationService: CottageQuickReservationService,
     private _additionalCottageService: CottageAdditionalServicesService,
     private _toastr: ToastrService,
-    private _cottageService: CottageService,
+    private _cottageService: CottageService
   ) {}
 
   ngOnInit(): void {
-    this._additionalCottageService.getAdditionalServicesByCottageQuickReservationId(this.cottage.id).subscribe(services=>{
-      this.services=services;
-    })
+    this._additionalCottageService
+      .getAdditionalServicesByCottageQuickReservationId(this.cottage.id)
+      .subscribe((services) => {
+        this.services = services;
+      });
   }
 
   deleteQuickReservation(id: number): void {
@@ -37,7 +39,7 @@ export class CottageQuickReservationsComponent implements OnInit {
           this._toastr.success('Reservation was successfully removed.');
           this.getCottage();
           this._cottageQuickReservationService
-            .getCottageQuickReservations()
+            .getCottageQuickReservationsByCottageId(this.cottage.id)
             .subscribe((cottageQuickReservation) => {
               this.cottage.cottageQuickReservation = cottageQuickReservation;
             });

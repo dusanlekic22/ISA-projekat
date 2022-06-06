@@ -53,7 +53,7 @@ export class ServicesListComponent implements OnInit {
 
   getCottages() {
     this._cottageService
-      .getCottagesPagination(this.cottagePage, [emptySortType])
+      .getCottagesPaginationAdmin(this.cottagePage, [emptySortType])
       .subscribe((data) => {
         this.cottages = data.content;
         this.cottageTotalElements = data.totalElements;
@@ -93,7 +93,7 @@ export class ServicesListComponent implements OnInit {
 
   getBoats() {
     this._boatService
-      .getBoatsPagination(this.boatPage, [emptySortType])
+      .getBoatsPaginationAdmin(this.boatPage, [emptySortType])
       .subscribe((data) => {
         this.boats = data.content;
         this.boatTotalElements = data.totalElements;
@@ -133,7 +133,7 @@ export class ServicesListComponent implements OnInit {
 
   getFishingCourses() {
     this._fishingCourseService
-      .getFishingCoursesPagination(this.fishingCoursePage, [emptySortType])
+      .getFishingCoursesPaginationAdmin(this.fishingCoursePage, [emptySortType])
       .subscribe((data) => {
         this.fishingCourses = data.content;
         this.fishingCourseTotalElements = data.totalElements;

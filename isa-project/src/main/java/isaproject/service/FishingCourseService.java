@@ -58,4 +58,7 @@ public interface FishingCourseService {
 	FishingCourseDTO unsubscribe(Long id, Long customerId);
 	
 	Page<FishingCourseDTO> findAllFishingSubscriptionByCustomer(Long customerId, Pageable pageable);
+
+	Page<FishingCourseDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable);
+
 }

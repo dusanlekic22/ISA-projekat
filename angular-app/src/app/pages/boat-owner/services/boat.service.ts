@@ -51,6 +51,18 @@ export class BoatService {
       );
   }
 
+  getBoatsPaginationAdmin(page: number, sorts: ISortType[]): Observable<IBoatPage> {
+    return this._http
+      .post<IBoatPage>(
+        environment.apiUrl + `/boat/pagination/admin?page=` + page,
+        sorts
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   saveBoat(boat: IBoat): Observable<IBoat> {
     return this._http.post<IBoat>(environment.apiUrl + '/boat', boat).pipe(
       tap((data) => console.log('All: ', JSON.stringify(data))),

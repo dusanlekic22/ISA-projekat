@@ -46,12 +46,12 @@ public class CottageController {
 		return cottageService.findAll();
 	}
 
-	@PostMapping("/pagination")
+	@PostMapping("/pagination/admin")
 	@ResponseBody
 	public Page<CottageDTO> getAllPagination(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
 		Pageable paging = PageRequest.of(page, size);
-		return cottageService.findAllPagination(sortTypeDTOList, paging);
+		return cottageService.findAllPaginationAdmin(sortTypeDTOList, paging);
 	}
 
 	@GetMapping("/{id}")

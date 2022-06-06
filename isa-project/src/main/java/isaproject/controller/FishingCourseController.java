@@ -55,6 +55,14 @@ public class FishingCourseController {
 		Pageable paging = PageRequest.of(page, size);
 		return fishingCourseService.findAllPagination(sortTypeDTOList, paging);
 	}
+	
+	@PostMapping("/pagination/admin")
+	@ResponseBody
+	public Page<FishingCourseDTO> getAllPaginationAdmin(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "6") int size, @RequestBody List<SortTypeDTO> sortTypeDTOList) {
+		Pageable paging = PageRequest.of(page, size);
+		return fishingCourseService.findAllPaginationAdmin(sortTypeDTOList, paging);
+	}
 
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyRole('FISHING_TRAINER', 'ADMIN','CUSTOMER')")

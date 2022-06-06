@@ -11,7 +11,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.boat.Boat;
-import isaproject.model.cottage.Cottage;
 
 public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	
@@ -25,12 +24,14 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 				+ " WHERE ((b.id = boat_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(b.name) like :name OR :name is null)  " 
 				+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-				+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+				+ " and ( b.capacity = :bed OR :bed = 0 ) "
+				+ " and ( b.deleted = false )",
 				countQuery  = " SELECT count(*)  FROM public.boat as b natural join public.boat_available_date_spans  "
 						+ " WHERE ((id = boat_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(b.name) like :name OR :name is null)  " 
 						+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-						+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+						+ " and ( b.capacity = :bed OR :bed = 0 ) "
+						+ " and ( b.deleted = false )",
 					nativeQuery = true)
 	Page<Boat> getAvailability(
 			@Param("start") LocalDateTime start,
@@ -43,12 +44,14 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 				+ " WHERE ((b.id = boat_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(b.name) like :name OR :name is null)  " 
 				+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-				+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+				+ " and ( b.capacity = :bed OR :bed = 0 ) "
+				+ " and ( b.deleted = false )",
 				countQuery  = " SELECT count(*)  FROM public.boat as b natural join public.boat_available_date_spans  "
 						+ " WHERE ((id = boat_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(b.name) like :name OR :name is null)  " 
 						+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-						+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+						+ " and ( b.capacity = :bed OR :bed = 0 ) "
+						+ " and ( b.deleted = false )",
 					nativeQuery = true)
 	Page<Boat> getAvailabilityWithSortLocation(
 			@Param("start") LocalDateTime start,
@@ -61,13 +64,15 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 			    + " WHERE "
 				+ " (lower(b.name) like :name OR :name is null)  " 
 				+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-				+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+				+ " and ( b.capacity = :bed OR :bed = 0 ) "
+				+ " and ( b.deleted = false )",
 				countQuery  =
 				  " SELECT count(*)  FROM public.boat as b "
 					+ " WHERE "
 					+ " (lower(b.name) like :name OR :name is null)  " 
 					+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-					+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+					+ " and ( b.capacity = :bed OR :bed = 0 ) "
+					+ " and ( b.deleted = false )",
 					nativeQuery = true)
 	Page<Boat> searchBoat(
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
@@ -77,13 +82,15 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 			    + " WHERE "
 				+ "  (lower(b.name) like :name OR :name is null)  " 
 				+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-				+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+				+ " and ( b.capacity = :bed OR :bed = 0 ) "
+				+ " and ( b.deleted = false )",
 				countQuery  =
 				  " SELECT count(*)  FROM public.boat as b "
 					+ " WHERE "
 					+ " (lower(b.name) like :name OR :name is null)  " 
 					+ " and ( b.average_grade = :grade OR :grade = -1.0)  "
-					+ " and ( b.capacity = :bed OR :bed = 0 ) ",
+					+ " and ( b.capacity = :bed OR :bed = 0 ) "
+					+ " and ( b.deleted = false )",
 					nativeQuery = true)
 	Page<Boat> searchBoatWithSortLocation(
 			@Param("name") String name, @Param("grade") Double grade, @Param("bed") int bed,Pageable pageable );
@@ -92,12 +99,15 @@ public interface BoatRepository extends PagingAndSortingRepository<Boat, Long> {
 	
 	@Query(value =
 			  " SELECT * from public.boat natural join public.boat_subscribers as bs "
-			    + " WHERE  bs.customer_id = :customerId and bs.boat_id = id ",	
+			    + " WHERE  bs.customer_id = :customerId and bs.boat_id = id "
+				+ " and ( b.deleted = false )",
 				countQuery  =
 				  "SELECT count(*) from public.boat natural join public.boat_subscribers as bs   "
-					+ " WHERE bs.customer_id = :customerId and bs.boat_id = id  ",
+					+ " WHERE bs.customer_id = :customerId and bs.boat_id = id  "
+					+ " and ( b.deleted = false )",
 					nativeQuery = true)
 	Page<Boat> subscriptionsBoat(
 			@Param("customerId") Long customerId,Pageable pageable );
-	
+	Set<Boat> findAllByDeletedIsFalse();
+	public Page<Boat> findAllByDeletedIsFalse(Pageable paging);	
 }

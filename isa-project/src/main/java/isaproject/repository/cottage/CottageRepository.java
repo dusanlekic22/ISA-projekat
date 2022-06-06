@@ -23,12 +23,14 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 				+ " WHERE ((c.id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(c.name) like :name OR :name is null)  " 
 				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+				+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+				+ " and ( c.deleted = false )",
 				countQuery  = " SELECT count(*)  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(c.name) like :name OR :name is null)  " 
 						+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-						+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+						+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+						+ " and ( c.deleted = false )",
 					nativeQuery = true)
 	Page<Cottage> getAvailability(
 			@Param("start") LocalDateTime start,
@@ -41,12 +43,14 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 				+ " WHERE ((c.id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 				+ " and (lower(c.name) like :name OR :name is null)  " 
 				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+				+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+				+ " and ( c.deleted = false )",
 				countQuery  = " SELECT count(*)  FROM public.cottage as c natural join public.cottage_available_date_spans  "
 						+ " WHERE ((id = cottage_id) and ( :start between start_date and end_date ) and ( :end between start_date and end_date)) "
 						+ " and (lower(c.name) like :name OR :name is null)  " 
 						+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-						+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+						+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+						+ " and ( c.deleted = false )",
 					nativeQuery = true)
 	Page<Cottage> getAvailabilityWithSortLocation(
 			@Param("start") LocalDateTime start,
@@ -59,13 +63,15 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 			    + " WHERE "
 				+ " (lower(c.name) like :name OR :name is null)  " 
 				+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-				+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+				+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+				+ " and ( c.deleted = false )",
 				countQuery  =
 				  " SELECT count(*)  FROM public.cottage as c "
 					+ " WHERE "
 					+ " (lower(c.name) like :name OR :name is null)  " 
 					+ " and ( c.average_grade = :average_grade OR :average_grade = -1.0)  "
-					+ " and ( c.bed_count = :bed OR :bed = 0 ) ",
+					+ " and ( c.bed_count = :bed OR :bed = 0 ) "
+					+ " and ( c.deleted = false )",
 					nativeQuery = true)
 	Page<Cottage> searchCottage(
 			@Param("name") String name, @Param("average_grade") Double averageGrade, @Param("bed") int bed,Pageable pageable );
@@ -89,10 +95,12 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 	
 	@Query(value =
 			  " SELECT * from public.cottage natural join public.cottage_subscribers as cs "
-			    + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id ",	
+			    + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id "
+				+ " and ( c.deleted = false )",
 				countQuery  =
 				  "SELECT count(*) from public.cottage natural join public.cottage_subscribers as cs  "
-						  + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id ",
+						  + " WHERE  cs.customer_id = :customerId  and cs.cottage_id = id "
+						  + " and ( c.deleted = false )",
 					nativeQuery = true)
 	Page<Cottage> subscriptionsCottage(
 			@Param("customerId") Long customerId,Pageable pageable );
@@ -100,5 +108,7 @@ public interface CottageRepository extends PagingAndSortingRepository<Cottage, L
 	
 	List<Cottage> findByCottageOwnerId(Long id);
 	Page<Cottage> findByNameContains(String name, Pageable paging);
+	Set<Cottage> findAllByDeletedIsFalse();
+	Page<Cottage> findAllByDeletedIsFalse(Pageable paging);
 
 }

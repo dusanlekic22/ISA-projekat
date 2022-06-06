@@ -10,7 +10,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.boat.BoatReservation;
-import isaproject.model.cottage.CottageReservation;
 
 public interface BoatReservationRepository extends PagingAndSortingRepository<BoatReservation, Long> {
 

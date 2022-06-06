@@ -66,7 +66,7 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public Set<FishingCourseDTO> findAll() {
-		Set<FishingCourse> courses = new HashSet<FishingCourse>(courseRepository.findAll());
+		Set<FishingCourse> courses = new HashSet<FishingCourse>(courseRepository.findAllByDeletedIsFalse());
 		Set<FishingCourseDTO> courseDTOs = new HashSet<FishingCourseDTO>();
 		for (FishingCourse fishingCourse : courses) {
 			courseDTOs.add(FishingCourseMapper.FishingCourseToDTO(fishingCourse));
@@ -142,6 +142,31 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 
 	@Override
 	public Page<FishingCourseDTO> findAllPagination(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		List<SortType> sortTypes = sortTypesDTO.stream()
+				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());
+		if (sortTypes != null) {
+			for (SortType sortType : sortTypes) {
+				if (sortType != null && sortType.getField().equals("price_per_hour")) {
+					sortType.setField("price");
+				}
+				if (sortType != null && sortType.getDirection().toLowerCase().contains("desc")) {
+					sorts.add(new Sort.Order(Sort.Direction.DESC, sortType.getField()));
+				} else if (sortType != null && sortType.getDirection().toLowerCase().contains("asc")) {
+					sorts.add(new Sort.Order(Sort.Direction.ASC, sortType.getField()));
+				}
+			}
+
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(paging));
+		} else {
+			return FishingCourseMapper.pageFishingCourseToPageFishingCourseDTO(courseRepository.findAllByDeletedIsFalse(pageable));
+		}
+	}
+	
+	@Override
+	public Page<FishingCourseDTO> findAllPaginationAdmin(List<SortTypeDTO> sortTypesDTO, Pageable pageable) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		List<SortType> sortTypes = sortTypesDTO.stream()
 				.map(sortTypeDTO -> SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO)).collect(Collectors.toList());

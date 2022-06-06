@@ -201,5 +201,5 @@ Project Link: [https://github.com/dusanlekic22/ISA-projekat](https://github.com/
 [license-shield]: https://img.shields.io/github/license/dusanlekic22/ISA-projekat.svg?style=for-the-badge
 [license-url]: https://github.com/dusanlekic22/ISA-projekat/blob/master/LICENSE.txt
 [linkedin-shield]: imgs/linkedin.svg
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[linkedin-url]: https://linkedin.com/in/aleksapapovic
 [product-screenshot]: imgs/download.png

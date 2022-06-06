@@ -24,12 +24,16 @@ import isaproject.dto.GradeDTO;
 import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
+import isaproject.dto.boat.BoatDTO;
 import isaproject.exception.ReservedServiceException;
+import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.FishingCourseMapper;
 import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
+import isaproject.mapper.boat.BoatMapper;
+import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.FishingCourse;
 import isaproject.model.FishingReservation;
@@ -37,7 +41,9 @@ import isaproject.model.Grade;
 import isaproject.model.Income;
 import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
+import isaproject.model.boat.Boat;
 import isaproject.repository.FishingCourseRepository;
+import isaproject.service.CustomerService;
 import isaproject.service.FishingCourseService;
 import isaproject.service.FishingReservationService;
 import isaproject.service.StatisticsService;
@@ -48,14 +54,16 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 	private FishingCourseRepository courseRepository;
 	private FishingReservationService fishingReservationService;
 	private StatisticsService statisticsService;
+	private CustomerService customerService;
 
 	@Autowired
 	public FishingCourseServiceImpl(FishingCourseRepository courseRepository,
-			FishingReservationService fishingReservationService, StatisticsService statisticsService) {
+			FishingReservationService fishingReservationService, StatisticsService statisticsService,CustomerService customerService) {
 		super();
 		this.courseRepository = courseRepository;
 		this.fishingReservationService = fishingReservationService;
 		this.statisticsService = statisticsService;
+		this.customerService = customerService;
 	}
 
 	@Override
@@ -396,5 +404,31 @@ public class FishingCourseServiceImpl implements FishingCourseService {
 		courseRepository.save(fishing);
 		return FishingCourseMapper.FishingCourseToDTO(fishing);
 	}
+	
+	@Override
+	public FishingCourseDTO subscribe(Long id, Long customerId) {
+		FishingCourse fishingCourse = courseRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(customerService.getCustomer(customerId));
+		Set<Customer> customers = fishingCourse.getSubscribers();
+		customers.add(customer);
+		fishingCourse.setSubscribers(customers);
+		courseRepository.save(fishingCourse);
+		return FishingCourseMapper.FishingCourseToDTO(fishingCourse);
+	}
+	
+	@Override
+	public FishingCourseDTO unsubscribe(Long id, Long customerId) {
+		FishingCourse fishingCourse = courseRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(customerService.getCustomer(customerId));
+		Set<Customer> customers = fishingCourse.getSubscribers();
+		customers = customers.stream()
+				  .filter(e -> e.getId()!= customerId)
+				  .collect(Collectors.toSet());
+		fishingCourse.setSubscribers(customers);
+		courseRepository.save(fishingCourse);
+		return FishingCourseMapper.FishingCourseToDTO(fishingCourse);
+	}
+	
+	
 
 }

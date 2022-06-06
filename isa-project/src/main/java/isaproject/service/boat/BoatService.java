@@ -55,4 +55,8 @@ public interface BoatService {
 	IncomeDTO getBoatIncomeMonthly(DateTimeSpan duration, long id);
 
 	BoatDTO addGrade(GradeDTO gradeDTO, long boatId);
+	
+	BoatDTO subscribe(Long id, Long customerId);
+	
+	BoatDTO unsubscribe(Long id, Long customerId);
 }

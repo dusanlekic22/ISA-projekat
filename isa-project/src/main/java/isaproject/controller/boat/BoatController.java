@@ -29,6 +29,7 @@ import isaproject.dto.IncomeDTO;
 import isaproject.dto.ReservationCountDTO;
 import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
+import isaproject.dto.cottage.CottageDTO;
 import isaproject.model.DateTimeSpan;
 import isaproject.service.boat.BoatService;
 
@@ -56,7 +57,7 @@ public class BoatController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")	
+//	@PreAuthorize("hasAnyRole('BOAT_OWNER','CUSTOMER')")	
 	public BoatDTO loadById(@PathVariable("id") Long id) {
 		return boatService.findById(id);
 	}
@@ -177,6 +178,18 @@ public class BoatController {
 	public ResponseEntity<BoatDTO> addGrade(@PathVariable("id") Long id,
 			@RequestBody GradeDTO gradeDTO) {
 		return new ResponseEntity<>(boatService.addGrade(gradeDTO, id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/subscribe/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<BoatDTO> subscribe(@PathVariable("id") Long id,@PathVariable("customerId") Long customerId) {
+		return new ResponseEntity<>(boatService.subscribe(id,customerId), HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}/unsubscribe/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	public ResponseEntity<BoatDTO> unsubscribe(@PathVariable("id") Long id,@PathVariable("customerId") Long customerId) {
+		return new ResponseEntity<>(boatService.unsubscribe(id,customerId), HttpStatus.OK);
 	}
 	
 }

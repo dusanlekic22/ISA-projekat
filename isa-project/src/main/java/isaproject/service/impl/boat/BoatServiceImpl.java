@@ -26,12 +26,16 @@ import isaproject.dto.SortTypeDTO;
 import isaproject.dto.boat.BoatDTO;
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
+import isaproject.dto.cottage.CottageDTO;
+import isaproject.mapper.CottageMapper;
+import isaproject.mapper.CustomerMapper;
 import isaproject.mapper.DateSpanMapper;
 import isaproject.mapper.GradeMapper;
 import isaproject.mapper.IncomeMapper;
 import isaproject.mapper.ReservationCountMapper;
 import isaproject.mapper.SortTypeMapper;
 import isaproject.mapper.boat.BoatMapper;
+import isaproject.model.Customer;
 import isaproject.model.DateTimeSpan;
 import isaproject.model.Grade;
 import isaproject.model.Income;
@@ -39,8 +43,10 @@ import isaproject.model.ReservationCount;
 import isaproject.model.SortType;
 import isaproject.model.boat.Boat;
 import isaproject.model.boat.BoatReservation;
+import isaproject.model.cottage.Cottage;
 import isaproject.repository.AddressRepository;
 import isaproject.repository.boat.BoatRepository;
+import isaproject.service.CustomerService;
 import isaproject.service.StatisticsService;
 import isaproject.service.boat.BoatQuickReservationService;
 import isaproject.service.boat.BoatReservationService;
@@ -53,17 +59,19 @@ public class BoatServiceImpl implements BoatService {
 	private BoatReservationService boatReservationService;
 	private BoatQuickReservationService boatQuickReservationService;
 	private StatisticsService statisticsService;
+	private CustomerService customerService;
 
 	@Autowired
 	public BoatServiceImpl(BoatRepository boatRepository, AddressRepository addressRepository,
 			BoatReservationService boatReservationService,
 			BoatQuickReservationService boatQuickReservationService,
-			StatisticsService statisticsService) {
+			StatisticsService statisticsService,CustomerService customerService) {
 		super();
 		this.boatRepository = boatRepository;
 		this.boatReservationService = boatReservationService;
 		this.boatQuickReservationService = boatQuickReservationService;
 		this.statisticsService = statisticsService;
+		this.customerService = customerService;
 	}
 
 	public BoatDTO findById(Long id) {
@@ -549,5 +557,30 @@ public class BoatServiceImpl implements BoatService {
 		boatRepository.save(boat);
 		return BoatMapper.BoatToBoatDTO(boat);
 	}
+	
+	@Override
+	public BoatDTO subscribe(Long id, Long customerId) {
+		Boat boat = boatRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(customerService.getCustomer(customerId));
+		Set<Customer> customers = boat.getSubscribers();
+		customers.add(customer);
+		boat.setSubscribers(customers);
+		boatRepository.save(boat);
+		return BoatMapper.BoatToBoatDTO(boat);
+	}
+	
+	@Override
+	public BoatDTO unsubscribe(Long id, Long customerId){
+		Boat boat = boatRepository.findById(id).get();
+		Customer customer = CustomerMapper.customerDTOtoCustomer(this.customerService.getCustomer(customerId));
+		Set<Customer> customers = boat.getSubscribers();
+		customers = customers.stream()
+				  .filter(e -> e.getId()!= customerId)
+				  .collect(Collectors.toSet());
+		boat.setSubscribers(customers);
+		boatRepository.save(boat);
+		return BoatMapper.BoatToBoatDTO(boat);
+	}
+	
 
 }

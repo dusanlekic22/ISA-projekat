@@ -1,3 +1,4 @@
+import { ICustomer } from 'src/app/model/customer';
 import { IUser } from 'src/app/pages/registration/registration/user';
 import { IAddress } from '../address';
 import { IDateSpan } from '../dateSpan';
@@ -27,8 +28,9 @@ export interface IBoat {
   boatQuickReservation: IBoatQuickReservation[];
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
+  subscribers: ICustomer[];
   boatOwner: IUser;
-  averageGrade:number;
+  averageGrade: number;
 }
 
 export interface IBoatPage {
@@ -49,7 +51,7 @@ export const initBoat: IBoat = {
     longitude: 19.842518,
     street: '',
   },
-  averageGrade:0,
+  averageGrade: 0,
   description: '',
   grade: 0,
   pricePerHour: 0,
@@ -67,6 +69,7 @@ export const initBoat: IBoat = {
   boatQuickReservation: [],
   availableReservationDateSpan: [],
   unavailableReservationDateSpan: [],
+  subscribers: [],
   boatOwner: {
     id: 0,
     username: '',

@@ -151,11 +151,13 @@ export class BoatService {
   }
 
   getBoatIncomeYearlyById(
-    boatId: number,duration:IDateSpan
+    boatId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/boat/${boatId}/yearlyIncome`,duration
+        environment.apiUrl + `/boat/${boatId}/yearlyIncome`,
+        duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -164,11 +166,13 @@ export class BoatService {
   }
 
   getBoatIncomeMonthlyById(
-    boatId: number,duration:IDateSpan
+    boatId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/boat/${boatId}/monthlyIncome`,duration
+        environment.apiUrl + `/boat/${boatId}/monthlyIncome`,
+        duration
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),
@@ -177,11 +181,33 @@ export class BoatService {
   }
 
   getBoatIncomeDailyById(
-    boatId: number,duration:IDateSpan
+    boatId: number,
+    duration: IDateSpan
   ): Observable<IIncome> {
     return this._http
       .post<IIncome>(
-        environment.apiUrl + `/boat/${boatId}/dailyIncome`,duration
+        environment.apiUrl + `/boat/${boatId}/dailyIncome`,
+        duration
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  subscription(customerId: number, boatId: number): Observable<IBoat> {
+    return this._http
+      .get<any>(environment.apiUrl + `/boat/${boatId}/subscribe/${customerId}`)
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  unsubscription(customerId: number, boatId: number): Observable<IBoat> {
+    return this._http
+      .get<any>(
+        environment.apiUrl + `/boat/${boatId}/unsubscribe/${customerId}`
       )
       .pipe(
         tap((data) => console.log('All: ', JSON.stringify(data))),

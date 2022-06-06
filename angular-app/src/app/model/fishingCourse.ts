@@ -7,6 +7,7 @@ import { IAddress } from './address';
 import { IDateSpan } from './dateSpan';
 import { ISortType } from './sortType';
 import { IGrade } from './grade';
+import { ICustomer } from './customer';
 
 export interface IFishingCourse {
   id: number;
@@ -23,7 +24,8 @@ export interface IFishingCourse {
   price: number;
   cancellationPercentageKeep: number;
   fishingTrainer: IFishingTrainer;
-  averageGrade:number;
+  averageGrade: number;
+  subscribers: ICustomer[];
 }
 export interface IFishingCoursePage {
   content: IFishingCourse[];
@@ -57,7 +59,7 @@ export const emptyFishingCourse: IFishingCourse = {
     street: '',
   },
   promoDescription: '',
-  averageGrade:0,
+  averageGrade: 0,
   fishingImage: [],
   capacity: 0,
   fishingReservation: [],
@@ -66,6 +68,7 @@ export const emptyFishingCourse: IFishingCourse = {
   fishingEquipment: '',
   cancellationPercentageKeep: 0,
   additionalService: [],
+  subscribers: [],
   price: 0,
   fishingTrainer: emptyFishingTrainer,
 };

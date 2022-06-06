@@ -49,4 +49,8 @@ public interface FishingCourseService {
 	Page<FishingCourseDTO> findByAvailability(FishingCourseAvailabilityDTO fishingCourseAvailability, Pageable pageable);
 
 	FishingCourseDTO addGrade(GradeDTO gradeDTO, long fishingId);
+	
+	FishingCourseDTO subscribe(Long id, Long customerId);
+	
+	FishingCourseDTO unsubscribe(Long id, Long customerId);
 }

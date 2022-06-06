@@ -5,6 +5,7 @@ import { ICottageImage } from './cottageImage';
 import { ICottageQuickReservation } from './cottageQuickReservation';
 import { ICottageReservation } from './cottageReservation';
 import { IDateSpan } from './dateSpan';
+import { ICustomer } from './customer';
 
 export interface ICottage {
   id: number;
@@ -21,7 +22,8 @@ export interface ICottage {
   availableReservationDateSpan: IDateSpan[];
   unavailableReservationDateSpan: IDateSpan[];
   cottageOwner: IUser;
-  averageGrade:number;
+  averageGrade: number;
+  subscribers: ICustomer[];
 }
 
 export interface ICottagePage {
@@ -41,7 +43,7 @@ export const initCottage: ICottage = {
     longitude: 19.842518,
     street: '',
   },
-  averageGrade:0,
+  averageGrade: 0,
   promoDescription: '',
   bedCount: 0,
   roomCount: 0,
@@ -52,6 +54,7 @@ export const initCottage: ICottage = {
   cottageQuickReservation: [],
   availableReservationDateSpan: [],
   unavailableReservationDateSpan: [],
+  subscribers: [],
   cottageOwner: {
     id: 0,
     username: '',

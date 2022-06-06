@@ -172,6 +172,36 @@ export class FishingCourseService {
       );
   }
 
+  subscription(
+    customerId: number,
+    fishingCourseId: number
+  ): Observable<IFishingCourse> {
+    return this.http
+      .get<any>(
+        environment.apiUrl +
+          `/fishingCourse/${fishingCourseId}/subscribe/${customerId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  unsubscription(
+    customerId: number,
+    fishingCourseId: number
+  ): Observable<IFishingCourse> {
+    return this.http
+      .get<any>(
+        environment.apiUrl +
+          `/fishingCourse/${fishingCourseId}/unsubscribe/${customerId}`
+      )
+      .pipe(
+        tap((data) => console.log('All: ', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

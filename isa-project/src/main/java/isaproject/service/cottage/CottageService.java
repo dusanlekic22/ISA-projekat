@@ -57,4 +57,8 @@ public interface CottageService {
 
 	CottageDTO addGrade(GradeDTO gradeDTO, long cottageId);
 
+	CottageDTO subscribe(Long id, Long customerId);
+	
+	CottageDTO unsubscribe(Long id, Long customerId);
+
 }

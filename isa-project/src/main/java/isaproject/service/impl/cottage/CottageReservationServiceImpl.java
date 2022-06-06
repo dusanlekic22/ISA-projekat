@@ -419,13 +419,19 @@ public class CottageReservationServiceImpl implements CottageReservationService 
 		return dtos;
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public CottageReservationDTO deleteById(Long id) {
-		CottageReservation cottageReservation = cottageReservationRepository.findById(id).get();
-		freeReservedSpan(cottageReservation);
-		cottageReservationRepository.deleteById(id);
-		return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservation);
+		try {
+			CottageReservation cottageReservation = cottageReservationRepository.getNotLockedCottageReservation(id);
+			freeReservedSpan(cottageReservation);
+			cottageReservationRepository.deleteById(id);
+			return CottageReservationMapper.CottageReservationToCottageReservationDTO(cottageReservation);
+
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	private void freeReservedSpan(CottageReservation cottageReservation) {

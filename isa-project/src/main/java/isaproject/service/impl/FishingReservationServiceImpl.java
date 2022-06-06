@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.CustomerDTO;
@@ -77,50 +79,49 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 		return dtos;
 	}
-	
+
 	@Override
 	public Page<FishingReservationDTO> findAllPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-
-	    SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-	    Sort sort = Sort.by("id").ascending()  ;
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
 		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-				if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-					sort = Sort.by(sortType.getField()).descending();
-				} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-					sort = Sort.by(sortType.getField()).ascending();
-				}
-			
-				
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+
 			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(
 					fishingeReservationRepository.findCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(fishingeReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
+			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(
+					fishingeReservationRepository.findCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
-	
+
 	@Override
 	public Page<FishingReservationDTO> findAllIncomingPagination(Long id, SortTypeDTO sortTypeDTO, Pageable pageable) {
 
-		  SortType sortType =  SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
-		    Sort sort = Sort.by("id").ascending()  ;
-			if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
-					if (sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("desc")) {
-						sort = Sort.by(sortType.getField()).descending();
-					} else if ( sortType.getDirection() !=null && sortType.getDirection().toLowerCase().contains("asc")) {
-						sort = Sort.by(sortType.getField()).ascending();
-					}
-			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+		SortType sortType = SortTypeMapper.SortTypeDTOToSortType(sortTypeDTO);
+		Sort sort = Sort.by("id").ascending();
+		if (sortType != null && !sortType.getDirection().equalsIgnoreCase("")) {
+			if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("desc")) {
+				sort = Sort.by(sortType.getField()).descending();
+			} else if (sortType.getDirection() != null && sortType.getDirection().toLowerCase().contains("asc")) {
+				sort = Sort.by(sortType.getField()).ascending();
+			}
+			Pageable paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
 			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(
 					fishingeReservationRepository.findIncomingCustomerReservationsSortByDuration(id, paging));
 		} else {
-			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(fishingeReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
+			return FishingReservationMapper.pageFishingReservationToPageFishingReservationDTO(
+					fishingeReservationRepository.findIncomingCustomerReservationsSortByDuration(id, pageable));
 		}
 	}
-	
 
 	@Override
 	public Set<CustomerDTO> findCustomersHasCurrentReservation(long fishingCourseId) {
@@ -142,53 +143,59 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		return dtos;
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public FishingReservationDTO reserveCustomer(FishingReservationDTO fishingReservationDTO) {
 		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
-		Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
-		if(!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
-		FishingTrainer owner = fishingTrainerRepository
-				.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
-		fishingReservation.setConfirmed(true);
-		fishingReservation.setCustomer(customer);
-		fishingReservation = calculateIncome(fishingReservation);
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyFishingTrainer(owner);
+		try {
+			FishingTrainer owner = fishingTrainerRepository
+					.getNotLockedFishingTrainer(fishingReservation.getFishingCourse().getFishingTrainer().getId());
+			Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
+			if (!this.customerService.isCustomerUnderPenalityRestrictions(customer.getId())) {
+				fishingReservation.setConfirmed(true);
+				fishingReservation.setCustomer(customer);
+				fishingReservation = calculateIncome(fishingReservation);
+				customerService.promoteLoyaltyCustomer(customer);
+				promoteLoyaltyFishingTrainer(owner);
 
-		if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
+				if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
+					return null;
+				}
 
-		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
-						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
-			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+				for (FishingReservation q : fishingeReservationRepository
+						.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
+								fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
+					if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+						return null;
+					}
+				}
+
+				boolean overlaps = false;
+				FishingTrainer fishingTrainer = fishingTrainerRepository
+						.findByUsername(fishingReservation.getFishingCourse().getFishingTrainer().getUsername());
+				for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
+					if (fishingReservation.getDuration().overlapsWith(dateTimeSpan)) {
+						overlaps = true;
+						reserveAvailableDateSpanForCustomer(fishingReservation, dateTimeSpan);
+						break;
+					}
+				}
+
+				if (!overlaps) {
+					return null;
+				}
+
+				return FishingReservationMapper
+						.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
+			} else {
 				return null;
 			}
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
 
-		boolean overlaps = false;
-		FishingTrainer fishingTrainer = fishingTrainerRepository
-				.findByUsername(fishingReservation.getFishingCourse().getFishingTrainer().getUsername());
-		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
-			if (fishingReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				overlaps = true;
-				reserveAvailableDateSpanForCustomer(fishingReservation, dateTimeSpan);
-				break;
-			}
-		}
-
-		if (!overlaps) {
-			return null;
-		}
-
-		return FishingReservationMapper.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
-		}else {
-			return null;
-		}
-		
-		}
+	}
 
 	private void promoteLoyaltyFishingTrainer(FishingTrainer owner) {
 		LoyaltySettingsDTO loyaltySettings = loyaltySettingsService.getLoyaltySettings();
@@ -294,66 +301,72 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		fishingTrainerRepository.save(fishingTrainer);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public FishingReservationDTO reserveFishingOwner(FishingReservationDTO fishingReservationDTO, String siteUrl) {
 		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
-		Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
-		FishingTrainer owner = fishingTrainerRepository
-				.findById(fishingReservationDTO.getFishingCourse().getFishingTrainer().getId()).get();
-		fishingReservation.setConfirmed(false);
-		fishingReservation.setCustomer(customer);
-		if (fishingReservationDTO.getPrice() == 0) {
-			fishingReservation = calculateIncome(fishingReservation);
-		} else {
-			fishingReservation = calculateIncomeWithoutCustomerDiscount(fishingReservation);
-		}
-		customerService.promoteLoyaltyCustomer(customer);
-		promoteLoyaltyFishingTrainer(owner);
+		try {
+			FishingTrainer owner = fishingTrainerRepository
+					.getNotLockedFishingTrainer(fishingReservation.getFishingCourse().getFishingTrainer().getId());
+			Customer customer = customerRepository.findById(fishingReservationDTO.getCustomer().getId()).get();
+			fishingReservation.setConfirmed(false);
+			fishingReservation.setCustomer(customer);
+			if (fishingReservationDTO.getPrice() == 0) {
+				fishingReservation = calculateIncome(fishingReservation);
+			} else {
+				fishingReservation = calculateIncomeWithoutCustomerDiscount(fishingReservation);
+			}
+			customerService.promoteLoyaltyCustomer(customer);
+			promoteLoyaltyFishingTrainer(owner);
 
-		if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
-
-		boolean inAction = false;
-		for (FishingReservation q : fishingeReservationRepository
-				.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
-						fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
-
-			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+			if (fishingReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
 
-			if (isCustomersReservationInAction(fishingReservation, q)) {
-				inAction = true;
+			boolean inAction = false;
+			for (FishingReservation q : fishingeReservationRepository
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(
+							fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
+
+				if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+					return null;
+				}
+
+				if (isCustomersReservationInAction(fishingReservation, q)) {
+					inAction = true;
+				}
 			}
-		}
 
-		for (FishingQuickReservation q : fishingeQuickReservationRepository.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(
-				fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
+			for (FishingQuickReservation q : fishingeQuickReservationRepository
+					.findByIsReservedFalseAndFishingCourse_FishingTrainer_Id(
+							fishingReservation.getFishingCourse().getFishingTrainer().getId())) {
 
-			if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+				if (q.getDuration().overlapsWith(fishingReservation.getDuration())) {
+					return null;
+				}
+			}
+
+			if (!inAction) {
 				return null;
 			}
-		}
 
-		if (!inAction) {
-			return null;
-		}
-
-		FishingTrainer fishingTrainer = fishingTrainerRepository
-				.findByUsername(fishingReservation.getFishingCourse().getFishingTrainer().getUsername());
-		for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
-			if (fishingReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpanForOwner(fishingReservation, dateTimeSpan);
-				break;
+			FishingTrainer fishingTrainer = fishingTrainerRepository
+					.findByUsername(fishingReservation.getFishingCourse().getFishingTrainer().getUsername());
+			for (DateTimeSpan dateTimeSpan : fishingTrainer.getAvailableReservationDateSpan()) {
+				if (fishingReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					reserveAvailableDateSpanForOwner(fishingReservation, dateTimeSpan);
+					break;
+				}
 			}
+			FishingReservation fishingeReservationReturn = fishingeReservationRepository.save(fishingReservation);
+
+			customerService.sendReservationConfirmationEmail(siteUrl, fishingeReservationReturn);
+
+			return FishingReservationMapper.FishingReservationToDTO(fishingeReservationReturn);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		FishingReservation fishingeReservationReturn = fishingeReservationRepository.save(fishingReservation);
-
-		customerService.sendReservationConfirmationEmail(siteUrl, fishingeReservationReturn);
-
-		return FishingReservationMapper.FishingReservationToDTO(fishingeReservationReturn);
 	}
 
 	private FishingReservation calculateIncomeWithoutCustomerDiscount(FishingReservation fishingReservation) {
@@ -379,8 +392,8 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 	@Transactional
 	@Override
 	public Set<FishingReservationDTO> findByFishingCourseFishingTrainerId(Long id) {
-		Set<FishingReservation> fishingeReservations = new HashSet<>(
-				fishingeReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(id));
+		Set<FishingReservation> fishingeReservations = new HashSet<>(fishingeReservationRepository
+				.findByConfirmedIsTrueAndIsCancelledIsFalseAndFishingCourse_FishingTrainer_Id(id));
 		Set<FishingReservationDTO> dtos = new HashSet<>();
 		for (FishingReservation p : fishingeReservations) {
 			dtos.add(FishingReservationMapper.FishingReservationToDTO(p));
@@ -388,13 +401,18 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		return dtos;
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public FishingReservationDTO deleteById(Long id) {
-		FishingReservation fishingeReservation = fishingeReservationRepository.findById(id).get();
-		freeReservedSpan(fishingeReservation);
-		fishingeQuickReservationRepository.deleteById(id);
-		return FishingReservationMapper.FishingReservationToDTO(fishingeReservation);
+		try {
+			FishingReservation fishingeReservation = fishingeReservationRepository.findById(id).get();
+			freeReservedSpan(fishingeReservation);
+			fishingeQuickReservationRepository.deleteById(id);
+			return FishingReservationMapper.FishingReservationToDTO(fishingeReservation);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	private void freeReservedSpan(FishingReservation fishingeReservation) {
@@ -488,12 +506,18 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		return dtos;
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public FishingReservationDTO confirmReservation(Long id) {
-		FishingReservation fishingeReservation = fishingeReservationRepository.findById(id).get();
-		fishingeReservation.setConfirmed(true);
-		return FishingReservationMapper
-				.FishingReservationToDTO(fishingeReservationRepository.save(fishingeReservation));
+		try {
+			FishingReservation fishingeReservation = fishingeReservationRepository.getNotLockedFishingReservation(id);
+			fishingeReservation.setConfirmed(true);
+			return FishingReservationMapper
+					.FishingReservationToDTO(fishingeReservationRepository.save(fishingeReservation));
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
@@ -515,20 +539,18 @@ public class FishingReservationServiceImpl implements FishingReservationService 
 		}
 		return dtos;
 	}
-	
-	
+
 	@Override
 	public FishingReservationDTO cancelFishingReservation(FishingReservationDTO fishingReservationDTO) {
-		FishingReservation fishingReservation =FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
+		FishingReservation fishingReservation = FishingReservationMapper.DTOToFishingReservation(fishingReservationDTO);
 		LocalDateTime currentTime = LocalDateTime.now();
-		if(currentTime.plusDays(3).compareTo(fishingReservation.getDuration().getStartDate()) >= 0) {
-		    throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
+		if (currentTime.plusDays(3).compareTo(fishingReservation.getDuration().getStartDate()) >= 0) {
+			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
 		fishingReservation.setCancelled(true);
 		freeReservedSpan(fishingReservation);
-		return FishingReservationMapper
-				.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
-		
+		return FishingReservationMapper.FishingReservationToDTO(fishingeReservationRepository.save(fishingReservation));
+
 	}
 
 }

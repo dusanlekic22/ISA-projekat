@@ -215,7 +215,7 @@ public class CustomerServiceImpl implements CustomerService {
 				+ fishingReservationReturn.getFishingCourse().getName() + "<br>" + "from: "
 				+ fishingReservationReturn.getDuration().getStartDate() + " to: "
 				+ fishingReservationReturn.getDuration().getEndDate() + "<br>" + " with a price of: "
-				+ fishingReservationReturn.getPrice() + "&euro needs confirmation.<br>"
+				+ fishingReservationReturn.getPrice() + " &#x20AC; needs confirmation.<br>"
 				+ "Click here to confirm the appointment.<br> <h3><a href=\"[[URL]]\" target=\"_self\">CONFIRM</a></h3>"
 				+ "Thank you,<br>" + "Your company name.";
 

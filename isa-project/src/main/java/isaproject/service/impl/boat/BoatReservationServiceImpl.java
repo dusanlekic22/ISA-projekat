@@ -166,7 +166,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		try {
 			Boat boat = boatRepository.getNotLockedBoat(boatReservationDTO.getBoat().getId());
 			Customer customer = customerRepository.findById(boatReservationDTO.getCustomer().getId()).get();
-			if(this.customerService.isCustomerUnderPenalityRestrictions(customer.getId()) ) {
+			if (this.customerService.isCustomerUnderPenalityRestrictions(customer.getId())) {
 				return null;
 			}
 			BoatOwner owner = boatOwnerRepository.findById(boat.getBoatOwner().getId()).get();
@@ -403,13 +403,18 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 		return dtos;
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatReservationDTO deleteById(Long id) {
-		BoatReservation boatReservation = boatReservationRepository.findById(id).get();
-		freeReservedSpan(boatReservation);
-		boatQuickReservationRepository.deleteById(id);
-		return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservation);
+		try {
+			BoatReservation boatReservation = boatReservationRepository.getNotLockedBoatReservation(id);
+			freeReservedSpan(boatReservation);
+			boatQuickReservationRepository.deleteById(id);
+			return BoatReservationMapper.BoatReservationToBoatReservationDTO(boatReservation);
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	private void freeReservedSpan(BoatReservation boatReservation) {
@@ -497,8 +502,8 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			boatReservation.setConfirmed(true);
 			return BoatReservationMapper
 					.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
-			
-		}  catch (PessimisticEntityLockException e) {
+
+		} catch (PessimisticEntityLockException e) {
 			e.printStackTrace();
 			throw e;
 		}

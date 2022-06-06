@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isaproject.dto.boat.BoatQuickReservationDTO;
 import isaproject.dto.boat.BoatReservationDTO;
-import isaproject.mapper.boat.BoatMapper;
 import isaproject.mapper.boat.BoatQuickReservationMapper;
 import isaproject.mapper.boat.BoatReservationMapper;
 import isaproject.model.Customer;
@@ -82,12 +81,12 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		}
 		return dtos;
 	}
-	
+
 	@Override
-	public Page<BoatQuickReservationDTO> findAllPagination(Long boatOwnerId,Pageable paging){
-		return BoatQuickReservationMapper.pageBoatQuickReservationToPageBoatQuickReservationDTO(boatQuickReservationRepository.findAllByBoatOwnerId(boatOwnerId,paging));
+	public Page<BoatQuickReservationDTO> findAllPagination(Long boatOwnerId, Pageable paging) {
+		return BoatQuickReservationMapper.pageBoatQuickReservationToPageBoatQuickReservationDTO(
+				boatQuickReservationRepository.findAllByBoatOwnerId(boatOwnerId, paging));
 	}
-	
 
 	private void reserveAvailableDateSpan(BoatQuickReservation boatQuickReservation, DateTimeSpan availableDateSpan) {
 		Boat boat = boatQuickReservation.getBoat();
@@ -111,51 +110,59 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 		boatRepository.save(boat);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BoatQuickReservationDTO save(BoatQuickReservationDTO boatQuickReservationDTO, String siteUrl)
 			throws UnsupportedEncodingException, MessagingException {
 		BoatQuickReservation boatQuickReservation = BoatQuickReservationMapper
 				.BoatQuickReservationDTOToBoatQuickReservation(boatQuickReservationDTO);
-		boatQuickReservation.setReserved(false);
+		try {
+			Boat boat = boatRepository.getNotLockedBoat(boatQuickReservation.getBoat().getId());
+			boatQuickReservation.setReserved(false);
 
-		if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
-			return null;
-		}
-
-		for (BoatQuickReservation q : boatQuickReservationRepository
-				.findByIsReservedFalseAndBoatId(boatQuickReservation.getBoat().getId())) {
-			if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
+			if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}
-		}
 
-		for (DateTimeSpan dateTimeSpan : boatOwnerRepository
-				.findById(boatQuickReservation.getBoat().getBoatOwner().getId()).get()
-				.getUnavailableReservationDateSpan()) {
-			if (dateTimeSpan.overlapsWith(boatQuickReservation.getDuration())) {
-				return null;
+			for (BoatQuickReservation q : boatQuickReservationRepository
+					.findByIsReservedFalseAndBoatId(boat.getId())) {
+				if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
 
-		for (BoatReservation q : boatReservationRepository.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(boatQuickReservation.getBoat().getId())) {
-			if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
-				return null;
+			for (DateTimeSpan dateTimeSpan : boatOwnerRepository
+					.findById(boatQuickReservation.getBoat().getBoatOwner().getId()).get()
+					.getUnavailableReservationDateSpan()) {
+				if (dateTimeSpan.overlapsWith(boatQuickReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
 
-		for (DateTimeSpan dateTimeSpan : boatQuickReservation.getBoat().getAvailableReservationDateSpan()) {
-			if (boatQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
-				reserveAvailableDateSpan(boatQuickReservation, dateTimeSpan);
-				break;
+			for (BoatReservation q : boatReservationRepository
+					.findByConfirmedIsTrueAndIsCancelledIsFalseAndBoatId(boatQuickReservation.getBoat().getId())) {
+				if (q.getDuration().overlapsWith(boatQuickReservation.getDuration())) {
+					return null;
+				}
 			}
-		}
-		BoatQuickReservation boatQuickReservationReturn = boatQuickReservationRepository.save(boatQuickReservation);
-		for (Customer customer : boatQuickReservation.getBoat().getSubscribers()) {
-			customerService.sendNewQuickReservationEmail(customer, siteUrl, boatQuickReservationReturn);
-		}
 
-		return BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservationReturn);
+			for (DateTimeSpan dateTimeSpan : boatQuickReservation.getBoat().getAvailableReservationDateSpan()) {
+				if (boatQuickReservation.getDuration().overlapsWith(dateTimeSpan)) {
+					reserveAvailableDateSpan(boatQuickReservation, dateTimeSpan);
+					break;
+				}
+			}
+			BoatQuickReservation boatQuickReservationReturn = boatQuickReservationRepository.save(boatQuickReservation);
+			for (Customer customer : boatQuickReservation.getBoat().getSubscribers()) {
+				customerService.sendNewQuickReservationEmail(customer, siteUrl, boatQuickReservationReturn);
+			}
+
+			return BoatQuickReservationMapper.BoatQuickReservationToBoatQuickReservationDTO(boatQuickReservationReturn);
+
+		} catch (PessimisticEntityLockException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
@@ -225,7 +232,8 @@ public class BoatQuickReservationServiceImpl implements BoatQuickReservationServ
 	@Override
 	public BoatReservationDTO appointQuickReservation(Long reservationId, Long userId) {
 		try {
-			BoatQuickReservation boatQuickReservation = boatQuickReservationRepository.getNotLockedBoatQuickReservation(reservationId);
+			BoatQuickReservation boatQuickReservation = boatQuickReservationRepository
+					.getNotLockedBoatQuickReservation(reservationId);
 			if (boatQuickReservation.getDuration().isHoursBefore(LocalDateTime.now(), 1)) {
 				return null;
 			}

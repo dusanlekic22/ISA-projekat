@@ -80,7 +80,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]
+![Product Name Screen Shot][product-screenshot]
 
 This repositorium contains a web application which can be used for booking various trips and adventures. Our application enables you to book cottage stays, boat trips and fishing adventures.
 
@@ -105,7 +105,7 @@ This is how you can get the project going.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+This is how to install neccesseray prerequisites.
 * npm
   ```sh
   npm install 
@@ -126,27 +126,23 @@ This is an example of how to list things you need to use the software and how to
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+<!-- Students -->
+## Roadmap
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+- [ Aleksa Papovic ] Student 1
+- [ Dusan Lekic ] Student 2
+- [ Darko Vrbaski ] Student 3
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- ROADMAP -->
+<!-- Mock Users -->
 ## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/dusanlekic22/ISA-projekat/issues) for a full list of proposed features (and known issues).
+- [ Customer ] - Username: pape ,Password: 123
+- [ Cottage Owner ] - Username: jagodica ,Password: 123
+- [ Boat Owner ] - Username: tresnja ,Password: 123
+- [ Fishing Trainer ] - Username: fisher ,Password: 123
+- [ Admin ] - Username: admin ,Password: 123
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -182,8 +178,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Dusan Lekic - [@lekic_dusan](https://twitter.com/lekic_dusan) - dusanlekic2000@gmail.com
-Darko Vrbaski - [@darkovrbaski](https://instagram.com/darkovrbaski) - darkovrbaski@gmail.com
+Dusan Lekic - [@lekic_dusan](https://twitter.com/lekic_dusan) - dusanlekic2000@gmail.com __
+Darko Vrbaski - [@darkovrbaski](https://instagram.com/darkovrbaski) - darkovrbaski@gmail.com __
 Aleksa Papovic - [@papovicaleksa](https://twitter.com/papovicaleksa) - papovicaleksa99@gmail.com
 
 Project Link: [https://github.com/dusanlekic22/ISA-projekat](https://github.com/dusanlekic22/ISA-projekat)

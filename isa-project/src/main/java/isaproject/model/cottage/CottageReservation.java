@@ -51,6 +51,15 @@ public class CottageReservation implements Serializable {
 	@JsonManagedReference(value = "cottageReservationService")
 	private Set<AdditionalService> additionalService;
 	private boolean confirmed;
+	private boolean isCancelled;
+
+	public boolean isCancelled() {
+		return isCancelled;
+	}
+
+	public void setCancelled(boolean isCancelled) {
+		this.isCancelled = isCancelled;
+	}
 
 	public boolean isConfirmed() {
 		return confirmed;

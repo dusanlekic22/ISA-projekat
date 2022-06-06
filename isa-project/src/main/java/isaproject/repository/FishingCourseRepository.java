@@ -10,7 +10,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import isaproject.model.FishingCourse;
-import isaproject.model.cottage.Cottage;
 
 public interface FishingCourseRepository extends PagingAndSortingRepository<FishingCourse, Long> {
 	 

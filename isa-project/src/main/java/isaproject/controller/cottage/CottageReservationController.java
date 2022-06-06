@@ -44,13 +44,13 @@ public class CottageReservationController {
 
 	@Autowired
 	CottageReservationService cottageReservationService;
-	
+
 	@Autowired
 	CustomerService customerService;
-	
+
 	@Autowired
 	CottageService cottageService;
-	
+
 	@Autowired
 	CottageOwnerService CottageOwnerService;
 
@@ -62,73 +62,77 @@ public class CottageReservationController {
 
 	@GetMapping("/customerHasReservationNow/cottage/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CustomerDTO>> findCustomersHasCurrentReservation(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findCustomersHasCurrentReservation(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassed() {
 		return new ResponseEntity<>(cottageReservationService.findAllPast(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public Page<CottageReservationDTO> getAllPastCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
-					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
-				CustomerDTO customer = this.customerService.getCustomer(id);
-				if(!user.getName().equals(customer.getUsername())) {
-					throw new InvalidParameterException();
-				}
-				Pageable paging = PageRequest.of(page, size);
-				return cottageReservationService.findAllPagination(id,sortTypeDTO, paging);
-			}
-	
+	public Page<CottageReservationDTO> getAllPastCustomerReservations(@PathVariable("id") Long id,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size,
+			@RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+		CustomerDTO customer = this.customerService.getCustomer(id);
+		if (!user.getName().equals(customer.getUsername())) {
+			throw new InvalidParameterException();
+		}
+		Pageable paging = PageRequest.of(page, size);
+		return cottageReservationService.findAllPagination(id, sortTypeDTO, paging);
+	}
+
 	@PostMapping("/incoming/customer/{id}")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public Page<CottageReservationDTO> getAllIncomingCustomerReservations(@PathVariable("id") Long id,@RequestParam(defaultValue = "0") int page,
-					@RequestParam(defaultValue = "6") int size, @RequestBody SortTypeDTO sortTypeDTO, Principal user) {
-				CustomerDTO customer = this.customerService.getCustomer(id);
-				if(!user.getName().equals(customer.getUsername())) {
-					throw new InvalidParameterException();
-				}
-				Pageable paging = PageRequest.of(page, size);
-				return cottageReservationService.findAllIncomingPagination(id,sortTypeDTO, paging);
-			}
+	public Page<CottageReservationDTO> getAllIncomingCustomerReservations(@PathVariable("id") Long id,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size,
+			@RequestBody SortTypeDTO sortTypeDTO, Principal user) {
+		CustomerDTO customer = this.customerService.getCustomer(id);
+		if (!user.getName().equals(customer.getUsername())) {
+			throw new InvalidParameterException();
+		}
+		Pageable paging = PageRequest.of(page, size);
+		return cottageReservationService.findAllIncomingPagination(id, sortTypeDTO, paging);
+	}
 
 	@PostMapping("/{id}/cancel")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@ResponseBody
-	public ResponseEntity<CottageReservationDTO> cancelCottageReservation( @RequestBody CottageReservationDTO cottageReservationDTO, Principal user) {
-				
+	public ResponseEntity<CottageReservationDTO> cancelCottageReservation(
+			@RequestBody CottageReservationDTO cottageReservationDTO, Principal user) {
+
 		CustomerDTO customer = this.customerService.getCustomer(cottageReservationDTO.getCustomer().getId());
-				if(!user.getName().equals(customer.getUsername())) {
-					throw new InvalidParameterException();
-				}
-				return new ResponseEntity<>(cottageReservationService.cancelCottageReservation(cottageReservationDTO), HttpStatus.OK);
-			}
+		if (!user.getName().equals(customer.getUsername())) {
+			throw new InvalidParameterException();
+		}
+		return new ResponseEntity<>(cottageReservationService.cancelCottageReservation(cottageReservationDTO),
+				HttpStatus.OK);
+	}
 
 	@GetMapping("/active")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllActive() {
 		return new ResponseEntity<>(cottageReservationService.findAllActive(), HttpStatus.OK);
 	}
 
 	@GetMapping("/active/{cottageId}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageId(@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllActiveByCottageId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed/{cottageId}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageId(@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageId(id), HttpStatus.OK);
 	}
@@ -166,34 +170,33 @@ public class CottageReservationController {
 
 	@DeleteMapping("/{id}")
 	@ResponseBody
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CottageReservationDTO> deleteById(@PathVariable("id") Long id) {
 		CottageReservationDTO cottageReservationDTO = cottageReservationService.deleteById(id);
 		return new ResponseEntity<>(cottageReservationDTO, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/active/owner/{cottageId}")
-	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageOwnerIdId(@PathVariable("cottageId") Long id) {
+	public ResponseEntity<Set<CottageReservationDTO>> getAllActiveByCottageOwnerIdId(
+			@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllActiveByCottageOwnerId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/passed/owner/{cottageId}")
-	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageOwnerIdId(@PathVariable("cottageId") Long id) {
+	public ResponseEntity<Set<CottageReservationDTO>> getAllPassedByCottageOwnerIdId(
+			@PathVariable("cottageId") Long id) {
 		return new ResponseEntity<>(cottageReservationService.findAllPastByCottageOwnerId(id), HttpStatus.OK);
 	}
-	
-	
+
 	@PostMapping("/customer/{id}/review")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<CottageReservationDTO> reserveOwner(@RequestBody ReviewDTO reviewDTO,
 			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
-		
-	return null;	
+
+		return null;
 //		if (cottageReservationReturnDTO == null)
 //			return new ResponseEntity<>(cottageReservationReturnDTO, HttpStatus.BAD_REQUEST);
 //		return new ResponseEntity<>(cottageReservationReturnDTO, HttpStatus.CREATED);
 	}
-	
-	
 
 }

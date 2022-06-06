@@ -548,6 +548,7 @@ public class BoatReservationServiceImpl implements BoatReservationService {
 			throw new InvalidParameterException("You can`t cancel because today is 3 days to reservation");
 		}
 		boatReservation.setCancelled(true);
+		freeReservedSpan(boatReservation);
 		return BoatReservationMapper
 				.BoatReservationToBoatReservationDTO(boatReservationRepository.save(boatReservation));
 
